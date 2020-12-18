@@ -8,7 +8,7 @@ export const fetchAllStops = async url => {
       },
     });
     const data = await response.json();
-    return toLocalStorage(data);
+    return toLocalStorage( data);
   } catch (error) {
     console.log(error);
   }
