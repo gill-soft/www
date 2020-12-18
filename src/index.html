@@ -11,11 +11,22 @@
 <body>
   <div class="wrapper">
     <div class="container">
+      <div class="language">
+        <select name="lenguage" id="lenguage">
+          <option value="RU" >Руский</option>
+          <option value="UA">Українська</option>
+          <option value="EN">English</option>
+          <option value="PL">Polski</option>
+        </select>
+      </div>
+      <hr>
       <div class="searchLocality">
         <form action="submit">
-          <input class="inputSearch" id="inputSearchFrom" name="from" value="" type="text" placeholder="Откуда">
+          <input class="inputSearch" id="inputSearchFrom" name="from" value="" type="text" placeholder="Откуда" />
           <button type="button" id="buttonChange">&hArr;</button>
-          <input class=" inputSearch" id="inputSearchWhereTo" name="whereTo" value="" type="text" placeholder="Куда">
+          <input class=" inputSearch" id="inputSearchWhereTo" name="whereTo" value="" type="text" placeholder="Куда" />
+          <input type="date" id="date"/>
+          <button type="submit">Search</button>
         </form>
       </div>
       <ul class="listLocality" hidden></ul>

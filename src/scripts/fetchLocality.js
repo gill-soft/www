@@ -3,7 +3,6 @@ export const fetchListLocality = () => {
   const inputSearchFrom = document.querySelector('#inputSearchFrom');
   const inputSearchWhereTo = document.querySelector('#inputSearchWhereTo');
   const buttonChange = document.querySelector('#buttonChange');
-
   let inputSearchFromValue, inputSearchWhereToValue;
 
   const getListLocality = data => {
@@ -46,7 +45,7 @@ export const fetchListLocality = () => {
       listLocality.classList.add('whereTo');
     }
   };
-  
+
   //
   const haldlePresKey = ({ target }) => {
     if (target.name === 'from') {
@@ -58,7 +57,7 @@ export const fetchListLocality = () => {
       filterLocality(inputSearchWhereToValue);
     }
   };
-//  фильтр по введеным символам из всего списка
+  //  фильтр по введеным символам из всего списка
   const filterLocality = value => {
     const data = JSON.parse(localStorage.getItem('locality'));
     const newData = data.filter(item => {
@@ -71,9 +70,10 @@ export const fetchListLocality = () => {
     getListLocality(newData);
   };
 
-//   выбор населенного пункта по клику из списка
+  //   выбор населенного пункта по клику из списка
   const chooseLocality = ({ target }) => {
     const value = target.parentElement.firstChild.textContent;
+
     if (listLocality.classList.contains('from')) {
       inputSearchFrom.value = value;
     }
@@ -83,7 +83,7 @@ export const fetchListLocality = () => {
     listLocality.hidden = true;
   };
 
-//   изменение местами отправки и прибытия
+  //   изменение местами отправки и прибытия
   const changeFromWhere = () => {
     const from = inputSearchFrom.value;
     const whereTo = inputSearchWhereTo.value;
