@@ -1,40 +1,17 @@
-export const fetchLocality = () => {
-  const baseUrl = 'https://busis.eu/gds-control/api/v1';
-  const localityAll = '/locality/all';
+export const fetchListLocality = () => {
   const listLocality = document.querySelector('.listLocality');
   const localityName = document.querySelector('.localityName');
-  //   const inputSearch = document.querySelectorAll('.inputSearch');
-  const inputSearch = document.querySelector('#inputSearchFrom');
-  //
-  const fetchData = async url => {
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: 'Basic Y2Fycmllcl90ZXN0OnRlc3RfY2Fycmllcg==',
-        },
-      });
-      const data = await response.json();
-      return toLocalStorage(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const inputSearchFrom = document.querySelector('#inputSearchFrom');
+  const inputSearchWhereTo = document.querySelector('#inputSearchWhereTo')
+  let inputSearchFromValue, inputSearchWhereToValue;
 
-  //
-  const toLocalStorage = data => {
-    localStorage.setItem('locality', JSON.stringify(data));
-  };
-
-  //
   const getListLocality = data => {
     listLocality.innerHTML = '';
     return data.forEach(el => {
       if (el.type === 'LOCALITY') {
         return (listLocality.innerHTML += `<li><span class="localityName">${
           el.name.RU
-        } -</span><span>${getParent(el, el.parent.id)}</span>
+        }</span>-<span>${getParent(el, el.parent.id)}</span>
         </li>`);
       }
     });
@@ -53,22 +30,21 @@ export const fetchLocality = () => {
     }
   };
 
-  ///////////////  listener for input //////////////////
+  //   const haldleClick = () => {
+  //     const data = JSON.parse(localStorage.getItem('locality'));
+  //     getListLocality(data);
+  //   };
 
-  let inputValue;
-
-  const haldleClick = () => {
-    const data = JSON.parse(localStorage.getItem('locality'));
-    getListLocality(data);
-    // fetchData(`${baseUrl}${localityAll}`);
-  };
   const haldlePresKey = ({ target }) => {
-    inputValue = target.value;
-    filterLocality(inputValue);
+    if (target.name === 'from') {
+      inputSearchFromValue = target.value;
+      filterLocality(inputSearchFromValue);
+    }
+    if (target.name === 'whereTo') {
+        inputSearchWhereToValue = target.value;
+        filterLocality(inputSearchWhereToValue);
+      }
   };
-
-  //   inputSearch.addEventListener('click', haldleClick);
-  inputSearch.addEventListener('keyup', haldlePresKey);
 
   const filterLocality = value => {
     const data = JSON.parse(localStorage.getItem('locality'));
@@ -82,5 +58,16 @@ export const fetchLocality = () => {
     getListLocality(newData);
   };
 
-  fetchData(`${baseUrl}${localityAll}`);
+  const chooseLocality = ({target}) => {
+      const value = target.parentElement.firstChild.textContent
+      inputSearchFrom.value = value
+      console.log(value)
+  }
+
+
+  inputSearchFrom.addEventListener('keyup', haldlePresKey);
+  inputSearchWhereTo.addEventListener('keyup', haldlePresKey)
+  //   inputSearch.addEventListener('click', haldleClick);
+
+  listLocality.addEventListener('click', chooseLocality)
 };
