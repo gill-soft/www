@@ -1,8 +1,9 @@
 export const fetchListLocality = () => {
   const listLocality = document.querySelector('.listLocality');
-  const localityName = document.querySelector('.localityName');
   const inputSearchFrom = document.querySelector('#inputSearchFrom');
-  const inputSearchWhereTo = document.querySelector('#inputSearchWhereTo')
+  const inputSearchWhereTo = document.querySelector('#inputSearchWhereTo');
+  const buttonChange = document.querySelector('#buttonChange');
+
   let inputSearchFromValue, inputSearchWhereToValue;
 
   const getListLocality = data => {
@@ -30,22 +31,34 @@ export const fetchListLocality = () => {
     }
   };
 
-  //   const haldleClick = () => {
-  //     const data = JSON.parse(localStorage.getItem('locality'));
-  //     getListLocality(data);
-  //   };
+  //
+  const haldleInputClick = ({ target }) => {
+    const data = JSON.parse(localStorage.getItem('locality'));
+    listLocality.hidden = false;
 
+    !target.value ? getListLocality(data) : filterLocality(target.value);
+    if (target.name === 'from') {
+      listLocality.classList.remove('whereTo');
+      listLocality.classList.add('from');
+    }
+    if (target.name === 'whereTo') {
+      listLocality.classList.remove('from');
+      listLocality.classList.add('whereTo');
+    }
+  };
+  
+  //
   const haldlePresKey = ({ target }) => {
     if (target.name === 'from') {
       inputSearchFromValue = target.value;
       filterLocality(inputSearchFromValue);
     }
     if (target.name === 'whereTo') {
-        inputSearchWhereToValue = target.value;
-        filterLocality(inputSearchWhereToValue);
-      }
+      inputSearchWhereToValue = target.value;
+      filterLocality(inputSearchWhereToValue);
+    }
   };
-
+//  фильтр по введеным символам из всего списка
   const filterLocality = value => {
     const data = JSON.parse(localStorage.getItem('locality'));
     const newData = data.filter(item => {
@@ -58,16 +71,33 @@ export const fetchListLocality = () => {
     getListLocality(newData);
   };
 
-  const chooseLocality = ({target}) => {
-      const value = target.parentElement.firstChild.textContent
-      inputSearchFrom.value = value
-      console.log(value)
-  }
+//   выбор населенного пункта по клику из списка
+  const chooseLocality = ({ target }) => {
+    const value = target.parentElement.firstChild.textContent;
+    if (listLocality.classList.contains('from')) {
+      inputSearchFrom.value = value;
+    }
+    if (listLocality.classList.contains('whereTo')) {
+      inputSearchWhereTo.value = value;
+    }
+    listLocality.hidden = true;
+  };
 
+//   изменение местами отправки и прибытия
+  const changeFromWhere = () => {
+    const from = inputSearchFrom.value;
+    const whereTo = inputSearchWhereTo.value;
+
+    inputSearchFrom.value = whereTo;
+    inputSearchWhereTo.value = from;
+  };
 
   inputSearchFrom.addEventListener('keyup', haldlePresKey);
-  inputSearchWhereTo.addEventListener('keyup', haldlePresKey)
-  //   inputSearch.addEventListener('click', haldleClick);
+  inputSearchWhereTo.addEventListener('keyup', haldlePresKey);
 
-  listLocality.addEventListener('click', chooseLocality)
+  inputSearchFrom.addEventListener('click', haldleInputClick);
+  inputSearchWhereTo.addEventListener('click', haldleInputClick);
+
+  listLocality.addEventListener('click', chooseLocality);
+  buttonChange.addEventListener('click', changeFromWhere);
 };

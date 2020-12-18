@@ -21,3 +21,11 @@ body {
 .localityName {
   font-weight: bold;
 }
+
+.from {
+  margin-left: 10px;
+}
+
+.whereTo {
+  margin-left: 130px;
+}

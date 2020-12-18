@@ -7,16 +7,18 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>BusInfo</title>
 </head>
+
 <body>
   <div class="wrapper">
     <div class="container">
       <div class="searchLocality">
         <form action="submit">
           <input class="inputSearch" id="inputSearchFrom" name="from" value="" type="text" placeholder="Откуда">
-          <input class="inputSearch" id="inputSearchWhereTo" name="whereTo" value="" type="text" placeholder="Куда">
+          <button type="button" id="buttonChange">&hArr;</button>
+          <input class=" inputSearch" id="inputSearchWhereTo" name="whereTo" value="" type="text" placeholder="Куда">
         </form>
       </div>
-      <ul class="listLocality" ></ul>
+      <ul class="listLocality" hidden></ul>
     </div>
   </div>
 </body>
