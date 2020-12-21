@@ -8,13 +8,12 @@ export const fetchAllStops = async url => {
       },
     });
     const data = await response.json();
-    return toLocalStorage( data);
+    return toLocalStorage(data);
   } catch (error) {
     console.log(error);
   }
 };
 
-//
 const toLocalStorage = data => {
   localStorage.setItem('locality', JSON.stringify(data));
 };

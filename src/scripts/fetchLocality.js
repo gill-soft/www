@@ -38,7 +38,7 @@ const getListLocality = data => {
   let lang = JSON.parse(localStorage.getItem('language'));
   return data.forEach(el => {
     if (el.type === 'LOCALITY') {
-      return (listLocality.innerHTML += `<li ><span class="localityName">${
+      return (listLocality.innerHTML += `<li class="listItemLocality" tabindex ><span class="localityName">${
         el.name[`${lang}`]
       }</span>-<span>${getParent(el, el.parent.id)}</span>
         </li>`);

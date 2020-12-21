@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8" />
@@ -13,7 +13,7 @@
     <div class="container">
       <div class="language">
         <select name="lenguage" id="lenguage">
-          <option value="RU" >Руский</option>
+          <option value="RU">Руский</option>
           <option value="UA">Українська</option>
           <option value="EN">English</option>
           <option value="PL">Polski</option>
@@ -22,14 +22,21 @@
       <hr>
       <div class="searchLocality">
         <form action="submit">
-          <input class="inputSearch" id="inputSearchFrom" name="from" value="" type="text" placeholder="Откуда" autocomplete="off" />
+          <input class="inputSearch" id="inputSearchFrom" name="from" value="" type="text" placeholder="Откуда"
+            autocomplete="off">
           <button type="button" id="buttonChange">&hArr;</button>
-          <input class=" inputSearch" id="inputSearchWhereTo" name="whereTo" value="" type="text" placeholder="Куда"  autocomplete="off"/>
-          <input type="date" id="date"/>
+          <input class=" inputSearch" id="inputSearchWhereTo" name="whereTo" value="" type="text" placeholder="Куда"
+            autocomplete="off">
+          <input type="date" id="date">
           <button type="submit">Search</button>
         </form>
       </div>
       <ul class="listLocality" hidden ></ul>
+      <hr>
+      <!-- react -->
+      <div id="searchForm"></div>
+      <div id="root2"></div>
+
     </div>
   </div>
 </body>
