@@ -34,7 +34,7 @@ export const getInitialization = ({ idFrom, idWhereTo, date }) => {
 };
 
 //  ==== поиск поездок ==== //
-export const searchTrits = id => {
+export const searchTrips = id => {
   return axios({
     method: 'get',
     url: `${baseUrl}/search/${id}`,
@@ -43,8 +43,6 @@ export const searchTrits = id => {
     },
   });
 };
-
-
 
 // ===============не удалять==========
 // 698c04d5-b503-4415-88f9-a6e757cdec7d

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   getAllStops,
-  searchTrits,
+  searchTrips,
   getInitialization,
 } from '../../../services/api';
 import ListAllLocality from './ListAllLocality';
@@ -9,9 +9,9 @@ import ListAllLocality from './ListAllLocality';
 export default class SearchForm extends Component {
   state = {
     data: [],
-    inputValueFrom: '',
-    inputValueWhereTo: '',
-    inputDate: '',
+    inputValueFrom: 'Kiev',
+    inputValueWhereTo: 'Kharkiv',
+    inputDate: this.getCurrentDate(),
     filteredData: [],
     isVisible: false,
     classToggle: '',
@@ -30,6 +30,11 @@ export default class SearchForm extends Component {
       this.filterData(this.state.inputValueWhereTo);
   }
 
+  getCurrentDate() {
+    return `${new Date().getFullYear()}-${new Date().getMonth()}-${
+      new Date().getDate() + 2
+    }`;
+  }
   //  ==== получить значение в соответствующий инпут  ==== //
   getValue = val => {
     if (this.state.classToggle === 'from')
@@ -88,7 +93,7 @@ export default class SearchForm extends Component {
   isVisibleList = () => {
     this.setState(prev => ({ isVisible: !prev.isVisible }));
   };
-
+  // ==========================================
   // ========== поиск маршрутов ==============
   handleClickSearch = e => {
     this.searchTrips(e);
@@ -101,31 +106,42 @@ export default class SearchForm extends Component {
       idWhereTo: this.getId(this.state.inputValueWhereTo),
       date: this.state.inputDate,
     };
-    getInitialization(requestData).then(({ data }) =>
-      this.searchRouts(data.searchId),
-    );
 
-    this.getId(this.state.inputValueFrom);
+    getInitialization(requestData)
+      .then(console.log("start"))
+      .then(({ data }) => this.searchRouts(data.searchId))
+      .catch(err => console.log(err));
+
+    // this.setState(prev => ({
+    //   ...prev,
+    //   inputValueFrom: '',
+    //   inputValueWhereTo: '',
+    // }));
   };
 
   searchRouts = id => {
-    if (id) {
-      searchTrits(id).then(({ data }) => {
+    console.log("startFechRouts")
+    setTimeout(() => {
+      if (!id) return;
+
+      searchTrips(id).then(data => {
         console.log(data);
-        this.searchRouts(data.searchId);
+        data.data.searchId ? this.searchRouts(data.data.searchId) : console.log("data", data)
       });
-    }
+    }, 1000);
+
+    // console.log('eee', eee);
   };
 
   getId = val => {
     const { data } = this.state;
-    const [res] = data.filter(item =>
+    const [result] = data.filter(item =>
       item.type === 'LOCALITY' ? item.name.EN === val : null,
     );
-    return res.id;
+    return result.id;
   };
 
-  // ========== конец исправить завтра ==============
+  // ========== конец поиск маршрутов ==============
 
   render() {
     const {
