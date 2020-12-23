@@ -1,0 +1,38 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { changeLanguage } from '../../../redux/Language/LanguageAction';
+
+class LanguageSelect extends Component {
+  //   state = {
+  //     value: '',
+  //   };
+
+  handleChange = ({ target }) => {
+    this.setState({ value: target.value });
+    this.props.onChangeLanguage(target.value);
+  };
+  render() {
+    return (
+      <div>
+        <select
+          className="select-css"
+          value={this.props.language}
+          onChange={this.handleChange}
+        >
+          <option value="RU">Руский</option>
+          <option value="UA">Українська</option>
+          <option value="EN">English</option>
+          <option value="PL">Polski</option>
+        </select>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  lang: state,
+});
+const mapDispatchToProps = dispatch => ({
+  onChangeLanguage: value => dispatch(changeLanguage(value)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageSelect);
