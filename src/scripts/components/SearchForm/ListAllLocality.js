@@ -4,13 +4,20 @@ export default class ListAllLocality extends Component {
   state = {
     dataFilter: [],
   };
+  componentDidMount() {
+      const {filteredData} = this.props
+      this.setState({dataFilter: filteredData })
+  }
+  
   componentDidUpdate(prevProps) {
-    if (prevProps.filterData !== this.props.filterData)
-      this.setState({ dataFilter: this.props.filterData });
+    if (prevProps.filteredData !== this.props.filteredData)
+      this.setState({ dataFilter: this.props.filteredData });
   }
 
   getVal = ({ target }) => {
-    this.props.getValue(target.textContent);
+    const value =
+      target.nodeName === 'LI' ? target.firstChild.innerHTML : target.innerHTML;
+    this.props.getValue(value);
     this.props.isVisibleList();
   };
   render() {
@@ -19,12 +26,16 @@ export default class ListAllLocality extends Component {
     return (
       <ul className={`listLocality ${classToggle}`} onClick={this.getVal}>
         {dataFilter.length > 0
-          ? dataFilter.map(item => (
-              <ListItem key={item.id} item={item} data={data} />
-            ))
-          : data.map(item => (
-              <ListItem key={item.id} item={item} data={data} />
-            ))}
+          ? dataFilter.map(item => {
+              if (item.type === 'LOCALITY') {
+                return <ListItem key={item.id} item={item} data={data} />;
+              }
+            })
+          : data.map(item => {
+              if (item.type === 'LOCALITY') {
+                return <ListItem key={item.id} item={item} data={data} />;
+              }
+            })}
       </ul>
     );
   }
@@ -36,7 +47,7 @@ class ListItem extends Component {
   };
 
   componentDidMount() {
-    const { item, filterData } = this.props;
+    const { item } = this.props;
     if (item.type === 'LOCALITY')
       this.setState({ locality: this.getLocality(item) });
   }
@@ -64,8 +75,6 @@ class ListItem extends Component {
   }
 
   render() {
-    const { item, getValue } = this.props;
-    const { locality, fullLocality } = this.state;
-    return <li dangerouslySetInnerHTML={this.createMarkup()} />;
+    return <li className="li" dangerouslySetInnerHTML={this.createMarkup()} />;
   }
 }

@@ -18,8 +18,15 @@ body {
    */
   background-image: url('./images/bg-pattern.png');
 }
+
 li {
   list-style: none;
+  padding-top: 5px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -42,7 +49,9 @@ li {
   border: 1px solid #000;
   overflow: auto;
 }
+
 .www {
-  color:red
+  color: red
 }
+
 /*FINISH временные стили !!!!не забудь убрать */
