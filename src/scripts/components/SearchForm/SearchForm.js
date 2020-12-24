@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   getAllStops,
   searchTrips,
@@ -6,7 +7,7 @@ import {
 } from '../../../services/api';
 import ListAllLocality from './ListAllLocality';
 
-export default class SearchForm extends Component {
+class SearchForm extends Component {
   state = {
     data: [],
     inputValueFrom: 'Kiev',
@@ -31,7 +32,7 @@ export default class SearchForm extends Component {
   }
 
   getCurrentDate() {
-    return `${new Date().getFullYear()}-${new Date().getMonth()}-${
+    return `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
       new Date().getDate() + 2
     }`;
   }
@@ -64,11 +65,14 @@ export default class SearchForm extends Component {
 
   // ==== фильтр населенных пунктов по значению в инпуте ==== //
   filterData = value => {
+    const { lang } = this.props;
     const { data } = this.state;
     const newData = data.filter(item => {
       if (item.type === 'LOCALITY') {
         return (
-          item.name.EN.toLowerCase().indexOf(value.trim().toLowerCase()) > -1
+          item.name[`${lang}`]
+            .toLowerCase()
+            .indexOf(value.trim().toLowerCase()) > -1
         );
       }
     });
@@ -102,41 +106,34 @@ export default class SearchForm extends Component {
   searchTrips = e => {
     e.preventDefault();
     const requestData = {
-      idFrom: this.getId(this.state.inputValueFrom),
-      idWhereTo: this.getId(this.state.inputValueWhereTo),
+      idFrom: this.getId(this.state.inputValueFrom.trim()),
+      idWhereTo: this.getId(this.state.inputValueWhereTo.trim()),
       date: this.state.inputDate,
     };
-
+    console.log(requestData);
     getInitialization(requestData)
-      .then(console.log("start"))
       .then(({ data }) => this.searchRouts(data.searchId))
       .catch(err => console.log(err));
-
-    // this.setState(prev => ({
-    //   ...prev,
-    //   inputValueFrom: '',
-    //   inputValueWhereTo: '',
-    // }));
   };
 
   searchRouts = id => {
-    console.log("startFechRouts")
+    console.log('startFechRouts');
     setTimeout(() => {
       if (!id) return;
 
-      searchTrips(id).then(data => {
-        console.log(data);
-        data.data.searchId ? this.searchRouts(data.data.searchId) : console.log("data", data)
+      searchTrips(id).then(({ data }) => {
+        data.searchId
+          ? this.searchRouts(data.searchId)
+          : console.log('data', data);
       });
-    }, 1000);
-
-    // console.log('eee', eee);
+    }, 300);
   };
 
   getId = val => {
+    const { lang } = this.props;
     const { data } = this.state;
     const [result] = data.filter(item =>
-      item.type === 'LOCALITY' ? item.name.EN === val : null,
+      item.type === 'LOCALITY' ? item.name[`${lang}`] === val : null,
     );
     return result.id;
   };
@@ -199,3 +196,8 @@ export default class SearchForm extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  lang: state.language,
+});
+
+export default connect(mapStateToProps)(SearchForm);

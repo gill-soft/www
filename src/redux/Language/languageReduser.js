@@ -1,10 +1,10 @@
 import { Types } from '../types';
 import { combineReducers } from 'redux';
 
-const language = (state = 'RU', action) => {
-  switch (action.type) {
+const language = (state = 'EN', { type, payload }) => {
+  switch (type) {
     case Types.CHANGE_LANGUAGE:
-      return action.payload;
+      return payload;
 
     default:
       return state;

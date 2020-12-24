@@ -23,7 +23,7 @@ import { chooseLocalityKeyPres } from './scripts/chooseLocalityKeyPres';
 // получаем весь список остановок в localStorage
 // fetchAllStops(`${baseUrl}${localityAll}`);
 // выбор языка страницы
-changeLanguage();
+// changeLanguage();
 
 // listeners
 // inputSearchFrom.addEventListener('keyup', handlePresKey);
@@ -53,11 +53,11 @@ ReactDOM.render(
   document.getElementById('language'),
 );
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       <SearchForm />
-//     </Provider>
-//   </React.StrictMode>,
-//   document.getElementById('searchForm'),
-// );
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <SearchForm />
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('searchForm'),
+);

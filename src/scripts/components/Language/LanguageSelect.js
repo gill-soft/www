@@ -3,12 +3,7 @@ import { connect } from 'react-redux';
 import { changeLanguage } from '../../../redux/Language/LanguageAction';
 
 class LanguageSelect extends Component {
-  //   state = {
-  //     value: '',
-  //   };
-
   handleChange = ({ target }) => {
-    this.setState({ value: target.value });
     this.props.onChangeLanguage(target.value);
   };
   render() {
@@ -19,9 +14,9 @@ class LanguageSelect extends Component {
           value={this.props.language}
           onChange={this.handleChange}
         >
+          <option value="EN">English</option>
           <option value="RU">Руский</option>
           <option value="UA">Українська</option>
-          <option value="EN">English</option>
           <option value="PL">Polski</option>
         </select>
       </div>
@@ -30,7 +25,7 @@ class LanguageSelect extends Component {
 }
 
 const mapStateToProps = state => ({
-  lang: state,
+  language: state.language,
 });
 const mapDispatchToProps = dispatch => ({
   onChangeLanguage: value => dispatch(changeLanguage(value)),
