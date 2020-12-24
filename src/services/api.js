@@ -16,7 +16,6 @@ export const getAllStops = () => {
 
 // ==== инициализация поиска ==== //
 export const getInitialization = ({ idFrom, idWhereTo, date }) => {
-  console.log(date)
   return axios({
     method: 'post',
     url: 'https://busis.eu/gds-control/api/v1/search',

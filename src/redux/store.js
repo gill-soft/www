@@ -6,7 +6,7 @@ import language from './Language/languageReduser';
 
 const rootRedusers = combineReducers({
   searchForm: searchFormReduser,
-  language,
+  language: language
 });
 const enhancer = applyMiddleware(thunk);
 

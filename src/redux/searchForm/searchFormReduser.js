@@ -2,9 +2,9 @@ import {Types} from '../types'
 import { combineReducers} from "redux";
 
 
- const inputFromValue = (state = '', { type, payload }) => {
+ const getStops = (state = [], { type, payload }) => {
     switch (type) {
-      case Types.INPUT_FROM_VALUE:
+      case Types.FETCH_ALL_STOPS_SUCCESS:
         return payload;
         
       default:
@@ -13,5 +13,5 @@ import { combineReducers} from "redux";
   };
 
 export const searchFormReduser = combineReducers({
-inputFromValue: inputFromValue
+stops: getStops
 }) 

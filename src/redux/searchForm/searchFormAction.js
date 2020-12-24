@@ -1,8 +1,8 @@
 import { Types } from "../types";
 
 
-export const fetchArtistSuccess = (val) => ({
-  type: Types.INPUT_FROM_VALUE,
-  payload: val,
+export const fetchAllStopsSuccess = (stops) => ({
+  type: Types.FETCH_ALL_STOPS_SUCCESS,
+  payload: stops,
 });
 

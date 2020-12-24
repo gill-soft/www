@@ -6,22 +6,21 @@ import {
   getInitialization,
 } from '../../../services/api';
 import ListAllLocality from './ListAllLocality';
+import { fetchStops } from '../../../redux/searchForm/searchFormOperation';
 
 class SearchForm extends Component {
   state = {
-    data: [],
-    inputValueFrom: 'Kiev',
-    inputValueWhereTo: 'Kharkiv',
+    inputValueFrom: '',
+    inputValueWhereTo: '',
     inputDate: this.getCurrentDate(),
     filteredData: [],
     isVisible: false,
     classToggle: '',
   };
 
+  //  ==== получаем все остановки через redux ==== //
   componentDidMount() {
-    getAllStops()
-      .then(({ data }) => this.setState({ data: data }))
-      .catch(err => console.log(err));
+    this.props.fetchStops();
   }
 
   componentDidUpdate(prevPops, prevState) {
@@ -65,9 +64,9 @@ class SearchForm extends Component {
 
   // ==== фильтр населенных пунктов по значению в инпуте ==== //
   filterData = value => {
-    const { lang } = this.props;
-    const { data } = this.state;
-    const newData = data.filter(item => {
+    const { lang, stops } = this.props;
+    // const { data } = this.state;
+    const newData = stops.filter(item => {
       if (item.type === 'LOCALITY') {
         return (
           item.name[`${lang}`]
@@ -110,7 +109,6 @@ class SearchForm extends Component {
       idWhereTo: this.getId(this.state.inputValueWhereTo.trim()),
       date: this.state.inputDate,
     };
-    console.log(requestData);
     getInitialization(requestData)
       .then(({ data }) => this.searchRouts(data.searchId))
       .catch(err => console.log(err));
@@ -145,11 +143,11 @@ class SearchForm extends Component {
       inputValueFrom,
       inputValueWhereTo,
       inputDate,
-      data,
       isVisible,
       classToggle,
       filteredData,
     } = this.state;
+    const { stops } = this.props;
     return (
       <>
         <form onSubmit={this.searchTrips}>
@@ -185,7 +183,7 @@ class SearchForm extends Component {
 
         {isVisible && (
           <ListAllLocality
-            data={data}
+            data={stops}
             filteredData={filteredData}
             getValue={this.getValue}
             classToggle={classToggle}
@@ -198,6 +196,10 @@ class SearchForm extends Component {
 }
 const mapStateToProps = state => ({
   lang: state.language,
+  stops: state.searchForm.stops,
+});
+const mapDispatchToProps = dispatch => ({
+  fetchStops: () => dispatch(fetchStops()),
 });
 
-export default connect(mapStateToProps)(SearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
