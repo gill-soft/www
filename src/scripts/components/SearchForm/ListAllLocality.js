@@ -1,43 +1,69 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ListItem from './ListItem';
+import {
+  inputValueFrom,
+  inputValueTo,
+} from '../../../redux/searchForm/searchFormAction';
 
-export default class ListAllLocality extends Component {
+class ListAllLocality extends Component {
   state = {
     dataFilter: [],
   };
   componentDidMount() {
-    const { filteredData } = this.props;
-    this.setState({ dataFilter: filteredData });
+    const { filteredStops } = this.props;
+    this.setState({ dataFilter: filteredStops });
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.filteredData !== this.props.filteredData)
-      this.setState({ dataFilter: this.props.filteredData });
+    const { filteredStops } = this.props;
+
+    if (prevProps.filteredStops !== filteredStops)
+      this.setState({ dataFilter: filteredStops });
   }
-//  ==== передаю значания в инпут ==== //
+  //  ==== передаю значания в инпут ==== //
   getVal = ({ target }) => {
     const value =
       target.nodeName === 'LI' ? target.firstChild.innerHTML : target.innerHTML;
-    this.props.getValue(value.trim());
+    if (this.props.classToggle === 'from')
+      this.props.changeInputFrom(value.trim());
+    if (this.props.classToggle === 'whereTo')
+      this.props.changeInputTo(value.trim());
+
     this.props.isVisibleList();
   };
   render() {
     const { dataFilter } = this.state;
-    const { data, classToggle } = this.props;
+    const { classToggle, stops, filteredStops } = this.props;
     return (
       <ul className={`listLocality ${classToggle}`} onClick={this.getVal}>
         {dataFilter.length > 0
           ? dataFilter.map(item => {
               if (item.type === 'LOCALITY') {
-                return <ListItem key={item.id} item={item} data={data} />;
+                return <ListItem key={item.id} item={item} data={stops} />;
               }
             })
-          : data.map(item => {
+          : stops.map(item => {
               if (item.type === 'LOCALITY') {
-                return <ListItem key={item.id} item={item} data={data} />;
+                return <ListItem key={item.id} item={item} data={stops} />;
               }
             })}
       </ul>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  lang: state.language,
+  filteredStops: state.searchForm.filteredStops,
+  stops: state.searchForm.stops,
+  from: state.searchForm.from,
+  to: state.searchForm.to,
+});
+const mapDispatchToProps = dispatch => ({
+  fetchStops: () => dispatch(fetchStops()),
+  changeInputFrom: value => dispatch(inputValueFrom(value)),
+  changeInputTo: value => dispatch(inputValueTo(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListAllLocality);

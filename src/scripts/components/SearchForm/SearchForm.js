@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  getAllStops,
-  searchTrips,
-  getInitialization,
-} from '../../../services/api';
+import { searchTrips, getInitialization } from '../../../services/api';
 import ListAllLocality from './ListAllLocality';
 import { fetchStops } from '../../../redux/searchForm/searchFormOperation';
+import {
+  inputValueFrom,
+  inputValueTo,
+  getFilteredStops,
+} from '../../../redux/searchForm/searchFormAction';
 
 class SearchForm extends Component {
   state = {
-    inputValueFrom: '',
-    inputValueWhereTo: '',
     inputDate: this.getCurrentDate(),
-    filteredData: [],
     isVisible: false,
     classToggle: '',
   };
@@ -23,11 +21,10 @@ class SearchForm extends Component {
     this.props.fetchStops();
   }
 
-  componentDidUpdate(prevPops, prevState) {
-    if (prevState.inputValueFrom !== this.state.inputValueFrom)
-      this.filterData(this.state.inputValueFrom);
-    if (prevState.inputValueWhereTo !== this.state.inputValueWhereTo)
-      this.filterData(this.state.inputValueWhereTo);
+  componentDidUpdate(prevPops) {
+    const { from, to } = this.props;
+    if (prevPops.from !== from) this.filterData(from);
+    if (prevPops.to !== to) this.filterData(to);
   }
 
   getCurrentDate() {
@@ -35,38 +32,30 @@ class SearchForm extends Component {
       new Date().getDate() + 2
     }`;
   }
-  //  ==== получить значение в соответствующий инпут  ==== //
-  getValue = val => {
-    if (this.state.classToggle === 'from')
-      this.setState({ inputValueFrom: val });
-    if (this.state.classToggle === 'whereTo')
-      this.setState({ inputValueWhereTo: val });
-  };
 
   //  ==== добавляем в список населенных пунктов класс соответствующий инпуту ====
   handleClickInput = ({ target }) => {
     target.value
       ? this.filterData(target.value)
-      : this.setState({ filteredData: [] });
+      : this.props.getFilteredStops([]);
 
     switch (target.name) {
-      case 'inputValueFrom':
+      case 'from':
         this.setState({ classToggle: 'from' });
         break;
-      case 'inputValueWhereTo':
+      case 'to':
         this.setState({ classToggle: 'whereTo' });
         break;
       default:
         null;
     }
-    this.state.isVisible === false ? this.isVisibleList() : null;
+    !this.state.isVisible ? this.isVisibleList() : null;
   };
 
-  // ==== фильтр населенных пунктов по значению в инпуте ==== //
+  // ==== фильтр населенных пунктов по значению в инпуте и запись в redux ==== //
   filterData = value => {
     const { lang, stops } = this.props;
-    // const { data } = this.state;
-    const newData = stops.filter(item => {
+    const result = stops.filter(item => {
       if (item.type === 'LOCALITY') {
         return (
           item.name[`${lang}`]
@@ -75,27 +64,28 @@ class SearchForm extends Component {
         );
       }
     });
-    this.setState({ filteredData: newData });
+    this.props.getFilteredStops(result);
   };
 
   // ==== поменять отправку и прибытие местами ==== //
   changeButton = () => {
-    const from = this.state.inputValueFrom;
-    const whereTo = this.state.inputValueWhereTo;
-    this.setState({ inputValueFrom: whereTo });
-    this.setState({ inputValueWhereTo: from });
+    const from = this.props.from;
+    const to = this.props.to;
+    this.props.changeInputFrom(to);
+    this.props.changeInputTo(from);
   };
 
-  //  ==== контролируемый инпут ==== //
+  //  ==== запись значения  input в redux ==== //
   handleChange = ({ target }) => {
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    this.setState({ [name]: value });
+    if (target.name === 'from') this.props.changeInputFrom(target.value);
+    if (target.name === 'to') this.props.changeInputTo(target.value);
   };
+
   // ==== переключатель отображения списка населенных пунктов ==== //
   isVisibleList = () => {
     this.setState(prev => ({ isVisible: !prev.isVisible }));
   };
+
   // ==========================================
   // ========== поиск маршрутов ==============
   handleClickSearch = e => {
@@ -105,8 +95,8 @@ class SearchForm extends Component {
   searchTrips = e => {
     e.preventDefault();
     const requestData = {
-      idFrom: this.getId(this.state.inputValueFrom.trim()),
-      idWhereTo: this.getId(this.state.inputValueWhereTo.trim()),
+      idFrom: this.getId(this.props.from.trim()),
+      idWhereTo: this.getId(this.props.to.trim()),
       date: this.state.inputDate,
     };
     getInitialization(requestData)
@@ -128,9 +118,8 @@ class SearchForm extends Component {
   };
 
   getId = val => {
-    const { lang } = this.props;
-    const { data } = this.state;
-    const [result] = data.filter(item =>
+    const { lang, stops } = this.props;
+    const [result] = stops.filter(item =>
       item.type === 'LOCALITY' ? item.name[`${lang}`] === val : null,
     );
     return result.id;
@@ -139,22 +128,15 @@ class SearchForm extends Component {
   // ========== конец поиск маршрутов ==============
 
   render() {
-    const {
-      inputValueFrom,
-      inputValueWhereTo,
-      inputDate,
-      isVisible,
-      classToggle,
-      filteredData,
-    } = this.state;
-    const { stops } = this.props;
+    const { inputDate, isVisible, classToggle } = this.state;
+    const { from, to } = this.props;
     return (
       <>
         <form onSubmit={this.searchTrips}>
           <input
             type="text"
-            name="inputValueFrom"
-            value={inputValueFrom}
+            name="from"
+            value={from}
             onChange={this.handleChange}
             onClick={this.handleClickInput}
             autoComplete="off"
@@ -164,8 +146,8 @@ class SearchForm extends Component {
           </button>
           <input
             type="text"
-            name="inputValueWhereTo"
-            value={inputValueWhereTo}
+            name="to"
+            value={to}
             onChange={this.handleChange}
             onClick={this.handleClickInput}
             autoComplete="off"
@@ -183,9 +165,6 @@ class SearchForm extends Component {
 
         {isVisible && (
           <ListAllLocality
-            data={stops}
-            filteredData={filteredData}
-            getValue={this.getValue}
             classToggle={classToggle}
             isVisibleList={this.isVisibleList}
           />
@@ -197,9 +176,15 @@ class SearchForm extends Component {
 const mapStateToProps = state => ({
   lang: state.language,
   stops: state.searchForm.stops,
+  filteredStops: state.searchForm.filteredStops,
+  from: state.searchForm.from,
+  to: state.searchForm.to,
 });
 const mapDispatchToProps = dispatch => ({
   fetchStops: () => dispatch(fetchStops()),
+  getFilteredStops: arr => dispatch(getFilteredStops(arr)),
+  changeInputFrom: value => dispatch(inputValueFrom(value)),
+  changeInputTo: value => dispatch(inputValueTo(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
