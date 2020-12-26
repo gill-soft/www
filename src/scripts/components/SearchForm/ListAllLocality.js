@@ -4,6 +4,7 @@ import ListItem from './ListItem';
 import {
   inputValueFrom,
   inputValueTo,
+  toggleIsVisible,
 } from '../../../redux/searchForm/searchFormAction';
 
 class ListAllLocality extends Component {
@@ -25,27 +26,27 @@ class ListAllLocality extends Component {
   getVal = ({ target }) => {
     const value =
       target.nodeName === 'LI' ? target.firstChild.innerHTML : target.innerHTML;
-    if (this.props.classToggle === 'from')
+    if (this.props.className === 'from')
       this.props.changeInputFrom(value.trim());
-    if (this.props.classToggle === 'whereTo')
+    if (this.props.className === 'whereTo')
       this.props.changeInputTo(value.trim());
 
-    this.props.isVisibleList();
+    this.props.toggleIsVisible();
   };
   render() {
     const { dataFilter } = this.state;
-    const { classToggle, stops, filteredStops } = this.props;
+    const { stops, className } = this.props;
     return (
-      <ul className={`listLocality ${classToggle}`} onClick={this.getVal}>
+      <ul className={`listLocality ${className}`} onClick={this.getVal}>
         {dataFilter.length > 0
           ? dataFilter.map(item => {
               if (item.type === 'LOCALITY') {
-                return <ListItem key={item.id} item={item} data={stops} />;
+                return <ListItem key={item.id} item={item} />;
               }
             })
           : stops.map(item => {
               if (item.type === 'LOCALITY') {
-                return <ListItem key={item.id} item={item} data={stops} />;
+                return <ListItem key={item.id} item={item} />;
               }
             })}
       </ul>
@@ -54,16 +55,14 @@ class ListAllLocality extends Component {
 }
 
 const mapStateToProps = state => ({
-  lang: state.language,
   filteredStops: state.searchForm.filteredStops,
   stops: state.searchForm.stops,
-  from: state.searchForm.from,
-  to: state.searchForm.to,
+  className: state.searchForm.className,
 });
 const mapDispatchToProps = dispatch => ({
-  fetchStops: () => dispatch(fetchStops()),
   changeInputFrom: value => dispatch(inputValueFrom(value)),
   changeInputTo: value => dispatch(inputValueTo(value)),
+  toggleIsVisible: () => dispatch(toggleIsVisible()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListAllLocality);

@@ -7,13 +7,13 @@ import {
   inputValueFrom,
   inputValueTo,
   getFilteredStops,
+  getClassName,
+  toggleIsVisible,
 } from '../../../redux/searchForm/searchFormAction';
 
 class SearchForm extends Component {
   state = {
     inputDate: this.getCurrentDate(),
-    isVisible: false,
-    classToggle: '',
   };
 
   //  ==== получаем все остановки через redux ==== //
@@ -33,38 +33,31 @@ class SearchForm extends Component {
     }`;
   }
 
-  //  ==== добавляем в список населенных пунктов класс соответствующий инпуту ====
-  handleClickInput = ({ target }) => {
-    target.value
-      ? this.filterData(target.value)
-      : this.props.getFilteredStops([]);
-
-    switch (target.name) {
-      case 'from':
-        this.setState({ classToggle: 'from' });
-        break;
-      case 'to':
-        this.setState({ classToggle: 'whereTo' });
-        break;
-      default:
-        null;
-    }
-    !this.state.isVisible ? this.isVisibleList() : null;
-  };
-
   // ==== фильтр населенных пунктов по значению в инпуте и запись в redux ==== //
   filterData = value => {
     const { lang, stops } = this.props;
     const result = stops.filter(item => {
       if (item.type === 'LOCALITY') {
         return (
-          item.name[`${lang}`]
+          (item.name[`${lang}`] || item.name['EN'])
             .toLowerCase()
             .indexOf(value.trim().toLowerCase()) > -1
         );
       }
     });
     this.props.getFilteredStops(result);
+  };
+
+  //  ==== добавляем в список населенных пунктов класс соответствующий инпуту ====
+  handleClickInput = ({ target }) => {
+    target.value
+      ? this.filterData(target.value)
+      : this.props.getFilteredStops([]);
+
+    if (target.name === 'from') this.props.getClassName('from');
+    if (target.name === 'to') this.props.getClassName('whereTo');
+
+    !this.props.isVisible ? this.props.toggleIsVisible() : null;
   };
 
   // ==== поменять отправку и прибытие местами ==== //
@@ -120,7 +113,10 @@ class SearchForm extends Component {
   getId = val => {
     const { lang, stops } = this.props;
     const [result] = stops.filter(item =>
-      item.type === 'LOCALITY' ? item.name[`${lang}`] === val : null,
+      item.type === 'LOCALITY'
+        ? (item.name[`${lang}`] || item.name['EN']).toLowerCase() ===
+          val.toLowerCase().trim()
+        : null,
     );
     return result.id;
   };
@@ -128,8 +124,8 @@ class SearchForm extends Component {
   // ========== конец поиск маршрутов ==============
 
   render() {
-    const { inputDate, isVisible, classToggle } = this.state;
-    const { from, to } = this.props;
+    const { inputDate } = this.state;
+    const { from, to, isVisible } = this.props;
     return (
       <>
         <form onSubmit={this.searchTrips}>
@@ -158,17 +154,13 @@ class SearchForm extends Component {
             type="date"
             onChange={this.handleChange}
           ></input>
+
           <button type="submit" onClick={this.handleClickSearch}>
             search
           </button>
         </form>
 
-        {isVisible && (
-          <ListAllLocality
-            classToggle={classToggle}
-            isVisibleList={this.isVisibleList}
-          />
-        )}
+        {isVisible && <ListAllLocality />}
       </>
     );
   }
@@ -179,12 +171,15 @@ const mapStateToProps = state => ({
   filteredStops: state.searchForm.filteredStops,
   from: state.searchForm.from,
   to: state.searchForm.to,
+  isVisible: state.searchForm.isVisible,
 });
 const mapDispatchToProps = dispatch => ({
   fetchStops: () => dispatch(fetchStops()),
   getFilteredStops: arr => dispatch(getFilteredStops(arr)),
   changeInputFrom: value => dispatch(inputValueFrom(value)),
   changeInputTo: value => dispatch(inputValueTo(value)),
+  getClassName: value => dispatch(getClassName(value)),
+  toggleIsVisible: () => dispatch(toggleIsVisible()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

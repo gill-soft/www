@@ -15,20 +15,24 @@ class ListItem extends Component {
   getLocality(item) {
     const { lang } = this.props;
 
-    return `<span class="www">${item.name[`${lang}`]} </span> - ${this.full(
-      item,
-      item.parent.id,
-    )}`;
+    return `<span class="www">${
+      item.name[`${lang}`] || item.name['EN']
+    } </span> - ${this.full(item, item.parent.id)}`;
   }
+
   full(obj, id) {
-    const { data, lang } = this.props;
+    const { stops, lang } = this.props;
 
     if (!obj.parent.id) return;
-    const [result] = data.filter(el => el.id === id);
+    const [result] = stops.filter(el => el.id === id);
     if (!result?.parent) {
-      return result.name[`${lang}`];
+      return result.name[`${lang}`] || result.name[`EN`];
     } else {
-      return result.name[`${lang}`] + '/' + this.full(result, result.parent.id);
+      return (
+        (result.name[`${lang}`] || result.name[`EN`]) +
+        '/' +
+        this.full(result, result.parent.id)
+      );
     }
   }
   createMarkup() {
@@ -43,6 +47,7 @@ class ListItem extends Component {
 
 const mapStateToProps = state => ({
   lang: state.language,
+  stops: state.searchForm.stops,
 });
 
 export default connect(mapStateToProps)(ListItem);
