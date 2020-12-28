@@ -20,7 +20,7 @@ import { combineReducers} from "redux";
         return state;
     }
   };
-  const getInputValueFrom = (state = '', { type, payload }) => {
+  const getInputValueFrom = (state = 'Kiev', { type, payload }) => {
     switch (type) {
       case Types.INPUT_VALUE_FROM:
         return payload;
@@ -29,7 +29,7 @@ import { combineReducers} from "redux";
         return state;
     }
   };
-  const getInputValueTo = (state = '', { type, payload }) => {
+  const getInputValueTo = (state = 'Kharkiv', { type, payload }) => {
     switch (type) {
       case Types.INPUT_VALUE_TO:
         return payload;

@@ -7,7 +7,6 @@ import {
 } from './scripts/fetchLocality';
 import { fetchAllStops } from './scripts/fetchAllStops';
 import { changeLanguage } from './scripts/changeLanguage';
-import { test } from './scripts/test';
 import { chooseLocalityKeyPres } from './scripts/chooseLocalityKeyPres';
 
 // эндпоинты для запросов

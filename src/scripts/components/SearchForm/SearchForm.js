@@ -14,6 +14,7 @@ import {
 class SearchForm extends Component {
   state = {
     inputDate: this.getCurrentDate(),
+    trips: [],
   };
 
   //  ==== получаем все остановки через redux ==== //
@@ -48,7 +49,7 @@ class SearchForm extends Component {
     this.props.getFilteredStops(result);
   };
 
-  //  ==== добавляем в список населенных пунктов класс соответствующий инпуту ====
+  //  ==== добавляем в список населенных пунктов css-класс соответствующий инпуту ====
   handleClickInput = ({ target }) => {
     target.value
       ? this.filterData(target.value)
@@ -92,22 +93,37 @@ class SearchForm extends Component {
       idWhereTo: this.getId(this.props.to.trim()),
       date: this.state.inputDate,
     };
+    const time = Date.now();
+
     getInitialization(requestData)
-      .then(({ data }) => this.searchRouts(data.searchId))
+      .then(({ data }) => this.searchRouts(data.searchId, time))
       .catch(err => console.log(err));
   };
 
-  searchRouts = id => {
+  searchRouts = (id, time) => {
     console.log('startFechRouts');
-    setTimeout(() => {
-      if (!id) return;
+    let deltaTime = Date.now() - time;
 
-      searchTrips(id).then(({ data }) => {
-        data.searchId
-          ? this.searchRouts(data.searchId)
-          : console.log('data', data);
-      });
-    }, 300);
+    if (deltaTime < 3000) {
+      setTimeout(() => {
+        searchTrips(id).then(({ data }) => {
+          data.searchId
+            ? this.searchRouts(data.searchId, time)
+            : this.setState(prev => ({ trips: [...prev.trips, data] }));
+        });
+      }, 300);
+    } else if (deltaTime > 3000 && deltaTime < 30000) {
+      console.log('object');
+      setTimeout(() => {
+        searchTrips(id).then(({ data }) => {
+          data.searchId
+            ? this.searchRouts(data.searchId, time)
+            : this.setState(prev => ({ trips: [...prev.trips, data] }));
+        });
+      }, 2000);
+    } else {
+      return;
+    }
   };
 
   getId = val => {
@@ -126,6 +142,7 @@ class SearchForm extends Component {
   render() {
     const { inputDate } = this.state;
     const { from, to, isVisible } = this.props;
+    console.log(this.state.trips);
     return (
       <>
         <form onSubmit={this.searchTrips}>
