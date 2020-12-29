@@ -10,6 +10,7 @@ import {
   getClassName,
   toggleIsVisible,
 } from '../../../redux/searchForm/searchFormAction';
+import Autocomplite from './Autocomplite';
 
 class SearchForm extends Component {
   state = {
@@ -94,7 +95,6 @@ class SearchForm extends Component {
       date: this.state.inputDate,
     };
     const time = Date.now();
-
     getInitialization(requestData)
       .then(({ data }) => this.searchRouts(data.searchId, time))
       .catch(err => console.log(err));
@@ -104,7 +104,7 @@ class SearchForm extends Component {
     console.log('startFechRouts');
     let deltaTime = Date.now() - time;
 
-    if (deltaTime < 3000) {
+    if (deltaTime <= 3000) {
       setTimeout(() => {
         searchTrips(id).then(({ data }) => {
           data.searchId
@@ -122,7 +122,7 @@ class SearchForm extends Component {
         });
       }, 2000);
     } else {
-      return;
+      return console.log('нет поездок');
     }
   };
 
@@ -142,29 +142,31 @@ class SearchForm extends Component {
   render() {
     const { inputDate } = this.state;
     const { from, to, isVisible } = this.props;
-    console.log(this.state.trips);
+
     return (
       <>
         <form onSubmit={this.searchTrips}>
-          <input
+          {/* <input
             type="text"
             name="from"
             value={from}
             onChange={this.handleChange}
             onClick={this.handleClickInput}
             autoComplete="off"
-          ></input>
+          ></input> */}
+          <Autocomplite id="from" />
           <button type="button" onClick={this.changeButton}>
             &hArr;
           </button>
-          <input
+          <Autocomplite id="to" />
+          {/* <input
             type="text"
             name="to"
             value={to}
             onChange={this.handleChange}
             onClick={this.handleClickInput}
             autoComplete="off"
-          ></input>
+          ></input> */}
           <input
             name="inputDate"
             value={inputDate}

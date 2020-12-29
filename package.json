@@ -50,6 +50,8 @@
     "webpackbar": "^4.0.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "handlebars": "^4.7.6",
