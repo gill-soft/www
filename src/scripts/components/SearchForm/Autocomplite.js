@@ -6,7 +6,6 @@ import {
   inputValueFrom,
   inputValueTo,
 } from '../../../redux/searchForm/searchFormAction';
-import { Typography } from '@material-ui/core';
 
 const Autocomplite = ({
   id,
@@ -30,7 +29,7 @@ const Autocomplite = ({
           `${item.name[`${lang}`] || item.name['EN']} - ${full(
             item,
             item.parent.id,
-          )}`,
+          )} `,
         );
       }
       return newArr;
@@ -56,23 +55,22 @@ const Autocomplite = ({
     let val = value ? value.split(' -')[0] : null;
     id === 'from' ? changeInputFrom(val) : changeInputTo(val);
   };
-  //   const inputValue = () => {
-  //    if(id === 'from') return  from.split('-')[0].trim
-
-  //   };
 
   return (
     <div style={{ width: 300 }}>
       <Autocomplete
         id={id}
         freeSolo
+        value={id === 'from' ? from : to}
         onChange={(event, value) => handleChange(value)}
         options={options.map(opt => opt)}
-        renderOption={option => (
-          <Typography color="primary" variant="body1">
-            {option}
-          </Typography>
+        renderOption={opt => (
+          <div>
+            <span className="www">{opt.split('-')[0]}</span>
+            <span> - {opt.split('-')[1]}</span>
+          </div>
         )}
+        // renderOption={option => `${option}${options[1]}`}
         renderInput={params => (
           <TextField
             {...params}

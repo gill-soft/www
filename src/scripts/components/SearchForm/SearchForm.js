@@ -23,11 +23,11 @@ class SearchForm extends Component {
     this.props.fetchStops();
   }
 
-  componentDidUpdate(prevPops) {
-    const { from, to } = this.props;
-    if (prevPops.from !== from) this.filterData(from);
-    if (prevPops.to !== to) this.filterData(to);
-  }
+  // componentDidUpdate(prevPops) {
+  //   const { from, to } = this.props;
+  //   if (prevPops.from !== from) this.filterData(from);
+  //   if (prevPops.to !== to) this.filterData(to);
+  // }
 
   getCurrentDate() {
     return `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
@@ -36,31 +36,31 @@ class SearchForm extends Component {
   }
 
   // ==== фильтр населенных пунктов по значению в инпуте и запись в redux ==== //
-  filterData = value => {
-    const { lang, stops } = this.props;
-    const result = stops.filter(item => {
-      if (item.type === 'LOCALITY') {
-        return (
-          (item.name[`${lang}`] || item.name['EN'])
-            .toLowerCase()
-            .indexOf(value.trim().toLowerCase()) > -1
-        );
-      }
-    });
-    this.props.getFilteredStops(result);
-  };
+  // filterData = value => {
+  //   const { lang, stops } = this.props;
+  //   const result = stops.filter(item => {
+  //     if (item.type === 'LOCALITY') {
+  //       return (
+  //         (item.name[`${lang}`] || item.name['EN'])
+  //           .toLowerCase()
+  //           .indexOf(value.toLowerCase()) > -1
+  //       );
+  //     }
+  //   });
+  //   this.props.getFilteredStops(result);
+  // };
 
   //  ==== добавляем в список населенных пунктов css-класс соответствующий инпуту ====
-  handleClickInput = ({ target }) => {
-    target.value
-      ? this.filterData(target.value)
-      : this.props.getFilteredStops([]);
+  // handleClickInput = ({ target }) => {
+  //   target.value
+  //     ? this.filterData(target.value)
+  //     : this.props.getFilteredStops([]);
 
-    if (target.name === 'from') this.props.getClassName('from');
-    if (target.name === 'to') this.props.getClassName('whereTo');
+  //   if (target.name === 'from') this.props.getClassName('from');
+  //   if (target.name === 'to') this.props.getClassName('whereTo');
 
-    !this.props.isVisible ? this.props.toggleIsVisible() : null;
-  };
+  //   !this.props.isVisible ? this.props.toggleIsVisible() : null;
+  // };
 
   // ==== поменять отправку и прибытие местами ==== //
   changeButton = () => {
@@ -71,10 +71,10 @@ class SearchForm extends Component {
   };
 
   //  ==== запись значения  input в redux ==== //
-  handleChange = ({ target }) => {
-    if (target.name === 'from') this.props.changeInputFrom(target.value);
-    if (target.name === 'to') this.props.changeInputTo(target.value);
-  };
+  // handleChange = ({ target }) => {
+  //   if (target.name === 'from') this.props.changeInputFrom(target.value);
+  //   if (target.name === 'to') this.props.changeInputTo(target.value);
+  // };
 
   // ==== переключатель отображения списка населенных пунктов ==== //
   isVisibleList = () => {
@@ -142,7 +142,6 @@ class SearchForm extends Component {
   render() {
     const { inputDate } = this.state;
     const { from, to, isVisible } = this.props;
-
     return (
       <>
         <form onSubmit={this.searchTrips}>
@@ -169,9 +168,10 @@ class SearchForm extends Component {
           ></input> */}
           <input
             name="inputDate"
-            value={inputDate}
+            // value={inputDate}
             type="date"
-            onChange={this.handleChange}
+            defaultValue={inputDate}
+            // onChange={this.handleChange}
           ></input>
 
           <button type="submit" onClick={this.handleClickSearch}>
@@ -180,6 +180,7 @@ class SearchForm extends Component {
         </form>
 
         {isVisible && <ListAllLocality />}
+        
       </>
     );
   }
