@@ -1,5 +1,4 @@
 import { Types } from '../types';
-import { combineReducers } from 'redux';
 
 const language = (state = 'EN', { type, payload }) => {
   switch (type) {
@@ -11,6 +10,4 @@ const language = (state = 'EN', { type, payload }) => {
   }
 };
 export default language;
-// export const selectedLanguage = combineReducers({
-//   lang: language,
-// });
+

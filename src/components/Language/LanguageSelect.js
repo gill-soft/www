@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeLanguage } from '../../../redux/Language/LanguageAction';
+import { changeLanguage } from '../../redux/Language/LanguageAction';
 
 class LanguageSelect extends Component {
   handleChange = ({ target }) => {
