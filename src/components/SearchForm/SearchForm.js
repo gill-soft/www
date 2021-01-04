@@ -7,6 +7,7 @@ import pl from "date-fns/locale/pl";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import Button from "@material-ui/core/Button";
 import { searchTrips, getInitialization } from "../../services/api";
 import { fetchStops } from "../../redux/searchForm/searchFormOperation";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
@@ -39,9 +40,9 @@ class SearchForm extends Component {
   };
   // ==========================================
   // ========== поиск маршрутов ==============
-  // handleClickSearch = (e) => {
-  //   this.searchTrips(e);
-  // };
+  handleClickSearch = (e) => {
+    this.searchTrips(e);
+  };
 
   searchTrips = (e) => {
     e.preventDefault();
@@ -99,22 +100,30 @@ class SearchForm extends Component {
     const { inputDate } = this.state;
     return (
       <>
-        <form onSubmit={this.searchTrips} className='form'>
+        <form onSubmit={this.searchTrips} className="form">
           <Autocomplite id="from" />
           <button type="button" className="change" onClick={this.changeButton}>
             &hArr;
           </button>
           <Autocomplite id="to" />
 
-            <DatePicker
-              className="testDP"
-              dateFormat="dd MMMM yyyy"
-              selected={inputDate}
-              minDate={new Date()}
-              locale={this.dateLocale()}
-              onChange={(date) => this.setState({ inputDate: date })}
-            />
-          <button type="submit">search</button>
+          <DatePicker
+            className="testDP"
+            dateFormat="dd MMMM yyyy"
+            selected={inputDate}
+            minDate={new Date()}
+            locale={this.dateLocale()}
+            onChange={(date) => this.setState({ inputDate: date })}
+          />
+          <Button
+            className="search"
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={this.handleClickSearch}
+          >
+            Search
+          </Button>
         </form>
       </>
     );

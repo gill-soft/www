@@ -44,7 +44,7 @@ const Autocomplite = ({ id, stops, lang, changeInputFrom, changeInputTo, from, t
   }, [getOptions, stops, lang]);
 
   const handleChange = (value) => {
-    let val = value ? value.split(" -")[0] : null;
+    let val = value ? value.split(" - ")[0] : null;
     id === "from" ? changeInputFrom(val) : changeInputTo(val);
   };
 
@@ -58,12 +58,12 @@ const Autocomplite = ({ id, stops, lang, changeInputFrom, changeInputTo, from, t
         options={options.map((opt) => opt)}
         renderOption={(opt) => (
           <div>
-            <span className="www">{opt.split("-")[0]}</span>
-            <span> - {opt.split("-")[1]}</span>
+            <span className="www">{opt.split(" - ")[0]}</span>
+            <span> - {opt.split(" - ")[1]}</span>
           </div>
         )}
         renderInput={(params) => (
-          <TextField {...params} label={id} margin="normal" variant="outlined" />
+          <TextField {...params}  label={id} margin="normal" variant="outlined" />
         )}
       />
     </div>
