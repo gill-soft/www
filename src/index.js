@@ -21,8 +21,8 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <SearchForm />
-    </Provider>
-  </React.StrictMode>,
+    </Provider> 
+   </React.StrictMode>,
   document.getElementById("searchForm")
 );
 // If you want to start measuring performance in your app, pass a function

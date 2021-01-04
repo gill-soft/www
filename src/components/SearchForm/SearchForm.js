@@ -1,5 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import ru from "date-fns/locale/ru";
+import en from "date-fns/locale/en-GB";
+import ua from "date-fns/locale/uk";
+import pl from "date-fns/locale/pl";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 import { searchTrips, getInitialization } from "../../services/api";
 import { fetchStops } from "../../redux/searchForm/searchFormOperation";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
@@ -7,19 +14,13 @@ import Autocomplite from "./Autocomplite";
 
 class SearchForm extends Component {
   state = {
-    inputDate: this.getCurrentDate(),
+    inputDate: new Date(),
     trips: [],
   };
 
   //  ==== получаем все остановки через redux ==== //
   componentDidMount() {
     this.props.fetchStops();
-  }
-
-  getCurrentDate() {
-    return `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
-      new Date().getDate() + 2
-    }`;
   }
 
   // ==== поменять отправку и прибытие местами ==== //
@@ -29,20 +30,27 @@ class SearchForm extends Component {
     this.props.changeInputFrom(to);
     this.props.changeInputTo(from);
   };
-
+  dateLocale = () => {
+    const { lang } = this.props;
+    if (lang === "EN") return en;
+    if (lang === "RU") return ru;
+    if (lang === "UA") return ua;
+    if (lang === "PL") return pl;
+  };
   // ==========================================
   // ========== поиск маршрутов ==============
-  handleClickSearch = (e) => {
-    this.searchTrips(e);
-  };
+  // handleClickSearch = (e) => {
+  //   this.searchTrips(e);
+  // };
 
   searchTrips = (e) => {
     e.preventDefault();
     const requestData = {
       idFrom: this.getId(this.props.from.trim()),
       idWhereTo: this.getId(this.props.to.trim()),
-      date: this.state.inputDate,
+      date: format(Date.now(this.state.inputDate), "yyyy-MM-dd"),
     };
+
     const time = Date.now();
     getInitialization(requestData)
       .then(({ data }) => this.searchRouts(data.searchId, time))
@@ -87,28 +95,26 @@ class SearchForm extends Component {
   };
 
   // ========== конец поиск маршрутов ==============
-
   render() {
     const { inputDate } = this.state;
     return (
       <>
-        <form onSubmit={this.searchTrips}>
+        <form onSubmit={this.searchTrips} className='form'>
           <Autocomplite id="from" />
-          <button type="button" onClick={this.changeButton}>
+          <button type="button" className="change" onClick={this.changeButton}>
             &hArr;
           </button>
           <Autocomplite id="to" />
 
-          <input
-            name="inputDate"
-            // value={inputDate}
-            type="date"
-            defaultValue={inputDate}
-          ></input>
-
-          <button type="submit" onClick={this.handleClickSearch}>
-            search
-          </button>
+            <DatePicker
+              className="testDP"
+              dateFormat="dd MMMM yyyy"
+              selected={inputDate}
+              minDate={new Date()}
+              locale={this.dateLocale()}
+              onChange={(date) => this.setState({ inputDate: date })}
+            />
+          <button type="submit">search</button>
         </form>
       </>
     );
@@ -117,18 +123,13 @@ class SearchForm extends Component {
 const mapStateToProps = (state) => ({
   lang: state.language,
   stops: state.searchForm.stops,
-  // filteredStops: state.searchForm.filteredStops,
   from: state.searchForm.from,
   to: state.searchForm.to,
-  // isVisible: state.searchForm.isVisible,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchStops: () => dispatch(fetchStops()),
-  // getFilteredStops: arr => dispatch(getFilteredStops(arr)),
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
   changeInputTo: (value) => dispatch(inputValueTo(value)),
-  // getClassName: value => dispatch(getClassName(value)),
-  // toggleIsVisible: () => dispatch(toggleIsVisible()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

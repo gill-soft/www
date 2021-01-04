@@ -62,7 +62,6 @@ const Autocomplite = ({ id, stops, lang, changeInputFrom, changeInputTo, from, t
             <span> - {opt.split("-")[1]}</span>
           </div>
         )}
-        // renderOption={option => `${option}${options[1]}`}
         renderInput={(params) => (
           <TextField {...params} label={id} margin="normal" variant="outlined" />
         )}
