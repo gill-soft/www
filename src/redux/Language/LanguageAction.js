@@ -1,4 +1,4 @@
-import { Types } from '../types';
+import { Types } from '../actionsTypes';
 
 export const changeLanguage = value => ({
   type: Types.CHANGE_LANGUAGE,

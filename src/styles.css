@@ -72,17 +72,23 @@ ul {
   background-repeat: no-repeat;
   background-position: 240px;
   outline: none;
-  color: rgb(82, 81, 81);
+  color: rgba(0, 0, 0, 0.87);
   height: 56px;
   margin-bottom: 6px;
   /* position: relative; */
 
 }
+
+.testDP:active{
+  border: 1px solid #3f51b5;
+}
 .search {
   height: 56px;
 
 }
-
+.onp {
+  border: 5px solid rgb(245, 5, 5)
+}
 
 
  .form {

@@ -1,4 +1,4 @@
-import {Types} from '../types'
+import {Types} from '../actionsTypes'
 import { combineReducers} from "redux";
 
 

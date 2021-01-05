@@ -1,4 +1,4 @@
-import { Types } from '../types';
+import { Types } from '../actionsTypes';
 
 const language = (state = 'EN', { type, payload }) => {
   switch (type) {

@@ -4,7 +4,16 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
 
-const Autocomplite = ({ id, stops, lang, changeInputFrom, changeInputTo, from, to }) => {
+const Autocomplite = ({
+  id,
+  stops,
+  lang,
+  changeInputFrom,
+  changeInputTo,
+  from,
+  to,
+  error,
+}) => {
   const [options, setOptions] = useState([]);
 
   const full = useCallback(
@@ -48,6 +57,11 @@ const Autocomplite = ({ id, stops, lang, changeInputFrom, changeInputTo, from, t
     id === "from" ? changeInputFrom(val) : changeInputTo(val);
   };
 
+  const handleInputChange = ({ target }) => {
+    // console.log(event.target.value)
+    id === "from" ? changeInputFrom(target.value) : changeInputTo(target.value);
+  };
+
   return (
     <div style={{ width: 300 }}>
       <Autocomplete
@@ -63,7 +77,16 @@ const Autocomplite = ({ id, stops, lang, changeInputFrom, changeInputTo, from, t
           </div>
         )}
         renderInput={(params) => (
-          <TextField {...params}  label={id} margin="normal" variant="outlined" />
+          <TextField
+            {...params}
+            onChange={(event) => handleInputChange(event)}
+            label={id}
+            className='inp'
+            margin="normal"
+            variant="outlined"
+            error={error}
+            helperText={error ? "required" : ""}
+          />
         )}
       />
     </div>

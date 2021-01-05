@@ -1,4 +1,4 @@
-import { Types } from '../types';
+import { Types } from '../actionsTypes';
 
 export const fetchAllStopsSuccess = stops => ({
   type: Types.FETCH_ALL_STOPS_SUCCESS,

@@ -11,17 +11,33 @@ import Button from "@material-ui/core/Button";
 import { searchTrips, getInitialization } from "../../services/api";
 import { fetchStops } from "../../redux/searchForm/searchFormOperation";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
+import { fetchTripsSuccess, fetchTripsError } from "../../redux/trips/tripsActions";
 import Autocomplite from "./Autocomplite";
 
 class SearchForm extends Component {
   state = {
     inputDate: new Date(),
-    trips: [],
+    errorFrom: false,
+    errorTo: false,
   };
 
   //  ==== получаем все остановки через redux ==== //
   componentDidMount() {
     this.props.fetchStops();
+  }
+
+  // ====
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.from !== this.props.from) {
+      if (this.props.from) {
+        this.setState({ errorFrom: false });
+      }
+    }
+    if (prevProps.to !== this.props.to) {
+      if (this.props.to) {
+        this.setState({ errorTo: false });
+      }
+    }
   }
 
   // ==== поменять отправку и прибытие местами ==== //
@@ -31,6 +47,8 @@ class SearchForm extends Component {
     this.props.changeInputFrom(to);
     this.props.changeInputTo(from);
   };
+
+  // ==== данные для отображения календаря на языке пользователя ==== //
   dateLocale = () => {
     const { lang } = this.props;
     if (lang === "EN") return en;
@@ -40,12 +58,19 @@ class SearchForm extends Component {
   };
   // ==========================================
   // ========== поиск маршрутов ==============
-  handleClickSearch = (e) => {
-    this.searchTrips(e);
-  };
 
   searchTrips = (e) => {
     e.preventDefault();
+    // ==== проверка на не пустой инпут ==== //
+    if (!this.props.from) {
+      this.setState({ errorFrom: true });
+      return;
+    }
+    if (!this.props.to) {
+      this.setState({ errorTo: true });
+      return;
+    }
+    // ==== преобразование данных для завпроса ====
     const requestData = {
       idFrom: this.getId(this.props.from.trim()),
       idWhereTo: this.getId(this.props.to.trim()),
@@ -53,37 +78,53 @@ class SearchForm extends Component {
     };
 
     const time = Date.now();
-    getInitialization(requestData)
-      .then(({ data }) => this.searchRouts(data.searchId, time))
-      .catch((err) => console.log(err));
+    // console.log(requestData)
+    if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
+      getInitialization(requestData)
+        .then(({ data }) => this.searchRouts(data.searchId, time))
+        .catch((err) => this.props.fetchTripsError(err));
+    }
   };
 
+  // ==== цикл поиска результатов поездки ==== //
   searchRouts = (id, time) => {
-    console.log("startFechRouts");
     let deltaTime = Date.now() - time;
 
-    if (deltaTime <= 3000) {
-      setTimeout(() => {
-        searchTrips(id).then(({ data }) => {
+    if (deltaTime <= 100) {
+      searchTrips(id)
+        .then(({ data }) => {
           data.searchId
             ? this.searchRouts(data.searchId, time)
-            : this.setState((prev) => ({ trips: [...prev.trips, data] }));
-        });
+            : this.props.fetchTripsSuccess(data);
+        })
+        .catch((err) => this.props.fetchTripsError(err));
+    } else if (deltaTime <= 3000) {
+      setTimeout(() => {
+        searchTrips(id)
+          .then(({ data }) => {
+            data.searchId
+              ? this.searchRouts(data.searchId, time)
+              : this.props.fetchTripsSuccess(data);
+          })
+          .catch((err) => this.props.fetchTripsError(err));
       }, 300);
     } else if (deltaTime > 3000 && deltaTime < 30000) {
       console.log("object");
       setTimeout(() => {
-        searchTrips(id).then(({ data }) => {
-          data.searchId
-            ? this.searchRouts(data.searchId, time)
-            : this.setState((prev) => ({ trips: [...prev.trips, data] }));
-        });
+        searchTrips(id)
+          .then(({ data }) => {
+            data.searchId
+              ? this.searchRouts(data.searchId, time)
+              : this.props.fetchTripsSuccess(data);
+          })
+          .catch((err) => this.props.fetchTripsError(err));
       }, 2000);
     } else {
-      return console.log("нет поездок");
+      return this.props.fetchTripsError("нет поездок");
     }
   };
 
+  //  ==== получение id города из названия === //
   getId = (val) => {
     const { lang, stops } = this.props;
     const [result] = stops.filter((item) =>
@@ -92,20 +133,24 @@ class SearchForm extends Component {
           val.toLowerCase().trim()
         : null
     );
-    return result.id;
+    if (result) {
+      return result.id;
+    } else {
+       this.props.fetchTripsError("уточните параметры поиска"); return
+    }
   };
-
   // ========== конец поиск маршрутов ==============
+
   render() {
     const { inputDate } = this.state;
     return (
       <>
         <form onSubmit={this.searchTrips} className="form">
-          <Autocomplite id="from" />
+          <Autocomplite id="from" error={this.state.errorFrom} />
           <button type="button" className="change" onClick={this.changeButton}>
             &hArr;
           </button>
-          <Autocomplite id="to" />
+          <Autocomplite id="to" error={this.state.errorTo} />
 
           <DatePicker
             className="testDP"
@@ -115,16 +160,11 @@ class SearchForm extends Component {
             locale={this.dateLocale()}
             onChange={(date) => this.setState({ inputDate: date })}
           />
-          <Button
-            className="search"
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={this.handleClickSearch}
-          >
+          <Button className="search" type="submit" variant="contained" color="primary">
             Search
           </Button>
         </form>
+        <pre>{JSON.stringify(this.props.trips, null, 2)}</pre>
       </>
     );
   }
@@ -134,11 +174,14 @@ const mapStateToProps = (state) => ({
   stops: state.searchForm.stops,
   from: state.searchForm.from,
   to: state.searchForm.to,
+  trips: state.trips.trips,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchStops: () => dispatch(fetchStops()),
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
   changeInputTo: (value) => dispatch(inputValueTo(value)),
+  fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
+  fetchTripsError: (err) => dispatch(fetchTripsError(err)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
