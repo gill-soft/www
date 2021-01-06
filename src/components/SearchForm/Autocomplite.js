@@ -15,6 +15,7 @@ const Autocomplite = ({
   error,
 }) => {
   const [options, setOptions] = useState([]);
+  const [value, setValue] = useState("");
 
   const full = useCallback(
     (obj, id) => {
@@ -54,11 +55,11 @@ const Autocomplite = ({
 
   const handleChange = (value) => {
     let val = value ? value.split(" - ")[0] : null;
+    setValue(val);
     id === "from" ? changeInputFrom(val) : changeInputTo(val);
   };
 
   const handleInputChange = ({ target }) => {
-    // console.log(event.target.value)
     id === "from" ? changeInputFrom(target.value) : changeInputTo(target.value);
   };
 
@@ -67,7 +68,7 @@ const Autocomplite = ({
       <Autocomplete
         id={id}
         freeSolo
-        value={id === "from" ? from : to}
+        value={value}
         onChange={(event, value) => handleChange(value)}
         options={options.map((opt) => opt)}
         renderOption={(opt) => (
@@ -81,7 +82,7 @@ const Autocomplite = ({
             {...params}
             onChange={(event) => handleInputChange(event)}
             label={id}
-            className='inp'
+            className="inp"
             margin="normal"
             variant="outlined"
             error={error}
