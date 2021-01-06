@@ -1,10 +1,10 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-const getTrips = (state = [], { type, payload }) => {
+const getTrips = (state = {}, { type, payload }) => {
   switch (type) {
     case Types.FETCH_TRIPS_SUCCESS:
-      return [...state, payload];
+      return payload;
 
     default:
       return state;

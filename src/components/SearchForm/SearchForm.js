@@ -74,11 +74,9 @@ class SearchForm extends Component {
     const requestData = {
       idFrom: this.getId(this.props.from.trim()),
       idWhereTo: this.getId(this.props.to.trim()),
-      date: format(Date.now(this.state.inputDate), "yyyy-MM-dd"),
+      date: format(new Date(this.state.inputDate), "yyyy-MM-dd"),
     };
-
     const time = Date.now();
-    // console.log(requestData)
     if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
       getInitialization(requestData)
         .then(({ data }) => this.searchRouts(data.searchId, time))
@@ -102,6 +100,8 @@ class SearchForm extends Component {
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {
+        console.log(typeof data)
+
             data.searchId
               ? this.searchRouts(data.searchId, time)
               : this.props.fetchTripsSuccess(data);
@@ -136,7 +136,8 @@ class SearchForm extends Component {
     if (result) {
       return result.id;
     } else {
-       this.props.fetchTripsError("уточните параметры поиска"); return
+      this.props.fetchTripsError("уточните параметры поиска");
+      return;
     }
   };
   // ========== конец поиск маршрутов ==============
