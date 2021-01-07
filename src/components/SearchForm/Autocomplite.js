@@ -15,7 +15,7 @@ const Autocomplite = ({
   error,
 }) => {
   const [options, setOptions] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(id==='from' ? from : to);
 
   const full = useCallback(
     (obj, id) => {

@@ -70,56 +70,77 @@ class SearchForm extends Component {
       this.setState({ errorTo: true });
       return;
     }
-    // ==== преобразование данных для завпроса ====
+    // ==== преобразование данных для запроса ====
     const requestData = {
       idFrom: this.getId(this.props.from.trim()),
       idWhereTo: this.getId(this.props.to.trim()),
       date: format(new Date(this.state.inputDate), "yyyy-MM-dd"),
     };
-    const time = Date.now();
+    //  ==== при успешном преобразовании введеных данных в id-городов начинаем поиск ==== //
     if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
-      getInitialization(requestData)
-        .then(({ data }) => this.searchRouts(data.searchId, time))
-        .catch((err) => this.props.fetchTripsError(err));
+      const time = Date.now();
+      this.startSerch(time, requestData);
     }
+  };
+//  ==== инициализация поиска ==== //
+  startSerch = (time, requestData) => {
+    getInitialization(requestData)
+      .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
+      .catch((err) => this.props.fetchTripsError(err));
   };
 
   // ==== цикл поиска результатов поездки ==== //
-  searchRouts = (id, time) => {
+  searchRouts = (id, time, requestData) => {
     let deltaTime = Date.now() - time;
 
     if (deltaTime <= 100) {
       searchTrips(id)
         .then(({ data }) => {
-          data.searchId
-            ? this.searchRouts(data.searchId, time)
-            : this.props.fetchTripsSuccess(data);
+          if (data.searchId) {
+            this.searchRouts(data.searchId, time, requestData);
+          } else {
+            if (data.segments) {
+              this.props.fetchTripsSuccess(data);
+            } else {
+              this.startSerch(time, requestData);
+            }
+          }
         })
         .catch((err) => this.props.fetchTripsError(err));
     } else if (deltaTime <= 3000) {
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {
-        console.log(typeof data)
-
-            data.searchId
-              ? this.searchRouts(data.searchId, time)
-              : this.props.fetchTripsSuccess(data);
+            if (data.searchId) {
+              this.searchRouts(data.searchId, time, requestData);
+            } else {
+              if (data.segments) {
+                this.props.fetchTripsSuccess(data);
+              } else {
+                this.startSerch(time, requestData);
+              }
+            }
           })
           .catch((err) => this.props.fetchTripsError(err));
       }, 300);
     } else if (deltaTime > 3000 && deltaTime < 30000) {
-      console.log("object");
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {
-            data.searchId
-              ? this.searchRouts(data.searchId, time)
-              : this.props.fetchTripsSuccess(data);
+            if (data.searchId) {
+              this.searchRouts(data.searchId, time, requestData);
+            } else {
+              if (data.segments) {
+                this.props.fetchTripsSuccess(data);
+              } else {
+                this.startSerch(time, requestData);
+              }
+            }
           })
           .catch((err) => this.props.fetchTripsError(err));
       }, 2000);
     } else {
+      console.log("HET!!!");
       return this.props.fetchTripsError("нет поездок");
     }
   };
@@ -165,7 +186,7 @@ class SearchForm extends Component {
             Search
           </Button>
         </form>
-        <pre>{JSON.stringify(this.props.trips, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(this.props.trips, null, 2)}</pre> */}
       </>
     );
   }
