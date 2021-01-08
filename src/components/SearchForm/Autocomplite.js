@@ -86,6 +86,7 @@ const Autocomplite = ({
             {...params}
             // onChange={(event) => handleInputChange(event)}
             label={id}
+            onBlur={(event)=> handleInputChange(event)}
             className="inp"
             margin="normal"
             variant="outlined"

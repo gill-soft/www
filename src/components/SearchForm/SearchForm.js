@@ -65,9 +65,7 @@ class SearchForm extends Component {
 
   searchTrips = (e) => {
     e.preventDefault();
-    // ==== запускаем лоадинг и очищаем ошибки ==== //
-    this.props.fetchTripsError("");
-    this.props.fetchTripsStart();
+    
     // ==== проверка на не пустой инпут ==== //
     if (!this.props.from) {
       this.setState({ errorFrom: true });
@@ -77,6 +75,9 @@ class SearchForm extends Component {
       this.setState({ errorTo: true });
       return;
     }
+    // ==== запускаем лоадинг и очищаем ошибки ==== //
+    this.props.fetchTripsError("");
+    this.props.fetchTripsStart();
     // ==== преобразование данных для запроса ====
     const requestData = {
       idFrom: this.getId(this.props.from.trim()),
