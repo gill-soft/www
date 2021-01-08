@@ -11,7 +11,11 @@ import Button from "@material-ui/core/Button";
 import { searchTrips, getInitialization } from "../../services/api";
 import { fetchStops } from "../../redux/searchForm/searchFormOperation";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
-import { fetchTripsSuccess, fetchTripsError } from "../../redux/trips/tripsActions";
+import {
+  fetchTripsSuccess,
+  fetchTripsError,
+  fetchTripsStart,
+} from "../../redux/trips/tripsActions";
 import Autocomplite from "./Autocomplite";
 
 class SearchForm extends Component {
@@ -61,6 +65,9 @@ class SearchForm extends Component {
 
   searchTrips = (e) => {
     e.preventDefault();
+    // ==== запускаем лоадинг и очищаем ошибки ==== //
+    this.props.fetchTripsError("");
+    this.props.fetchTripsStart();
     // ==== проверка на не пустой инпут ==== //
     if (!this.props.from) {
       this.setState({ errorFrom: true });
@@ -82,11 +89,12 @@ class SearchForm extends Component {
       this.startSerch(time, requestData);
     }
   };
-//  ==== инициализация поиска ==== //
+  //  ==== инициализация поиска ==== //
   startSerch = (time, requestData) => {
     getInitialization(requestData)
       .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
-      .catch((err) => this.props.fetchTripsError(err));
+      .catch((err) => this.props.fetchTripsError(err))
+      .finally(this.props.fetchTripsStart());
   };
 
   // ==== цикл поиска результатов поездки ==== //
@@ -106,7 +114,8 @@ class SearchForm extends Component {
             }
           }
         })
-        .catch((err) => this.props.fetchTripsError(err));
+        .catch((err) => this.props.fetchTripsError(err))
+        .finally(this.props.fetchTripsStart());
     } else if (deltaTime <= 3000) {
       setTimeout(() => {
         searchTrips(id)
@@ -121,9 +130,10 @@ class SearchForm extends Component {
               }
             }
           })
-          .catch((err) => this.props.fetchTripsError(err));
+          .catch((err) => this.props.fetchTripsError(err))
+          .finally(this.props.fetchTripsStart());
       }, 300);
-    } else if (deltaTime > 3000 && deltaTime < 30000) {
+    } else if (deltaTime > 3000 && deltaTime < 5000) {
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {
@@ -137,10 +147,10 @@ class SearchForm extends Component {
               }
             }
           })
-          .catch((err) => this.props.fetchTripsError(err));
+          .catch((err) => this.props.fetchTripsError(err))
+          .finally(this.props.fetchTripsStart());
       }, 2000);
     } else {
-      console.log("HET!!!");
       return this.props.fetchTripsError("нет поездок");
     }
   };
@@ -173,7 +183,6 @@ class SearchForm extends Component {
             &hArr;
           </button>
           <Autocomplite id="to" error={this.state.errorTo} />
-
           <DatePicker
             className="testDP"
             dateFormat="dd MMMM yyyy"
@@ -204,6 +213,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeInputTo: (value) => dispatch(inputValueTo(value)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
+  fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

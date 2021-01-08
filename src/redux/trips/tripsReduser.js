@@ -1,6 +1,19 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
+const tripsStart = (state = false, { type, payload }) => {
+  switch (type) {
+    case Types.FETCH_TRIPS_START:
+      return true;
+    case Types.FETCH_TRIPS_SUCCESS:
+    case Types.FETCH_TRIPS_ERROR:
+      return false;
+
+    default:
+      return state;
+  }
+};
+
 const getTrips = (state = {}, { type, payload }) => {
   switch (type) {
     case Types.FETCH_TRIPS_SUCCESS:
@@ -23,4 +36,5 @@ const tripsError = (state = "", { type, payload }) => {
 export const tripsReduser = combineReducers({
   trips: getTrips,
   error: tripsError,
+  isLoading: tripsStart,
 });

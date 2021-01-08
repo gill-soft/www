@@ -17,6 +17,10 @@ const Autocomplite = ({
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState(id==='from' ? from : to);
 
+  useEffect(() => {
+    id==='from'? setValue(from): setValue(to)
+  }, [id, from, to])
+
   const full = useCallback(
     (obj, id) => {
       if (!obj.parent.id) return;
@@ -80,13 +84,13 @@ const Autocomplite = ({
         renderInput={(params) => (
           <TextField
             {...params}
-            onChange={(event) => handleInputChange(event)}
+            // onChange={(event) => handleInputChange(event)}
             label={id}
             className="inp"
             margin="normal"
             variant="outlined"
             error={error}
-            helperText={error ? "required" : ""}
+            helperText={error ? "Bыберите значение из списка" : ""}
           />
         )}
       />

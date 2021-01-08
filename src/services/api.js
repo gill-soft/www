@@ -1,7 +1,7 @@
 import axios from 'axios';
 const baseUrl = 'https://busis.eu/gds-control/api/v1';
 const localityAll = '/locality/all';
-const AUTH_KEY = 'Basic Y2Fycmllcl90ZXN0OnRlc3RfY2Fycmllcg==';
+// const AUTH_KEY = 'Basic Y2Fycmllcl90ZXN0OnRlc3RfY2Fycmllcg==';
 const AUTH_KEY2 = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`
 
 //  ==== получение всех остановок ==== //
@@ -10,7 +10,7 @@ export const getAllStops = () => {
     method: 'get',
     url: `${baseUrl}${localityAll}`,
     headers: {
-      Authorization: AUTH_KEY,
+      Authorization: AUTH_KEY2,
     },
   });
 };
