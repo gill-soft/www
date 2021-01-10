@@ -65,6 +65,7 @@ class SearchForm extends Component {
 
   searchTrips = (e) => {
     e.preventDefault();
+    this.props.fetchTripsError("");
     
     // ==== проверка на не пустой инпут ==== //
     if (!this.props.from) {
