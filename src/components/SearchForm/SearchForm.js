@@ -10,7 +10,11 @@ import { format } from "date-fns";
 import Button from "@material-ui/core/Button";
 import { searchTrips, getInitialization } from "../../services/api";
 import { fetchStops } from "../../redux/searchForm/searchFormOperation";
-import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
+import {
+  inputValueFrom,
+  inputValueTo,
+  inputValueDate,
+} from "../../redux/searchForm/searchFormAction";
 import {
   fetchTripsSuccess,
   fetchTripsError,
@@ -22,7 +26,7 @@ import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 
 class SearchForm extends Component {
   state = {
-    inputDate: new Date(),
+    // inputDate: new Date(),
     errorFrom: false,
     errorTo: false,
   };
@@ -67,6 +71,7 @@ class SearchForm extends Component {
 
   searchTrips = (e) => {
     e.preventDefault();
+    const {from, to, date} = this.props
     this.props.fetchTripsError("");
 
     // ==== проверка на не пустой инпут ==== //
@@ -83,9 +88,9 @@ class SearchForm extends Component {
     this.props.fetchTripsStart();
     // ==== преобразование данных для запроса ====
     const requestData = {
-      idFrom: this.getId(this.props.from.trim()),
-      idWhereTo: this.getId(this.props.to.trim()),
-      date: format(new Date(this.state.inputDate), "yyyy-MM-dd"),
+      idFrom: this.getId(from.trim()),
+      idWhereTo: this.getId(to.trim()),
+      date: format(new Date(date), "yyyy-MM-dd"),
     };
     //  ==== при успешном преобразовании введеных данных в id-городов начинаем поиск ==== //
     if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
@@ -97,14 +102,13 @@ class SearchForm extends Component {
   startSerch = (time, requestData) => {
     getInitialization(requestData)
       .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
-      .catch((err) => this.props.fetchTripsError(err))
+      .catch(({err}) => this.props.fetchTripsError(err))
       .finally(this.props.fetchTripsStart());
   };
 
   // ==== цикл поиска результатов поездки ==== //
   searchRouts = (id, time, requestData) => {
     let deltaTime = Date.now() - time;
-
     if (deltaTime <= 100) {
       searchTrips(id)
         .then(({ data }) => {
@@ -118,7 +122,7 @@ class SearchForm extends Component {
             }
           }
         })
-        .catch((err) => this.props.fetchTripsError(err))
+        .catch(({err}) => this.props.fetchTripsError(err))
         .finally(this.props.fetchTripsStart());
     } else if (deltaTime <= 3000) {
       setTimeout(() => {
@@ -134,7 +138,7 @@ class SearchForm extends Component {
               }
             }
           })
-          .catch((err) => this.props.fetchTripsError(err))
+          .catch(({err}) => this.props.fetchTripsError(err))
           .finally(this.props.fetchTripsStart());
       }, 300);
     } else if (deltaTime > 3000 && deltaTime < 5000) {
@@ -151,7 +155,7 @@ class SearchForm extends Component {
               }
             }
           })
-          .catch((err) => this.props.fetchTripsError(err))
+          .catch(({err}) => this.props.fetchTripsError(err))
           .finally(this.props.fetchTripsStart());
       }, 2000);
     } else {
@@ -178,7 +182,7 @@ class SearchForm extends Component {
   // ========== конец поиск маршрутов ==============
 
   render() {
-    const { inputDate } = this.state;
+    const { date, changeInputDate} = this.props;
     return (
       <div className={`${styles.searchForm} `}>
         <form onSubmit={this.searchTrips} className={`${styles.form} `}>
@@ -189,13 +193,18 @@ class SearchForm extends Component {
           <DatePicker
             className={styles.datePicker}
             dateFormat="dd MMMM yyyy"
-            selected={inputDate}
+            selected={date}
             minDate={new Date()}
             locale={this.dateLocale()}
-            onChange={(date) => this.setState({ inputDate: date })}
+            onChange={(date) => changeInputDate( date)}
           />
 
-          <Button className={styles.searchBtn} type="submit" variant="contained" color="primary">
+          <Button
+            className={styles.searchBtn}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
             Search
           </Button>
         </form>
@@ -209,12 +218,14 @@ const mapStateToProps = (state) => ({
   stops: state.searchForm.stops,
   from: state.searchForm.from,
   to: state.searchForm.to,
+  date: state.searchForm.date,
   trips: state.trips.trips,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchStops: () => dispatch(fetchStops()),
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
   changeInputTo: (value) => dispatch(inputValueTo(value)),
+  changeInputDate: (date) => dispatch(inputValueDate(date)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
   fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),

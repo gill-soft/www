@@ -9,13 +9,11 @@ const TripBox = ({ tripKey, trips, isLoading }) => {
 
   return (
     <div>
-      {!isLoading && (
         <div>
-          <h5>{trips.segments[`${tripKey}`].route.name.EN}</h5>
+          <h5>{trips.segments[`${tripKey}`]?.route.name.EN}</h5>
           <Button onClick={() => setIsForm(true)}>BUY!</Button>
           {isForm && <FormForBuy />}
         </div>
-      )}
 
       {/* <pre>{JSON.stringify(trips, null, 2)}</pre> */}
     </div>

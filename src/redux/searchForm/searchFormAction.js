@@ -17,3 +17,8 @@ export const inputValueTo = value => ({
   type: Types.INPUT_VALUE_TO,
   payload: value,
 });
+export const inputValueDate = date => ({
+  type: Types.INPUT_DATE,
+  payload: date,
+});
+
