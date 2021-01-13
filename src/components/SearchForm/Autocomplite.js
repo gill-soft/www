@@ -3,6 +3,37 @@ import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
+import styles from "./Autocomplite.module.css";
+import { makeStyles } from "@material-ui/core/styles";
+import styled from "styled-components";
+
+const StyledTextField = styled(TextField)`
+  label {
+    color: var(--color-secondary);
+  }
+  label.Mui-focused {
+    color: var(--color-secondary);
+  }
+  .MuiOutlinedInput-root {
+    fieldset {
+      border: 2px solid var(--color-secondary);
+    }
+    &:hover fieldset {
+      border: 3px solid var(--color-secondary);
+    }
+    &.Mui-focused fieldset {
+      border: 3px solid var(--color-secondary);
+    }
+  }
+  .MuiInputBase-input {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .MuiIconButton-root {
+    color: var(--color-secondary);
+  }
+`;
 
 const Autocomplite = ({
   id,
@@ -15,11 +46,11 @@ const Autocomplite = ({
   error,
 }) => {
   const [options, setOptions] = useState([]);
-  const [value, setValue] = useState(id==='from' ? from : to);
+  const [value, setValue] = useState(id === "from" ? from : to);
 
   useEffect(() => {
-    id==='from'? setValue(from): setValue(to)
-  }, [id, from, to])
+    id === "from" ? setValue(from) : setValue(to);
+  }, [id, from, to]);
 
   const full = useCallback(
     (obj, id) => {
@@ -68,7 +99,7 @@ const Autocomplite = ({
   };
 
   return (
-    <div style={{ width: 300 }}>
+    <div style={{ width: 200 }}>
       <Autocomplete
         id={id}
         freeSolo
@@ -82,12 +113,10 @@ const Autocomplite = ({
           </div>
         )}
         renderInput={(params) => (
-          <TextField
+          <StyledTextField
             {...params}
-            // onChange={(event) => handleInputChange(event)}
             label={id}
-            onBlur={(event)=> handleInputChange(event)}
-            className="inp"
+            onBlur={(event) => handleInputChange(event)}
             margin="normal"
             variant="outlined"
             error={error}

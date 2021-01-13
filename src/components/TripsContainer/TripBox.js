@@ -17,7 +17,7 @@ const TripBox = ({ tripKey, trips, isLoading }) => {
         </div>
       )}
 
-      <pre>{JSON.stringify(trips, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(trips, null, 2)}</pre> */}
     </div>
   );
 };

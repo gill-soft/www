@@ -39,7 +39,7 @@ const FormForBuy = () => {
           <ErrorMessage className="errr" name="email" />
         </div>
         <label htmlFor="phone">Number phone</label>
-        <Field name="phone" type="text" />
+        <Field name="phone" type="text" placeholder="+38" />
         <ErrorMessage name="phone" />
         <button type="submit">Submit</button>
       </Form>

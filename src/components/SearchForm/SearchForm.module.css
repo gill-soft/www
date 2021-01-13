@@ -1,0 +1,51 @@
+/* .searchForm {
+    background-image: url('../../images/bus.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+} */
+
+.form {
+    width: 1140px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+.datePicker {
+    margin: 14px;
+    padding-left: 10px;
+    width: 200px;
+    font-size: 18px;
+    border: 2px solid var(--color-secondary);
+    border-radius: 4px;
+    background: transparent;
+    background-image: url('../../images/insert_invitation-black-48dp.svg');
+    background-repeat: no-repeat;
+    background-position: 240px;
+    outline: none;
+    color: #ffffff;
+    font-weight: 500;
+    height: 56px;
+    margin-bottom: 6px;
+}
+
+.datePicker:hover, .datePicker:focus {
+    border: 3px solid var(--color-secondary);
+    padding: 0 1px 0 9px;
+    background-position: 239px calc(50% - 0.7px);
+
+
+}
+.datePicker:focus{
+    transform: translateX(13.5px);
+    margin-left: 0px;
+
+}
+.searchBtn {
+  height: 60px;
+  margin-top: 6px;
+
+}

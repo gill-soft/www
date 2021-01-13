@@ -16,7 +16,9 @@ import {
   fetchTripsError,
   fetchTripsStart,
 } from "../../redux/trips/tripsActions";
+import styles from "./SearchForm.module.css";
 import Autocomplite from "./Autocomplite";
+import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 
 class SearchForm extends Component {
   state = {
@@ -66,7 +68,7 @@ class SearchForm extends Component {
   searchTrips = (e) => {
     e.preventDefault();
     this.props.fetchTripsError("");
-    
+
     // ==== проверка на не пустой инпут ==== //
     if (!this.props.from) {
       this.setState({ errorFrom: true });
@@ -178,27 +180,27 @@ class SearchForm extends Component {
   render() {
     const { inputDate } = this.state;
     return (
-      <>
-        <form onSubmit={this.searchTrips} className="form">
+      <div className={`${styles.searchForm} `}>
+        <form onSubmit={this.searchTrips} className={`${styles.form} `}>
           <Autocomplite id="from" error={this.state.errorFrom} />
-          <button type="button" className="change" onClick={this.changeButton}>
-            &hArr;
-          </button>
+          {/* <button type="button" className="change" onClick={this.changeButton}> */}
+          <Arrow onClick={this.changeButton} />
           <Autocomplite id="to" error={this.state.errorTo} />
           <DatePicker
-            className="testDP"
+            className={styles.datePicker}
             dateFormat="dd MMMM yyyy"
             selected={inputDate}
             minDate={new Date()}
             locale={this.dateLocale()}
             onChange={(date) => this.setState({ inputDate: date })}
           />
-          <Button className="search" type="submit" variant="contained" color="primary">
+
+          <Button className={styles.searchBtn} type="submit" variant="contained" color="primary">
             Search
           </Button>
         </form>
         {/* <pre>{JSON.stringify(this.props.trips, null, 2)}</pre> */}
-      </>
+      </div>
     );
   }
 }

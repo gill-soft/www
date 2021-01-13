@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
-import "./styles.css";
+import "./stylesheet/main.css";
 
 import SearchForm from "./components/SearchForm/SearchForm";
 import store from "./redux/store";
