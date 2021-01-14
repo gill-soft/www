@@ -12,6 +12,10 @@ export const fetchTripsError = err => ({
     type: Types.FETCH_TRIPS_ERROR,
     payload: err
 })
+export const getTripsInfo = trips => ({
+  type: Types.GET_TRIPS_INFO,
+  payload: trips
+})
 
 
 

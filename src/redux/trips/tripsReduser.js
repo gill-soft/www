@@ -32,9 +32,20 @@ const tripsError = (state = "", { type, payload }) => {
       return state;
   }
 };
+const getTripsInfo = (state = [], { type, payload }) => {
+  switch (type) {
+    case Types.GET_TRIPS_INFO:
+      return payload;
+
+    default:
+      return state;
+  }
+};
+
 
 export const tripsReduser = combineReducers({
   trips: getTrips,
+  tripsInfo: getTripsInfo,
   error: tripsError,
   isLoading: tripsStart,
 });
