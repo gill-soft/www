@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { format } from "date-fns";
-import ru from "date-fns/locale/ru";
+// import { format } from "date-fns";
+// import ru from "date-fns/locale/ru";
 import { connect } from "react-redux";
 import TripBox from "./TripBox";
 import FilterButtons from "./FilterButtons";
 import styles from './TripsContainer.module.css'
+import { getLocality} from '../../services/getInfo'
 
 const TripsContainer = ({ trips, isLoading, error, from, to, date, stops }) => {
-  const [tripsKey, setState] = useState([]);
+  const [tripsKey, setTripsKey] = useState([]);
+  const [tripsInfo, setTripsInfo] = useState([])
   useEffect(() => {
     if (Object.keys(trips).length > 0) {
-      setState(Object.keys(trips.segments));
+      setTripsKey(Object.keys(trips.segments));
+      setTripsInfo(Object.values(trips.segments))
+    } else {
+      setTripsInfo([])
+
     }
   }, [trips]);
+
 
   // const getDate = () => {
   //   // console.log(trips.tripContainers[0].request.dates[0]);
@@ -20,31 +27,35 @@ const TripsContainer = ({ trips, isLoading, error, from, to, date, stops }) => {
   //   return format(date2, "dd LLLL yyyy", { locale: ru });
   // };
 
-  const getLocality = (id) => {
-    const result = stops.find((el) => el.id === id);
-    return result.name["RU"];
-  };
+
+  console.log("tripsInfo", tripsInfo)
+  // const getLocality = (id) => {
+  //   const result = stops.find((el) => el.id === id);
+  //   return result.name["RU"];
+  // };
+  console.log(Boolean(Object.keys(trips).length))
   return (
     <>
       {error && <p>{error}</p>}
       {isLoading && <div>Loading...</div>}
-      {tripsKey.length > 0 && !error && !isLoading && (
+      {tripsInfo.length > 0 && !error && !isLoading && (
         <div>
           <h3 className={styles.title}>
             {" "}
             Расписание автобусов{" "}
-            {getLocality(trips.tripContainers[0].request.localityPairs[0][0])} -{" "}
-            {getLocality(trips.tripContainers[0].request.localityPairs[0][1])}
+            {getLocality(stops, trips.tripContainers[0].request.localityPairs[0][0])} -{" "}
+            {getLocality(stops, trips.tripContainers[0].request.localityPairs[0][1])}
              {/* на{" "}
             {getDate()} */}
           </h3>
           <FilterButtons />
-          {tripsKey.map((key) => (
-            <TripBox key={key} tripKey={key} />
+          {tripsInfo.map((el, idx) => (
+            <TripBox key={idx} trip={el} />
           ))}
+      <pre>{JSON.stringify(trips, null, 4)}</pre>
+
         </div>
       )}
-      <pre>{JSON.stringify(trips.tripContainers[0].request.localityPairs, null, 4)}</pre>
     </>
   );
 };

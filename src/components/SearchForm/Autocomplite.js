@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
-import styles from "./Autocomplite.module.css";
-import { makeStyles } from "@material-ui/core/styles";
+// import styles from "./Autocomplite.module.css";
+// import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 
 const StyledTextField = styled(TextField)`
@@ -52,7 +52,7 @@ const Autocomplite = ({
     id === "from" ? setValue(from) : setValue(to);
   }, [id, from, to]);
 
-  const full = useCallback(
+  const getFull = useCallback(
     (obj, id) => {
       if (!obj.parent.id) return;
       const [result] = stops.filter((el) => el.id === id);
@@ -62,7 +62,7 @@ const Autocomplite = ({
         return (
           (result.name[`${lang}`] || result.name[`EN`]) +
           "/" +
-          full(result, result.parent.id)
+          getFull(result, result.parent.id)
         );
       }
     },
@@ -70,18 +70,17 @@ const Autocomplite = ({
   );
   const getOptions = useCallback(
     (stops) => {
-      var result = stops.reduce((newArr, item) => {
+
+      return stops.reduce((newArr, item) => {
         if (item.type === "LOCALITY") {
           newArr.push(
-            `${item.name[`${lang}`] || item.name["EN"]} - ${full(item, item.parent.id)} `
+            `${item.name[`${lang}`] || item.name["EN"]} - ${getFull(item, item.parent.id)} `
           );
         }
         return newArr;
       }, []);
-
-      return result;
     },
-    [full, lang]
+    [getFull, lang]
   );
 
   useEffect(() => {

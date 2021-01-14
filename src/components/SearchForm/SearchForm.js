@@ -86,13 +86,13 @@ class SearchForm extends Component {
     // ==== запускаем лоадинг и очищаем ошибки ==== //
     this.props.fetchTripsError("");
     this.props.fetchTripsStart();
+    this.props.fetchTripsSuccess({})
     // ==== преобразование данных для запроса ====
     const requestData = {
       idFrom: this.getId(from.trim()),
       idWhereTo: this.getId(to.trim()),
       date: format(new Date(date), "yyyy-MM-dd"),
     };
-    console.log(requestData)
     //  ==== при успешном преобразовании введеных данных в id-городов начинаем поиск ==== //
     if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
       const time = Date.now();

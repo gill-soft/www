@@ -1,0 +1,4 @@
+.tripBox {
+    border: 1px solid var(--color-main);
+    margin-bottom: 20px;
+}
