@@ -86,7 +86,7 @@ class TripsContainer extends Component {
     bn: "up",
   };
   componentDidUpdate(prevProps, prevState) {
-    const { trips, getTripsInfo, tripsInfo } = this.props;
+    const { trips, getTripsInfo } = this.props;
 
     if (prevProps.trips !== trips) {
       if (Object.keys(trips).length > 0) {
@@ -95,23 +95,22 @@ class TripsContainer extends Component {
         getTripsInfo([]);
       }
     }
-    if (prevState.bn !== this.state.bn) {
-      console.log("object2");
-    }
+    if (prevState.bn !== this.state.bn) {}
+     
   }
 
   hClick = () => {
     if (this.state.bn === "up") this.setState({ bn: "down" });
     if (this.state.bn === "down") this.setState({ bn: "up" });
-
     this.props.tripsInfo.sort((a, b) => {
       const time_partsA = a.timeInWay.split(":");
       const A = time_partsA[0] + time_partsA[1];
       const time_partsB = b.timeInWay.split(":");
       const B = time_partsB[0] + time_partsB[1];
-      if (this.state.bn === "up") return B - A;
-      if (this.state.bn === "down") return A - B;
+      if (this.state.bn === "up") return A - B;
+      if (this.state.bn === "down") return B - A;
     });
+    
   };
 
   render() {
@@ -133,10 +132,10 @@ class TripsContainer extends Component {
               {/* на{" "}
             {getDate()} */}
             </h3>
-            <FilterButtons />
-            <button type="button" name={this.state.bn} onClick={this.hClick}>
+            <FilterButtons sort={this.hClick} />
+            {/* <button type="button" name={this.state.bn} onClick={this.hClick}>
               sort
-            </button>
+            </button> */}
             {tripsInfo.map((el, idx) => (
               <TripBox key={idx} trip={el} />
             ))}
