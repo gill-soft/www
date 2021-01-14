@@ -92,6 +92,7 @@ class SearchForm extends Component {
       idWhereTo: this.getId(to.trim()),
       date: format(new Date(date), "yyyy-MM-dd"),
     };
+    console.log(requestData)
     //  ==== при успешном преобразовании введеных данных в id-городов начинаем поиск ==== //
     if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
       const time = Date.now();

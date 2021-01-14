@@ -1,6 +1,6 @@
 import { Types } from '../actionsTypes';
 
-const language = (state = 'EN', { type, payload }) => {
+const language = (state = 'RU', { type, payload }) => {
   switch (type) {
     case Types.CHANGE_LANGUAGE:
       return payload;

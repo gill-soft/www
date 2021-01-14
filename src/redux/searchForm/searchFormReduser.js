@@ -19,7 +19,7 @@ const getErrorStops = (state = "", { type, payload }) => {
       return state;
   }
 };
-const getInputValueFrom = (state = "Lviv", { type, payload }) => {
+const getInputValueFrom = (state = "Львов", { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_FROM:
       return payload;
@@ -28,7 +28,7 @@ const getInputValueFrom = (state = "Lviv", { type, payload }) => {
       return state;
   }
 };
-const getInputValueTo = (state = "Kiev", { type, payload }) => {
+const getInputValueTo = (state = "Киев", { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_TO:
       return payload;
