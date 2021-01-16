@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import ru from "date-fns/locale/ru";
 import en from "date-fns/locale/en-GB";
 import ua from "date-fns/locale/uk";
@@ -19,6 +20,7 @@ import {
   fetchTripsSuccess,
   fetchTripsError,
   fetchTripsStart,
+  changeIsVisible,
 } from "../../redux/trips/tripsActions";
 import styles from "./SearchForm.module.css";
 import Autocomplite from "./Autocomplite";
@@ -71,7 +73,7 @@ class SearchForm extends Component {
 
   searchTrips = (e) => {
     e.preventDefault();
-    const {from, to, date} = this.props
+    const { from, to, date } = this.props;
     this.props.fetchTripsError("");
 
     // ==== проверка на не пустой инпут ==== //
@@ -86,7 +88,8 @@ class SearchForm extends Component {
     // ==== запускаем лоадинг и очищаем ошибки ==== //
     this.props.fetchTripsError("");
     this.props.fetchTripsStart();
-    this.props.fetchTripsSuccess({})
+    this.props.fetchTripsSuccess({});
+    this.props.changeIsVisible(true)
     // ==== преобразование данных для запроса ====
     const requestData = {
       idFrom: this.getId(from.trim()),
@@ -103,7 +106,7 @@ class SearchForm extends Component {
   startSerch = (time, requestData) => {
     getInitialization(requestData)
       .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
-      .catch(({err}) => this.props.fetchTripsError(err))
+      .catch(({ err }) => this.props.fetchTripsError(err))
       .finally(this.props.fetchTripsStart());
   };
 
@@ -123,7 +126,7 @@ class SearchForm extends Component {
             }
           }
         })
-        .catch(({err}) => this.props.fetchTripsError(err))
+        .catch(({ err }) => this.props.fetchTripsError(err))
         .finally(this.props.fetchTripsStart());
     } else if (deltaTime <= 3000) {
       setTimeout(() => {
@@ -139,7 +142,7 @@ class SearchForm extends Component {
               }
             }
           })
-          .catch(({err}) => this.props.fetchTripsError(err))
+          .catch(({ err }) => this.props.fetchTripsError(err))
           .finally(this.props.fetchTripsStart());
       }, 300);
     } else if (deltaTime > 3000 && deltaTime < 5000) {
@@ -156,7 +159,7 @@ class SearchForm extends Component {
               }
             }
           })
-          .catch(({err}) => this.props.fetchTripsError(err))
+          .catch(({ err }) => this.props.fetchTripsError(err))
           .finally(this.props.fetchTripsStart());
       }, 2000);
     } else {
@@ -183,7 +186,7 @@ class SearchForm extends Component {
   // ========== конец поиск маршрутов ==============
 
   render() {
-    const { date, changeInputDate} = this.props;
+    const { date, changeInputDate } = this.props;
     return (
       <div className={`${styles.searchForm} `}>
         <form onSubmit={this.searchTrips} className={`${styles.form} `}>
@@ -197,9 +200,8 @@ class SearchForm extends Component {
             selected={date}
             minDate={new Date()}
             locale={this.dateLocale()}
-            onChange={(date) => changeInputDate( date)}
+            onChange={(date) => changeInputDate(date)}
           />
-
           <Button
             className={styles.searchBtn}
             type="submit"
@@ -230,6 +232,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
   fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
+  changeIsVisible: (bool) => dispatch(changeIsVisible(bool)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

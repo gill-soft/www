@@ -16,6 +16,10 @@ export const getTripsInfo = trips => ({
   type: Types.GET_TRIPS_INFO,
   payload: trips
 })
+export const changeIsVisible = bool => ({
+  type: Types.CHANGE_IS_VISIBLE_TRIPS,
+  payload: bool
+})
 
 
 

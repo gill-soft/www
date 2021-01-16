@@ -9,10 +9,8 @@ import { getTripsInfo } from "../../redux/trips/tripsActions";
 class TripsContainer extends Component {
   state = {
     timeInWay: "up",
-    // departureTime: "up",
-    // arrivalTime: "up",
-    // price: "up",
   };
+
   componentDidUpdate(prevProps, prevState) {
     const { trips, getTripsInfo } = this.props;
 
@@ -78,15 +76,16 @@ class TripsContainer extends Component {
 
   render() {
     const { error, isLoading, tripsInfo, stops, trips } = this.props;
+    console.log(trips);
+
     return (
       <>
         {error && <p>{error}</p>}
         {isLoading && <div>Loading...</div>}
-        {tripsInfo.length > 0 && !error && !isLoading && (
+        {tripsInfo.length > 0 && Object.keys(trips).length > 0 && (
           <div className={styles.container}>
             <h3 className={styles.title}>
-              {" "}
-              Расписание автобусов{" "}
+              Расписание автобусов
               {getLocality(
                 stops,
                 trips.tripContainers[0].request.localityPairs[0][0]

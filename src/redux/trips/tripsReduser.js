@@ -41,6 +41,16 @@ const getTripsInfo = (state = [], { type, payload }) => {
       return state;
   }
 };
+const changeIsVisible = (state = false, {type, payload}) => {
+  switch (type) {
+    case Types.CHANGE_IS_VISIBLE_TRIPS:
+      return payload
+      
+  
+    default:
+      return state
+  }
+}
 
 
 export const tripsReduser = combineReducers({
@@ -48,4 +58,6 @@ export const tripsReduser = combineReducers({
   tripsInfo: getTripsInfo,
   error: tripsError,
   isLoading: tripsStart,
+  isVisibleTrips: changeIsVisible
+
 });

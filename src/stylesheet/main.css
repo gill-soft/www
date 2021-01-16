@@ -47,7 +47,8 @@ img {
 
 .bnd-img {
     padding-top: 40px;
-    background-image: url('../images/bus.jpg');
+    /* background-image: url('../images/bus.jpg'); */
+    background-color: aquamarine;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center 95%;
