@@ -83,7 +83,10 @@ import { getTripsInfo } from "../../redux/trips/tripsActions";
 
 class TripsContainer extends Component {
   state = {
-    bn: "up",
+    timeInWay: "up",
+    departureTime: "up",
+    arrivalTime: "up",
+    price: "up",
   };
   componentDidUpdate(prevProps, prevState) {
     const { trips, getTripsInfo } = this.props;
@@ -95,22 +98,59 @@ class TripsContainer extends Component {
         getTripsInfo([]);
       }
     }
-    if (prevState.bn !== this.state.bn) {}
-     
+    // if (prevState.timeInWay !== this.state.timeInWay) {
+    // }
   }
 
-  hClick = () => {
-    if (this.state.bn === "up") this.setState({ bn: "down" });
-    if (this.state.bn === "down") this.setState({ bn: "up" });
+  filterTimeInWay = () => {
+    const { timeInWay } = this.state;
+    if (timeInWay === "up") this.setState({ timeInWay: "down" });
+    if (timeInWay === "down") this.setState({ timeInWay: "up" });
     this.props.tripsInfo.sort((a, b) => {
       const time_partsA = a.timeInWay.split(":");
-      const A = time_partsA[0] + time_partsA[1];
       const time_partsB = b.timeInWay.split(":");
+      const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
-      if (this.state.bn === "up") return A - B;
-      if (this.state.bn === "down") return B - A;
+
+      return timeInWay === "up" ? A - B : B - A;
     });
-    
+  };
+  filterDepartureTime = () => {
+    const { departureTime } = this.state;
+    if (departureTime === "up") this.setState({ departureTime: "down" });
+    if (departureTime === "down") this.setState({ departureTime: "up" });
+    this.props.tripsInfo.sort((a, b) => {
+      const time_partsA = a.departureDate.split(" ")[1].split(":");
+      const time_partsB = b.departureDate.split(" ")[1].split(":");
+      const A = time_partsA[0] + time_partsA[1];
+      const B = time_partsB[0] + time_partsB[1];
+
+      return departureTime === "up" ? A - B : B - A;
+    });
+  };
+  filterArrivalTime = () => {
+    const { arrivalTime } = this.state;
+    if (arrivalTime === "up") this.setState({ arrivalTime: "down" });
+    if (arrivalTime === "down") this.setState({ arrivalTime: "up" });
+    this.props.tripsInfo.sort((a, b) => {
+      const time_partsA = a.arrivalDate.split(" ")[1].split(":");
+      const time_partsB = b.arrivalDate.split(" ")[1].split(":");
+      const A = time_partsA[0] + time_partsA[1];
+      const B = time_partsB[0] + time_partsB[1];
+
+      return arrivalTime === "up" ? A - B : B - A;
+    });
+  };
+
+  filterPrice = () => {
+    const { price } = this.state;
+    if (price === "up") this.setState({ price: "down" });
+    if (price === "down") this.setState({ price: "up" });
+    this.props.tripsInfo.sort((a, b) => {
+      const A = a.price.amount;
+      const B = b.price.amount;
+      return price === "up" ? A - B : B - A;
+    });
   };
 
   render() {
@@ -132,10 +172,13 @@ class TripsContainer extends Component {
               {/* на{" "}
             {getDate()} */}
             </h3>
-            <FilterButtons sort={this.hClick} />
-            {/* <button type="button" name={this.state.bn} onClick={this.hClick}>
-              sort
-            </button> */}
+            <FilterButtons
+              filterTimeInWay={this.filterTimeInWay}
+              filterDepartureTime={this.filterDepartureTime}
+              filterArrivalTime={this.filterArrivalTime}
+              filterPrice={this.filterPrice}
+            />
+
             {tripsInfo.map((el, idx) => (
               <TripBox key={idx} trip={el} />
             ))}

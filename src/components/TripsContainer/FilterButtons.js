@@ -1,19 +1,33 @@
 import React from "react";
 import styles from "./FilterButtons.module.css";
 
-const FilterButtons = ({ sort }) => {
-  const hlc = () => {
-    sort();
-  };
-  
+const FilterButtons = ({
+  filterTimeInWay,
+  filterDepartureTime,
+  filterArrivalTime,
+  filterPrice,
+}) => {
+  //   const handlefilterTimeInWay = () => {
+  //     filterTimeInWay();
+  //   };
+  //   const handlefilterDepartureTime =()=> {
+  //     filterDepartureTime()
+  //   }
+
   return (
     <div className={styles.filterButtons}>
-      <button type="button" >Время отправления</button>
-      <button type="button" onClick={hlc}>
+      <button type="button" onClick={() => filterDepartureTime()}>
+        Время отправления
+      </button>
+      <button type="button" onClick={() => filterTimeInWay()}>
         Время в пути
       </button>
-      <button type="button">Время прибытия</button>
-      <button type="button" >Стоимость</button>
+      <button type="button" onClick={() => filterArrivalTime()}>
+        Время прибытия
+      </button>
+      <button type="button" onClick={() => filterPrice()}>
+        Стоимость
+      </button>
     </div>
   );
 };
