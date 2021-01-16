@@ -2,30 +2,23 @@ import React from "react";
 import styles from "./FilterButtons.module.css";
 
 const FilterButtons = ({
-  filterTimeInWay,
-  filterDepartureTime,
-  filterArrivalTime,
-  filterPrice,
+  sortTimeInWay,
+  sortDepartureTime,
+  sortArrivalTime,
+  sortPrice,
 }) => {
-  //   const handlefilterTimeInWay = () => {
-  //     filterTimeInWay();
-  //   };
-  //   const handlefilterDepartureTime =()=> {
-  //     filterDepartureTime()
-  //   }
-
   return (
     <div className={styles.filterButtons}>
-      <button type="button" onClick={() => filterDepartureTime()}>
+      <button type="button" onClick={() => sortDepartureTime()}>
         Время отправления
       </button>
-      <button type="button" onClick={() => filterTimeInWay()}>
+      <button type="button" onClick={() => sortTimeInWay()}>
         Время в пути
       </button>
-      <button type="button" onClick={() => filterArrivalTime()}>
+      <button type="button" onClick={() => sortArrivalTime()}>
         Время прибытия
       </button>
-      <button type="button" onClick={() => filterPrice()}>
+      <button type="button" onClick={() => sortPrice()}>
         Стоимость
       </button>
     </div>

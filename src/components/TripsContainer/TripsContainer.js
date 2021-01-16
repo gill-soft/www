@@ -1,8 +1,4 @@
-// import React, { useState, useEffect } from "react";
 import React, { Component } from "react";
-
-// import { format } from "date-fns";
-// import ru from "date-fns/locale/ru";
 import { connect } from "react-redux";
 import TripBox from "./TripBox";
 import FilterButtons from "./FilterButtons";
@@ -10,83 +6,12 @@ import styles from "./TripsContainer.module.css";
 import { getLocality } from "../../services/getInfo";
 import { getTripsInfo } from "../../redux/trips/tripsActions";
 
-// const TripsContainer = ({ trips, isLoading, error, stops, getTripsInfo, tripsInfo }) => {
-//   // const [tripsKey, setTripsKey] = useState([]);
-//   // const [tripsIn, setTripsIn] = useState([])
-//   useEffect(() => {
-//     if (Object.keys(trips).length > 0) {
-//       // setTripsKey(Object.keys(trips.segments));
-//       getTripsInfo(Object.values(trips.segments));
-//     } else {
-//       getTripsInfo([]);
-//     }
-//   }, [trips, getTripsInfo]);
-
-//   // const getDate = () => {
-//   //   // console.log(trips.tripContainers[0].request.dates[0]);
-//   //   const date2 = new Date(trips.tripContainers[0].request.dates[0]);
-//   //   return format(date2, "dd LLLL yyyy", { locale: ru });
-//   // };
-
-//   const hClick = () => {
-//     tripsInfo.sort((a, b) => {
-//       let timeA = a.timeInWay;
-//       let timeB = b.timeInWay;
-
-//       let time_partsA = timeA.split(":");
-//       let millisecond = time_partsA[0] * (60000 * 60) + time_partsA[1] * 60000;
-//       let time_partsB = timeB.split(":");
-//       let millisecondB = time_partsB[0] * (60000 * 60) + time_partsB[1] * 60000;
-//       console.log(millisecond, millisecondB)
-//       return millisecond - millisecondB
-//       // return millisecondB - millisecond
-
-//     });
-//   };
-
-//   useEffect(()=> {
-//     getTripsInfo(tripsInfo)
-//   },[getTripsInfo, tripsInfo])
-//   console.log("object2")
-
-//   return (
-//     <>
-//       {error && <p>{error}</p>}
-//       {isLoading && <div>Loading...</div>}
-//       {tripsInfo.length > 0 && !error && !isLoading && (
-//         <div className={styles.container}>
-//           <h3 className={styles.title}>
-//             {" "}
-//             Расписание автобусов{" "}
-//             {getLocality(
-//               stops,
-//               trips.tripContainers[0].request.localityPairs[0][0]
-//             )} - {getLocality(stops, trips.tripContainers[0].request.localityPairs[0][1])}
-//             {/* на{" "}
-//             {getDate()} */}
-//           </h3>
-//           <FilterButtons />
-//           <button type="button" onClick={hClick}>
-//             sort
-//           </button>
-//           {tripsInfo.map((el, idx) => (
-//             <TripBox key={idx} trip={el} />
-//           ))}
-//           <pre>{JSON.stringify(trips, null, 4)}</pre>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// ==========================================================
-
 class TripsContainer extends Component {
   state = {
     timeInWay: "up",
-    departureTime: "up",
-    arrivalTime: "up",
-    price: "up",
+    // departureTime: "up",
+    // arrivalTime: "up",
+    // price: "up",
   };
   componentDidUpdate(prevProps, prevState) {
     const { trips, getTripsInfo } = this.props;
@@ -98,11 +23,9 @@ class TripsContainer extends Component {
         getTripsInfo([]);
       }
     }
-    // if (prevState.timeInWay !== this.state.timeInWay) {
-    // }
   }
 
-  filterTimeInWay = () => {
+  sortTimeInWay = () => {
     const { timeInWay } = this.state;
     if (timeInWay === "up") this.setState({ timeInWay: "down" });
     if (timeInWay === "down") this.setState({ timeInWay: "up" });
@@ -115,7 +38,7 @@ class TripsContainer extends Component {
       return timeInWay === "up" ? A - B : B - A;
     });
   };
-  filterDepartureTime = () => {
+  sortDepartureTime = () => {
     const { departureTime } = this.state;
     if (departureTime === "up") this.setState({ departureTime: "down" });
     if (departureTime === "down") this.setState({ departureTime: "up" });
@@ -128,7 +51,7 @@ class TripsContainer extends Component {
       return departureTime === "up" ? A - B : B - A;
     });
   };
-  filterArrivalTime = () => {
+  sortArrivalTime = () => {
     const { arrivalTime } = this.state;
     if (arrivalTime === "up") this.setState({ arrivalTime: "down" });
     if (arrivalTime === "down") this.setState({ arrivalTime: "up" });
@@ -142,7 +65,7 @@ class TripsContainer extends Component {
     });
   };
 
-  filterPrice = () => {
+  sortPrice = () => {
     const { price } = this.state;
     if (price === "up") this.setState({ price: "down" });
     if (price === "down") this.setState({ price: "up" });
@@ -173,10 +96,10 @@ class TripsContainer extends Component {
             {getDate()} */}
             </h3>
             <FilterButtons
-              filterTimeInWay={this.filterTimeInWay}
-              filterDepartureTime={this.filterDepartureTime}
-              filterArrivalTime={this.filterArrivalTime}
-              filterPrice={this.filterPrice}
+              sortTimeInWay={this.sortTimeInWay}
+              sortDepartureTime={this.sortDepartureTime}
+              sortArrivalTime={this.sortArrivalTime}
+              sortPrice={this.sortPrice}
             />
 
             {tripsInfo.map((el, idx) => (
