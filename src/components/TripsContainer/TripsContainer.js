@@ -8,7 +8,7 @@ import { getTripsInfo } from "../../redux/trips/tripsActions";
 
 class TripsContainer extends Component {
   state = {
-    timeInWay: "up",
+    bySort: "up",
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -16,7 +16,11 @@ class TripsContainer extends Component {
 
     if (prevProps.trips !== trips) {
       if (Object.keys(trips).length > 0) {
-        getTripsInfo(Object.values(trips.segments));
+        getTripsInfo(Object.values(trips.segments).sort((a, b) => {
+          const A = a.price.amount;
+          const B = b.price.amount;
+          return  A - B;
+        }));
       } else {
         getTripsInfo([]);
       }
@@ -24,53 +28,53 @@ class TripsContainer extends Component {
   }
 
   sortTimeInWay = () => {
-    const { timeInWay } = this.state;
-    if (timeInWay === "up") this.setState({ timeInWay: "down" });
-    if (timeInWay === "down") this.setState({ timeInWay: "up" });
+    const { bySort } = this.state;
+    if (bySort === "up") this.setState({ bySort: "down" });
+    if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
       const time_partsA = a.timeInWay.split(":");
       const time_partsB = b.timeInWay.split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
 
-      return timeInWay === "up" ? A - B : B - A;
+      return bySort === "up" ? A - B : B - A;
     });
   };
   sortDepartureTime = () => {
-    const { departureTime } = this.state;
-    if (departureTime === "up") this.setState({ departureTime: "down" });
-    if (departureTime === "down") this.setState({ departureTime: "up" });
+    const { bySort } = this.state;
+    if (bySort === "up") this.setState({ bySort: "down" });
+    if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
       const time_partsA = a.departureDate.split(" ")[1].split(":");
       const time_partsB = b.departureDate.split(" ")[1].split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
 
-      return departureTime === "up" ? A - B : B - A;
+      return bySort === "up" ? A - B : B - A;
     });
   };
   sortArrivalTime = () => {
-    const { arrivalTime } = this.state;
-    if (arrivalTime === "up") this.setState({ arrivalTime: "down" });
-    if (arrivalTime === "down") this.setState({ arrivalTime: "up" });
+    const { bySort } = this.state;
+    if (bySort === "up") this.setState({ bySort: "down" });
+    if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
       const time_partsA = a.arrivalDate.split(" ")[1].split(":");
       const time_partsB = b.arrivalDate.split(" ")[1].split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
 
-      return arrivalTime === "up" ? A - B : B - A;
+      return bySort === "up" ? A - B : B - A;
     });
   };
 
   sortPrice = () => {
-    const { price } = this.state;
-    if (price === "up") this.setState({ price: "down" });
-    if (price === "down") this.setState({ price: "up" });
+    const { bySort } = this.state;
+    if (bySort === "up") this.setState({ bySort: "down" });
+    if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
       const A = a.price.amount;
       const B = b.price.amount;
-      return price === "up" ? A - B : B - A;
+      return bySort === "up" ? A - B : B - A;
     });
   };
 
