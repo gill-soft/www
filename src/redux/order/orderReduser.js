@@ -11,7 +11,17 @@ const changeIsVisibleOrder = (state=false, {type, payload}) => {
             return state
     }
 }
+const getOrder = (state = {}, {type, payload}) => {
+    switch(type) {
+        case Types.FETCH_ORDER_INFO:
+        return payload
+
+        default:
+            return state
+    }
+}
 
 export const orderReduser = combineReducers({
-    isVisibleOrder: changeIsVisibleOrder
+    isVisibleOrder: changeIsVisibleOrder,
+    order: getOrder
 }) 

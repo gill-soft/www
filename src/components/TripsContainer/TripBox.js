@@ -8,15 +8,12 @@ import { Link } from "react-router-dom";
 // import FormForBuy from "./FormForBuy";
 import { getLocality } from "../../services/getInfo";
 import { changeIsVisible } from "../../redux/trips/tripsActions";
-import { changeIsVisibleOrder } from "../../redux/order/orderActions";
+import { changeIsVisibleOrder, fetchOrderInfo } from "../../redux/order/orderActions";
 
 const TripBox = ({
   trip,
   trips,
-  isLoading,
   stops,
-  from,
-  to,
   changeIsVisible,
   changeIsVisibleOrder,
 }) => {
@@ -41,9 +38,12 @@ const TripBox = ({
   const getPrice = () => {
     return trip.price.amount;
   };
-  const hdl = () => {
-    changeIsVisible(false);
-    changeIsVisibleOrder(true);
+  const hdc = () => {
+    const obj ={
+      from: getDepartureStop(),
+      to:getArrivalStop()
+    }
+    fetchOrderInfo(obj)
   };
   const divRef = useRef()
 
@@ -65,8 +65,8 @@ const TripBox = ({
         
           to={{
             pathname: `/order/departure=${getDepartureStop()}arrival=${getArrivalStop()}`,
-            // state: {from:  useRef()}
           }}
+          onClick={hdc}
         >
           {" "}
           Заказвть
@@ -88,6 +88,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeIsVisible: (bool) => dispatch(changeIsVisible(bool)),
   changeIsVisibleOrder: (bool) => dispatch(changeIsVisibleOrder(bool)),
+  fetchOrderInfo: obj => dispatch(fetchOrderInfo(obj))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripBox);

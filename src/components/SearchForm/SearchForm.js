@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import ru from "date-fns/locale/ru";
 import en from "date-fns/locale/en-GB";
 import ua from "date-fns/locale/uk";
@@ -9,7 +8,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import Button from "@material-ui/core/Button";
-import { searchTrips, getInitialization } from "../../services/api";
 import {
   inputValueFrom,
   inputValueTo,
@@ -60,10 +58,9 @@ class SearchForm extends Component {
     if (lang === "UA") return ua;
     if (lang === "PL") return pl;
   };
-  // ==========================================
-  // ========== поиск маршрутов ==============
+ 
 
-  searchTrips = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { from, to, date } = this.props;
     this.props.fetchTripsError("");
@@ -77,112 +74,22 @@ class SearchForm extends Component {
       this.setState({ errorTo: true });
       return;
     }
-    //  ==== переход на страницу поездок ==== //
-    this.props.history.push("/trips");
     // ==== запускаем лоадинг и очищаем ошибки ==== //
     this.props.fetchTripsError("");
     this.props.fetchTripsStart();
     this.props.fetchTripsSuccess({});
-    // ==== преобразование данных для запроса ====
-    const requestData = {
-      idFrom: this.getId(from.trim()),
-      idWhereTo: this.getId(to.trim()),
-      date: format(new Date(date), "yyyy-MM-dd"),
-    };
-    //  ==== при успешном преобразовании введеных данных в id-городов начинаем поиск ==== //
-    if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
-      const time = Date.now();
-      this.startSerch(time, requestData);
-    }
-  };
-  //  ==== инициализация поиска ==== //
-  startSerch = (time, requestData) => {
-    getInitialization(requestData)
-      .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
-      .catch(({ err }) => this.props.fetchTripsError(err))
-      .finally(this.props.fetchTripsStart());
-  };
 
-  // ==== цикл поиска результатов поездки ==== //
-  searchRouts = (id, time, requestData) => {
-    let deltaTime = Date.now() - time;
-    if (deltaTime <= 100) {
-      searchTrips(id)
-        .then(({ data }) => {
-          if (data.searchId) {
-            this.searchRouts(data.searchId, time, requestData);
-          } else {
-            if (data.segments) {
-              this.props.fetchTripsSuccess(data);
-            } else {
-              this.startSerch(time, requestData);
-            }
-          }
-        })
-        .catch(({ err }) => this.props.fetchTripsError(err))
-        .finally(this.props.fetchTripsStart());
-    } else if (deltaTime <= 3000) {
-      setTimeout(() => {
-        searchTrips(id)
-          .then(({ data }) => {
-            if (data.searchId) {
-              this.searchRouts(data.searchId, time, requestData);
-            } else {
-              if (data.segments) {
-                this.props.fetchTripsSuccess(data);
-              } else {
-                this.startSerch(time, requestData);
-              }
-            }
-          })
-          .catch(({ err }) => this.props.fetchTripsError(err))
-          .finally(this.props.fetchTripsStart());
-      }, 300);
-    } else if (deltaTime > 3000 && deltaTime < 5000) {
-      setTimeout(() => {
-        searchTrips(id)
-          .then(({ data }) => {
-            if (data.searchId) {
-              this.searchRouts(data.searchId, time, requestData);
-            } else {
-              if (data.segments) {
-                this.props.fetchTripsSuccess(data);
-              } else {
-                this.startSerch(time, requestData);
-              }
-            }
-          })
-          .catch(({ err }) => this.props.fetchTripsError(err))
-          .finally(this.props.fetchTripsStart());
-      }, 2000);
-    } else {
-      return this.props.fetchTripsError("нет поездок");
-    }
-  };
-
-  //  ==== получение id города из названия === //
-  getId = (val) => {
-    const { lang, stops } = this.props;
-    const [result] = stops.filter((item) =>
-      item.type === "LOCALITY"
-        ? (item.name[`${lang}`] || item.name["EN"]).toLowerCase() ===
-          val.toLowerCase().trim()
-        : null
+    //  ==== переход на страницу поездок ==== //
+    this.props.history.push(
+      `/trips?from=${from}&to=${to}&date=${format(new Date(date), "yyyy-MM-dd")}`
     );
-    if (result) {
-      return result.id;
-    } else {
-      this.props.fetchTripsError("уточните параметры поиска");
-      return;
-    }
   };
-  // ========== конец поиск маршрутов ==============
 
   render() {
     const { date, changeInputDate } = this.props;
     return (
       <div className={`${styles.searchForm}`}>
-        <form onSubmit={this.searchTrips} className={`${styles.form} `}>
+        <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
           <Autocomplite id="from" error={this.state.errorFrom} />
           {/* <button type="button" className="change" onClick={this.changeButton}> */}
           <Arrow onClick={this.changeButton} />
@@ -210,7 +117,6 @@ class SearchForm extends Component {
 }
 const mapStateToProps = (state) => ({
   lang: state.language,
-  stops: state.searchForm.stops,
   from: state.searchForm.from,
   to: state.searchForm.to,
   date: state.searchForm.date,

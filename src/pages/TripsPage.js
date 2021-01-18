@@ -1,21 +1,53 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import TripBox from "./TripBox";
-// import FilterButtons from "./FilterButtons";
 import styles from "../components/TripsContainer/TripsContainer.module.css";
-import { getLocality } from "../services/getInfo";
-import { getTripsInfo } from "../redux/trips/tripsActions";
+import {
+  fetchTripsError,
+  fetchTripsStart,
+  fetchTripsSuccess,
+  getTripsInfo,
+} from "../redux/trips/tripsActions";
 import TripBox from "../components/TripsContainer/TripBox";
 import FilterButtons from "../components/TripsContainer/FilterButtons";
 import SearchForm from "../components/SearchForm/SearchForm";
+import queryString from "query-string";
+import { getInitialization, searchTrips } from "../services/api";
 
 class TripsPage extends Component {
   state = {
     bySort: "up",
   };
 
+  componentDidMount() {
+    const parsed = queryString.parse(this.props.location.search);
+    // ==== преобразование данных для запроса ====
+    const requestData = {
+      idFrom: this.getId(parsed.from.trim()),
+      idWhereTo: this.getId(parsed.to.trim()),
+      date: parsed.date,
+    };
+    //  ==== при успешном преобразовании введеных данных в id-городов начинаем поиск ==== //
+    if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
+      const time = Date.now();
+      this.startSerch(time, requestData);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { trips, getTripsInfo } = this.props;
+    const parsed = queryString.parse(this.props.location.search);
+
+    if (prevProps.location.search !== this.props.location.search) {
+      const requestData = {
+        idFrom: this.getId(parsed.from.trim()),
+        idWhereTo: this.getId(parsed.to.trim()),
+        date: parsed.date,
+      };
+      if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
+        const time = Date.now();
+        this.startSerch(time, requestData);
+      }
+    }
 
     if (prevProps.trips !== trips) {
       if (Object.keys(trips).length > 0) {
@@ -31,6 +63,86 @@ class TripsPage extends Component {
       }
     }
   }
+
+  //  ==== инициализация поиска ==== //
+  startSerch = (time, requestData) => {
+    getInitialization(requestData)
+      .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
+      .catch(({ err }) => this.props.fetchTripsError(err))
+      .finally(this.props.fetchTripsStart());
+  };
+  // ==== цикл поиска результатов поездки ==== //
+  searchRouts = (id, time, requestData) => {
+    let deltaTime = Date.now() - time;
+    if (deltaTime <= 100) {
+      searchTrips(id)
+        .then(({ data }) => {
+          if (data.searchId) {
+            this.searchRouts(data.searchId, time, requestData);
+          } else {
+            if (data.segments) {
+              this.props.fetchTripsSuccess(data);
+            } else {
+              this.startSerch(time, requestData);
+            }
+          }
+        })
+        .catch(({ err }) => this.props.fetchTripsError(err))
+        .finally(this.props.fetchTripsStart());
+    } else if (deltaTime <= 3000) {
+      setTimeout(() => {
+        searchTrips(id)
+          .then(({ data }) => {
+            if (data.searchId) {
+              this.searchRouts(data.searchId, time, requestData);
+            } else {
+              if (data.segments) {
+                this.props.fetchTripsSuccess(data);
+              } else {
+                this.startSerch(time, requestData);
+              }
+            }
+          })
+          .catch(({ err }) => this.props.fetchTripsError(err))
+          .finally(this.props.fetchTripsStart());
+      }, 300);
+    } else if (deltaTime > 3000 && deltaTime < 5000) {
+      setTimeout(() => {
+        searchTrips(id)
+          .then(({ data }) => {
+            if (data.searchId) {
+              this.searchRouts(data.searchId, time, requestData);
+            } else {
+              if (data.segments) {
+                this.props.fetchTripsSuccess(data);
+              } else {
+                this.startSerch(time, requestData);
+              }
+            }
+          })
+          .catch(({ err }) => this.props.fetchTripsError(err))
+          .finally(this.props.fetchTripsStart());
+      }, 2000);
+    } else {
+      return this.props.fetchTripsError("нет поездок");
+    }
+  };
+  //  ==== получение id города из названия === //
+  getId = (val) => {
+    const { lang, stops } = this.props;
+    const [result] = stops.filter((item) =>
+      item.type === "LOCALITY"
+        ? (item.name[`${lang}`] || item.name["EN"]).toLowerCase() ===
+          val.toLowerCase().trim()
+        : null
+    );
+    if (result) {
+      return result.id;
+    } else {
+      this.props.fetchTripsError("уточните параметры поиска");
+      return;
+    }
+  };
 
   sortTimeInWay = () => {
     const { bySort } = this.state;
@@ -83,21 +195,22 @@ class TripsPage extends Component {
     });
   };
 
+  getLocality = (key) => {
+    const parsed = queryString.parse(this.props.location.search);
+    return parsed[`${key}`];
+  };
+
   render() {
-    console.log("object");
-    const { error, isLoading, tripsInfo, stops, trips, history } = this.props;
+    const { error, isLoading, tripsInfo, trips, history } = this.props;
     return (
       <>
         <SearchForm history={history} />
         {isLoading && <div>Loading...</div>}
         {error && <p>{error}</p>}
-        {tripsInfo.length > 0 && Object.keys(trips).length > 0 && (
+        {Object.keys(trips).length > 0 && (
           <div className={styles.container}>
             <h3 className={styles.title}>
-              Расписание автобусов{" "}
-              {getLocality(stops, trips.tripContainers[0].request.localityPairs[0][0])} -{" "}
-              {getLocality(stops, trips.tripContainers[0].request.localityPairs[0][1])}
-              
+              Расписание автобусов {this.getLocality("from")} - {this.getLocality("to")}
             </h3>
             <FilterButtons
               sortTimeInWay={this.sortTimeInWay}
@@ -121,15 +234,16 @@ const mapStateToProps = (state) => ({
   trips: state.trips.trips,
   isLoading: state.trips.isLoading,
   error: state.trips.error,
-  // from: state.searchForm.from,
-  // to: state.searchForm.to,
-  // date: state.searchForm.date,
   stops: state.searchForm.stops,
+  lang: state.language,
   tripsInfo: state.trips.tripsInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getTripsInfo: (trips) => dispatch(getTripsInfo(trips)),
+  fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
+  fetchTripsError: (err) => dispatch(fetchTripsError(err)),
+  fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);
