@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { format } from "date-fns";
 import styles from "./TripBox.module.css";
@@ -10,8 +10,16 @@ import { getLocality } from "../../services/getInfo";
 import { changeIsVisible } from "../../redux/trips/tripsActions";
 import { changeIsVisibleOrder } from "../../redux/order/orderActions";
 
-const TripBox = ({ trip, trips, isLoading, stops, from, to, changeIsVisible, changeIsVisibleOrder }) => {
-  // const [isForm, setIsForm] = useState(false);
+const TripBox = ({
+  trip,
+  trips,
+  isLoading,
+  stops,
+  from,
+  to,
+  changeIsVisible,
+  changeIsVisibleOrder,
+}) => {
 
   const getDepartureStop = () => {
     const key = trip.departure.id;
@@ -33,13 +41,17 @@ const TripBox = ({ trip, trips, isLoading, stops, from, to, changeIsVisible, cha
   const getPrice = () => {
     return trip.price.amount;
   };
-const hdl = () => {
- changeIsVisible(false)
- changeIsVisibleOrder(true)
-}
+  const hdl = () => {
+    changeIsVisible(false);
+    changeIsVisibleOrder(true);
+  };
+  const divRef = useRef()
+
   return (
     <div>
-      <div className={styles.tripBox}>
+    {console.log(divRef)}
+
+      <div className={styles.tripBox} ref={divRef}>
         <h5>{trip.route.name.EN}</h5>
         <p>{getLocality(stops, trips.tripContainers[0].request.localityPairs[0][0])}</p>
         <p>{getDepartureStop()}</p>
@@ -49,9 +61,17 @@ const hdl = () => {
         <p>Время прибытия {getArrivalTime()}</p>
         <p>Время в пути {getTimeInWay()}</p>
         <p>Цена {getPrice()}</p>
-        <Link to={{ pathname: `/order` }}> Заказвть</Link>
+        <Link
+        
+          to={{
+            pathname: `/order/departure=${getDepartureStop()}arrival=${getArrivalStop()}`,
+            // state: {from:  useRef()}
+          }}
+        >
+          {" "}
+          Заказвть
+        </Link>
         {/* <button onClick={hdl}>BUY!</button> */}
-        {/* {isForm && <FormForBuy />} */}
       </div>
 
       {/* <pre>{JSON.stringify(trips, null, 2)}</pre> */}
@@ -68,7 +88,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeIsVisible: (bool) => dispatch(changeIsVisible(bool)),
   changeIsVisibleOrder: (bool) => dispatch(changeIsVisibleOrder(bool)),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripBox);

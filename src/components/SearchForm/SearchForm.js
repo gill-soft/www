@@ -10,7 +10,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import Button from "@material-ui/core/Button";
 import { searchTrips, getInitialization } from "../../services/api";
-import { fetchStops } from "../../redux/searchForm/searchFormOperation";
 import {
   inputValueFrom,
   inputValueTo,
@@ -20,7 +19,6 @@ import {
   fetchTripsSuccess,
   fetchTripsError,
   fetchTripsStart,
-  changeIsVisible,
 } from "../../redux/trips/tripsActions";
 import styles from "./SearchForm.module.css";
 import Autocomplite from "./Autocomplite";
@@ -28,15 +26,9 @@ import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 
 class SearchForm extends Component {
   state = {
-    // inputDate: new Date(),
     errorFrom: false,
     errorTo: false,
   };
-
-  //  ==== получаем все остановки через redux ==== //
-  componentDidMount() {
-    this.props.fetchStops();
-  }
 
   // ====
   componentDidUpdate(prevProps, prevState) {
@@ -76,12 +68,6 @@ class SearchForm extends Component {
     const { from, to, date } = this.props;
     this.props.fetchTripsError("");
 
-
-
-console.log(this.props.history)
-this.props.history.push('/')
-
-
     // ==== проверка на не пустой инпут ==== //
     if (!this.props.from) {
       this.setState({ errorFrom: true });
@@ -91,11 +77,12 @@ this.props.history.push('/')
       this.setState({ errorTo: true });
       return;
     }
+    //  ==== переход на страницу поездок ==== //
+    this.props.history.push("/trips");
     // ==== запускаем лоадинг и очищаем ошибки ==== //
     this.props.fetchTripsError("");
     this.props.fetchTripsStart();
     this.props.fetchTripsSuccess({});
-    this.props.changeIsVisible(true)
     // ==== преобразование данных для запроса ====
     const requestData = {
       idFrom: this.getId(from.trim()),
@@ -194,7 +181,7 @@ this.props.history.push('/')
   render() {
     const { date, changeInputDate } = this.props;
     return (
-      <div className={`${styles.searchForm} `}>
+      <div className={`${styles.searchForm}`}>
         <form onSubmit={this.searchTrips} className={`${styles.form} `}>
           <Autocomplite id="from" error={this.state.errorFrom} />
           {/* <button type="button" className="change" onClick={this.changeButton}> */}
@@ -217,7 +204,6 @@ this.props.history.push('/')
             Search
           </Button>
         </form>
-        {/* <pre>{JSON.stringify(this.props.trips, null, 2)}</pre> */}
       </div>
     );
   }
@@ -228,17 +214,14 @@ const mapStateToProps = (state) => ({
   from: state.searchForm.from,
   to: state.searchForm.to,
   date: state.searchForm.date,
-  trips: state.trips.trips,
 });
 const mapDispatchToProps = (dispatch) => ({
-  fetchStops: () => dispatch(fetchStops()),
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
   changeInputTo: (value) => dispatch(inputValueTo(value)),
   changeInputDate: (date) => dispatch(inputValueDate(date)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
   fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
-  changeIsVisible: (bool) => dispatch(changeIsVisible(bool)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

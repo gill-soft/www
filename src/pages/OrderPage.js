@@ -1,7 +1,8 @@
 import React from "react";
 import SearchForm from "../components/SearchForm/SearchForm";
 
-const Order = ({history}) => {
+const OrderPage = ({history, match}) => {
+  // console.log(match.params)
   return (
     <div>
       <SearchForm history ={history}/>
@@ -10,4 +11,4 @@ const Order = ({history}) => {
   );
 };
 
-export default Order;
+export default OrderPage;
