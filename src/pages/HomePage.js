@@ -4,10 +4,10 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/TripsContainer/FormForBuy";
 import TripsContainer from "../components/TripsContainer/TripsContainer";
 
-const HomePage = ({ isVisibleTrips, isVisibleOrder }) => {
+const HomePage = ({ isVisibleTrips, isVisibleOrder, history }) => {
   return (
     <div>
-      <SearchForm />
+      <SearchForm history ={history}/>
       {isVisibleTrips && <TripsContainer />}
       {isVisibleOrder && <FormForBuy />}
     </div>

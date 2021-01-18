@@ -49,8 +49,8 @@ const hdl = () => {
         <p>Время прибытия {getArrivalTime()}</p>
         <p>Время в пути {getTimeInWay()}</p>
         <p>Цена {getPrice()}</p>
-        {/* <Link to={{ pathname: `/order/from=${from}&to=${to}` }}> Заказвть</Link> */}
-        <button onClick={hdl}>BUY!</button>
+        <Link to={{ pathname: `/order` }}> Заказвть</Link>
+        {/* <button onClick={hdl}>BUY!</button> */}
         {/* {isForm && <FormForBuy />} */}
       </div>
 

@@ -1,10 +1,11 @@
 import React from "react";
 import SearchForm from "../components/SearchForm/SearchForm";
 
-const Order = () => {
+const Order = ({history}) => {
   return (
     <div>
-      <p>lorem300</p>
+      <SearchForm history ={history}/>
+      <p >lorem300</p>
     </div>
   );
 };

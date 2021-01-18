@@ -80,7 +80,7 @@ class TripsContainer extends Component {
 
   render() {
     const { error, isLoading, tripsInfo, stops, trips } = this.props;
-    console.log(trips);
+    console.log(this.props.location);
 
     return (
       <>
@@ -89,7 +89,7 @@ class TripsContainer extends Component {
         {tripsInfo.length > 0 && Object.keys(trips).length > 0 && (
           <div className={styles.container}>
             <h3 className={styles.title}>
-              Расписание автобусов
+              Расписание автобусов{' '}
               {getLocality(
                 stops,
                 trips.tripContainers[0].request.localityPairs[0][0]

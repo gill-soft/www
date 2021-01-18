@@ -76,6 +76,12 @@ class SearchForm extends Component {
     const { from, to, date } = this.props;
     this.props.fetchTripsError("");
 
+
+
+console.log(this.props.history)
+this.props.history.push('/')
+
+
     // ==== проверка на не пустой инпут ==== //
     if (!this.props.from) {
       this.setState({ errorFrom: true });
