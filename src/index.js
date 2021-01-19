@@ -3,12 +3,9 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import "./stylesheet/main.css";
-
-import SearchForm from "./components/SearchForm/SearchForm";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 import LanguageSelect from "./components/Language/LanguageSelect";
-import TripsContainer from "./components/TripsContainer/TripsContainer";
 import App from './components/App'
 
 ReactDOM.render(

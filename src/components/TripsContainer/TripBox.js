@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { format } from "date-fns";
 import styles from "./TripBox.module.css";
@@ -16,8 +16,8 @@ const TripBox = ({
   stops,
   changeIsVisible,
   changeIsVisibleOrder,
+  fetchOrderInfo,
 }) => {
-
   const getDepartureStop = () => {
     const key = trip.departure.id;
     return trips.localities[`${key}`].name["UA"];
@@ -38,20 +38,20 @@ const TripBox = ({
   const getPrice = () => {
     return trip.price.amount;
   };
-  const hdc = () => {
-    const obj ={
+  const handleClick = () => {
+    const obj = {
       from: getDepartureStop(),
-      to:getArrivalStop()
-    }
-    fetchOrderInfo(obj)
+      to: getArrivalStop(),
+      departureDate: trip.departureDate,
+      arrivalDate: trip.arrivalDate,
+      price: trip.price.amount,
+    };
+    fetchOrderInfo(obj);
   };
-  const divRef = useRef()
 
   return (
     <div>
-    {console.log(divRef)}
-
-      <div className={styles.tripBox} ref={divRef}>
+      <div className={styles.tripBox}>
         <h5>{trip.route.name.EN}</h5>
         <p>{getLocality(stops, trips.tripContainers[0].request.localityPairs[0][0])}</p>
         <p>{getDepartureStop()}</p>
@@ -62,13 +62,11 @@ const TripBox = ({
         <p>Время в пути {getTimeInWay()}</p>
         <p>Цена {getPrice()}</p>
         <Link
-        
           to={{
-            pathname: `/order/departure=${getDepartureStop()}arrival=${getArrivalStop()}`,
+            pathname: `/order`,
           }}
-          onClick={hdc}
+          onClick={handleClick}
         >
-          {" "}
           Заказвть
         </Link>
         {/* <button onClick={hdl}>BUY!</button> */}
@@ -88,7 +86,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeIsVisible: (bool) => dispatch(changeIsVisible(bool)),
   changeIsVisibleOrder: (bool) => dispatch(changeIsVisibleOrder(bool)),
-  fetchOrderInfo: obj => dispatch(fetchOrderInfo(obj))
+  fetchOrderInfo: (obj) => dispatch(fetchOrderInfo(obj)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripBox);

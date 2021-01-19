@@ -21,11 +21,13 @@ import {
 import styles from "./SearchForm.module.css";
 import Autocomplite from "./Autocomplite";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
+import { fetchAmountPassanger } from "../../redux/order/orderActions";
 
 class SearchForm extends Component {
   state = {
     errorFrom: false,
     errorTo: false,
+    value: "",
   };
 
   // ====
@@ -41,6 +43,10 @@ class SearchForm extends Component {
       }
     }
   }
+  // ==== управление инпутом пассажиров ====\\
+  handleChange = ({ target }) => {
+    this.setState({ value: target.value });
+  };
 
   // ==== поменять отправку и прибытие местами ==== //
   changeButton = () => {
@@ -58,7 +64,6 @@ class SearchForm extends Component {
     if (lang === "UA") return ua;
     if (lang === "PL") return pl;
   };
- 
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -85,6 +90,14 @@ class SearchForm extends Component {
     );
   };
 
+  handleBlur = () => {
+    const arrPass = [];
+    for (let i = 1; i <= this.state.value; i++) {
+      arrPass.push(`passanger${i}`);
+    }
+    this.props.fetchAmountPassanger(arrPass)
+  };
+
   render() {
     const { date, changeInputDate } = this.props;
     return (
@@ -101,6 +114,14 @@ class SearchForm extends Component {
             minDate={new Date()}
             locale={this.dateLocale()}
             onChange={(date) => changeInputDate(date)}
+          />
+          <input
+            className={styles.inpPsng}
+            name="passangers"
+            value={this.state.value}
+            placeholder="passanger"
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}
           />
           <Button
             className={styles.searchBtn}
@@ -128,6 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
   fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
+  fetchAmountPassanger: (arr) => dispatch(fetchAmountPassanger(arr)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

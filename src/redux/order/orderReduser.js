@@ -21,7 +21,29 @@ const getOrder = (state = {}, {type, payload}) => {
     }
 }
 
+const getAmountPassangers =( state= [], {type, payload}) => {
+    switch(type){
+        case Types.AMOUNT_PASSANGER:
+            return payload
+
+            default:
+                return state
+    }
+}
+
+const getInfoPassangers =( state= [], {type, payload}) => {
+    switch(type){
+        case Types.SEND_INFO_PASSANGER:
+            return [...state, payload]
+
+            default:
+                return state
+    }
+}
+
 export const orderReduser = combineReducers({
     isVisibleOrder: changeIsVisibleOrder,
-    order: getOrder
+    order: getOrder,
+    amountPassangers: getAmountPassangers,
+    infoPassangers: getInfoPassangers,
 }) 
