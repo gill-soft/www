@@ -7,7 +7,6 @@ import FormForBuy from "../components/TripsContainer/FormForBuy";
 // import { getForm } from "../services/getForm";
 
 const OrderPage = ({ history, amountPassangers}) => {
-  console.log(amountPassangers)
   return (
     <div>
       <SearchForm history={history} />
