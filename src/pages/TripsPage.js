@@ -12,6 +12,7 @@ import FilterButtons from "../components/TripsContainer/FilterButtons";
 import SearchForm from "../components/SearchForm/SearchForm";
 import queryString from "query-string";
 import { getInitialization, searchTrips } from "../services/api";
+import { fetchAmountPassanger } from "../redux/order/orderActions";
 
 class TripsPage extends Component {
   state = {
@@ -20,6 +21,13 @@ class TripsPage extends Component {
 
   componentDidMount() {
     const parsed = queryString.parse(this.props.location.search);
+    const arrPass = [];
+    for (let i = 1; i <= parsed.passengers; i++) {
+      arrPass.push(`passanger${i}`);
+    }
+
+    this.props.fetchAmountPassanger(arrPass);
+
     // ==== преобразование данных для запроса ====
     const requestData = {
       idFrom: this.getId(parsed.from.trim()),
@@ -244,6 +252,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
   fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
+  fetchAmountPassanger: val => dispatch(fetchAmountPassanger(val))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

@@ -8,10 +8,14 @@ class FormForBuy extends Component {
 
   hdls = (e) => {
     e.preventDefault();
+    
   };
   handleChange = (el, { target }) => {
     this.setState((prev) => ({ [el]: { ...prev[`${el}`], [`${target.name}`]: target.value } }));
   };
+  handleChangeEmail = ({target}) => {
+    this.setState({[target.name]: target.value})
+  }
 
   render() {
     // console.log(this.state);
@@ -38,7 +42,7 @@ class FormForBuy extends Component {
               </div>
             );
           })}
-          <input tepe="email" name="email" onChange={this.handleChange} />
+          <input tepe="email" name="email" onChange={this.handleChangeEmail} />
           <button type="submit">Buy</button>
         </form>
       </div>

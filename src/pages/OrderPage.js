@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
-import PassengersInfo from "../components/Order/PassengersInfo";
+// import PassengersInfo from "../components/Order/PassengersInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/TripsContainer/FormForBuy";
 // import { getForm } from "../services/getForm";

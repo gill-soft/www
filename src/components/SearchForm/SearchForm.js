@@ -21,13 +21,12 @@ import {
 import styles from "./SearchForm.module.css";
 import Autocomplite from "./Autocomplite";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
-import { fetchAmountPassanger } from "../../redux/order/orderActions";
+import AmountPassanger from "./AmountPassanger";
 
 class SearchForm extends Component {
   state = {
     errorFrom: false,
     errorTo: false,
-    value: "",
   };
 
   // ====
@@ -43,10 +42,6 @@ class SearchForm extends Component {
       }
     }
   }
-  // ==== управление инпутом пассажиров ====\\
-  handleChange = ({ target }) => {
-    this.setState({ value: target.value });
-  };
 
   // ==== поменять отправку и прибытие местами ==== //
   changeButton = () => {
@@ -67,7 +62,7 @@ class SearchForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { from, to, date } = this.props;
+    const { from, to, date, amount } = this.props;
     this.props.fetchTripsError("");
 
     // ==== проверка на не пустой инпут ==== //
@@ -86,16 +81,11 @@ class SearchForm extends Component {
 
     //  ==== переход на страницу поездок ==== //
     this.props.history.push(
-      `/trips?from=${from}&to=${to}&date=${format(new Date(date), "yyyy-MM-dd")}`
+      `/trips?from=${from}&to=${to}&date=${format(
+        new Date(date),
+        "yyyy-MM-dd"
+      )}&passengers=${amount}`
     );
-  };
-
-  handleBlur = () => {
-    const arrPass = [];
-    for (let i = 1; i <= this.state.value; i++) {
-      arrPass.push(`passanger${i}`);
-    }
-    this.props.fetchAmountPassanger(arrPass)
   };
 
   render() {
@@ -115,14 +105,7 @@ class SearchForm extends Component {
             locale={this.dateLocale()}
             onChange={(date) => changeInputDate(date)}
           />
-          <input
-            className={styles.inpPsng}
-            name="passangers"
-            value={this.state.value}
-            placeholder="passanger"
-            onChange={this.handleChange}
-            onBlur={this.handleBlur}
-          />
+          <AmountPassanger onClose={this.closeModal} />
           <Button
             className={styles.searchBtn}
             type="submit"
@@ -141,6 +124,8 @@ const mapStateToProps = (state) => ({
   from: state.searchForm.from,
   to: state.searchForm.to,
   date: state.searchForm.date,
+  amount: state.searchForm.amountPassanger,
+
 });
 const mapDispatchToProps = (dispatch) => ({
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
@@ -149,7 +134,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
   fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
-  fetchAmountPassanger: (arr) => dispatch(fetchAmountPassanger(arr)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
