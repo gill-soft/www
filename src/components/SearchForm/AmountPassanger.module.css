@@ -1,8 +1,8 @@
-.amountPass {
+/* .amountPass {
     position: relative;
-}
+} */
 
-.inputAmount {
+/* .inputAmount {
     padding: 16px 10px;
     margin-top: 10px;
     width: 200px;
@@ -36,13 +36,32 @@
     border: 3px solid var(--color-secondary);
     border-top: none;
     border-radius: 0 0 4px 4px;
+} */
+
+.amountBox {
+    width: 200px;
+    margin-top: 8px;
+    padding: 15px 5px;
+    display: flex;
+    color: #ffffff;
+    font-size: 18px;
+    background: transparent;
+    border: 2px solid var(--color-secondary);
+    border-radius: 4px;
 }
-.button {
+.amountBox > p {
+    margin-right: 5px;
+}
+.amountBox > span {
+    text-align: center;
     width: 20px;
-    height: 20px;
+}
+
+.button {
+    width: 24px;
+    height: 24px;
+    margin: 0 5px;
     border: none;
     background: transparent;
-    color:#ffffff;
-    font-size: 18px;
-    font-weight: 900;
+    cursor: pointer;
 }

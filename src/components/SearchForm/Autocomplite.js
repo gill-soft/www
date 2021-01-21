@@ -33,6 +33,7 @@ const StyledTextField = styled(TextField)`
   .MuiIconButton-root {
     color: var(--color-secondary);
   }
+ 
 `;
 
 const Autocomplite = ({
@@ -70,11 +71,13 @@ const Autocomplite = ({
   );
   const getOptions = useCallback(
     (stops) => {
-
       return stops.reduce((newArr, item) => {
         if (item.type === "LOCALITY") {
           newArr.push(
-            `${item.name[`${lang}`] || item.name["EN"]} - ${getFull(item, item.parent.id)} `
+            `${item.name[`${lang}`] || item.name["EN"]} - ${getFull(
+              item,
+              item.parent.id
+            )} `
           );
         }
         return newArr;
@@ -114,7 +117,7 @@ const Autocomplite = ({
         renderInput={(params) => (
           <StyledTextField
             {...params}
-            label={id==='from' ? "откуда" : "куда"}
+            label={id === "from" ? "откуда" : "куда"}
             onBlur={(event) => handleInputChange(event)}
             margin="normal"
             variant="outlined"
