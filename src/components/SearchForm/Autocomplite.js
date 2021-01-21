@@ -114,7 +114,7 @@ const Autocomplite = ({
         renderInput={(params) => (
           <StyledTextField
             {...params}
-            label={id}
+            label={id==='from' ? "откуда" : "куда"}
             onBlur={(event) => handleInputChange(event)}
             margin="normal"
             variant="outlined"

@@ -74,7 +74,7 @@ class SearchForm extends Component {
       this.setState({ errorTo: true });
       return;
     }
-    // ==== запускаем лоадинг и очищаем ошибки ==== //
+    // ==== запускаем лоадинг, очищаем ошибки и данные предыдущего запроса ==== //
     this.props.fetchTripsError("");
     this.props.fetchTripsStart();
     this.props.fetchTripsSuccess({});
@@ -95,7 +95,7 @@ class SearchForm extends Component {
         <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
           <Autocomplite id="from" error={this.state.errorFrom} />
           {/* <button type="button" className="change" onClick={this.changeButton}> */}
-          <Arrow onClick={this.changeButton} />
+          <Arrow  onClick={this.changeButton} />
           <Autocomplite id="to" error={this.state.errorTo} />
           <DatePicker
             className={styles.datePicker}

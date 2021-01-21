@@ -1,58 +1,48 @@
-.modal {
-    width: 200px;
-    /* box-shadow: 0 0 15px #ffffff; */
-     /* position: fixed;  */
-    /* top: 360px; 
-    right: 340px; */
-    /* margin: 340px; */
-    background-color: #ffffff;
-  }
-  /* .first{
-      position: relative;
-  } */
-  .backdrop {
-    /* position: fixed; */
-    position: absolute;
-    top: 45px;
-    left: 1px;
-    /* width: 100vw; */
-    /* height: 100vh; */
-    background-color: rgba(0, 0, 0, 0.5);
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: center; */
-    z-index: 999;
-  }
-
-  .amountPass {
+.amountPass {
     position: relative;
-    
-    /* padding: 14px 10px; */
 }
 
-.amountInput:hover {
+.inputAmount {
+    padding: 16px 10px;
+    margin-top: 10px;
+    width: 200px;
+    color: #ffffff;
+    font-size: 18px;
+    border: 2px solid var(--color-secondary);
+    border-radius: 4px;
+    background: transparent;
+}
+
+.inputAmount:hover {
     border-width: 3px;
 }
 
-.amountInput:focus {
+.inputAmount:focus {
     border-width: 3px;
     border-bottom: none;
     border-radius: 4px 4px 0 0;
 }
 
-.amountInput {
-    padding: 14px 10px;
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    font-size: 18px;
+.addBox {
+    position: absolute;
+    top: 64px;
+    left: 0px;
     width: 200px;
-    border: 2px solid var(--color-secondary);
-    border-radius: 4px;
-    background: transparent;
-
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    border: 3px solid var(--color-secondary);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
 }
-
-.inpPsng {
-    width: 100px;
+.button {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    color:#ffffff;
+    font-size: 18px;
+    font-weight: 900;
 }

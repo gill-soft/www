@@ -16,8 +16,12 @@ class AmountPassanger extends Component {
   }
 
   getVisible = (e) => {
-    console.log(e);
-    if (e.target.className.split("_")[0] === "AmountPassanger") return;
+    console.log(e.target.className)
+    if (
+      e.target.className.split("_")[0] === "AmountPassanger" ||
+      !e.target.className.split("_")[0]
+    )
+      return;
     this.setState({ isVisible: false });
   };
 
@@ -31,19 +35,19 @@ class AmountPassanger extends Component {
     return (
       <div className={style.amountPass}>
         <input
-          className={style.inpPsng}
+          className={style.inputAmount}
           value={this.props.amount}
           autoComplete="off"
           onChange={() => console.log()}
           onClick={() => this.setState({ isVisible: true })}
         />
         {this.state.isVisible && (
-          <div className={style.backdrop} onClick={this.handleBackdropClick}>
-            <span className={style.modal}></span>
+          <div className={style.addBox}>
+            {/* <span className={style.modal}></span> */}
             <button
               type="button"
+              className={style.button}
               name="decrement"
-              className={style.modal}
               disabled={this.props.amount <= 1}
               onClick={this.handleClick}
             >
@@ -53,8 +57,8 @@ class AmountPassanger extends Component {
             <span className={style.modal}>{this.props.amount}</span>
             <button
               type="button"
+              className={style.button}
               name="increment"
-              className={style.modal}
               disabled={this.props.amount >= 10}
               onClick={this.handleClick}
             >
