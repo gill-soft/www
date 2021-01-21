@@ -1,4 +1,42 @@
+
+.full {
+    border: 2px solid var(--color-main);
+    border-radius: 4px;
+    background-color: #faebd7;
+}
 .tripBox {
-    border: 1px solid var(--color-main);
-    margin-bottom: 20px;
+    position: relative;
+    
+    width: 1100px;
+    margin: 0 auto 20px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.timeInWay {
+    position: absolute;
+    left: 200px
+}
+
+.time {
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.date {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.locality {
+    font-weight: 600;
+}
+
+.info {
+    width: 300px;
+}
+
+.additionals {
+    height: 400px;
 }
