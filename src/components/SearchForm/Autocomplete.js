@@ -36,7 +36,7 @@ const StyledTextField = styled(TextField)`
  
 `;
 
-const Autocomplite = ({
+const AutocompleteComp = ({
   id,
   stops,
   lang,
@@ -140,4 +140,4 @@ const mapDispatchToProps = (dispatch) => ({
   changeInputTo: (value) => dispatch(inputValueTo(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Autocomplite);
+export default connect(mapStateToProps, mapDispatchToProps)(AutocompleteComp);

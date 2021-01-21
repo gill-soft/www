@@ -19,7 +19,7 @@ import {
   fetchTripsStart,
 } from "../../redux/trips/tripsActions";
 import styles from "./SearchForm.module.css";
-import Autocomplite from "./Autocomplite";
+import AutocompleteComp from "./Autocomplete";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 import AmountPassanger from "./AmountPassanger";
 
@@ -93,10 +93,10 @@ class SearchForm extends Component {
     return (
       <div className={`${styles.searchForm}`}>
         <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
-          <Autocomplite id="from" error={this.state.errorFrom} />
+          <AutocompleteComp id="from" error={this.state.errorFrom} />
           {/* <button type="button" className="change" onClick={this.changeButton}> */}
           <Arrow  onClick={this.changeButton} />
-          <Autocomplite id="to" error={this.state.errorTo} />
+          <AutocompleteComp id="to" error={this.state.errorTo} />
           <DatePicker
             className={styles.datePicker}
             dateFormat="dd MMMM yyyy"

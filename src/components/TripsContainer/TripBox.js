@@ -3,45 +3,42 @@ import { connect } from "react-redux";
 import { format } from "date-fns";
 import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
-
-// import Button from "@material-ui/core/Button";
-// import FormForBuy from "./FormForBuy";
-import { getLocality } from "../../services/getInfo";
 import { changeIsVisible } from "../../redux/trips/tripsActions";
 import { changeIsVisibleOrder, fetchOrderInfo } from "../../redux/order/orderActions";
 
-const TripBox = ({
-  trip,
-  trips,
-  stops,
-  changeIsVisible,
-  changeIsVisibleOrder,
-  fetchOrderInfo,
-}) => {
-  const getDepartureStop = () => {
-    const key = trip.departure.id;
+const TripBox = ({ trip, trips, fetchOrderInfo }) => {
+  
+  const getStop = (val) => {
+    const key = trip[`${val}`].id;
     return trips.localities[`${key}`].name["UA"];
   };
-  const getDepartureTime = () => {
-    return format(new Date(trip.departureDate), "HH : mm");
-  };
-  const getArrivalStop = () => {
-    const key = trip.arrival.id;
+  const getLocality = (val) => {
+    // console.log(trips.tripContainers[0].request.localityPairs[0][val])
+    const key = trips.tripContainers[0].request.localityPairs[0][val]
     return trips.localities[`${key}`].name["UA"];
+   
   };
-  const getArrivalTime = () => {
-    return format(new Date(trip.arrivalDate), "HH : mm");
+  const getTime = (key) => {
+    return format(new Date(trip[`${key}`]), "HH : mm");
+  };
+  const getDate = (key) => {
+    return new Date(trip[`${key}`]).toLocaleString("uk", {
+      day: "2-digit",
+      month: "short",
+      year: "2-digit",
+    });
   };
   const getTimeInWay = () => {
-    return trip.timeInWay;
+    return `${+trip.timeInWay.split(":")[0]}ч ${trip.timeInWay.split(":")[1]}мин`;
   };
+
   const getPrice = () => {
     return trip.price.amount;
   };
   const handleClick = () => {
     const obj = {
-      from: getDepartureStop(),
-      to: getArrivalStop(),
+      from: getLocality(0),
+      to: getLocality(1),
       departureDate: trip.departureDate,
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
@@ -52,15 +49,22 @@ const TripBox = ({
   return (
     <div>
       <div className={styles.tripBox}>
-        <h5>{trip.route.name.EN}</h5>
-        <p>{getLocality(stops, trips.tripContainers[0].request.localityPairs[0][0])}</p>
-        <p>{getDepartureStop()}</p>
-        <p>Время отправки {getDepartureTime()}</p>
-        <p>{getLocality(stops, trips.tripContainers[0].request.localityPairs[0][1])}</p>
-        <p>{getArrivalStop()}</p>
-        <p>Время прибытия {getArrivalTime()}</p>
-        <p>Время в пути {getTimeInWay()}</p>
+        <div>
+          <p className={styles.time}>{getTime("departureDate")}</p>
+          <p>{getDate("departureDate")}</p>
+        </div>
+        <p>{getLocality(0)}</p>
+        <p>{getStop("departure")}</p>
+        <p>{getLocality(1)}</p>
+        <p>{getStop("arrival")}</p>
+        <div>
+          <p> {getTime("arrivalDate")}</p>
+          <p>{getDate("arrivalDate")}</p>
+        </div>
+
+        <p>{getTimeInWay()}в пути</p>
         <p>Цена {getPrice()}</p>
+        <h5>{trip.route.name.EN}</h5>
         <Link
           to={{
             pathname: `/order`,
@@ -79,7 +83,6 @@ const TripBox = ({
 const mapStateToProps = (state) => ({
   trips: state.trips.trips,
   isLoading: state.trips.isLoading,
-  stops: state.searchForm.stops,
   from: state.searchForm.from,
   to: state.searchForm.to,
 });
