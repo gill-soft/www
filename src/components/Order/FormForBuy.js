@@ -11,6 +11,7 @@ class FormForBuy extends Component {
     e.preventDefault();
   };
   handleChange = (el, { target }) => {
+    console.log(el);
     this.setState((prev) => ({
       [el]: { ...prev[`${el}`], [`${target.name}`]: target.value },
     }));
@@ -18,13 +19,29 @@ class FormForBuy extends Component {
   handleChangeEmail = ({ target }) => {
     this.setState({ [target.name]: target.value });
   };
-  handleClick = () => {
-    const num = this.props.amountPassangers.length + 1;
+  handleAdd = () => {
+    console.log(this.props.amountPassangers.slice(-1).join().slice(-1));
+    const num = +this.props.amountPassangers.slice(-1).join().slice(-1) + 1;
     const arr = [...this.props.amountPassangers, `passanger${num}`];
     this.props.fetchAmountPassanger(arr);
   };
 
+  handleRemove = ({ target }) => {
+    delete this.state[`${target.name}`];
+    const arr = this.props.amountPassangers.filter((el) => el !== target.name);
+
+    this.props.fetchAmountPassanger(arr);
+  };
+  getValueName = (el) => {
+    return this.state[`${el}`]?.name;
+  };
+  getValuePhone = (el) => {
+    return this.state[`${el}`]?.phone;
+  };
+
   render() {
+    console.log(this.props.amountPassangers);
+
     return (
       <div>
         <pre>{JSON.stringify(this.state, null, 4)}</pre>
@@ -34,22 +51,25 @@ class FormForBuy extends Component {
               <div key={idx}>
                 <p>Пассажир {idx + 1}</p>
                 <input
-                  name={`name`}
-                  value={this.state.el}
+                  name="name"
+                  value={this.getValueName(el)}
                   onChange={(e) => this.handleChange(el, e)}
                   placeholder="name"
                 />
                 <input
-                  name={`phone`}
-                  value={this.state.el}
+                  name="phone"
+                  value={this.getValuePhone(el)}
                   onChange={(e) => this.handleChange(el, e)}
                   placeholder="phone"
                 />
+                <button type="button" name={el} onClick={(e) => this.handleRemove(e)}>
+                  remove
+                </button>
                 <br />
               </div>
             );
           })}
-          <button type="button" onClick={this.handleClick}>
+          <button type="button" onClick={this.handleAdd}>
             add
           </button>
           <input
