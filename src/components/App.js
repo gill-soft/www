@@ -7,7 +7,7 @@ import TripsPage from "../pages/TripsPage";
 import { fetchStops } from "../redux/searchForm/searchFormOperation";
 
 
-const App = ({fetchStops}) => {
+const App = ({fetchStops, stops}) => {
 
    //  ==== получаем все остановки через redux ==== //
    useEffect(() => {
@@ -15,18 +15,24 @@ const App = ({fetchStops}) => {
   }, [fetchStops]);
 
   return (
-    <div>
+    <>
+    {stops.length > 0 && (<div>
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/order" component={OrderPage} />
         <Route path="/trips" component={TripsPage} />
       </Switch>
-    </div>
+    </div>)}
+    </>
   );
 };
-
+const mapStateToProps = (state) => ({
+ 
+  stops: state.searchForm.stops,
+  
+});
 const mapDispatchToProps = (dispatch) => ({
   fetchStops: () => dispatch(fetchStops()),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

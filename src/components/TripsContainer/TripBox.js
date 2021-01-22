@@ -42,6 +42,9 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
   const getPrice = () => {
     return trip.price.amount;
   };
+  const getCurrency = () => {
+    return trip.price.currency;
+  };
 
   const handleClick = () => {
     const obj = {
@@ -58,12 +61,13 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
     // ==== определяем id первой остановки ====//
     const first = trip.departure.id;
     // ==== определяем индекс первой остановки ====//
-    const idx = trip.route.path.indexOf(
-      trip.route.path.find((el) => el.locality.id === first)
-    );
+    const idx =
+      1 + trip.route.path.indexOf(trip.route.path.find((el) => el.locality.id === first));
+    //  ==== определяем последнюю остановку ==== //
+    const end = trip.route.path.length - 1;
     // ==== обрезаем массив всех остановок с нужной нам ==== //
-    const arr = trip.route.path.slice(idx);
-    // ==== записываем state в обрезаный масив ==== //
+    const arr = trip.route.path.slice(idx, end);
+    // ==== записываем  в state обрезаный масив ==== //
     setArrayStops(arr);
     // ==== переключаем видимость дополнительной информации ==== //
     setIsOpen(!isOpen);
@@ -71,7 +75,6 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
 
   return (
     <div>
-      <h5>{trip.route.name.EN}</h5>
       <div className={styles.full}>
         <div className={styles.tripBox}>
           <div className={styles.info}>
@@ -81,7 +84,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
             </div>
             <p className={styles.locality}>{getLocality(0)}</p>
             <p>{getStop("departure")}</p>
-            <button onClick={handleAdditionals}>Дополнительная информация</button>
+            <button onClick={handleAdditionals}>Детали рейса</button>
           </div>
           <div className={styles.info}>
             <div>
@@ -93,25 +96,53 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
           </div>
 
           <p className={styles.timeInWay}>{getTimeInWay()} в пути</p>
-          <div>
-            <p>Цена {getPrice()}</p>
+          <div className={styles.priceBox}>
+            <p className={styles.price}>
+              {getPrice()} <span>{getCurrency()}</span>{" "}
+            </p>
             <Link
+              className={styles.choose}
               to={{
                 pathname: `/order`,
               }}
               onClick={handleClick}
             >
-              Заказвть
+              Выбрать
             </Link>
           </div>
         </div>
-        {isOpen &&
-          arrayStops.map((el) => (
-            <div key={el.locality.id}>
-              <p>{getAllLocalities(el.locality.id)}</p>
-              {/* <p>w</p> */}
+        {isOpen && (
+          <>
+            <h5>{trip.route.name.EN}</h5>
+            <div className={styles.additionalInfo}>
+              <div className={styles.depArr}>
+                <p className={styles.departure}>Отправление</p>
+                <p className={styles.arrival}>Прибытие</p>
+              </div>
+              <div>
+                <div className={styles.start}>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>
+                    {getLocality(0)}
+                  </p>
+                  <p>{getStop("departure")}</p>
+                </div>
+                <div >
+                  {arrayStops.map((el) => (
+                    // <div key={el.locality.id}>
+                      <p className={styles.stop} key={el.locality.id}>{getAllLocalities(el.locality.id)}</p>
+                    // </div>
+                  ))}{" "}
+                </div>
+                <div className={styles.start}>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>
+                    {getLocality(1)}
+                  </p>
+                  <p>{getStop("arrival")}</p>
+                </div>
+              </div>
             </div>
-          ))}
+          </>
+        )}
       </div>
     </div>
   );
