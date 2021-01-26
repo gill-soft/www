@@ -118,8 +118,8 @@ const mapStateToProps = (state) => ({
   amount: state.searchForm.amountPassanger,
 });
 
-const mapDispatchToProps = (dispath) => ({
-  inputValueAmountPassangers: (val) => dispath(inputValueAmountPassangers(val)),
+const mapDispatchToProps = (dispatch) => ({
+  inputValueAmountPassangers: (val) => dispatch(inputValueAmountPassangers(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AmountPassanger);

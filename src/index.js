@@ -28,14 +28,7 @@ ReactDOM.render(
   document.getElementById("trips")
 );
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       <TripsContainer />
-//     </Provider>
-//   </React.StrictMode>,
-//   document.getElementById("tripsContainer")
-// );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
