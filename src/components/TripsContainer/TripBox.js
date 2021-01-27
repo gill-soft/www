@@ -58,15 +58,14 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
   };
 
   const handleAdditionals = () => {
-    // ==== определяем id первой остановки ====//
-    const first = trip.departure.id;
     // ==== определяем индекс первой остановки ====//
-    const idx =
-      1 + trip.route.path.indexOf(trip.route.path.find((el) => el.locality.id === first));
-    //  ==== определяем последнюю остановку ==== //
-    const end = trip.route.path.length - 1;
-    // ==== обрезаем массив всех остановок с нужной нам ==== //
-    const arr = trip.route.path.slice(idx, end);
+    const first =
+      1 + trip.route.path.indexOf(trip.route.path.find((el) => el.locality.id === trip.departure.id));
+    //  ==== определяем индекс последней остановки ==== //
+    const last =  trip.route.path.indexOf(trip.route.path.find((el) => el.locality.id === trip.arrival.id)) 
+
+    // ==== обрезаем массив всех остановок ==== //
+    const arr = trip.route.path.slice(first, last);
     // ==== записываем  в state обрезаный масив ==== //
     setArrayStops(arr);
     // ==== переключаем видимость дополнительной информации ==== //
@@ -83,8 +82,8 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
               <p className={styles.date}>{getDate("departureDate")}</p>
             </div>
             <p className={styles.locality}>{getLocality(0)}</p>
-            <p>{getStop("departure")}</p>
-            <button onClick={handleAdditionals}>Детали рейса</button>
+            <p className={styles.localityStop}>{getStop("departure")}</p>
+            <button className={styles.additionals} onClick={handleAdditionals}>Детали рейса</button>
           </div>
           <div className={styles.info}>
             <div>
@@ -92,7 +91,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
               <p className={styles.date}>{getDate("arrivalDate")}</p>
             </div>
             <p className={styles.locality}>{getLocality(1)}</p>
-            <p>{getStop("arrival")}</p>
+            <p className={styles.localityStop}>{getStop("arrival")}</p>
           </div>
 
           <p className={styles.timeInWay}>{getTimeInWay()} в пути</p>
@@ -128,12 +127,10 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
                 </div>
                 <div >
                   {arrayStops.map((el) => (
-                    // <div key={el.locality.id}>
                       <p className={styles.stop} key={el.locality.id}>{getAllLocalities(el.locality.id)}</p>
-                    // </div>
                   ))}{" "}
                 </div>
-                <div className={styles.start}>
+                <div className={`${styles.start} ${styles.finish}`}>
                   <p className={`${styles.locality} ${styles.addLocality} `}>
                     {getLocality(1)}
                   </p>

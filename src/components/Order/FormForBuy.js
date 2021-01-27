@@ -21,12 +21,19 @@ class FormForBuy extends Component {
     e.preventDefault();
   };
   handleChange = (idx, { target }) => {
-    this.setState((prev) =>
-      // eslint-disable-next-line array-callback-return
-      prev.values.map((el) => {
-        if (el.id === idx) el[`${target.name}`] = target.value;
-      })
-    );
+    target.name === "phone"
+      ? this.setState((prev) =>
+          // eslint-disable-next-line array-callback-return
+          prev.values.map((el) => {
+            if (el.id === idx) el[`${target.name}`] = target.value.replace(/\D/, "");
+          })
+        )
+      : this.setState((prev) =>
+          // eslint-disable-next-line array-callback-return
+          prev.values.map((el) => {
+            if (el.id === idx) el[`${target.name}`] = target.value;
+          })
+        );
   };
 
   handleChangeEmail = ({ target }) => {
