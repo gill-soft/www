@@ -20,13 +20,8 @@ class TripsPage extends Component {
   };
 
   componentDidMount() {
+    console.log("object")
     const parsed = queryString.parse(this.props.location.search);
-    // const arrPass = [];
-    // for (let i = 1; i <= parsed.passengers; i++) {
-    //   arrPass.push(`passanger${i}`);
-    // }
-
-    // this.props.fetchAmountPassanger(arrPass);
 
     // ==== преобразование данных для запроса ====
     const requestData = {

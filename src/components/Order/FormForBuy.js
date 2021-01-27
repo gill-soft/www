@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { sendInfoPassanger } from "../../redux/order/orderActions";
+import styles from "./FormForBuy.module.css";
+import { ReactComponent as Person } from "../../images/person-24px.svg";
 
 class FormForBuy extends Component {
   state = {
@@ -62,43 +64,62 @@ class FormForBuy extends Component {
 
   render() {
     return (
-      <div>
-        <pre>{JSON.stringify(this.state, null, 4)}</pre>
+      <div className={styles.container}>
+        {/* <pre>{JSON.stringify(this.state, null, 4)}</pre> */}
+        <h3 className={styles.title}>Данные пассажиров</h3>
+
         <form onSubmit={this.handleSubmit}>
           {this.state.values.length > 0 &&
             this.state.values.map((el, idx) => {
               return (
-                <div key={idx}>
-                  <p>Пассажир {idx + 1}</p>
-                  <input
-                    name="name"
-                    value={this.getValueName(el.id)}
-                    onChange={(e) => this.handleChange(el.id, e)}
-                    placeholder="name"
-                  />
-                  <input
-                    name="phone"
-                    value={this.getValuePhone(el.id)}
-                    onChange={(e) => this.handleChange(el.id, e)}
-                    placeholder="phone"
-                  />
-                  <button type="button" name={el.id} onClick={this.handleRemove}>
-                    remove
-                  </button>
-                  <br />
+                <div className={styles.box} key={idx}>
+                  <div className={styles.svgBox}>
+                    {" "}
+                    <Person className={styles.svg} fill="var(--color-secondary)" />
+                    <span>{idx + 1}</span>
+                  </div>
+                  <div className={styles.inputBox}>
+                    <input
+                      className={styles.input}
+                      name="name"
+                      type="text"
+                      value={this.getValueName(el.id)}
+                      onChange={(e) => this.handleChange(el.id, e)}
+                      placeholder="name"
+                      autoComplete="off"
+                    />
+                    <input
+                      className={styles.input}
+                      name="phone"
+                      type="phone"
+                      value={this.getValuePhone(el.id)}
+                      onChange={(e) => this.handleChange(el.id, e)}
+                      placeholder="phone"
+                      autoComplete="nope"
+                    />
+                    <p className={styles.price}>{this.props.price} грн</p>
+                    <button
+                      className={styles.buttonRemove}
+                      type="button"
+                      name={el.id}
+                      onClick={this.handleRemove}
+                    ></button>
+                  </div>
                 </div>
               );
             })}
-          <button type="button" onClick={this.handleAdd}>
-            add
+          <button className={styles.buttonAdd} type="button" onClick={this.handleAdd}>
+            Добавить пассажира
           </button>
           <input
+            className={styles.input}
             type="email"
             name="email"
             placeholder="email"
+            autoComplete="nope"
             onChange={this.handleChangeEmail}
           />
-          <button type="submit">Buy</button>
+          <button className={styles.buttonBuy } type="submit">Перейти к оплате</button>
         </form>
       </div>
     );
@@ -107,6 +128,7 @@ class FormForBuy extends Component {
 
 const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
+  price: state.order.order.price,
 });
 const mapDispatchToProps = (dispatch) => ({
   sendInfoPassanger: (val) => dispatch(sendInfoPassanger(val)),
