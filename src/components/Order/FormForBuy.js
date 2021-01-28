@@ -21,6 +21,7 @@ class FormForBuy extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(e);
   };
   handleChange = (idx, { target }) => {
     target.name === "phone"
@@ -47,6 +48,7 @@ class FormForBuy extends Component {
     this.setState((prev) => ({
       values: [...prev.values, { name: "", phone: "", id: `passanger_${num}` }],
     }));
+    this.props.changeAmountPassanger(this.props.total + 1)
   };
 
   handleRemove = ({ target }) => {
@@ -54,6 +56,8 @@ class FormForBuy extends Component {
     this.setState((prev) => ({
       values: prev.values.filter((el) => el.id !== target.name),
     }));
+    this.props.changeAmountPassanger(this.props.total - 1)
+
   };
   getValueName = (id) => {
     return this.state.values.find((el) => el.id === id).name;
@@ -87,6 +91,7 @@ class FormForBuy extends Component {
                       onChange={(e) => this.handleChange(el.id, e)}
                       placeholder="name"
                       autoComplete="off"
+                      required={true}
                     />
                     <input
                       className={styles.input}
@@ -96,6 +101,7 @@ class FormForBuy extends Component {
                       onChange={(e) => this.handleChange(el.id, e)}
                       placeholder="phone"
                       autoComplete="nope"
+                      required={true}
                     />
                     <p className={styles.price}>{this.props.price} грн</p>
                     <button
@@ -118,8 +124,11 @@ class FormForBuy extends Component {
             placeholder="email"
             autoComplete="nope"
             onChange={this.handleChangeEmail}
+            required={true}
           />
-          <button className={styles.buttonBuy } type="submit">Перейти к оплате</button>
+          <button className={styles.buttonBuy} type="submit">
+            Перейти к оплате
+          </button>
         </form>
       </div>
     );

@@ -20,7 +20,6 @@ class TripsPage extends Component {
   };
 
   componentDidMount() {
-    console.log("object")
     const parsed = queryString.parse(this.props.location.search);
 
     // ==== преобразование данных для запроса ====

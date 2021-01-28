@@ -49,10 +49,13 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
   const handleClick = () => {
     const obj = {
       from: getLocality(0),
+      fromStop:getStop("departure"),
+      toStop: getStop("arrival"),
       to: getLocality(1),
       departureDate: trip.departureDate,
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
+      
     };
     fetchOrderInfo(obj);
   };
