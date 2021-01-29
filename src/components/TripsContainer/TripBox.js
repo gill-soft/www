@@ -4,8 +4,10 @@ import { format } from "date-fns";
 import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
+// import { getLocality } from "../services/getInfo";
 
-const TripBox = ({ trip, trips, fetchOrderInfo, lang }) => {
+
+const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
 
@@ -48,10 +50,10 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang }) => {
 
   const handleClick = () => {
     const obj = {
-      from: getLocality(0),
+      from: from,
       fromStop:getStop("departure"),
       toStop: getStop("arrival"),
-      to: getLocality(1),
+      to: to,
       departureDate: trip.departureDate,
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
@@ -84,7 +86,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang }) => {
               <p className={styles.time}>{getTime("departureDate")}</p>
               <p className={styles.date}>{getDate("departureDate")}</p>
             </div>
-            <p className={styles.locality}>{getLocality(0)}</p>
+            <p className={styles.locality}>{from}</p>
             <p className={styles.localityStop}>{getStop("departure")}</p>
             <button className={styles.additionals} onClick={handleAdditionals}>Детали рейса</button>
           </div>
@@ -93,7 +95,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang }) => {
               <p className={styles.time}> {getTime("arrivalDate")}</p>
               <p className={styles.date}>{getDate("arrivalDate")}</p>
             </div>
-            <p className={styles.locality}>{getLocality(1)}</p>
+            <p className={styles.locality}>{to}</p>
             <p className={styles.localityStop}>{getStop("arrival")}</p>
           </div>
 
@@ -124,7 +126,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang }) => {
               <div>
                 <div className={styles.start}>
                   <p className={`${styles.locality} ${styles.addLocality} `}>
-                    {getLocality(0)}
+                    {from}
                   </p>
                   <p>{getStop("departure")}</p>
                 </div>
@@ -135,7 +137,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang }) => {
                 </div>
                 <div className={`${styles.start} ${styles.finish}`}>
                   <p className={`${styles.locality} ${styles.addLocality} `}>
-                    {getLocality(1)}
+                    {to}
                   </p>
                   <p>{getStop("arrival")}</p>
                 </div>

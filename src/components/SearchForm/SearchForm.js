@@ -80,13 +80,35 @@ class SearchForm extends Component {
     this.props.fetchTripsSuccess({});
 
     //  ==== переход на страницу поездок ==== //
-    
-    this.props.history.push(
-      `/trips?from=${from}&to=${to}&date=${format(
-        new Date(date),
-        "yyyy-MM-dd"
-      )}&passengers=${amount}`
+    const fromId = this.getId(from, "from");
+    const toId = this.getId(to, "to");
+    if (fromId && toId) {
+      this.props.history.push(
+        `/trips?from=${fromId}&to=${toId}&date=${format(
+          new Date(date),
+          "yyyy-MM-dd"
+        )}&passengers=${amount}`
+      );
+    }
+  };
+  getId = (val, inp) => {
+    const { lang, stops } = this.props;
+    // console.log(loc)
+    const result = stops.find((item) =>
+      item.type === "LOCALITY"
+        ? (item.name[`${lang}`] || item.name["EN"]).toLowerCase() ===
+          val.toLowerCase().trim()
+        : null
     );
+    if (result) {
+      return result.id;
+    } else {
+      inp === "from"
+        ? this.setState({ errorFrom: true })
+        : this.setState({ errorTo: true });
+      // this.props.fetchTripsError("уточните параметры поиска");
+      return;
+    }
   };
 
   render() {
@@ -96,7 +118,7 @@ class SearchForm extends Component {
         <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
           <AutocompleteComp id="from" error={this.state.errorFrom} />
           {/* <button type="button" className="change" onClick={this.changeButton}> */}
-          <Arrow  onClick={this.changeButton} />
+          <Arrow onClick={this.changeButton} />
           <AutocompleteComp id="to" error={this.state.errorTo} />
           <DatePicker
             className={styles.datePicker}
@@ -126,7 +148,8 @@ const mapStateToProps = (state) => ({
   to: state.searchForm.to,
   date: state.searchForm.date,
   amount: state.searchForm.amountPassanger,
-
+  stops: state.searchForm.stops,
+  error: state.trips.error,
 });
 const mapDispatchToProps = (dispatch) => ({
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),

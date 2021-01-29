@@ -12,48 +12,47 @@ import FilterButtons from "../components/TripsContainer/FilterButtons";
 import SearchForm from "../components/SearchForm/SearchForm";
 import queryString from "query-string";
 import { getInitialization, searchTrips } from "../services/api";
-// import { fetchAmountPassanger } from "../redux/order/orderActions";
+import { getLocality } from "../services/getInfo";
 
 class TripsPage extends Component {
   state = {
     bySort: "up",
   };
 
-  componentDidMount() {
-    const parsed = queryString.parse(this.props.location.search);
+  parsed = queryString.parse(this.props.location.search);
 
-    // ==== преобразование данных для запроса ====
+  componentDidMount() {
+    const { from, to, date } = this.parsed;
+
+    // ==== формируем обьект для запроса ====
     const requestData = {
-      idFrom: this.getId(parsed.from.trim()),
-      idWhereTo: this.getId(parsed.to.trim()),
-      date: parsed.date,
+      idFrom: from,
+      idWhereTo: to,
+      date: date,
     };
-    //  ==== при успешном преобразовании введеных данных в id-городов начинаем поиск ==== //
-    if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
-      const time = Date.now();
-      this.startSerch(time, requestData);
-    }
+    //  ====  начинаем поиск ==== //
+    const time = Date.now();
+    this.startSerch(time, requestData);
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { trips, getTripsInfo } = this.props;
-    const parsed = queryString.parse(this.props.location.search);
-
+    const { from, to, date } = this.parsed;
+    // ==== если меняеться строка запроса или язык пользователя  ====//
     if (
       prevProps.location.search !== this.props.location.search ||
       prevProps.lang !== this.props.lang
     ) {
+      console.log("object")
       const requestData = {
-        idFrom: this.getId(parsed.from.trim()),
-        idWhereTo: this.getId(parsed.to.trim()),
-        date: parsed.date,
+        idFrom: from,
+        idWhereTo: to,
+        date: date,
       };
-      if (requestData.idFrom && requestData.idWhereTo && requestData.date) {
-        const time = Date.now();
-        this.startSerch(time, requestData);
-      }
+      const time = Date.now();
+      this.startSerch(time, requestData);
     }
-
+    // ==== сортируем по цене ==== //
     if (prevProps.trips !== trips) {
       if (Object.keys(trips).length > 0) {
         getTripsInfo(
@@ -78,6 +77,7 @@ class TripsPage extends Component {
   };
   // ==== цикл поиска результатов поездки ==== //
   searchRouts = (id, time, requestData) => {
+    
     let deltaTime = Date.now() - time;
     if (deltaTime <= 100) {
       searchTrips(id)
@@ -132,22 +132,6 @@ class TripsPage extends Component {
       return this.props.fetchTripsError("нет поездок");
     }
   };
-  //  ==== получение id города из названия === //
-  getId = (val) => {
-    const { lang, stops } = this.props;
-    const [result] = stops.filter((item) =>
-      item.type === "LOCALITY"
-        ? (item.name[`${lang}`] || item.name["EN"]).toLowerCase() ===
-          val.toLowerCase().trim()
-        : null
-    );
-    if (result) {
-      return result.id;
-    } else {
-      this.props.fetchTripsError("уточните параметры поиска");
-      return;
-    }
-  };
 
   sortTimeInWay = () => {
     const { bySort } = this.state;
@@ -200,13 +184,9 @@ class TripsPage extends Component {
     });
   };
 
-  getLocality = (key) => {
-    const parsed = queryString.parse(this.props.location.search);
-    return parsed[`${key}`];
-  };
-
   render() {
-    const { error, isLoading, tripsInfo, trips, history } = this.props;
+    const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
+    const { from, to } = this.parsed;
     return (
       <>
         <SearchForm history={history} />
@@ -215,7 +195,8 @@ class TripsPage extends Component {
         {Object.keys(trips).length > 0 && (
           <div className={styles.container}>
             <h3 className={styles.title}>
-              Расписание автобусов {this.getLocality("from")} - {this.getLocality("to")}
+              Расписание автобусов {getLocality(from, stops, lang)} -
+              {getLocality(to, stops, lang)}
             </h3>
             <FilterButtons
               sortTimeInWay={this.sortTimeInWay}
@@ -225,7 +206,7 @@ class TripsPage extends Component {
             />
 
             {tripsInfo.map((el, idx) => (
-              <TripBox key={idx} trip={el} />
+              <TripBox key={idx} trip={el} from={getLocality(from, stops, lang)} to={getLocality(to, stops, lang)} />
             ))}
             <pre>{JSON.stringify(trips, null, 4)}</pre>
           </div>
@@ -249,7 +230,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   fetchTripsError: (err) => dispatch(fetchTripsError(err)),
   fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
-  // fetchAmountPassanger: val => dispatch(fetchAmountPassanger(val))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

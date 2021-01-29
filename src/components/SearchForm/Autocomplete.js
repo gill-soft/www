@@ -33,7 +33,6 @@ const StyledTextField = styled(TextField)`
   .MuiIconButton-root {
     color: var(--color-secondary);
   }
- 
 `;
 
 const AutocompleteComp = ({
@@ -48,6 +47,22 @@ const AutocompleteComp = ({
 }) => {
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState(id === "from" ? from : to);
+
+  // ==== смена инпута при смене языка ==== //
+  useEffect(() => {
+    if (!value) return;
+    const res = stops.find(
+      (el) =>
+        el.name["RU"] === value ||
+        el.name["EN"] === value ||
+        el.name["PL"] === value ||
+        el.name["UA"] === value
+    );
+    if (res) {
+      setValue(res.name[`${lang}`]);
+      id === "from" ? changeInputFrom(value) : changeInputTo(value);
+    }
+  }, [lang, stops, value, changeInputFrom, changeInputTo, id]);
 
   useEffect(() => {
     id === "from" ? setValue(from) : setValue(to);
@@ -122,7 +137,7 @@ const AutocompleteComp = ({
             margin="normal"
             variant="outlined"
             error={error}
-            helperText={error ? "Bыберите значение из списка" : ""}
+            helperText={error ? "уточните параметры поиска" : ""}
           />
         )}
       />
