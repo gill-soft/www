@@ -19,16 +19,13 @@ class TripsPage extends Component {
     bySort: "up",
   };
 
-  parsed = queryString.parse(this.props.location.search);
-
   componentDidMount() {
-    const { from, to, date } = this.parsed;
-
+    const parsed = queryString.parse(this.props.location.search);
     // ==== формируем обьект для запроса ====
     const requestData = {
-      idFrom: from,
-      idWhereTo: to,
-      date: date,
+      idFrom: parsed.from,
+      idWhereTo: parsed.to,
+      date: parsed.date,
     };
     //  ====  начинаем поиск ==== //
     const time = Date.now();
@@ -37,17 +34,18 @@ class TripsPage extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { trips, getTripsInfo } = this.props;
-    const { from, to, date } = this.parsed;
+    const parsed = queryString.parse(this.props.location.search);
+
     // ==== если меняеться строка запроса или язык пользователя  ====//
     if (
       prevProps.location.search !== this.props.location.search ||
       prevProps.lang !== this.props.lang
     ) {
-      console.log("object")
+      // ==== формируем обьект для запроса ====
       const requestData = {
-        idFrom: from,
-        idWhereTo: to,
-        date: date,
+        idFrom: parsed.from,
+        idWhereTo: parsed.to,
+        date: parsed.date,
       };
       const time = Date.now();
       this.startSerch(time, requestData);
@@ -77,7 +75,6 @@ class TripsPage extends Component {
   };
   // ==== цикл поиска результатов поездки ==== //
   searchRouts = (id, time, requestData) => {
-    
     let deltaTime = Date.now() - time;
     if (deltaTime <= 100) {
       searchTrips(id)
@@ -186,7 +183,9 @@ class TripsPage extends Component {
 
   render() {
     const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
-    const { from, to } = this.parsed;
+    const parsed = queryString.parse(this.props.location.search);
+
+
     return (
       <>
         <SearchForm history={history} />
@@ -195,8 +194,8 @@ class TripsPage extends Component {
         {Object.keys(trips).length > 0 && (
           <div className={styles.container}>
             <h3 className={styles.title}>
-              Расписание автобусов {getLocality(from, stops, lang)} -
-              {getLocality(to, stops, lang)}
+              Расписание автобусов {getLocality(parsed.from, stops, lang)} -
+              {getLocality(parsed.to, stops, lang)}
             </h3>
             <FilterButtons
               sortTimeInWay={this.sortTimeInWay}
@@ -206,7 +205,12 @@ class TripsPage extends Component {
             />
 
             {tripsInfo.map((el, idx) => (
-              <TripBox key={idx} trip={el} from={getLocality(from, stops, lang)} to={getLocality(to, stops, lang)} />
+              <TripBox
+                key={idx}
+                trip={el}
+                from={getLocality(parsed.from, stops, lang)}
+                to={getLocality(parsed.to, stops, lang)}
+              />
             ))}
             <pre>{JSON.stringify(trips, null, 4)}</pre>
           </div>

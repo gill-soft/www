@@ -4,8 +4,6 @@ import { format } from "date-fns";
 import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
-// import { getLocality } from "../services/getInfo";
-
 
 const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,12 +15,9 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
   };
 
   const getAllLocalities = (key) => {
-    return trips.localities[`${key}`].name[`${lang}`];
-  };
-
-  const getLocality = (val) => {
-    const key = trips.tripContainers[0].request.localityPairs[0][val];
-    return trips.localities[`${key}`]?.name[`${lang}`];
+    return (
+      trips.localities[`${key}`].name[`${lang}`] || trips.localities[`${key}`].name[`RU`]
+    );
   };
 
   const getTime = (key) => {
@@ -51,13 +46,12 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
   const handleClick = () => {
     const obj = {
       from: from,
-      fromStop:getStop("departure"),
+      fromStop: getStop("departure"),
       toStop: getStop("arrival"),
       to: to,
       departureDate: trip.departureDate,
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
-      
     };
     fetchOrderInfo(obj);
   };
@@ -65,9 +59,14 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
   const handleAdditionals = () => {
     // ==== определяем индекс первой остановки ====//
     const first =
-      1 + trip.route.path.indexOf(trip.route.path.find((el) => el.locality.id === trip.departure.id));
+      1 +
+      trip.route.path.indexOf(
+        trip.route.path.find((el) => el.locality.id === trip.departure.id)
+      );
     //  ==== определяем индекс последней остановки ==== //
-    const last =  trip.route.path.indexOf(trip.route.path.find((el) => el.locality.id === trip.arrival.id)) 
+    const last = trip.route.path.indexOf(
+      trip.route.path.find((el) => el.locality.id === trip.arrival.id)
+    );
 
     // ==== обрезаем массив всех остановок ==== //
     const arr = trip.route.path.slice(first, last);
@@ -88,7 +87,9 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
             </div>
             <p className={styles.locality}>{from}</p>
             <p className={styles.localityStop}>{getStop("departure")}</p>
-            <button className={styles.additionals} onClick={handleAdditionals}>Детали рейса</button>
+            <button className={styles.additionals} onClick={handleAdditionals}>
+              Детали рейса
+            </button>
           </div>
           <div className={styles.info}>
             <div>
@@ -125,20 +126,18 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
               </div>
               <div>
                 <div className={styles.start}>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>
-                    {from}
-                  </p>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>{from}</p>
                   <p>{getStop("departure")}</p>
                 </div>
-                <div >
+                <div>
                   {arrayStops.map((el) => (
-                      <p className={styles.stop} key={el.locality.id}>{getAllLocalities(el.locality.id)}</p>
+                    <p className={styles.stop} key={el.locality.id}>
+                      {getAllLocalities(el.locality.id)}
+                    </p>
                   ))}{" "}
                 </div>
                 <div className={`${styles.start} ${styles.finish}`}>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>
-                    {to}
-                  </p>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>{to}</p>
                   <p>{getStop("arrival")}</p>
                 </div>
               </div>
@@ -151,7 +150,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
 };
 const mapStateToProps = (state) => ({
   trips: state.trips.trips,
-  lang: state.language
+  lang: state.language,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchOrderInfo: (obj) => dispatch(fetchOrderInfo(obj)),
