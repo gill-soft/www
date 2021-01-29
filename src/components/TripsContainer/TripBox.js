@@ -5,22 +5,22 @@ import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
 
-const TripBox = ({ trip, trips, fetchOrderInfo }) => {
+const TripBox = ({ trip, trips, fetchOrderInfo, lang }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
 
   const getStop = (val) => {
     const key = trip[`${val}`].id;
-    return trips.localities[`${key}`].name["UA"];
+    return trips.localities[`${key}`].name[`${lang}`];
   };
 
   const getAllLocalities = (key) => {
-    return trips.localities[`${key}`].name["UA"];
+    return trips.localities[`${key}`].name[`${lang}`];
   };
 
   const getLocality = (val) => {
     const key = trips.tripContainers[0].request.localityPairs[0][val];
-    return trips.localities[`${key}`].name["UA"];
+    return trips.localities[`${key}`]?.name[`${lang}`];
   };
 
   const getTime = (key) => {
@@ -149,6 +149,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo }) => {
 };
 const mapStateToProps = (state) => ({
   trips: state.trips.trips,
+  lang: state.language
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchOrderInfo: (obj) => dispatch(fetchOrderInfo(obj)),

@@ -15,7 +15,6 @@ const OrderPage = ({ history, amountPassangers }) => {
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
   };
-  console.log(totalPassanger)
   return (
     <div>
       <SearchForm history={history} />

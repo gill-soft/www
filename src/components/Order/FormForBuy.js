@@ -96,7 +96,7 @@ class FormForBuy extends Component {
                     <input
                       className={styles.input}
                       name="phone"
-                      type="phone"
+                      type="tel"
                       value={this.getValuePhone(el.id)}
                       onChange={(e) => this.handleChange(el.id, e)}
                       placeholder="phone"

@@ -16,7 +16,7 @@ export const getAllStops = () => {
 };
 
 // ==== инициализация поиска ==== //
-export const getInitialization = ({ idFrom, idWhereTo, date }) => {
+export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
   return axios({
     method: 'post',
     url: 'https://busis.eu/gds-control/api/v1/search',
@@ -25,7 +25,7 @@ export const getInitialization = ({ idFrom, idWhereTo, date }) => {
     },
     data: {
       id: 'string',
-      lang: 'UA',
+      lang: `${lang}`,
       localityPairs: [[`${idFrom}`, `${idWhereTo}`]],
       dates: [`${date}`],
       currency: 'UAH',

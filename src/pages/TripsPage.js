@@ -39,7 +39,10 @@ class TripsPage extends Component {
     const { trips, getTripsInfo } = this.props;
     const parsed = queryString.parse(this.props.location.search);
 
-    if (prevProps.location.search !== this.props.location.search) {
+    if (
+      prevProps.location.search !== this.props.location.search ||
+      prevProps.lang !== this.props.lang
+    ) {
       const requestData = {
         idFrom: this.getId(parsed.from.trim()),
         idWhereTo: this.getId(parsed.to.trim()),
@@ -68,7 +71,7 @@ class TripsPage extends Component {
 
   //  ==== инициализация поиска ==== //
   startSerch = (time, requestData) => {
-    getInitialization(requestData)
+    getInitialization(requestData, this.props.lang)
       .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
       .catch(({ err }) => this.props.fetchTripsError(err))
       .finally(this.props.fetchTripsStart());

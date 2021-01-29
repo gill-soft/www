@@ -80,6 +80,7 @@ class SearchForm extends Component {
     this.props.fetchTripsSuccess({});
 
     //  ==== переход на страницу поездок ==== //
+    
     this.props.history.push(
       `/trips?from=${from}&to=${to}&date=${format(
         new Date(date),
