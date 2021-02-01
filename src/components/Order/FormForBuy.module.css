@@ -1,5 +1,5 @@
 .container {
-    width: 700px;
+    width: 720px;
 }
 
 .title {
@@ -52,7 +52,7 @@
 }
 
 .input {
-    width: 160px;
+    width: 150px;
     background: #fff;
     border: 1px solid var(--color-secondary);
     border-radius: 5px;
@@ -65,7 +65,7 @@
 
 .price {
     color: var(--color-secondary);
-    margin-right: 30px;
+    margin-right: 10px;
     font-weight: 700;
     font-size: 18px;
 }

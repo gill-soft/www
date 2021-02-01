@@ -21,8 +21,12 @@ export const inputValueDate = date => ({
   type: Types.INPUT_DATE,
   payload: date,
 });
-export const inputValueAmountPassangers = val => ({
-  type: Types.INPUT_AMOUNT_PASSANGER,
-  payload: val,
+
+export const incrementAmountPassangers = () => ({
+  type: Types.INCREMENT_AMOUNT_PASSANGER,
+});
+
+export const decrementAmountPassangers = () => ({
+  type: Types.DECREMENT_AMOUNT_PASSANGER,
 });
 

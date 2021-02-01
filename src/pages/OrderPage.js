@@ -7,12 +7,13 @@ import styled from "styled-components";
 
 const Div = styled.div`
   display: flex;
+  justify-content: space-between;
   padding: 50px 0 0 10px;
 `;
 
 const OrderPage = ({ history, amountPassangers }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
-  
+
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
   };

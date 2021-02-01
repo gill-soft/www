@@ -39,8 +39,8 @@ class FormForBuy extends Component {
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
 
-    console.log(requestBody);
-    requaredField(requestBody).then(({ data }) => this.setState({ resp: data }));
+    requaredField(requestBody).then(({ data }) => this.setState({ resp: data })
+    );
   };
 
   handleChange = (idx, { target }) => {
