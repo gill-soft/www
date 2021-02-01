@@ -45,7 +45,14 @@ export const searchTrips = id => {
   });
 };
 
-// ===============не удалять==========
-// 698c04d5-b503-4415-88f9-a6e757cdec7d
-//  carrier_test
-// test_carrier
+//  ==== обязательные поля ==== //
+export const requaredField = (body) => {
+  return axios({
+    method: 'post',
+    url: `https://busis.eu/gds-control/api/v1/order`,
+    headers: {
+      Authorization: AUTH_KEY2,
+    },
+     data : body
+  })
+}

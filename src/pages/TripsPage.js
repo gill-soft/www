@@ -52,17 +52,26 @@ class TripsPage extends Component {
     }
     // ==== сортируем по цене ==== //
     if (prevProps.trips !== trips) {
-      if (Object.keys(trips).length > 0) {
-        getTripsInfo(
-          Object.values(trips.segments).sort((a, b) => {
-            const A = a.price.amount;
-            const B = b.price.amount;
-            return A - B;
-          })
-        );
-      } else {
-        getTripsInfo([]);
+      const arr = [];
+      for (let [key, values] of Object.entries(trips.segments)) {
+        arr.push({ [key]: values });
       }
+      arr.sort(
+        (a, b) =>
+          a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
+      );
+      getTripsInfo(arr);
+      //   if (Object.keys(trips).length > 0) {
+      //     getTripsInfo(
+      //       arr.sort((a, b) => {
+      //         const A = a[`${Object.keys(a)}`].price.amount;
+      //         const B = b[`${Object.keys(b)}`].price.amount;
+      //         return A - B;
+      //       })
+      //     );
+      //   } else {
+      //     getTripsInfo([]);
+      //   }
     }
   }
 
@@ -135,8 +144,8 @@ class TripsPage extends Component {
     if (bySort === "up") this.setState({ bySort: "down" });
     if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
-      const time_partsA = a.timeInWay.split(":");
-      const time_partsB = b.timeInWay.split(":");
+      const time_partsA = a[`${Object.keys(a)}`].timeInWay.split(":");
+      const time_partsB = b[`${Object.keys(b)}`].timeInWay.split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
 
@@ -148,8 +157,8 @@ class TripsPage extends Component {
     if (bySort === "up") this.setState({ bySort: "down" });
     if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
-      const time_partsA = a.departureDate.split(" ")[1].split(":");
-      const time_partsB = b.departureDate.split(" ")[1].split(":");
+      const time_partsA = a[`${Object.keys(a)}`].departureDate.split(" ")[1].split(":");
+      const time_partsB = b[`${Object.keys(b)}`].departureDate.split(" ")[1].split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
 
@@ -161,8 +170,8 @@ class TripsPage extends Component {
     if (bySort === "up") this.setState({ bySort: "down" });
     if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
-      const time_partsA = a.arrivalDate.split(" ")[1].split(":");
-      const time_partsB = b.arrivalDate.split(" ")[1].split(":");
+      const time_partsA = a[`${Object.keys(a)}`].arrivalDate.split(" ")[1].split(":");
+      const time_partsB = b[`${Object.keys(b)}`].arrivalDate.split(" ")[1].split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
 
@@ -175,8 +184,8 @@ class TripsPage extends Component {
     if (bySort === "up") this.setState({ bySort: "down" });
     if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
-      const A = a.price.amount;
-      const B = b.price.amount;
+      const A = a[`${Object.keys(a)}`].price.amount;
+      const B = b[`${Object.keys(b)}`].price.amount;
       return bySort === "up" ? A - B : B - A;
     });
   };
@@ -184,7 +193,6 @@ class TripsPage extends Component {
   render() {
     const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
-
 
     return (
       <>
@@ -207,7 +215,8 @@ class TripsPage extends Component {
             {tripsInfo.map((el, idx) => (
               <TripBox
                 key={idx}
-                trip={el}
+                trip={el[`${Object.keys(el) }`]}
+                tripKey = {Object.keys(el)}
                 from={getLocality(parsed.from, stops, lang)}
                 to={getLocality(parsed.to, stops, lang)}
               />

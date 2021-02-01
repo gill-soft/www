@@ -5,10 +5,9 @@ import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
 
-const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
+const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
-
   const getStop = (val) => {
     const key = trip[`${val}`].id;
     return trips.localities[`${key}`].name[`${lang}`];
@@ -25,7 +24,24 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
   };
 
   const getDate = (key) => {
-    return new Date(trip[`${key}`]).toLocaleString("uk", {
+    let lng;
+    switch (lang) {
+      case "RU":
+        lng = "ru";
+        break;
+      case "UA":
+        lng = "uk";
+        break;
+      case "EN":
+        lng = "en";
+        break;
+      case "PL":
+        lng = "pl";
+        break;
+      default:
+        break;
+    }
+    return new Date(trip[`${key}`]).toLocaleString(lng, {
       day: "2-digit",
       month: "short",
       year: "2-digit",
@@ -52,6 +68,7 @@ const TripBox = ({ trip, trips, fetchOrderInfo, lang, from, to }) => {
       departureDate: trip.departureDate,
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
+      tripKey: tripKey,
     };
     fetchOrderInfo(obj);
   };

@@ -12,6 +12,7 @@ const Div = styled.div`
 
 const OrderPage = ({ history, amountPassangers }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
+  
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
   };
