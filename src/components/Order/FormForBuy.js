@@ -16,7 +16,10 @@ class FormForBuy extends Component {
     const { amountPassangers } = this.props;
     for (let i = 0; i <= amountPassangers - 1; i++) {
       this.setState((prev) => ({
-        values: [...prev.values, { name: "M", phone: "3", id: `${i}`, surname: 'surname1', email: "m@m.com" }],
+        values: [
+          ...prev.values,
+          { name: "M", phone: "3", id: `${i}`, surname: "surname1", email: "" },
+        ],
       }));
     }
   }
@@ -24,7 +27,7 @@ class FormForBuy extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { tripKey, price } = this.props;
-    const {values} = this.state
+    const { values } = this.state;
     const requestBody = {};
     requestBody.lang = this.props.lang;
     requestBody.services = values.map((el, idx) => ({
@@ -33,15 +36,12 @@ class FormForBuy extends Component {
       seat: { id: `0:${idx + 1}` },
       price: { tariff: { id: price } },
     }));
-    requestBody.customers ={...values} 
-    requestBody.currency = 'UAH'
-    
+    requestBody.customers = { ...values };
+    requestBody.currency = "UAH";
 
     console.log(requestBody);
     requaredField(requestBody).then(({ data }) => this.setState({ resp: data }));
   };
-
-
 
   handleChange = (idx, { target }) => {
     target.name === "phone"
@@ -61,19 +61,29 @@ class FormForBuy extends Component {
 
   handleChangeEmail = ({ target }) => {
     this.setState({ [target.name]: target.value });
+    console.log(target.value);
+    this.setState((prev) =>
+      // eslint-disable-next-line array-callback-return
+      prev.values.map((el) => {
+        el[`${target.name}`] = target.value;
+      })
+    );
   };
 
   handleAdd = () => {
     if (this.state.values.length >= 10) return;
     const id = +this.state.values.slice(-1)[0].id + 1;
     this.setState((prev) => ({
-      values: [...prev.values, { name: "", phone: "", id: `${id}` }],
+      values: [
+        ...prev.values,
+        { name: "", phone: "", id: `${id}`, surname: "", email: "" },
+      ],
     }));
     this.props.changeAmountPassanger(this.props.total + 1);
   };
 
   handleRemove = ({ target }) => {
-    console.log(target.name)
+    console.log(target.name);
     if (this.state.values.length <= 1) return;
     this.setState((prev) => ({
       values: prev.values.filter((el) => el.id !== target.name),
@@ -83,20 +93,24 @@ class FormForBuy extends Component {
   getValueName = (id) => {
     return this.state.values.find((el) => el.id === id).name;
   };
+  getValueSurname = (id) => {
+    return this.state.values.find((el) => el.id === id).surname;
+  };
   getValuePhone = (id) => {
     return this.state.values.find((el) => el.id === id).phone;
   };
+  
 
   render() {
-    const { email } = this.state;
+    const { values, email } = this.state;
     return (
       <div className={styles.container}>
         {/* <pre>{JSON.stringify(this.state, null, 4)}</pre> */}
         <h3 className={styles.title}>Данные пассажиров</h3>
 
         <form onSubmit={this.handleSubmit}>
-          {this.state.values.length > 0 &&
-            this.state.values.map((el, idx) => {
+          {values.length > 0 &&
+            values.map((el, idx) => {
               return (
                 <div className={styles.box} key={idx}>
                   <div className={styles.svgBox}>
@@ -112,6 +126,16 @@ class FormForBuy extends Component {
                       value={this.getValueName(el.id)}
                       onChange={(e) => this.handleChange(el.id, e)}
                       placeholder="name"
+                      autoComplete="off"
+                      required={true}
+                    />
+                    <input
+                      className={styles.input}
+                      name="surname"
+                      type="text"
+                      value={this.getValueSurname(el.id)}
+                      onChange={(e) => this.handleChange(el.id, e)}
+                      placeholder="surname"
                       autoComplete="off"
                       required={true}
                     />
