@@ -93,7 +93,6 @@ class SearchForm extends Component {
   };
   getId = (val, inp) => {
     const { lang, stops } = this.props;
-    // console.log(loc)
     const result = stops.find((item) =>
       item.type === "LOCALITY"
         ? (item.name[`${lang}`] || item.name["EN"]).toLowerCase() ===
@@ -148,7 +147,7 @@ const mapStateToProps = (state) => ({
   to: state.searchForm.to,
   date: state.searchForm.date,
   amount: state.searchForm.amountPassanger,
-  stops: state.searchForm.stops,
+  stops: state.global.stops,
   error: state.trips.error,
 });
 const mapDispatchToProps = (dispatch) => ({

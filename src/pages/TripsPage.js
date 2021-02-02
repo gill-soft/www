@@ -52,26 +52,17 @@ class TripsPage extends Component {
     }
     // ==== сортируем по цене ==== //
     if (prevProps.trips !== trips) {
-      const arr = [];
-      for (let [key, values] of Object.entries(trips.segments)) {
-        arr.push({ [key]: values });
+      if (Object.keys(trips).length > 0) {
+        const arr = [];
+        for (let [key, values] of Object.entries(trips.segments)) {
+          arr.push({ [key]: values });
+        }
+        arr.sort(
+          (a, b) =>
+            a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
+        );
+        getTripsInfo(arr);
       }
-      arr.sort(
-        (a, b) =>
-          a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
-      );
-      getTripsInfo(arr);
-      //   if (Object.keys(trips).length > 0) {
-      //     getTripsInfo(
-      //       arr.sort((a, b) => {
-      //         const A = a[`${Object.keys(a)}`].price.amount;
-      //         const B = b[`${Object.keys(b)}`].price.amount;
-      //         return A - B;
-      //       })
-      //     );
-      //   } else {
-      //     getTripsInfo([]);
-      //   }
     }
   }
 
@@ -215,8 +206,8 @@ class TripsPage extends Component {
             {tripsInfo.map((el, idx) => (
               <TripBox
                 key={idx}
-                trip={el[`${Object.keys(el) }`]}
-                tripKey = {Object.keys(el)}
+                trip={el[`${Object.keys(el)}`]}
+                tripKey={Object.keys(el)}
                 from={getLocality(parsed.from, stops, lang)}
                 to={getLocality(parsed.to, stops, lang)}
               />

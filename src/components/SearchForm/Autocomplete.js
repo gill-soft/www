@@ -145,7 +145,7 @@ const AutocompleteComp = ({
   );
 };
 const mapStateToProps = (state) => ({
-  stops: state.searchForm.stops,
+  stops: state.global.stops,
   lang: state.language,
   from: state.searchForm.from,
   to: state.searchForm.to,

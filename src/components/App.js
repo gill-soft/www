@@ -5,7 +5,7 @@ import HomePage from "../pages/HomePage";
 import OrderPage from "../pages/OrderPage";
 import TicketPage from "../pages/TicketPage";
 import TripsPage from "../pages/TripsPage";
-import { fetchStops } from "../redux/searchForm/searchFormOperation";
+import { fetchStops } from "../redux/global/globalOperations";
 
 const App = ({ fetchStops, stops }) => {
   //  ==== получаем все остановки через redux ==== //
@@ -29,7 +29,7 @@ const App = ({ fetchStops, stops }) => {
   );
 };
 const mapStateToProps = (state) => ({
-  stops: state.searchForm.stops,
+  stops: state.global.stops,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchStops: () => dispatch(fetchStops()),

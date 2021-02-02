@@ -24,17 +24,14 @@ class FormForBuy extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.resp !== this.state.resp){
-      this.props.history.push(`/ticket/${this.state.resp.orderId}`)
-      // console.log("object, ")
-      // console.log(this.props.history)
+    if (prevState.resp !== this.state.resp) {
+      this.props.history.push(`/ticket/${this.state.resp.orderId}`);
     }
   }
-  
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { tripKey, price, history } = this.props;
+    const { tripKey, price } = this.props;
     const { values } = this.state;
 
     const requestBody = {};
@@ -48,8 +45,7 @@ class FormForBuy extends Component {
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
 
-    requaredField(requestBody)
-      .then(({ data }) => this.setState({ resp: data }))
+    requaredField(requestBody).then(({ data }) => this.setState({ resp: data }));
   };
 
   handleChange = (idx, { target }) => {
