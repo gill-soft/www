@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "../components/TripsContainer/TripsContainer.module.css";
-import {
-  fetchTripsError,
-  fetchTripsStart,
-  fetchTripsSuccess,
-  getTripsInfo,
-} from "../redux/trips/tripsActions";
+import { fetchTripsSuccess, getTripsInfo } from "../redux/trips/tripsActions";
 import TripBox from "../components/TripsContainer/TripBox";
 import FilterButtons from "../components/TripsContainer/FilterButtons";
 import SearchForm from "../components/SearchForm/SearchForm";
 import queryString from "query-string";
 import { getInitialization, searchTrips } from "../services/api";
 import { getLocality } from "../services/getInfo";
+import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
 
 class TripsPage extends Component {
   state = {
@@ -70,8 +66,9 @@ class TripsPage extends Component {
   startSerch = (time, requestData) => {
     getInitialization(requestData, this.props.lang)
       .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
-      .catch(({ err }) => this.props.fetchTripsError(err))
-      .finally(this.props.fetchTripsStart());
+      .catch((err) => {
+        this.props.getError(err.message);
+      });
   };
   // ==== цикл поиска результатов поездки ==== //
   searchRouts = (id, time, requestData) => {
@@ -89,8 +86,7 @@ class TripsPage extends Component {
             }
           }
         })
-        .catch(({ err }) => this.props.fetchTripsError(err))
-        .finally(this.props.fetchTripsStart());
+        .catch((err) => this.props.getError(err.message));
     } else if (deltaTime <= 3000) {
       setTimeout(() => {
         searchTrips(id)
@@ -105,8 +101,7 @@ class TripsPage extends Component {
               }
             }
           })
-          .catch(({ err }) => this.props.fetchTripsError(err))
-          .finally(this.props.fetchTripsStart());
+          .catch(({ err }) => this.props.getError(err));
       }, 300);
     } else if (deltaTime > 3000 && deltaTime < 5000) {
       setTimeout(() => {
@@ -122,11 +117,11 @@ class TripsPage extends Component {
               }
             }
           })
-          .catch(({ err }) => this.props.fetchTripsError(err))
-          .finally(this.props.fetchTripsStart());
+          .catch(({ err }) => this.props.getError(err));
       }, 2000);
     } else {
-      return this.props.fetchTripsError("нет поездок");
+      this.props.stopLoader();
+      this.props.getError("По вашему запросу поездок нет. Попробуйте другую дату");
     }
   };
 
@@ -221,10 +216,10 @@ class TripsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  stops: state.global.stops,
+  isLoading: state.global.isLoading,
+  error: state.global.error,
   trips: state.trips.trips,
-  isLoading: state.trips.isLoading,
-  error: state.trips.error,
-  stops: state.searchForm.stops,
   lang: state.language,
   tripsInfo: state.trips.tripsInfo,
 });
@@ -232,8 +227,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTripsInfo: (trips) => dispatch(getTripsInfo(trips)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
-  fetchTripsError: (err) => dispatch(fetchTripsError(err)),
-  fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
+  startLoader: () => dispatch(startLoader()),
+  stopLoader: () => dispatch(stopLoader()),
+  getError: (error) => dispatch(getError(error)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

@@ -8,9 +8,10 @@ import { fetchOrderInfo } from "../../redux/order/orderActions";
 const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
+
   const getStop = (val) => {
     const key = trip[`${val}`].id;
-    return trips.localities[`${key}`].name[`${lang}`];
+    return trips.localities[`${key}`]?.name[`${lang}`];
   };
 
   const getAllLocalities = (key) => {

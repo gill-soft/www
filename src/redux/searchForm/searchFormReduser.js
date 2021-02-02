@@ -1,24 +1,6 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-// const getStops = (state = [], { type, payload }) => {
-//   switch (type) {
-//     case Types.FETCH_ALL_STOPS_SUCCESS:
-//       return payload;
-
-//     default:
-//       return state;
-//   }
-// };
-// const getErrorStops = (state = "", { type, payload }) => {
-//   switch (type) {
-//     case Types.FETCH_ALL_STOPS_ERROR:
-//       return payload;
-
-//     default:
-//       return state;
-//   }
-// };
 const getInputValueFrom = (state = "Львов", { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_FROM:
@@ -58,7 +40,6 @@ const getAmountPassanger = (state = 1, { type, payload }) => {
 };
 
 export const searchFormReduser = combineReducers({
-  // error: getErrorStops,
   from: getInputValueFrom,
   to: getInputValueTo,
   date: getInputValueDate,

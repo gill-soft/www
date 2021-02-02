@@ -13,15 +13,12 @@ import {
   inputValueTo,
   inputValueDate,
 } from "../../redux/searchForm/searchFormAction";
-import {
-  fetchTripsSuccess,
-  fetchTripsError,
-  fetchTripsStart,
-} from "../../redux/trips/tripsActions";
+import { fetchTripsSuccess, fetchTripsStart } from "../../redux/trips/tripsActions";
 import styles from "./SearchForm.module.css";
 import AutocompleteComp from "./Autocomplete";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 import AmountPassanger from "./AmountPassanger";
+import { getError, startLoader } from "../../redux/global/globalActions";
 
 class SearchForm extends Component {
   state = {
@@ -63,7 +60,7 @@ class SearchForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { from, to, date, amount } = this.props;
-    this.props.fetchTripsError("");
+    // this.props.getError("");
 
     // ==== проверка на не пустой инпут ==== //
     if (!this.props.from) {
@@ -75,9 +72,9 @@ class SearchForm extends Component {
       return;
     }
     // ==== запускаем лоадинг, очищаем ошибки и данные предыдущего запроса ==== //
-    this.props.fetchTripsError("");
-    this.props.fetchTripsStart();
+    this.props.getError("");
     this.props.fetchTripsSuccess({});
+    this.props.startLoader();
 
     //  ==== переход на страницу поездок ==== //
     const fromId = this.getId(from, "from");
@@ -105,7 +102,6 @@ class SearchForm extends Component {
       inp === "from"
         ? this.setState({ errorFrom: true })
         : this.setState({ errorTo: true });
-      // this.props.fetchTripsError("уточните параметры поиска");
       return;
     }
   };
@@ -148,15 +144,16 @@ const mapStateToProps = (state) => ({
   date: state.searchForm.date,
   amount: state.searchForm.amountPassanger,
   stops: state.global.stops,
-  error: state.trips.error,
+  error: state.global.error,
 });
 const mapDispatchToProps = (dispatch) => ({
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
   changeInputTo: (value) => dispatch(inputValueTo(value)),
   changeInputDate: (date) => dispatch(inputValueDate(date)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
-  fetchTripsError: (err) => dispatch(fetchTripsError(err)),
-  fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
+  getError: (err) => dispatch(getError(err)),
+  // fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
+  startLoader: () => dispatch(startLoader())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

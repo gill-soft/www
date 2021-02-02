@@ -1,4 +1,4 @@
-import { fetchAllStops, fetchError } from "./globalActions";
+import { fetchAllStops, getError } from "./globalActions";
 import { getAllStops } from "../../services/api";
 
 export const fetchStops = () => (dispatch) => {
@@ -6,5 +6,5 @@ export const fetchStops = () => (dispatch) => {
     .then((res) => {
       dispatch(fetchAllStops(res.data));
     })
-    .catch((error) => dispatch(fetchError(error.message)));
+    .catch((error) => dispatch(getError(error.message)));
 };

@@ -1,13 +1,13 @@
-import axios from 'axios';
-const baseUrl = 'https://busis.eu/gds-control/api/v1';
-const localityAll = '/locality/all';
+import axios from "axios";
+const baseUrl = "https://busis.eu/gds-control/api/v1";
+const localityAll = "/locality/all";
 // const AUTH_KEY = 'Basic Y2Fycmllcl90ZXN0OnRlc3RfY2Fycmllcg==';
-const AUTH_KEY2 = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`
+const AUTH_KEY2 = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
 
 //  ==== получение всех остановок ==== //
 export const getAllStops = () => {
   return axios({
-    method: 'get',
+    method: "get",
     url: `${baseUrl}${localityAll}`,
     headers: {
       Authorization: AUTH_KEY2,
@@ -18,26 +18,26 @@ export const getAllStops = () => {
 // ==== инициализация поиска ==== //
 export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
   return axios({
-    method: 'post',
-    url: 'https://busis.eu/gds-control/api/v1/search',
+    method: "post",
+    url: "https://busis.eu/gds-control/api/v1/search",
     headers: {
       Authorization: AUTH_KEY2,
     },
     data: {
-      id: 'string',
+      id: "string",
       lang: `${lang}`,
       localityPairs: [[`${idFrom}`, `${idWhereTo}`]],
       dates: [`${date}`],
-      currency: 'UAH',
+      currency: "UAH",
       // maxConnections: 0,
     },
   });
 };
 
 //  ==== поиск поездок ==== //
-export const searchTrips = id => {
+export const searchTrips = (id) => {
   return axios({
-    method: 'get',
+    method: "get",
     url: `${baseUrl}/search/${id}`,
     headers: {
       Authorization: AUTH_KEY2,
@@ -48,22 +48,22 @@ export const searchTrips = id => {
 //  ==== запрос на билет ==== //
 export const requaredField = (body) => {
   return axios({
-    method: 'post',
-    url: `https://busis.eu/gds-control/api/v1/order`,
+    method: "post",
+    url: `${baseUrl}/order`,
     headers: {
       Authorization: AUTH_KEY2,
     },
-     data : body
-  })
-}
+    data: body,
+  });
+};
 
 // ==== информация о билете ==== //
 export const getTicketInfo = (id) => {
   return axios({
-    method: 'get',
-    url: `https://busis.eu/gds-control/api/v1/order/${id}`,
+    method: "get",
+    url: `${baseUrl}/order/${id}`,
     headers: {
       Authorization: AUTH_KEY2,
     },
-  })
-}
+  });
+};

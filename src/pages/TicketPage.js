@@ -1,17 +1,18 @@
-import React, {useEffect} from 'react';
-import { getTicketInfo } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { getTicketInfo } from "../services/api";
 
-const TicketPage = ({match}) => {
-useEffect(() => {
-    const id =match.params.id
-    getTicketInfo(id).then(({data})=> console.log(data))
-    
-}, [])
-    return (
-        <div>
-           <p>TicketPage</p> 
-        </div>
-    );
+const TicketPage = ({ match }) => {
+  const [ticket, setTicket] = useState({});
+  useEffect(() => {
+    const id = match.params.id;
+    getTicketInfo(id).then(({ data }) => setTicket({ ticket: data }));
+  }, []);
+  return (
+    <div>
+      <h2>TicketPage</h2>
+      <pre>{JSON.stringify(ticket, null, 4)}</pre>
+    </div>
+  );
 };
 
 export default TicketPage;
