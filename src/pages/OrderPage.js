@@ -21,7 +21,7 @@ const OrderPage = ({ history, amountPassangers }) => {
     <div>
       <SearchForm history={history} />
       <Div>
-        <FormForBuy changeAmountPassanger={changeAmountPassanger} total={totalPassanger}/>
+        <FormForBuy changeAmountPassanger={changeAmountPassanger} total={totalPassanger} history={history}/>
         <OrderInfo total={totalPassanger}/>
       </Div>
     </div>

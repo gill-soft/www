@@ -45,7 +45,7 @@ export const searchTrips = id => {
   });
 };
 
-//  ==== обязательные поля ==== //
+//  ==== запрос на билет ==== //
 export const requaredField = (body) => {
   return axios({
     method: 'post',
@@ -54,5 +54,16 @@ export const requaredField = (body) => {
       Authorization: AUTH_KEY2,
     },
      data : body
+  })
+}
+
+// ==== информация о билете ==== //
+export const getTicketInfo = (id) => {
+  return axios({
+    method: 'get',
+    url: `https://busis.eu/gds-control/api/v1/order/${id}`,
+    headers: {
+      Authorization: AUTH_KEY2,
+    },
   })
 }
