@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/www/static/css/main.7679bbeb.chunk.css",
-    "main.js": "/www/static/js/main.e9268d7e.chunk.js",
-    "main.js.map": "/www/static/js/main.e9268d7e.chunk.js.map",
-    "runtime-main.js": "/www/static/js/runtime-main.2fcb4c4c.js",
-    "runtime-main.js.map": "/www/static/js/runtime-main.2fcb4c4c.js.map",
+    "main.css": "/www/static/css/main.23489a2f.chunk.css",
+    "main.js": "/www/static/js/main.ac370942.chunk.js",
+    "main.js.map": "/www/static/js/main.ac370942.chunk.js.map",
+    "runtime-main.js": "/www/static/js/runtime-main.0c26343a.js",
+    "runtime-main.js.map": "/www/static/js/runtime-main.0c26343a.js.map",
     "static/css/2.95456d05.chunk.css": "/www/static/css/2.95456d05.chunk.css",
-    "static/js/2.15ebbc96.chunk.js": "/www/static/js/2.15ebbc96.chunk.js",
-    "static/js/2.15ebbc96.chunk.js.map": "/www/static/js/2.15ebbc96.chunk.js.map",
-    "static/js/3.09f8f58a.chunk.js": "/www/static/js/3.09f8f58a.chunk.js",
-    "static/js/3.09f8f58a.chunk.js.map": "/www/static/js/3.09f8f58a.chunk.js.map",
+    "static/js/2.9984d638.chunk.js": "/www/static/js/2.9984d638.chunk.js",
+    "static/js/2.9984d638.chunk.js.map": "/www/static/js/2.9984d638.chunk.js.map",
+    "static/js/3.3bafb48a.chunk.js": "/www/static/js/3.3bafb48a.chunk.js",
+    "static/js/3.3bafb48a.chunk.js.map": "/www/static/js/3.3bafb48a.chunk.js.map",
     "index.html": "/www/index.html",
     "static/css/2.95456d05.chunk.css.map": "/www/static/css/2.95456d05.chunk.css.map",
-    "static/css/main.7679bbeb.chunk.css.map": "/www/static/css/main.7679bbeb.chunk.css.map",
-    "static/js/2.15ebbc96.chunk.js.LICENSE.txt": "/www/static/js/2.15ebbc96.chunk.js.LICENSE.txt",
+    "static/css/main.23489a2f.chunk.css.map": "/www/static/css/main.23489a2f.chunk.css.map",
+    "static/js/2.9984d638.chunk.js.LICENSE.txt": "/www/static/js/2.9984d638.chunk.js.LICENSE.txt",
     "static/media/TripsPage.module.css": "/www/static/media/BlankMap-Europe.e43988da.png",
     "static/media/add-black-18dp.aceff8ea.svg": "/www/static/media/add-black-18dp.aceff8ea.svg",
     "static/media/HomePage.module.css": "/www/static/media/bus.8157bb4d.jpg",
@@ -25,10 +25,10 @@
     "static/media/sync_alt-white-36dp.c9deb1dc.svg": "/www/static/media/sync_alt-white-36dp.c9deb1dc.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.2fcb4c4c.js",
+    "static/js/runtime-main.0c26343a.js",
     "static/css/2.95456d05.chunk.css",
-    "static/js/2.15ebbc96.chunk.js",
-    "static/css/main.7679bbeb.chunk.css",
-    "static/js/main.e9268d7e.chunk.js"
+    "static/js/2.9984d638.chunk.js",
+    "static/css/main.23489a2f.chunk.css",
+    "static/js/main.ac370942.chunk.js"
   ]
 }
