@@ -3,19 +3,17 @@ import { connect } from "react-redux";
 import styles from "./TripsPage.module.css";
 import { fetchTripsSuccess, getTripsInfo } from "../redux/trips/tripsActions";
 import TripBox from "../components/TripsContainer/TripBox";
-import FilterButtons from "../components/TripsContainer/FilterButtons";
 import SearchForm from "../components/SearchForm/SearchForm";
 import queryString from "query-string";
 import { getInitialization, searchTrips } from "../services/api";
 import { getLang, getLocality } from "../services/getInfo";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
-import { format, getDate } from "date-fns";
+import { format } from "date-fns";
 
 class TripsPage extends Component {
   state = {
-    bySort: "up",
+    value: "price",
   };
-
   componentDidMount() {
     const parsed = queryString.parse(this.props.location.search);
     // ==== формируем обьект для запроса ====
@@ -38,6 +36,7 @@ class TripsPage extends Component {
       prevProps.location.search !== this.props.location.search ||
       prevProps.lang !== this.props.lang
     ) {
+      this.setState({ value: "price" });
       // ==== формируем обьект для запроса ====
       const requestData = {
         idFrom: parsed.from,
@@ -47,18 +46,19 @@ class TripsPage extends Component {
       const time = Date.now();
       this.startSerch(time, requestData);
     }
-    // ==== сортируем по цене ==== //
+    // ==== сортируем по цене и записываем в redux ==== //
     if (prevProps.trips !== trips) {
       if (Object.keys(trips).length > 0) {
         const arr = [];
         for (let [key, values] of Object.entries(trips.segments)) {
           arr.push({ [key]: values });
         }
-        arr.sort(
-          (a, b) =>
-            a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
+        getTripsInfo(
+          arr.sort(
+            (a, b) =>
+              a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
+          )
         );
-        getTripsInfo(arr);
       }
     }
   }
@@ -127,54 +127,36 @@ class TripsPage extends Component {
   };
 
   sortTimeInWay = () => {
-    const { bySort } = this.state;
-    if (bySort === "up") this.setState({ bySort: "down" });
-    if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
       const time_partsA = a[`${Object.keys(a)}`].timeInWay.split(":");
       const time_partsB = b[`${Object.keys(b)}`].timeInWay.split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
-
-      return bySort === "up" ? A - B : B - A;
+      return A - B;
     });
   };
-  sortDepartureTime = () => {
-    const { bySort } = this.state;
-    if (bySort === "up") this.setState({ bySort: "down" });
-    if (bySort === "down") this.setState({ bySort: "up" });
+  sortTime = (key) => {
     this.props.tripsInfo.sort((a, b) => {
-      const time_partsA = a[`${Object.keys(a)}`].departureDate.split(" ")[1].split(":");
-      const time_partsB = b[`${Object.keys(b)}`].departureDate.split(" ")[1].split(":");
+      const time_partsA = a[`${Object.keys(a)}`][`${key}`].split(" ")[1].split(":");
+      const time_partsB = b[`${Object.keys(b)}`][`${key}`].split(" ")[1].split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
-
-      return bySort === "up" ? A - B : B - A;
+      return A - B;
     });
   };
-  sortArrivalTime = () => {
-    const { bySort } = this.state;
-    if (bySort === "up") this.setState({ bySort: "down" });
-    if (bySort === "down") this.setState({ bySort: "up" });
-    this.props.tripsInfo.sort((a, b) => {
-      const time_partsA = a[`${Object.keys(a)}`].arrivalDate.split(" ")[1].split(":");
-      const time_partsB = b[`${Object.keys(b)}`].arrivalDate.split(" ")[1].split(":");
-      const A = time_partsA[0] + time_partsA[1];
-      const B = time_partsB[0] + time_partsB[1];
-
-      return bySort === "up" ? A - B : B - A;
-    });
-  };
-
   sortPrice = () => {
-    const { bySort } = this.state;
-    if (bySort === "up") this.setState({ bySort: "down" });
-    if (bySort === "down") this.setState({ bySort: "up" });
     this.props.tripsInfo.sort((a, b) => {
       const A = a[`${Object.keys(a)}`].price.amount;
       const B = b[`${Object.keys(b)}`].price.amount;
-      return bySort === "up" ? A - B : B - A;
+      return A - B;
     });
+  };
+  handleSort = ({ target }) => {
+    this.setState({ value: target.value });
+    if (target.value === "departure") this.sortTime("departureDate");
+    if (target.value === "arrival") this.sortTime("arrivalDate");
+    if (target.value === "timeInWay") this.sortTimeInWay();
+    if (target.value === "price") this.sortPrice();
   };
 
   linkClick = (val) => {
@@ -222,10 +204,10 @@ class TripsPage extends Component {
       year: "2-digit",
     });
   };
+
   render() {
     const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
-
     return (
       <div className={styles.bgnd}>
         <div className={styles.container}>
@@ -248,37 +230,22 @@ class TripsPage extends Component {
               </div>
 
               {/*  */}
-              <FilterButtons
-                sortTimeInWay={this.sortTimeInWay}
-                sortDepartureTime={this.sortDepartureTime}
-                sortArrivalTime={this.sortArrivalTime}
-                sortPrice={this.sortPrice}
-              />
+
+              <select value={this.state.value} onChange={this.handleSort}>
+                <option value="price">по цене</option>
+                <option value="departure">по отправке</option>
+                <option value="arrival">по прибытию</option>
+                <option value="timeInWay">по времени в пути</option>
+              </select>
 
               {tripsInfo.map((el, idx) => (
-                <>
-                  <TripBox
-                    key={idx}
-                    trip={el[`${Object.keys(el)}`]}
-                    tripKey={Object.keys(el)}
-                    from={getLocality(parsed.from, stops, lang)}
-                    to={getLocality(parsed.to, stops, lang)}
-                  />
-                  {/* <TripBox
-                    key={idx}
-                    trip={el[`${Object.keys(el)}`]}
-                    tripKey={Object.keys(el)}
-                    from={getLocality(parsed.from, stops, lang)}
-                    to={getLocality(parsed.to, stops, lang)}
-                  />
-                  <TripBox
-                    key={idx}
-                    trip={el[`${Object.keys(el)}`]}
-                    tripKey={Object.keys(el)}
-                    from={getLocality(parsed.from, stops, lang)}
-                    to={getLocality(parsed.to, stops, lang)}
-                  /> */}
-                </>
+                <TripBox
+                  key={idx}
+                  trip={el[`${Object.keys(el)}`]}
+                  tripKey={Object.keys(el)}
+                  from={getLocality(parsed.from, stops, lang)}
+                  to={getLocality(parsed.to, stops, lang)}
+                />
               ))}
               {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
             </div>
