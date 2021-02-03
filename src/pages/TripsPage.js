@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styles from "../components/TripsContainer/TripsContainer.module.css";
+import styles from "./TripsPage.module.css";
 import { fetchTripsSuccess, getTripsInfo } from "../redux/trips/tripsActions";
 import TripBox from "../components/TripsContainer/TripBox";
 import FilterButtons from "../components/TripsContainer/FilterButtons";
@@ -9,6 +9,7 @@ import queryString from "query-string";
 import { getInitialization, searchTrips } from "../services/api";
 import { getLocality } from "../services/getInfo";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
+import { format } from "date-fns";
 
 class TripsPage extends Component {
   state = {
@@ -176,41 +177,82 @@ class TripsPage extends Component {
     });
   };
 
+  linkClick = (val) => {
+    const parsed = queryString.parse(this.props.location.search);
+    const nextDay = format(
+      new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
+      "yyyy-MM-dd"
+    );
+    const prevDay = format(
+      new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000),
+      "yyyy-MM-dd"
+    );
+    const newDay = val === "prev" ? prevDay : nextDay;
+    this.props.history.push(
+      `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=1`
+    );
+  };
+
   render() {
     const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
 
     return (
-      <>
-        <SearchForm history={history} />
-        {isLoading && <div>Loading...</div>}
-        {error && <p>{error}</p>}
-        {Object.keys(trips).length > 0 && (
-          <div className={styles.container}>
-            <h3 className={styles.title}>
-              Расписание автобусов {getLocality(parsed.from, stops, lang)} -
-              {getLocality(parsed.to, stops, lang)}
-            </h3>
-            <FilterButtons
-              sortTimeInWay={this.sortTimeInWay}
-              sortDepartureTime={this.sortDepartureTime}
-              sortArrivalTime={this.sortArrivalTime}
-              sortPrice={this.sortPrice}
-            />
-
-            {tripsInfo.map((el, idx) => (
-              <TripBox
-                key={idx}
-                trip={el[`${Object.keys(el)}`]}
-                tripKey={Object.keys(el)}
-                from={getLocality(parsed.from, stops, lang)}
-                to={getLocality(parsed.to, stops, lang)}
-              />
-            ))}
-            <pre>{JSON.stringify(trips, null, 4)}</pre>
+      <div className={styles.bgnd}>
+        <div className={styles.container}>
+          <div className={styles.formBox}>
+            <SearchForm history={history} />
           </div>
-        )}
-      </>
+          {isLoading && <div>Loading...</div>}
+          {error && <p>{error}</p>}
+          {Object.keys(trips).length > 0 && (
+            <div className={styles.tripsBox}>
+              {/*  */}
+              <p onClick={()=>this.linkClick('prev')}>prev</p>
+              <p onClick={()=>this.linkClick('next')}>next</p>
+
+              {/*  */}
+              <h3 className={styles.title}>
+                Расписание автобусов {getLocality(parsed.from, stops, lang)} -{" "}
+                {getLocality(parsed.to, stops, lang)}
+              </h3>
+              <FilterButtons
+                sortTimeInWay={this.sortTimeInWay}
+                sortDepartureTime={this.sortDepartureTime}
+                sortArrivalTime={this.sortArrivalTime}
+                sortPrice={this.sortPrice}
+              />
+
+              {tripsInfo.map((el, idx) => (
+                <>
+                  <TripBox
+                    key={idx}
+                    trip={el[`${Object.keys(el)}`]}
+                    tripKey={Object.keys(el)}
+                    from={getLocality(parsed.from, stops, lang)}
+                    to={getLocality(parsed.to, stops, lang)}
+                  />
+                  {/* <TripBox
+                    key={idx}
+                    trip={el[`${Object.keys(el)}`]}
+                    tripKey={Object.keys(el)}
+                    from={getLocality(parsed.from, stops, lang)}
+                    to={getLocality(parsed.to, stops, lang)}
+                  />
+                  <TripBox
+                    key={idx}
+                    trip={el[`${Object.keys(el)}`]}
+                    tripKey={Object.keys(el)}
+                    from={getLocality(parsed.from, stops, lang)}
+                    to={getLocality(parsed.to, stops, lang)}
+                  /> */}
+                </>
+              ))}
+              {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
+            </div>
+          )}
+        </div>
+      </div>
     );
   }
 }

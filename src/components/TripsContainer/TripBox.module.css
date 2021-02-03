@@ -1,9 +1,9 @@
 .full {
     margin-bottom: 30px;
-    /* background-color: #faebd7; */
     border: 1px solid var(--color-main);
     border-radius: 4px;
     box-shadow: 1px 1px 8px 1px #636363;
+    background-color: #ffffff;
 }
 
 .tripBox {
@@ -39,7 +39,6 @@
 .localityStop {
     margin-bottom: 24px;
     color:#636363
-    
 }
 
 .info {
@@ -56,13 +55,10 @@
 }
 
 .price {
-    /* width: 100px; */
-    /* background-color: var(--color-secondary); */
     color: var(--color-secondary);
     font-size: 25px;
     font-weight: 700;
     padding: 10px;
-    /* border-radius: 4px; */
     margin: 20px auto;
 }
 

@@ -36,3 +36,14 @@ div>.react-datepicker__current-month,
 div>.react-datepicker__day-name {
     color: #ffffff
 }
+
+.acOptions {
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+.acMainOption {
+    font-weight: 700;
+}

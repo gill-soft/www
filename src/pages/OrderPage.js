@@ -4,6 +4,7 @@ import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
 import styled from "styled-components";
+import styles from './OrderPage.module.css'
 
 const Div = styled.div`
   display: flex;
@@ -18,12 +19,10 @@ const OrderPage = ({ history, amountPassangers }) => {
     setTotalPassanger(val);
   };
   return (
-    <div>
+    <div className={styles.container}>
       <SearchForm history={history} />
-      <Div>
         <FormForBuy changeAmountPassanger={changeAmountPassanger} total={totalPassanger} history={history}/>
         <OrderInfo total={totalPassanger}/>
-      </Div>
     </div>
   );
 };

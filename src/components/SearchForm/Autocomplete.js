@@ -29,6 +29,7 @@ const StyledTextField = styled(TextField)`
     color: #ffffff;
     font-size: 18px;
     font-weight: 500;
+    cursor:pointer
   }
   .MuiIconButton-root {
     color: var(--color-secondary);
@@ -132,9 +133,9 @@ const AutocompleteComp = ({
         onChange={(event, value) => handleChange(value)}
         options={options.map((opt) => opt)}
         renderOption={(opt) => (
-          <div>
-            <span className="www">{opt.split(" - ")[0]}</span>
-            <span> - {opt.split(" - ")[1]}</span>
+          <div className='acOptions'>
+            <span className="acMainOption">{opt.split(" - ")[0]}</span>
+            <span className="acOption"> - {opt.split(" - ")[1]}</span>
           </div>
         )}
         renderInput={(params) => (
