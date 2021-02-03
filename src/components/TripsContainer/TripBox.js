@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
+import { getLang } from "../../services/getInfo";
 
 const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,24 +26,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to }) => {
   };
 
   const getDate = (key) => {
-    let lng;
-    switch (lang) {
-      case "RU":
-        lng = "ru";
-        break;
-      case "UA":
-        lng = "uk";
-        break;
-      case "EN":
-        lng = "en";
-        break;
-      case "PL":
-        lng = "pl";
-        break;
-      default:
-        break;
-    }
-    return new Date(trip[`${key}`]).toLocaleString(lng, {
+    return new Date(trip[`${key}`]).toLocaleString(getLang(lang), {
       day: "2-digit",
       month: "short",
       year: "2-digit",

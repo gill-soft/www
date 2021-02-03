@@ -7,9 +7,9 @@ import FilterButtons from "../components/TripsContainer/FilterButtons";
 import SearchForm from "../components/SearchForm/SearchForm";
 import queryString from "query-string";
 import { getInitialization, searchTrips } from "../services/api";
-import { getLocality } from "../services/getInfo";
+import { getLang, getLocality } from "../services/getInfo";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
-import { format } from "date-fns";
+import { format, getDate } from "date-fns";
 
 class TripsPage extends Component {
   state = {
@@ -192,7 +192,36 @@ class TripsPage extends Component {
       `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=1`
     );
   };
-
+  getYesterday = () => {
+    const parsed = queryString.parse(this.props.location.search);
+    return new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000).toLocaleString(
+      getLang(this.props.lang),
+      {
+        day: "2-digit",
+        month: "long",
+        year: "2-digit",
+      }
+    );
+  };
+  getTomorrow = () => {
+    const parsed = queryString.parse(this.props.location.search);
+    return new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000).toLocaleString(
+      getLang(this.props.lang),
+      {
+        day: "2-digit",
+        month: "long",
+        year: "2-digit",
+      }
+    );
+  };
+  getTodayDate = () => {
+    const parsed = queryString.parse(this.props.location.search);
+    return new Date(parsed.date).toLocaleString(getLang(this.props.lang), {
+      day: "2-digit",
+      month: "long",
+      year: "2-digit",
+    });
+  };
   render() {
     const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
@@ -207,15 +236,18 @@ class TripsPage extends Component {
           {error && <p>{error}</p>}
           {Object.keys(trips).length > 0 && (
             <div className={styles.tripsBox}>
-              {/*  */}
-              <p onClick={()=>this.linkClick('prev')}>prev</p>
-              <p onClick={()=>this.linkClick('next')}>next</p>
-
-              {/*  */}
               <h3 className={styles.title}>
                 Расписание автобусов {getLocality(parsed.from, stops, lang)} -{" "}
                 {getLocality(parsed.to, stops, lang)}
               </h3>
+              {/*  */}
+              <div className={styles.dateBox}>
+                <p onClick={() => this.linkClick("prev")}>{this.getYesterday()}</p>
+                <p>{this.getTodayDate()}</p>
+                <p onClick={() => this.linkClick("next")}>{this.getTomorrow()}</p>
+              </div>
+
+              {/*  */}
               <FilterButtons
                 sortTimeInWay={this.sortTimeInWay}
                 sortDepartureTime={this.sortDepartureTime}
