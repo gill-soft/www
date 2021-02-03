@@ -66,7 +66,6 @@ class FormForBuy extends Component {
 
   handleChangeEmail = ({ target }) => {
     this.setState({ [target.name]: target.value });
-    console.log(target.value);
     this.setState((prev) =>
       // eslint-disable-next-line array-callback-return
       prev.values.map((el) => {

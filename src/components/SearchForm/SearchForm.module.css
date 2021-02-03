@@ -1,23 +1,14 @@
-.searchForm {
-    background-image: url('../../images/summer-country-road-min.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
 
 .form {
-    width: 1140px;
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin: 0 auto;
-    padding: 40px 0;
+    align-items: flex-start;
+    /* justify-content: space-between; */
 }
 
 .datePicker {
-    margin: 14px;
-    padding-left: 10px;
-    width: 200px;
+    width: 100%;
+    height: 58.38px;
+    padding: 1px 10px;
     font-size: 18px;
     border: 2px solid var(--color-secondary);
     border-radius: 4px;
@@ -28,28 +19,30 @@
     outline: none;
     color: #ffffff;
     font-weight: 500;
-    height: 56px;
-    margin-bottom: 6px;
 }
+.inputBox{
+    margin-right: 10px;
+    width: 220px;
 
-.datePicker:hover,
+}
+/* .datePicker:hover,
 .datePicker:focus {
     border: 3px solid var(--color-secondary);
     padding: 0 1px 0 9px;
     background-position: 139px 50%
-
-
 }
 
 .datePicker:focus {
     transform: translateX(22px);
     margin-left: -1px;
-
-}
+} */
 
 .searchBtn {
     height: 60px;
     margin-top: 6px;
+}
 
+.arrow {
+    margin: 10px 10px 0 0 ;
 }
 

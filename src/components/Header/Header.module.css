@@ -1,0 +1,29 @@
+.header {
+    padding: 10px 0;
+    background-color: var(--color-main);
+}
+
+.container {
+    width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+}
+
+.link {
+    display: block;
+    width: 150px;
+    height: 45px;
+    margin: 10px;
+    background-image: url('../../images/ibusik-logo-white.png');
+}
+
+.tel {
+    padding: 5px 0 5px 30px;
+    background-image: url('../../images/support_agent-24px.svg');
+    background-repeat: no-repeat;
+    background-position: 0px 2px;
+    font-size: 18px;
+}

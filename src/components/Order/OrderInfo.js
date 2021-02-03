@@ -12,10 +12,10 @@ const OrderInfo = ({
   toStop,
   total,
 }) => {
-    const getTotalPrice = () => {
-        // const totalPrice = (total * price).toFixed(2)
-        return (total * price).toFixed(2)
-    }
+  const getTotalPrice = () => {
+    // const totalPrice = (total * price).toFixed(2)
+    return (total * price).toFixed(2);
+  };
   return (
     <div>
       <h3 className={styles.title}>Детали заказа</h3>
@@ -42,9 +42,5 @@ const mapStateToProps = (state) => ({
   arrivalDate: state.order.order.arrivalDate,
   price: state.order.order.price,
 });
-
-// const mapDispatchToProps = {
-
-// }
 
 export default connect(mapStateToProps)(OrderInfo);

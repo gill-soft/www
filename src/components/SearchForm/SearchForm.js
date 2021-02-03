@@ -13,7 +13,7 @@ import {
   inputValueTo,
   inputValueDate,
 } from "../../redux/searchForm/searchFormAction";
-import { fetchTripsSuccess, fetchTripsStart } from "../../redux/trips/tripsActions";
+import { fetchTripsSuccess } from "../../redux/trips/tripsActions";
 import styles from "./SearchForm.module.css";
 import AutocompleteComp from "./Autocomplete";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
@@ -111,19 +111,28 @@ class SearchForm extends Component {
     return (
       <div className={`${styles.searchForm}`}>
         <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
-          <AutocompleteComp id="from" error={this.state.errorFrom} />
-          {/* <button type="button" className="change" onClick={this.changeButton}> */}
-          <Arrow onClick={this.changeButton} />
-          <AutocompleteComp id="to" error={this.state.errorTo} />
-          <DatePicker
-            className={styles.datePicker}
-            dateFormat="dd MMMM yyyy"
-            selected={date}
-            minDate={new Date()}
-            locale={this.dateLocale()}
-            onChange={(date) => changeInputDate(date)}
-          />
-          <AmountPassanger onClose={this.closeModal} />
+          <div className={styles.inputBox}>
+            <AutocompleteComp id="from" error={this.state.errorFrom} />
+          </div>
+          <Arrow className={styles.arrow} onClick={this.changeButton} />
+          <div className={styles.inputBox}>
+            <AutocompleteComp id="to" error={this.state.errorTo} />
+          </div>
+          <div className={styles.inputBox}>
+            <DatePicker
+              className={styles.datePicker}
+              dateFormat="dd MMMM yyyy"
+              selected={date}
+              minDate={new Date()}
+              locale={this.dateLocale()}
+              onChange={(date) => changeInputDate(date)}
+            />
+          </div>
+
+          <div className={styles.inputBox}>
+            <AmountPassanger onClose={this.closeModal} />
+          </div>
+
           <Button
             className={styles.searchBtn}
             type="submit"
@@ -153,7 +162,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   getError: (err) => dispatch(getError(err)),
   // fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
-  startLoader: () => dispatch(startLoader())
+  startLoader: () => dispatch(startLoader()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

@@ -33,6 +33,14 @@ const StyledTextField = styled(TextField)`
   .MuiIconButton-root {
     color: var(--color-secondary);
   }
+  .MuiFormControl-marginNormal {
+    margin: 0;
+  }
+`;
+const StyledAC = styled(Autocomplete)`
+  .MuiFormControl-marginNormal {
+    margin: 0;
+  }
 `;
 
 const AutocompleteComp = ({
@@ -116,8 +124,8 @@ const AutocompleteComp = ({
   };
 
   return (
-    <div style={{ width: 200 }}>
-      <Autocomplete
+    <div>
+      <StyledAC
         id={id}
         freeSolo
         value={value}

@@ -6,7 +6,7 @@ const TicketPage = ({ match }) => {
   useEffect(() => {
     const id = match.params.id;
     getTicketInfo(id).then(({ data }) => setTicket({ ticket: data }));
-  }, []);
+  }, [match.params.id]);
   return (
     <div>
       <h2>TicketPage</h2>
