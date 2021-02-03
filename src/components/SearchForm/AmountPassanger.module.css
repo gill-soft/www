@@ -1,6 +1,5 @@
 .amountBox {
-    width: 200px;
-    padding: 15px 5px;
+    padding: 15px 5px 15px 10px;
     display: flex;
     color: #ffffff;
     font-size: 18px;
@@ -9,7 +8,7 @@
     border-radius: 4px;
 }
 .amountBox > p {
-    margin-right: 5px;
+    margin-right: 25px;
 }
 .amountBox > span {
     text-align: center;

@@ -3,7 +3,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    padding: 50px 0 ;
+    padding: 50px 0;
 }
 
 .container {
@@ -27,7 +27,43 @@
 
 .formContainer {
     width: 1100px;
-    margin: 0 auto;
-    padding: 20px 10px;
+    margin: 0 auto 60px;
+    padding: 30px 17px;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.iconsBox {
+    width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff
+}
+
+.iconItem {
+    width: 150px;
+    padding-top: 83px;
+    background-repeat: no-repeat;
+    background-position: center 0;
+    text-align: center;
+}
+
+.iconItem1 {
+    background-image: url('../images/lowPrice-line-icon.png');
+}
+
+.iconItem2 {
+    background-image: url('../images/safely-line-icon.png');
+}
+
+.iconItem3 {
+    background-image: url('../images/24h-line-icon.png');
+}
+
+.iconItem4 {
+    background-image: url('../images/discount-line-icon.png');
+}
+
+.iconItem5 {
+    background-image: url('../images/sms-line-icon.png');
 }

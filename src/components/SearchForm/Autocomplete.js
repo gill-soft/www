@@ -37,7 +37,7 @@ const StyledTextField = styled(TextField)`
     margin: 0;
   }
 `;
-const StyledAC = styled(Autocomplete)`
+const StyledAutocomplete = styled(Autocomplete)`
   .MuiFormControl-marginNormal {
     margin: 0;
   }
@@ -125,7 +125,7 @@ const AutocompleteComp = ({
 
   return (
     <div>
-      <StyledAC
+      <StyledAutocomplete
         id={id}
         freeSolo
         value={value}
