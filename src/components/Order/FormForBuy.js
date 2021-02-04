@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { sendInfoPassanger } from "../../redux/order/orderActions";
 import styles from "./FormForBuy.module.css";
 import { ReactComponent as Person } from "../../images/person-24px.svg";
-import { requaredField } from "../../services/api";
+import { toBook } from "../../services/api";
+import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
 
 class FormForBuy extends Component {
   state = {
@@ -25,13 +25,24 @@ class FormForBuy extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.resp !== this.state.resp) {
-      this.props.history.push(`/ticket/${this.state.resp.orderId}`);
+      this.props.stopLoader()
+      this.state.resp.services.forEach((el) => {
+        // ==== проверяем на ошибки в статусе ==== //
+        if (el.status !== "NEW") {
+          this.props.getError(el.error.message);
+          return;
+        } else {
+          this.props.history.push(`/ticket/${this.state.resp.orderId}`);
+        }
+      });
     }
   }
 
   handleSubmit = (e) => {
+    
     e.preventDefault();
-    const { tripKey, price } = this.props;
+    this.props.startLoader()
+    const { tripKey, price, getError } = this.props;
     const { values } = this.state;
 
     const requestBody = {};
@@ -45,7 +56,9 @@ class FormForBuy extends Component {
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
 
-    requaredField(requestBody).then(({ data }) => this.setState({ resp: data }));
+    toBook(requestBody)
+      .then(({ data }) => this.setState({ resp: data }))
+      .catch((err) => getError(err.message));
   };
 
   handleChange = (idx, { target }) => {
@@ -79,7 +92,7 @@ class FormForBuy extends Component {
     this.setState((prev) => ({
       values: [
         ...prev.values,
-        { name: "", phone: "", id: `${id}`, surname: "", email: "" },
+        { name: "", phone: "", id: `${id}`, surname: "", email: this.state.email },
       ],
     }));
     this.props.changeAmountPassanger(this.props.total + 1);
@@ -103,6 +116,7 @@ class FormForBuy extends Component {
 
   render() {
     const { values, email } = this.state;
+    const {isLoading} = this.props
     return (
       <div className={styles.container}>
         {/* <pre>{JSON.stringify(this.state, null, 4)}</pre> */}
@@ -170,7 +184,7 @@ class FormForBuy extends Component {
           >
             Добавить пассажира
           </button>
-        <h3 className={styles.customer}>Данные о покупателе*:</h3>
+          <h3 className={styles.customer}>Данные о покупателе*:</h3>
 
           <input
             className={styles.input}
@@ -183,12 +197,14 @@ class FormForBuy extends Component {
             required={true}
           />
           <button className={styles.buttonBuy} type="submit">
-            Перейти к оплате
+            {isLoading ? 'Loading...' : 'Перейти к оплате'}
           </button>
         </form>
         <p className={styles.text}>*Все поля обязательны к заполнению</p>
-        <p className={styles.text}>**Укажите актуальный номер телефона для связи в случае изменений рейса.</p>
-        {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
+        <p className={styles.text}>
+          **Укажите актуальный номер телефона для связи в случае изменений рейса.
+        </p>
+        <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
       </div>
     );
   }
@@ -199,9 +215,14 @@ const mapStateToProps = (state) => ({
   price: state.order.order.price,
   lang: state.language,
   tripKey: state.order.order.tripKey,
+  isLoading: state.global.isLoading
 });
 const mapDispatchToProps = (dispatch) => ({
-  sendInfoPassanger: (val) => dispatch(sendInfoPassanger(val)),
+  getError: (error) => dispatch(getError(error)),
+  startLoader: () => dispatch(startLoader()),
+  stopLoader: () => dispatch(stopLoader()),
+
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormForBuy);

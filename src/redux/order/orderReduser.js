@@ -11,17 +11,17 @@ const getOrder = (state = {}, { type, payload }) => {
   }
 };
 
-const getInfoPassangers = (state = {}, { type, payload }) => {
-  switch (type) {
-    case Types.SEND_INFO_PASSANGER:
-      return payload;
+// const getInfoPassangers = (state = {}, { type, payload }) => {
+//   switch (type) {
+//     case Types.SEND_INFO_PASSANGER:
+//       return payload;
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
 
 export const orderReduser = combineReducers({
   order: getOrder,
-  infoPassangers: getInfoPassangers,
+  // infoPassangers: getInfoPassangers,
 });

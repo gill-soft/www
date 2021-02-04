@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
 import { getLang } from "../../services/getInfo";
 
-const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to }) => {
+const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, location }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
 
@@ -111,6 +111,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to }) => {
               className={styles.choose}
               to={{
                 pathname: `/order`,
+                state: { from: location }
               }}
               onClick={handleClick}
             >

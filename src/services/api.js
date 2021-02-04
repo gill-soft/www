@@ -46,7 +46,7 @@ export const searchTrips = (id) => {
 };
 
 //  ==== запрос на билет ==== //
-export const requaredField = (body) => {
+export const toBook = (body) => {
   return axios({
     method: "post",
     url: `${baseUrl}/order`,

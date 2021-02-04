@@ -258,6 +258,7 @@ class TripsPage extends Component {
                   tripKey={Object.keys(el)}
                   from={getLocality(parsed.from, stops, lang)}
                   to={getLocality(parsed.to, stops, lang)}
+                  location={this.props.location}
                 />
               ))}
               {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}

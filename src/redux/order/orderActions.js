@@ -5,7 +5,7 @@ export const fetchOrderInfo = (obj) => ({
   payload: obj,
 });
 
-export const sendInfoPassanger = (arr) => ({
-  type: Types.SEND_INFO_PASSANGER,
-  payload: arr,
-});
+// export const sendInfoPassanger = (arr) => ({
+//   type: Types.SEND_INFO_PASSANGER,
+//   payload: arr,
+// });
