@@ -20,5 +20,32 @@ export const getLang = (lang) => {
     default:
       break;
   }
-  return lng
+  return lng;
+};
+export const getYesterday = ({ date }, lang) => {
+  return new Date(new Date(date).getTime() - 24 * 60 * 60 * 1000).toLocaleString(
+    getLang(lang),
+    {
+      day: "2-digit",
+      month: "long",
+      year: "2-digit",
+    }
+  );
+};
+export const getTomorrow = ({ date }, lang) => {
+  return new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000).toLocaleString(
+    getLang(lang),
+    {
+      day: "2-digit",
+      month: "long",
+      year: "2-digit",
+    }
+  );
+};
+export const getTodayDate = ({ date }, lang) => {
+  return new Date(date).toLocaleString(getLang(lang), {
+    day: "2-digit",
+    month: "long",
+    year: "2-digit",
+  });
 };

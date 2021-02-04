@@ -6,7 +6,12 @@ import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
 import queryString from "query-string";
 import { getInitialization, searchTrips } from "../services/api";
-import { getLang, getLocality } from "../services/getInfo";
+import {
+  getLocality,
+  getTodayDate,
+  getTomorrow,
+  getYesterday,
+} from "../services/getInfo";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
 import { format } from "date-fns";
 
@@ -159,7 +164,7 @@ class TripsPage extends Component {
     if (target.value === "price") this.sortPrice();
   };
 
-  linkClick = (val) => {
+  changeDate = ({ target }) => {
     const parsed = queryString.parse(this.props.location.search);
     const nextDay = format(
       new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
@@ -169,40 +174,21 @@ class TripsPage extends Component {
       new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000),
       "yyyy-MM-dd"
     );
-    const newDay = val === "prev" ? prevDay : nextDay;
+    const newDay = target.name === "prev" ? prevDay : nextDay;
     this.props.history.push(
       `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=1`
     );
   };
-  getYesterday = () => {
-    const parsed = queryString.parse(this.props.location.search);
-    return new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000).toLocaleString(
-      getLang(this.props.lang),
-      {
-        day: "2-digit",
-        month: "long",
-        year: "2-digit",
-      }
-    );
-  };
-  getTomorrow = () => {
-    const parsed = queryString.parse(this.props.location.search);
-    return new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000).toLocaleString(
-      getLang(this.props.lang),
-      {
-        day: "2-digit",
-        month: "long",
-        year: "2-digit",
-      }
-    );
-  };
-  getTodayDate = () => {
-    const parsed = queryString.parse(this.props.location.search);
-    return new Date(parsed.date).toLocaleString(getLang(this.props.lang), {
-      day: "2-digit",
-      month: "long",
-      year: "2-digit",
-    });
+
+  getDisabled = ({ date }) => {
+    const yyyy = new Date().getFullYear();
+    const mm = new Date().getMonth();
+    const dd = new Date().getDate();
+    if (new Date(date).getTime() - 7200000 <= new Date(yyyy, mm, dd).getTime()) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   render() {
@@ -222,22 +208,33 @@ class TripsPage extends Component {
                 Расписание автобусов {getLocality(parsed.from, stops, lang)} -{" "}
                 {getLocality(parsed.to, stops, lang)}
               </h3>
-              {/*  */}
               <div className={styles.dateBox}>
-                <p onClick={() => this.linkClick("prev")}>{this.getYesterday()}</p>
-                <p>{this.getTodayDate()}</p>
-                <p onClick={() => this.linkClick("next")}>{this.getTomorrow()}</p>
+                <button
+                  className={styles.dateButton}
+                  name="prev"
+                  onClick={this.changeDate}
+                  disabled={this.getDisabled(parsed)}
+                >
+                  {getYesterday(parsed, lang)}
+                </button>
+                <p className={styles.today}>{getTodayDate(parsed, lang)}</p>
+                <button
+                  className={styles.dateButton}
+                  name="next"
+                  onClick={this.changeDate}
+                >
+                  {getTomorrow(parsed, lang)}
+                </button>
               </div>
-
-              {/*  */}
-
-              <select value={this.state.value} onChange={this.handleSort}>
+              <label >сортировать: 
+                <select name='sort' value={this.state.value} onChange={this.handleSort}>
                 <option value="price">по цене</option>
                 <option value="departure">по отправке</option>
                 <option value="arrival">по прибытию</option>
                 <option value="timeInWay">по времени в пути</option>
               </select>
-
+              </label>
+              
               {tripsInfo.map((el, idx) => (
                 <TripBox
                   key={idx}
