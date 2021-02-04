@@ -3,16 +3,22 @@
 }
 
 .title {
-    color: var(--color-main)
+    color: var(--color-main);
+    font-size: 24px;
+    margin-bottom: 40px;
 }
 
 .box {
     border: 1px solid #ffffff;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-
+    background: rgba(194, 227, 255, 0.8);
+    padding-left: 5px;
 }
+
+
 
 .svgBox {
     padding: 10px;
@@ -108,7 +114,7 @@
 
 .buttonBuy {
     width: 200px;
-    padding: 15px  0;
+    padding: 15px 0;
     text-align: center;
     display: block;
     background-color: var(--color-third);

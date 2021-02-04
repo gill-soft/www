@@ -180,7 +180,7 @@ class FormForBuy extends Component {
             Перейти к оплате
           </button>
         </form>
-        <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
+        {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
       </div>
     );
   }

@@ -3,14 +3,7 @@ import { connect } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
-import styled from "styled-components";
-import styles from './OrderPage.module.css'
-
-const Div = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 50px 0 0 10px;
-`;
+import styles from "./OrderPage.module.css";
 
 const OrderPage = ({ history, amountPassangers }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
@@ -19,10 +12,20 @@ const OrderPage = ({ history, amountPassangers }) => {
     setTotalPassanger(val);
   };
   return (
-    <div className={styles.container}>
-      <SearchForm history={history} />
-        <FormForBuy changeAmountPassanger={changeAmountPassanger} total={totalPassanger} history={history}/>
-        <OrderInfo total={totalPassanger}/>
+    <div className={styles.bgnd}>
+      <div className={styles.container}>
+        <div className={styles.formBox}>
+          <SearchForm history={history} />
+        </div>
+        <div className={styles.main}>
+          <FormForBuy
+            changeAmountPassanger={changeAmountPassanger}
+            total={totalPassanger}
+            history={history}
+          />
+          <OrderInfo total={totalPassanger} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -2,10 +2,10 @@
     background-image: url('../images/BlankMap-Europe.png');
     background-repeat: no-repeat;
     background-size: 100%;
-    background-attachment: fixed
+    background-attachment: fixed;
+    min-height: 100vh;
 }
 
-/* linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.527)), */
 .container {
     width: 1140px;
     margin: 0 auto;
