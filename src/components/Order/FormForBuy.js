@@ -75,7 +75,6 @@ class FormForBuy extends Component {
   };
 
   handleAdd = () => {
-    if (this.state.values.length >= 10) return;
     const id = +this.state.values.slice(-1)[0].id + 1;
     this.setState((prev) => ({
       values: [
@@ -87,8 +86,6 @@ class FormForBuy extends Component {
   };
 
   handleRemove = ({ target }) => {
-    console.log(target.name);
-    if (this.state.values.length <= 1) return;
     this.setState((prev) => ({
       values: prev.values.filter((el) => el.id !== target.name),
     }));
@@ -109,7 +106,7 @@ class FormForBuy extends Component {
     return (
       <div className={styles.container}>
         {/* <pre>{JSON.stringify(this.state, null, 4)}</pre> */}
-        <h3 className={styles.title}>Данные пассажиров</h3>
+        <h3 className={styles.title}>Данные о пассажирах*:</h3>
 
         <form onSubmit={this.handleSubmit}>
           {values.length > 0 &&
@@ -148,7 +145,7 @@ class FormForBuy extends Component {
                       type="tel"
                       value={this.getValuePhone(el.id)}
                       onChange={(e) => this.handleChange(el.id, e)}
-                      placeholder="phone"
+                      placeholder="phone**"
                       autoComplete="nope"
                       required={true}
                     />
@@ -158,14 +155,23 @@ class FormForBuy extends Component {
                       type="button"
                       name={el.id}
                       onClick={this.handleRemove}
+                      disabled={values.length <= 1 ? true : false}
                     ></button>
                   </div>
                 </div>
               );
             })}
-          <button className={styles.buttonAdd} type="button" onClick={this.handleAdd}>
+
+          <button
+            className={styles.buttonAdd}
+            type="button"
+            onClick={this.handleAdd}
+            disabled={values.length >= 10 ? true : false}
+          >
             Добавить пассажира
           </button>
+        <h3 className={styles.customer}>Данные о покупателе*:</h3>
+
           <input
             className={styles.input}
             type="email"
@@ -180,6 +186,8 @@ class FormForBuy extends Component {
             Перейти к оплате
           </button>
         </form>
+        <p className={styles.text}>*Все поля обязательны к заполнению</p>
+        <p className={styles.text}>**Укажите актуальный номер телефона для связи в случае изменений рейса.</p>
         {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
       </div>
     );

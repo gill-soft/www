@@ -2,10 +2,13 @@
     width: 720px;
 }
 
-.title {
+.title, .customer {
     color: var(--color-main);
     font-size: 24px;
     margin-bottom: 40px;
+}
+.customer {
+    margin-bottom: 5px;
 }
 
 .box {
@@ -84,6 +87,11 @@
     cursor: pointer;
 }
 
+.buttonRemove:disabled,
+.buttonAdd:disabled {
+    display: none;
+}
+
 .buttonAdd {
     width: 200px;
     padding: 15px 0 15px 40px;
@@ -108,12 +116,13 @@
 
 .input[type='email'] {
     width: 400px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border-width: 2px;
 }
 
 .buttonBuy {
     width: 200px;
+    margin-bottom: 12px;
     padding: 15px 0;
     text-align: center;
     display: block;
@@ -122,4 +131,10 @@
     border: none;
     color: var(--color-secondary);
     cursor: pointer;
+    
+}
+
+.text {
+    font-style: italic;
+    color: #444444;
 }

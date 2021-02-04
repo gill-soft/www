@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getTicketInfo } from "../services/api";
-import styles from './TicketPage.module.css'
+import styles from "./TicketPage.module.css";
 
 const TicketPage = ({ match }) => {
   const [ticket, setTicket] = useState({});
@@ -11,9 +11,9 @@ const TicketPage = ({ match }) => {
   return (
     <div className={styles.bgnd}>
       <div className={styles.container}>
-      <h2>TicketPage</h2>
-      <pre>{JSON.stringify(ticket, null, 4)}</pre>
-    </div>
+        <h2>TicketPage</h2>
+        <pre>{JSON.stringify(ticket, null, 4)}</pre>
+      </div>
     </div>
   );
 };

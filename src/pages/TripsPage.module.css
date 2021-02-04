@@ -72,6 +72,8 @@
 .selectBox {
     margin-bottom: 6px;
     text-align: right;
+    font-size: 18px;
+    font-weight: 600;
     color: var(--color-main)
 }
 
