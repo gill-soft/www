@@ -226,15 +226,31 @@ class TripsPage extends Component {
                   {getTomorrow(parsed, lang)}
                 </button>
               </div>
-              <label >сортировать: 
-                <select name='sort' value={this.state.value} onChange={this.handleSort}>
-                <option value="price">по цене</option>
-                <option value="departure">по отправке</option>
-                <option value="arrival">по прибытию</option>
-                <option value="timeInWay">по времени в пути</option>
-              </select>
-              </label>
-              
+              <div className={styles.selectBox}>
+                <label>
+                  Cортировать по:{" "}
+                  <select
+                    className={styles.select}
+                    name="sort"
+                    value={this.state.value}
+                    onChange={this.handleSort}
+                  >
+                    <option className={styles.option} value="price">
+                      цене
+                    </option>
+                    <option className={styles.option} value="departure">
+                      времени отправки
+                    </option>
+                    <option className={styles.option} value="arrival">
+                      времени прибытия
+                    </option>
+                    <option className={styles.option} value="timeInWay">
+                      времени в пути
+                    </option>
+                  </select>
+                </label>
+              </div>
+
               {tripsInfo.map((el, idx) => (
                 <TripBox
                   key={idx}

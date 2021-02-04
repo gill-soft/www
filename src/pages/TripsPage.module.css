@@ -42,10 +42,12 @@
     border: none;
     cursor: pointer;
 }
+
 .dateButton:disabled {
-    color:rgb(110, 110, 110);
+    color: rgb(110, 110, 110);
     cursor: not-allowed;
 }
+
 .today {
     width: 240px;
     padding: 8px;
@@ -65,4 +67,24 @@
 
 .dateButton:last-child {
     border-radius: 0 6px 6px 0;
+}
+
+.selectBox {
+    margin-bottom: 6px;
+    text-align: right;
+    color: var(--color-main)
+}
+
+.select {
+    width: 170px;
+    border: 2px solid var(--color-main);
+    border-radius: 6px;
+    padding: 8px 4px;
+    background: transparent;
+    outline: none;
+    color: var(--color-main)
+}
+
+.option {
+    color: black
 }
