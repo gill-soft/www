@@ -98,3 +98,22 @@
     color: #000000;
     font-size: 18px;
 }
+
+.warning {
+    display: flex;
+    background-color: aliceblue;
+    justify-content: space-between;
+    padding: 30px 12px;
+    font-size: 18px;
+
+}
+
+.warningText span {
+    font-weight: 700;
+}
+
+.time {
+    color: var(--color-secondary);
+    font-size: 20px;
+    font-weight: 700;
+}

@@ -1,5 +1,6 @@
 @import './normalize.css';
 @import './vars.css';
+@import './fonts.css';
 
 * {
     margin: 0;
@@ -26,6 +27,12 @@ img {
 button,
 input {
     outline: none;
+}
+
+body {
+    font-family: 'HelveticaNeueCyr', 'BauhausC', sans-serif;
+
+    /* font-family: ; */
 }
 
 .react-datepicker__header {

@@ -18,7 +18,6 @@ const TicketPage = ({
   history,
 }) => {
   const [time, setTime] = useState(0);
-  // const [timeNow, setTimeNow] = useState(Date.now());
 
   useEffect(() => {
     const id = match.params.id;
@@ -37,7 +36,6 @@ const TicketPage = ({
     if (time < 0) {
       return;
     }
-
     const intervalId = setInterval(() => {
       setTime(time - 1000);
     }, 1000);
@@ -106,12 +104,12 @@ const TicketPage = ({
             </div>
             <div className={styles.payment}>
               <div className={styles.warning}>
-                <p>
+                <p className={styles.warningText}>
                   {" "}
                   Для оформления заказа оплатите его до:{" "}
-                  {getExpireTime(ticket.services[0].expire, lang)}
+                  <span>{getExpireTime(ticket.services[0].expire, lang)}</span>
                 </p>
-                <p>
+                <p className={styles.time}>
                   {new Date(time).toLocaleString("uk", {
                     minute: "2-digit",
                     second: "2-digit",

@@ -27,6 +27,7 @@ const StyledTextField = styled(TextField)`
   }
   .MuiInputBase-input {
     color: #ffffff;
+    font-family: 'HelveticaNeueCyr';
     font-size: 18px;
     font-weight: 500;
     cursor:pointer

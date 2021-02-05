@@ -50,13 +50,12 @@ export const getTodayDate = ({ date }, lang) => {
   });
 };
 
-export const getExpireTime = (date, lang)=>{
+export const getExpireTime = (date, lang) => {
   return new Date(date).toLocaleString(getLang(lang), {
     day: "2-digit",
     month: "long",
     year: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-
   });
-}
+};
