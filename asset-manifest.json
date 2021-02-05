@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/www/static/css/main.1e678359.chunk.css",
-    "main.js": "/www/static/js/main.b607fc4e.chunk.js",
-    "main.js.map": "/www/static/js/main.b607fc4e.chunk.js.map",
+    "main.css": "/www/static/css/main.422ccdd5.chunk.css",
+    "main.js": "/www/static/js/main.79374139.chunk.js",
+    "main.js.map": "/www/static/js/main.79374139.chunk.js.map",
     "runtime-main.js": "/www/static/js/runtime-main.2fcb4c4c.js",
     "runtime-main.js.map": "/www/static/js/runtime-main.2fcb4c4c.js.map",
     "static/css/2.95456d05.chunk.css": "/www/static/css/2.95456d05.chunk.css",
-    "static/js/2.18e75d08.chunk.js": "/www/static/js/2.18e75d08.chunk.js",
-    "static/js/2.18e75d08.chunk.js.map": "/www/static/js/2.18e75d08.chunk.js.map",
+    "static/js/2.93a43665.chunk.js": "/www/static/js/2.93a43665.chunk.js",
+    "static/js/2.93a43665.chunk.js.map": "/www/static/js/2.93a43665.chunk.js.map",
     "static/js/3.09f8f58a.chunk.js": "/www/static/js/3.09f8f58a.chunk.js",
     "static/js/3.09f8f58a.chunk.js.map": "/www/static/js/3.09f8f58a.chunk.js.map",
     "index.html": "/www/index.html",
     "static/css/2.95456d05.chunk.css.map": "/www/static/css/2.95456d05.chunk.css.map",
-    "static/css/main.1e678359.chunk.css.map": "/www/static/css/main.1e678359.chunk.css.map",
-    "static/js/2.18e75d08.chunk.js.LICENSE.txt": "/www/static/js/2.18e75d08.chunk.js.LICENSE.txt",
-    "static/media/TicketPage.module.css": "/www/static/media/BlankMap-Europe.e43988da.png",
+    "static/css/main.422ccdd5.chunk.css.map": "/www/static/css/main.422ccdd5.chunk.css.map",
+    "static/js/2.93a43665.chunk.js.LICENSE.txt": "/www/static/js/2.93a43665.chunk.js.LICENSE.txt",
+    "static/media/OrderPage.module.css": "/www/static/media/BlankMap-Europe.e43988da.png",
     "static/media/add-black-18dp.aceff8ea.svg": "/www/static/media/add-black-18dp.aceff8ea.svg",
     "static/media/HomePage.module.css": "/www/static/media/bus.8157bb4d.jpg",
     "static/media/FormForBuy.module.css": "/www/static/media/person_add_alt_1-24px.f96ed213.svg",
@@ -27,8 +27,8 @@
   "entrypoints": [
     "static/js/runtime-main.2fcb4c4c.js",
     "static/css/2.95456d05.chunk.css",
-    "static/js/2.18e75d08.chunk.js",
-    "static/css/main.1e678359.chunk.css",
-    "static/js/main.b607fc4e.chunk.js"
+    "static/js/2.93a43665.chunk.js",
+    "static/css/main.422ccdd5.chunk.css",
+    "static/js/main.79374139.chunk.js"
   ]
 }
