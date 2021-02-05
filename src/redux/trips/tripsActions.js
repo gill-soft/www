@@ -9,3 +9,4 @@ export const getTripsInfo = (trips) => ({
   type: Types.GET_TRIPS_INFO,
   payload: trips,
 });
+
