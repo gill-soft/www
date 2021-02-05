@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import Modal from "../components/Modal/Modal";
+import GoHome from "../components/GoHome/GoHome";
 import { fetchStops } from "../redux/order/orderOperation";
 import { getExpireTime } from "../services/getInfo";
 import styles from "./TicketPage.module.css";
@@ -18,6 +20,7 @@ const TicketPage = ({
   history,
 }) => {
   const [time, setTime] = useState(0);
+  const [isModal, setIsModal] = useState(false);
 
   useEffect(() => {
     const id = match.params.id;
@@ -27,13 +30,14 @@ const TicketPage = ({
   useEffect(() => {
     if (Object.keys(ticket).length > 0) {
       const timeEnd = new Date(ticket.services[0].expire).getTime();
-      const timeStart = new Date().getTime();
+      const timeStart = new Date().getTime() + 19*60*1000
       setTime(timeEnd - timeStart);
     }
   }, [ticket]);
 
   useEffect(() => {
     if (time < 0) {
+      setIsModal(true);
       return;
     }
     const intervalId = setInterval(() => {
@@ -45,6 +49,13 @@ const TicketPage = ({
 
   const getName = (id, type) => {
     return ticket.customers[`${id}`][`${type}`];
+  };
+  const openModal = () => {
+    setIsModal(true);
+  };
+
+  const closeModal = () => {
+    setIsModal(false);
   };
   // console.log(time);
   return (
@@ -116,6 +127,7 @@ const TicketPage = ({
                   })}
                 </p>
               </div>
+              {isModal && <Modal onClose={closeModal} component={<GoHome />} />}
             </div>
           </>
         )}

@@ -4,6 +4,8 @@ import styles from "./FormForBuy.module.css";
 import { ReactComponent as Person } from "../../images/person-24px.svg";
 import { toBook } from "../../services/api";
 import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
+import PublickOffer from '../PublickOffer/PublickOffer'
+import Modal from "../Modal/Modal";
 
 class FormForBuy extends Component {
   state = {
@@ -113,9 +115,16 @@ class FormForBuy extends Component {
   getValuePhone = (id) => {
     return this.state.values.find((el) => el.id === id).phone;
   };
+  openModal = () => {
+    this.setState({ isModal: true });
+  };
+
+  closeModal = () => {
+    this.setState({ isModal: false });
+  };
 
   render() {
-    const { values, email } = this.state;
+    const { values, email, isModal } = this.state;
     const {isLoading} = this.props
     return (
       <div className={styles.container}>
@@ -196,6 +205,8 @@ class FormForBuy extends Component {
             onChange={this.handleChangeEmail}
             required={true}
           />
+          <button onClick={this.openModal}>public offer</button>
+          
           <button className={styles.buttonBuy} type="submit">
             {isLoading ? 'Loading...' : 'Перейти к оплате'}
           </button>
@@ -204,6 +215,7 @@ class FormForBuy extends Component {
         <p className={styles.text}>
           **Укажите актуальный номер телефона для связи в случае изменений рейса.
         </p>
+        {isModal && <Modal onClose={this.closeModal} component={<PublickOffer />} />}
         <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
       </div>
     );
