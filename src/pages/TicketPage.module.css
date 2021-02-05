@@ -60,6 +60,7 @@
 .passangersBox {
     box-shadow: 0px 1px 3px 1px #7a7a7a;
     background-color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
 
 }
 .passangersBox >.subTitle {
