@@ -10,6 +10,7 @@ export default class Modal extends Component {
   backdropRef = createRef();
 
   componentDidMount() {
+    // if (this.props.isGohome) return
     window.addEventListener("keydown", this.handleKeyPress);
   }
 
@@ -25,6 +26,7 @@ export default class Modal extends Component {
   };
 
   handleBackdropClick = (event) => {
+    if (this.props.isGohome) return
     const { current } = this.backdropRef;
     if (current && event.target !== current) return;
     this.props.onClose();
@@ -39,7 +41,7 @@ export default class Modal extends Component {
           onClick={this.handleBackdropClick}
           role="presentation"
         >
-          <div className={style.modal}>{this.props.component}</div>
+          {this.props.component}
         </div>
       </>
     );

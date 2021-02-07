@@ -1,23 +1,14 @@
-.modal {
-    width: 60%;
-    text-align: center;
-    /* padding: 150px 20px; */
-  }
-  
   .backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+    padding: 30px;
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
-    align-items: flex-start;
     z-index: 999;
-    overflow: auto;
   }
 
-  p {
-      color:#ffffff
-  }
+  
