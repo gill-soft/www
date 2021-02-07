@@ -27,7 +27,7 @@ class SearchForm extends Component {
   };
 
   // ====
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { from, to } = this.props;
     if (prevProps.from !== from) {
       if (from) {

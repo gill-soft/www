@@ -166,21 +166,27 @@ class TripsPage extends Component {
   };
 
   changeDate = ({ target }) => {
-    const parsed = queryString.parse(this.props.location.search);
-    const nextDay = format(
-      new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
-      "yyyy-MM-dd"
-    );
-    const prevDay = format(
-      new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000),
-      "yyyy-MM-dd"
-    );
-    const newDay = target.name === "prev" ? prevDay : nextDay;
-    this.props.history.push(
-      `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=1`
-    );
-  };
+    const { startLoader, history, location } = this.props;
+    startLoader();
+    const parsed = queryString.parse(location.search);
+    const newDay =
+      target.name === "prev"
+        ? format(
+            new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000),
+            "yyyy-MM-dd"
+          )
+        : format(
+            new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
+            "yyyy-MM-dd"
+          );
 
+    setTimeout(() => {
+      history.push(
+        `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=${parsed.passengers}`
+      );
+    }, 500);
+  };
+// ==== делаем кпопку предыдущей даты неактивной при сегодняшней дате ==== //
   getDisabled = ({ date }) => {
     const yyyy = new Date().getFullYear();
     const mm = new Date().getMonth();
