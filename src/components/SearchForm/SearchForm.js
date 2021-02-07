@@ -14,11 +14,11 @@ import {
   inputValueDate,
 } from "../../redux/searchForm/searchFormAction";
 import { fetchTripsSuccess } from "../../redux/trips/tripsActions";
+import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
 import AutocompleteComp from "./Autocomplete";
-import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 import AmountPassanger from "./AmountPassanger";
-import { getError, startLoader } from "../../redux/global/globalActions";
+import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 
 class SearchForm extends Component {
   state = {
@@ -28,13 +28,14 @@ class SearchForm extends Component {
 
   // ====
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.from !== this.props.from) {
-      if (this.props.from) {
+    const { from, to } = this.props;
+    if (prevProps.from !== from) {
+      if (from) {
         this.setState({ errorFrom: false });
       }
     }
-    if (prevProps.to !== this.props.to) {
-      if (this.props.to) {
+    if (prevProps.to !== to) {
+      if (to) {
         this.setState({ errorTo: false });
       }
     }
@@ -42,10 +43,11 @@ class SearchForm extends Component {
 
   // ==== поменять отправку и прибытие местами ==== //
   changeButton = () => {
-    const from = this.props.from;
-    const to = this.props.to;
-    this.props.changeInputFrom(to);
-    this.props.changeInputTo(from);
+    const { changeInputFrom, changeInputTo, from, to } = this.props;
+    const fromInp = from;
+    const toInp = to;
+    changeInputFrom(toInp);
+    changeInputTo(fromInp);
   };
 
   // ==== данные для отображения календаря на языке пользователя ==== //
@@ -59,33 +61,45 @@ class SearchForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { from, to, date, amount } = this.props;
-    // this.props.getError("");
-
+    const {
+      to,
+      from,
+      date,
+      amount,
+      history,
+      getError,
+      stopLoader,
+      startLoader,
+      fetchTripsSuccess,
+    } = this.props;
     // ==== проверка на не пустой инпут ==== //
-    if (!this.props.from) {
+    if (!from) {
       this.setState({ errorFrom: true });
       return;
     }
-    if (!this.props.to) {
+    if (!to) {
       this.setState({ errorTo: true });
       return;
     }
     // ==== запускаем лоадинг, очищаем ошибки и данные предыдущего запроса ==== //
-    this.props.getError("");
-    this.props.fetchTripsSuccess({});
-    this.props.startLoader();
-
+    getError("");
+    fetchTripsSuccess({});
+    startLoader();
     //  ==== переход на страницу поездок ==== //
     const fromId = this.getId(from, "from");
     const toId = this.getId(to, "to");
     if (fromId && toId) {
-      this.props.history.push(
-        `/trips?from=${fromId}&to=${toId}&date=${format(
-          new Date(date),
-          "yyyy-MM-dd"
-        )}&passengers=${amount}`
-      );
+      //  ==== даем минимум 0.5сек для лоадера ==== //
+      setTimeout(() => {
+        history.push(
+          `/trips?from=${fromId}&to=${toId}&date=${format(
+            new Date(date),
+            "yyyy-MM-dd"
+          )}&passengers=${amount}`
+        );
+      }, 500);
+    } else {
+      stopLoader();
     }
   };
   getId = (val, inp) => {
@@ -128,18 +142,16 @@ class SearchForm extends Component {
               onChange={(date) => changeInputDate(date)}
             />
           </div>
-
           <div className={styles.inputBox}>
             <AmountPassanger onClose={this.closeModal} />
           </div>
-
           <Button
             className={styles.searchBtn}
             type="submit"
             variant="contained"
             color="primary"
           >
-            Search
+            Поиск
           </Button>
         </form>
       </div>
@@ -161,8 +173,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeInputDate: (date) => dispatch(inputValueDate(date)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   getError: (err) => dispatch(getError(err)),
-  // fetchTripsStart: (trips) => dispatch(fetchTripsStart(trips)),
   startLoader: () => dispatch(startLoader()),
+  stopLoader: () => dispatch(stopLoader()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

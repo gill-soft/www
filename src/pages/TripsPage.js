@@ -14,6 +14,7 @@ import {
 } from "../services/getInfo";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
 import { format } from "date-fns";
+import Loader from "../components/Loader/Loader";
 
 class TripsPage extends Component {
   state = {
@@ -200,7 +201,7 @@ class TripsPage extends Component {
           <div className={styles.formBox}>
             <SearchForm history={history} />
           </div>
-          {isLoading && <div>Loading...</div>}
+          {isLoading && <Loader />}
           {error && <p>{error}</p>}
           {Object.keys(trips).length > 0 && (
             <div className={styles.tripsBox}>
