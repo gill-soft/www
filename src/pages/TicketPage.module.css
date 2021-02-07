@@ -72,9 +72,17 @@
     background-color: aliceblue;
     font-size: 18px;
     font-weight: 700;
+    color:#000000;
+
 }
 .number {
     margin-right: 60px;
+    color:#000000
+
+}
+.price {
+    color:#000000
+
 }
 .price span {
     font-weight: 400;
@@ -105,6 +113,10 @@
     justify-content: space-between;
     padding: 30px 12px;
     font-size: 18px;
+
+}
+.warningText {
+    color:#000000
 
 }
 

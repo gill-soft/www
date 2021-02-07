@@ -4,14 +4,15 @@ import styles from "./FormForBuy.module.css";
 import { ReactComponent as Person } from "../../images/person-24px.svg";
 import { toBook } from "../../services/api";
 import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
-import PublickOffer from '../PublickOffer/PublickOffer'
+import PublickOffer from "../PublickOffer/PublickOffer";
 import Modal from "../Modal/Modal";
 
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "m@m.com",
+    email: "",
     resp: {},
+    isCheck: true,
   };
 
   componentDidMount() {
@@ -27,7 +28,7 @@ class FormForBuy extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.resp !== this.state.resp) {
-      this.props.stopLoader()
+      this.props.stopLoader();
       this.state.resp.services.forEach((el) => {
         // ==== проверяем на ошибки в статусе ==== //
         if (el.status !== "NEW") {
@@ -41,9 +42,8 @@ class FormForBuy extends Component {
   }
 
   handleSubmit = (e) => {
-    
     e.preventDefault();
-    this.props.startLoader()
+    this.props.startLoader();
     const { tripKey, price, getError } = this.props;
     const { values } = this.state;
 
@@ -125,7 +125,7 @@ class FormForBuy extends Component {
 
   render() {
     const { values, email, isModal } = this.state;
-    const {isLoading} = this.props
+    const { isLoading } = this.props;
     return (
       <div className={styles.container}>
         {/* <pre>{JSON.stringify(this.state, null, 4)}</pre> */}
@@ -205,10 +205,23 @@ class FormForBuy extends Component {
             onChange={this.handleChangeEmail}
             required={true}
           />
-          <button onClick={this.openModal}>public offer</button>
-          
-          <button className={styles.buttonBuy} type="submit">
-            {isLoading ? 'Loading...' : 'Перейти к оплате'}
+          <div className={styles.publicOfferBox}>
+            <input
+              name="publicOffer"
+              type="checkbox"
+              onChange={() => this.setState({ isCheck: !this.state.isCheck })}
+            />{" "}
+            <p>
+              Я принимаю условия <span onClick={this.openModal}>публичной оферты</span>
+            </p>
+          </div>
+
+          <button
+            className={styles.buttonBuy}
+            type="submit"
+            disabled={this.state.isCheck}
+          >
+            {isLoading ? "Loading..." : "Перейти к оплате"}
           </button>
         </form>
         <p className={styles.text}>*Все поля обязательны к заполнению</p>
@@ -227,14 +240,12 @@ const mapStateToProps = (state) => ({
   price: state.order.order.price,
   lang: state.language,
   tripKey: state.order.order.tripKey,
-  isLoading: state.global.isLoading
+  isLoading: state.global.isLoading,
 });
 const mapDispatchToProps = (dispatch) => ({
   getError: (error) => dispatch(getError(error)),
   startLoader: () => dispatch(startLoader()),
   stopLoader: () => dispatch(stopLoader()),
-
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormForBuy);

@@ -3,7 +3,7 @@ import styles from './PublickOffer.module.css'
 
 const PublickOffer = () => {
   return (
-    <div>
+    <div className={styles.box}>
       <p className={styles.text}>
         Будь ласка, уважно прочитайте Договір публічної оферти, правила і умови
         використання сайту та правила конфіденційності, перед тим, як користуватися

@@ -50,9 +50,6 @@ const TicketPage = ({
   const getName = (id, type) => {
     return ticket.customers[`${id}`][`${type}`];
   };
-  const openModal = () => {
-    setIsModal(true);
-  };
 
   const closeModal = () => {
     setIsModal(false);

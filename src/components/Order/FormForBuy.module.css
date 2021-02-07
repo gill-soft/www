@@ -133,8 +133,34 @@
     cursor: pointer;
     
 }
+.buttonBuy:disabled{
+    color:#444444;
+    background-color: #636363;
+    cursor: not-allowed;
+}
 
 .text {
     font-style: italic;
     color: #444444;
+}
+
+.publicOfferBox {
+    margin-bottom: 14px;
+    display: flex;
+}
+.publicOfferBox input {
+    height: 22px;
+    width: 22px;
+    margin-right: 6px;
+}
+
+.publicOfferBox p {
+    color:#444444;
+    padding-top: 4px;
+
+}
+.publicOfferBox span{
+    color: var(--color-main);
+    cursor: pointer;
+    
 }
