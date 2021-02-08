@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
-// import styles from "./Autocomplite.module.css";
-// import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
+
+const filterOptions = createFilterOptions({
+  matchFrom: "start",
+});
 
 const StyledTextField = styled(TextField)`
   label {
@@ -27,10 +29,10 @@ const StyledTextField = styled(TextField)`
   }
   .MuiInputBase-input {
     color: #ffffff;
-    font-family: 'HelveticaNeueCyr';
+    font-family: "HelveticaNeueCyr";
     font-size: 18px;
     font-weight: 500;
-    cursor:pointer
+    cursor: pointer;
   }
   .MuiIconButton-root {
     color: var(--color-secondary);
@@ -42,6 +44,9 @@ const StyledTextField = styled(TextField)`
 const StyledAutocomplete = styled(Autocomplete)`
   .MuiFormControl-marginNormal {
     margin: 0;
+  }
+  .MuiAutocomplete-option[data-focus="true"] {
+    background: "blue";
   }
 `;
 
@@ -131,12 +136,13 @@ const AutocompleteComp = ({
         id={id}
         freeSolo
         value={value}
+        filterOptions={filterOptions}
         onChange={(event, value) => handleChange(value)}
         options={options.map((opt) => opt)}
         renderOption={(opt) => (
-          <div className='acOptions'>
+          <div>
             <span className="acMainOption">{opt.split(" - ")[0]}</span>
-            <span className="acOption"> - {opt.split(" - ")[1]}</span>
+            <span> - {opt.split(" - ")[1]}</span>
           </div>
         )}
         renderInput={(params) => (

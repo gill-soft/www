@@ -31,8 +31,6 @@ input {
 
 body {
     font-family: 'HelveticaNeueCyr', 'BauhausC', sans-serif;
-
-    /* font-family: ; */
 }
 
 .react-datepicker__header {
@@ -44,13 +42,36 @@ div>.react-datepicker__day-name {
     color: #ffffff
 }
 
-.acOptions {
-    white-space: nowrap;
+.MuiAutocomplete-option {
+    white-space: wrap;
     font-size: 12px;
     padding: 0;
     margin: 0;
+    line-height: 1;
+}
+
+.MuiAutocomplete-listbox {
+    width: 110%;
 }
 
 .acMainOption {
     font-weight: 700;
 }
+
+/* временные */
+
+.wrapper {
+    position: relative;
+}
+
+.title {
+    position: absolute;
+    top: 500px;
+    left: 500px;
+}
+
+.disabled {
+    display: none;
+}
+
+/* временные */
