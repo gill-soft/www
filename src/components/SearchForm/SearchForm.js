@@ -7,6 +7,8 @@ import pl from "date-fns/locale/pl";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import queryString from "query-string";
+
 import Button from "@material-ui/core/Button";
 import {
   inputValueFrom,
@@ -68,10 +70,10 @@ class SearchForm extends Component {
       amount,
       history,
       getError,
-      stopLoader,
       startLoader,
       fetchTripsSuccess,
     } = this.props;
+    const parsed = queryString.parse(history.location.search);
     // ==== проверка на не пустой инпут ==== //
     if (!from) {
       this.setState({ errorFrom: true });
@@ -81,27 +83,35 @@ class SearchForm extends Component {
       this.setState({ errorTo: true });
       return;
     }
-    // ==== запускаем лоадинг, очищаем ошибки и данные предыдущего запроса ==== //
-    getError("");
-    fetchTripsSuccess({});
-    startLoader();
-    //  ==== переход на страницу поездок ==== //
+
+    // ==== формируем данные для запроса ==== //
     const fromId = this.getId(from, "from");
     const toId = this.getId(to, "to");
+    const dateQuery = format(new Date(date), "yyyy-MM-dd");
+
+    // ==== проверяем есть ли введенные города в списке остановок ==== //
     if (fromId && toId) {
-      //  ==== даем минимум 0.5сек для лоадера ==== //
-      setTimeout(() => {
-        history.push(
-          `/trips?from=${fromId}&to=${toId}&date=${format(
-            new Date(date),
-            "yyyy-MM-dd"
-          )}&passengers=${amount}`
-        );
-      }, 500);
-    } else {
-      stopLoader();
+      //  ==== если строка запроса не изменилась - выходим ==== //
+      if (
+        parsed.from === fromId &&
+        parsed.to === toId &&
+        parsed.date === dateQuery &&
+        +parsed.passengers === amount
+      )
+        return;
+
+      // ==== запускаем лоадер, очищаем ошибки и данные предыдущего запроса ==== //
+      getError("");
+      fetchTripsSuccess({});
+      startLoader();
+
+      //  ==== переход на страницу поездок ==== //
+      history.push(
+        `/trips?from=${fromId}&to=${toId}&date=${dateQuery}&passengers=${amount}`
+      );
     }
   };
+
   getId = (val, inp) => {
     const { lang, stops } = this.props;
     const result = stops.find((item) =>
