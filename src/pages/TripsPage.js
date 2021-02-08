@@ -15,6 +15,7 @@ import { fetchTripsSuccess, getTripsInfo } from "../redux/trips/tripsActions";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
 import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
+import SortTrips from "../components/TripsContainer/SortTrips";
 
 class TripsPage extends Component {
   state = {
@@ -132,39 +133,6 @@ class TripsPage extends Component {
     }
   };
 
-  sortTimeInWay = () => {
-    this.props.tripsInfo.sort((a, b) => {
-      const time_partsA = a[`${Object.keys(a)}`].timeInWay.split(":");
-      const time_partsB = b[`${Object.keys(b)}`].timeInWay.split(":");
-      const A = time_partsA[0] + time_partsA[1];
-      const B = time_partsB[0] + time_partsB[1];
-      return A - B;
-    });
-  };
-  sortTime = (key) => {
-    this.props.tripsInfo.sort((a, b) => {
-      const time_partsA = a[`${Object.keys(a)}`][`${key}`].split(" ")[1].split(":");
-      const time_partsB = b[`${Object.keys(b)}`][`${key}`].split(" ")[1].split(":");
-      const A = time_partsA[0] + time_partsA[1];
-      const B = time_partsB[0] + time_partsB[1];
-      return A - B;
-    });
-  };
-  sortPrice = () => {
-    this.props.tripsInfo.sort((a, b) => {
-      const A = a[`${Object.keys(a)}`].price.amount;
-      const B = b[`${Object.keys(b)}`].price.amount;
-      return A - B;
-    });
-  };
-  handleSort = ({ target }) => {
-    this.setState({ value: target.value });
-    if (target.value === "departure") this.sortTime("departureDate");
-    if (target.value === "arrival") this.sortTime("arrivalDate");
-    if (target.value === "timeInWay") this.sortTimeInWay();
-    if (target.value === "price") this.sortPrice();
-  };
-
   changeDate = ({ target }) => {
     const { startLoader, history, location } = this.props;
     startLoader();
@@ -233,31 +201,7 @@ class TripsPage extends Component {
                   {getTomorrow(parsed, lang)}
                 </button>
               </div>
-              <div className={styles.selectBox}>
-                <label>
-                  Cортировать по:{" "}
-                  <select
-                    className={styles.select}
-                    name="sort"
-                    value={this.state.value}
-                    onChange={this.handleSort}
-                  >
-                    <option className={styles.option} value="price">
-                      цене
-                    </option>
-                    <option className={styles.option} value="departure">
-                      времени отправки
-                    </option>
-                    <option className={styles.option} value="arrival">
-                      времени прибытия
-                    </option>
-                    <option className={styles.option} value="timeInWay">
-                      времени в пути
-                    </option>
-                  </select>
-                </label>
-              </div>
-
+              <SortTrips onChangeValue={(val) => this.setState({value:val })} value={this.state.value} />
               {tripsInfo.map((el, idx) => (
                 <TripBox
                   key={idx}

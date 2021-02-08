@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { changeLanguage } from "../../redux/Language/LanguageAction";
+import styles from './LanguageSelect.module.css'
 
 class LanguageSelect extends Component {
   handleChange = ({ target }) => {
@@ -8,16 +9,16 @@ class LanguageSelect extends Component {
   };
   render() {
     return (
-      <div>
+      <div className={styles.selectBox}>
         <select
-          className="select-css"
+          className={styles.select}
           value={this.props.language}
           onChange={this.handleChange}
         >
-          <option value="RU">Руский</option>
-          <option value="EN">English</option>
-          <option value="UA">Українська</option>
-          <option value="PL">Polski</option>
+          <option className={styles.option} value="RU">Руский</option>
+          <option className={styles.option} value="EN">English</option>
+          <option className={styles.option} value="UA">Українська</option>
+          <option className={styles.option} value="PL">Polski</option>
         </select>
       </div>
     );
