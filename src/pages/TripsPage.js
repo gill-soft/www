@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styles from "./TripsPage.module.css";
-import { fetchTripsSuccess, getTripsInfo } from "../redux/trips/tripsActions";
-import TripBox from "../components/TripsContainer/TripBox";
-import SearchForm from "../components/SearchForm/SearchForm";
 import queryString from "query-string";
-import { getInitialization, searchTrips } from "../services/api";
+import { format } from "date-fns";
+import styles from "./TripsPage.module.css";
 import {
   getLocality,
   getTodayDate,
   getTomorrow,
   getYesterday,
 } from "../services/getInfo";
-import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
-import { format } from "date-fns";
+import { getInitialization, searchTrips } from "../services/api";
 import Loader from "../components/Loader/Loader";
+import { fetchTripsSuccess, getTripsInfo } from "../redux/trips/tripsActions";
+import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
+import TripBox from "../components/TripsContainer/TripBox";
+import SearchForm from "../components/SearchForm/SearchForm";
 
 class TripsPage extends Component {
   state = {
@@ -186,7 +186,7 @@ class TripsPage extends Component {
       );
     }, 500);
   };
-// ==== делаем кпопку предыдущей даты неактивной при сегодняшней дате ==== //
+  // ==== делаем кпопку предыдущей даты неактивной при сегодняшней дате ==== //
   getDisabled = ({ date }) => {
     const yyyy = new Date().getFullYear();
     const mm = new Date().getMonth();
