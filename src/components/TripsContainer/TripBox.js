@@ -56,6 +56,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
       tripKey: tripKey,
     };
     fetchOrderInfo(obj);
+    sessionStorage.setItem('path', JSON.stringify(`${location.pathname}${location.search}`))
   };
 
   const handleAdditionals = () => {

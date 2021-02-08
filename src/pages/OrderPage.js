@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
 import styles from "./OrderPage.module.css";
+import { startLoader } from "../redux/global/globalActions";
 
-const OrderPage = ({ history, amountPassangers, order, location }) => {
+const OrderPage = ({ history, amountPassangers, order, location, startLoader }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
 
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
   };
+  // ==== при перезагрузке страницы попадаем на предыдущую
+  // ==== при переходе по ссылке перенаправление на главную
+  useEffect(() => {
+    if (Object.keys(order).length <= 0) {
+      const path = JSON.parse(sessionStorage.getItem("path")) || "/";
+      history.replace(path);
+      startLoader();
+    }
+  }, [location, order, history, startLoader]);
 
   return (
     <div className={styles.bgnd}>
@@ -35,5 +45,7 @@ const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
   order: state.order.order,
 });
-
-export default connect(mapStateToProps)(OrderPage);
+const mapDispatchToProps = (dispatch) => ({
+  startLoader: (obj) => dispatch(startLoader(obj)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(OrderPage);
