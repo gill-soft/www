@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/www/static/css/main.5162ec11.chunk.css",
-    "main.js": "/www/static/js/main.32246c5d.chunk.js",
-    "main.js.map": "/www/static/js/main.32246c5d.chunk.js.map",
-    "runtime-main.js": "/www/static/js/runtime-main.71695ce1.js",
-    "runtime-main.js.map": "/www/static/js/runtime-main.71695ce1.js.map",
+    "main.css": "/www/static/css/main.adefd712.chunk.css",
+    "main.js": "/www/static/js/main.224f7b3c.chunk.js",
+    "main.js.map": "/www/static/js/main.224f7b3c.chunk.js.map",
+    "runtime-main.js": "/www/static/js/runtime-main.fdcb31cd.js",
+    "runtime-main.js.map": "/www/static/js/runtime-main.fdcb31cd.js.map",
     "static/css/2.95456d05.chunk.css": "/www/static/css/2.95456d05.chunk.css",
-    "static/js/2.6eda737e.chunk.js": "/www/static/js/2.6eda737e.chunk.js",
-    "static/js/2.6eda737e.chunk.js.map": "/www/static/js/2.6eda737e.chunk.js.map",
-    "static/js/3.b16027a4.chunk.js": "/www/static/js/3.b16027a4.chunk.js",
-    "static/js/3.b16027a4.chunk.js.map": "/www/static/js/3.b16027a4.chunk.js.map",
+    "static/js/2.231e2ca6.chunk.js": "/www/static/js/2.231e2ca6.chunk.js",
+    "static/js/2.231e2ca6.chunk.js.map": "/www/static/js/2.231e2ca6.chunk.js.map",
+    "static/js/3.8d53168e.chunk.js": "/www/static/js/3.8d53168e.chunk.js",
+    "static/js/3.8d53168e.chunk.js.map": "/www/static/js/3.8d53168e.chunk.js.map",
     "index.html": "/www/index.html",
     "static/css/2.95456d05.chunk.css.map": "/www/static/css/2.95456d05.chunk.css.map",
-    "static/css/main.5162ec11.chunk.css.map": "/www/static/css/main.5162ec11.chunk.css.map",
-    "static/js/2.6eda737e.chunk.js.LICENSE.txt": "/www/static/js/2.6eda737e.chunk.js.LICENSE.txt",
+    "static/css/main.adefd712.chunk.css.map": "/www/static/css/main.adefd712.chunk.css.map",
+    "static/js/2.231e2ca6.chunk.js.LICENSE.txt": "/www/static/js/2.231e2ca6.chunk.js.LICENSE.txt",
     "static/media/main.css": "/www/static/media/HelveticaNeueCyr-UltraLightItalic.b1b6c88c.eot",
     "static/media/OrderPage.module.css": "/www/static/media/BlankMap-Europe.e43988da.png",
     "static/media/add-black-18dp.aceff8ea.svg": "/www/static/media/add-black-18dp.aceff8ea.svg",
@@ -27,10 +27,10 @@
     "static/media/sync_alt-white-36dp.c9deb1dc.svg": "/www/static/media/sync_alt-white-36dp.c9deb1dc.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.71695ce1.js",
+    "static/js/runtime-main.fdcb31cd.js",
     "static/css/2.95456d05.chunk.css",
-    "static/js/2.6eda737e.chunk.js",
-    "static/css/main.5162ec11.chunk.css",
-    "static/js/main.32246c5d.chunk.js"
+    "static/js/2.231e2ca6.chunk.js",
+    "static/css/main.adefd712.chunk.css",
+    "static/js/main.224f7b3c.chunk.js"
   ]
 }
