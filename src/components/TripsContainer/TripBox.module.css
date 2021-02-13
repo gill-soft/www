@@ -1,4 +1,6 @@
 .full {
+    width: 100%;
+    margin: 0 auto;
     margin-bottom: 30px;
     border: 1px solid var(--color-main);
     border-radius: 4px;
@@ -8,16 +10,16 @@
 
 .tripBox {
     position: relative;
-    width: 1100px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 10px 20px;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    flex-direction: column;
 }
 
 .timeInWay {
     position: absolute;
-    left: 200px
+    right: 10px
 }
 
 .time {
@@ -41,8 +43,12 @@
     color:#636363
 }
 
-.info {
+/* .info {
     width: 300px;
+} */
+.fromTo {
+    border-bottom: 1px solid var(--color-main);
+    margin-bottom: 14px;
 }
 
 .additionals {
@@ -58,14 +64,18 @@
     color: var(--color-secondary);
     font-size: 25px;
     font-weight: 700;
-    padding: 10px;
-    margin: 20px auto;
+    /* padding: 10px; */
+    /* margin: 20px auto; */
 }
 
 .priceBox {
-    padding: 0 10px 0 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     text-align: center;
-    border-left: 1px solid var(--color-main);
+    margin-bottom: 12px;
+    /* padding: 0 10px 0 50px; */
+    /* border-left: 1px solid var(--color-main); */
 }
 
 .price span {
@@ -98,7 +108,7 @@
 
 .depArr {
     position: relative;
-    width: 110px;
+    width: 120px;
     border-right: 2px dotted #000000;
     margin: 8px 20px 18px 0;
 }
@@ -160,3 +170,64 @@ h5 {
     padding-left: 10px;
 
 }
+
+
+@media (min-width: 576px) {
+    
+}
+
+@media (min-width: 768px) {
+    .tripBox {
+        flex-direction: row;
+    }
+    .fromTo {
+        width: 540px;
+        border-bottom: none;
+        border-right: 1px solid var(--color-main);
+    }
+    .additionals {
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+    }
+    .priceBox {
+        flex-direction: column;
+        padding-left: 30px;
+    }
+    .price {
+        margin-top: 50px;
+    }
+    .timeInWay {
+        right: 180px;
+    }
+}
+
+@media (min-width: 992px) {
+    .fromTo {
+        display: flex;
+        width: 760px;
+    }
+    .info {
+        width: 50%;
+    }
+    .timeInWay {
+        left: 200px;
+    }
+    .priceBox {
+        padding-left: 40px;
+    }
+    .price {
+        margin-top: 20px;
+    }
+    
+}
+
+@media (min-width: 1200px) {
+    .fromTo {
+        width: 920px;
+    }
+    .timeInWay {
+        left: 260px;
+    }
+    
+} 

@@ -180,7 +180,7 @@ class TripsPage extends Component {
           {Object.keys(trips).length > 0 && (
             <div className={styles.tripsBox}>
               <h3 className={styles.title}>
-                Расписание автобусов {getLocality(parsed.from, stops, lang)} -{" "}
+                Расписание автобусов <br/> {getLocality(parsed.from, stops, lang)} -{" "}
                 {getLocality(parsed.to, stops, lang)}
               </h3>
               <div className={styles.dateBox}>

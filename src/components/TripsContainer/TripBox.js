@@ -9,6 +9,7 @@ import { getLang } from "../../services/getInfo";
 const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, location }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
+  const windowWidth = window.innerWidth;
 
   const getStop = (val) => {
     const key = trip[`${val}`].id;
@@ -56,7 +57,10 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
       tripKey: tripKey,
     };
     fetchOrderInfo(obj);
-    sessionStorage.setItem('path', JSON.stringify(`${location.pathname}${location.search}`))
+    sessionStorage.setItem(
+      "path",
+      JSON.stringify(`${location.pathname}${location.search}`)
+    );
   };
 
   const handleAdditionals = () => {
@@ -78,11 +82,12 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
     // ==== переключаем видимость дополнительной информации ==== //
     setIsOpen(!isOpen);
   };
-
+  console.log(windowWidth);
   return (
-    <div>
-      <div className={styles.full}>
-        <div className={styles.tripBox}>
+    <div className={styles.full}>
+      <div className={styles.tripBox}>
+        <p className={styles.timeInWay}>{getTimeInWay()} в пути</p>
+        <div className={styles.fromTo}>
           <div className={styles.info}>
             <div>
               <p className={styles.time}>{getTime("departureDate")}</p>
@@ -90,11 +95,8 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
             </div>
             <p className={styles.locality}>{from}</p>
             <p className={styles.localityStop}>{getStop("departure")}</p>
-            <button className={styles.additionals} onClick={handleAdditionals}>
-              Детали рейса
-            </button>
           </div>
-          <div className={styles.info}>
+          <div className={`${styles.info} ${styles.infoLast}`}>
             <div>
               <p className={styles.time}> {getTime("arrivalDate")}</p>
               <p className={styles.date}>{getDate("arrivalDate")}</p>
@@ -102,53 +104,57 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
             <p className={styles.locality}>{to}</p>
             <p className={styles.localityStop}>{getStop("arrival")}</p>
           </div>
-
-          <p className={styles.timeInWay}>{getTimeInWay()} в пути</p>
-          <div className={styles.priceBox}>
-            <p className={styles.price}>
-              {getPrice()} <span>{getCurrency()}</span>{" "}
-            </p>
-            <Link
-              className={styles.choose}
-              to={{
-                pathname: `/order`,
-                state: { from: location }
-              }}
-              onClick={handleClick}
-            >
-              Выбрать
-            </Link>
-          </div>
         </div>
-        {isOpen && (
-          <>
-            <h5>{trip.route.name.EN}</h5>
-            <div className={styles.additionalInfo}>
-              <div className={styles.depArr}>
-                <p className={styles.departure}>Отправление</p>
-                <p className={styles.arrival}>Прибытие</p>
+
+        <div className={styles.priceBox}>
+          <p className={styles.price}>
+            {getPrice()} <span>{getCurrency()}</span>{" "}
+          </p>
+          <Link
+            className={styles.choose}
+            to={{
+              pathname: `/order`,
+              state: { from: location },
+            }}
+            onClick={handleClick}
+          >
+            Выбрать
+          </Link>
+        </div>
+        {windowWidth >= 576 ? (
+          <button className={styles.additionals} onClick={handleAdditionals}>
+            Детали рейса
+          </button>
+        ) : null}
+      </div>
+      {isOpen && (
+        <>
+          <h5>{trip.route.name.EN}</h5>
+          <div className={styles.additionalInfo}>
+            <div className={styles.depArr}>
+              <p className={styles.departure}>Отправление</p>
+              <p className={styles.arrival}>Прибытие</p>
+            </div>
+            <div>
+              <div className={styles.start}>
+                <p className={`${styles.locality} ${styles.addLocality} `}>{from}</p>
+                <p>{getStop("departure")}</p>
               </div>
               <div>
-                <div className={styles.start}>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>{from}</p>
-                  <p>{getStop("departure")}</p>
-                </div>
-                <div>
-                  {arrayStops.map((el) => (
-                    <p className={styles.stop} key={el.locality.id}>
-                      {getAllLocalities(el.locality.id)}
-                    </p>
-                  ))}{" "}
-                </div>
-                <div className={`${styles.start} ${styles.finish}`}>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>{to}</p>
-                  <p>{getStop("arrival")}</p>
-                </div>
+                {arrayStops.map((el) => (
+                  <p className={styles.stop} key={el.locality.id}>
+                    {getAllLocalities(el.locality.id)}
+                  </p>
+                ))}{" "}
+              </div>
+              <div className={`${styles.start} ${styles.finish}`}>
+                <p className={`${styles.locality} ${styles.addLocality} `}>{to}</p>
+                <p>{getStop("arrival")}</p>
               </div>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
