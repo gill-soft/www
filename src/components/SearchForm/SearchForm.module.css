@@ -1,6 +1,5 @@
 .form {
-    display: flex;
-    align-items: flex-start;
+    position: relative;
 }
 
 .datePicker {
@@ -12,7 +11,8 @@
     background: transparent;
     background-image: url('../../images/insert_invitation-black-48dp.svg');
     background-repeat: no-repeat;
-    background-position: 170px;
+    background-position-x: 95%;
+    background-position-y: 50%;
     outline: none;
     font-size: 18px;
     color: #ffffff;
@@ -21,16 +21,71 @@
 }
 
 .inputBox {
-    margin-right: 10px;
-    width: 220px;
+    width: 86%;
+    margin-bottom: 10px;
 }
 
 .searchBtn {
     height: 58px;
-    width: 100px;
+    width: 86%;
     color: var(--color-secondary)
 }
 
 .arrow {
-    margin: 10px 10px 0 0;
+    position: absolute;
+    top: 40px;
+    right: 0px;
+    transform: rotate(90deg);
+}
+
+@media (min-width: 576px) {
+    .flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .flex>div {
+        width: 49%;
+    }
+
+    .searchBtn {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .fromTo {
+        display: flex;
+    }
+
+    .arrow {
+        position: static;
+        transform: rotate(180deg);
+        margin: 10px;
+        width: 50px;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .form {
+        display: flex;
+        align-items: flex-start;
+    }
+    .searchBtn {
+        width: 100px;
+    }
+    .inputBox{
+        width: 210px;
+    }
+    .flex {
+        width: 470px;
+        margin-right: 10px;
+    }
+    .fromTo {
+        margin-right: 10px;
+    }
+    .arrow {
+        margin: 10px 0;
+    }
 }

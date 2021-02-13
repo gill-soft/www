@@ -27,6 +27,7 @@ class SearchForm extends Component {
     errorFrom: false,
     errorTo: false,
   };
+  windowWidth = window.innerWidth;
 
   // ====
   componentDidUpdate(prevProps) {
@@ -133,8 +134,9 @@ class SearchForm extends Component {
   render() {
     const { date, changeInputDate } = this.props;
     return (
-      <div className={`${styles.searchForm}`}>
-        <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
+      // <div className={`${styles.searchForm}`}>
+      <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
+        <div className={styles.fromTo}>
           <div className={styles.inputBox}>
             <AutocompleteComp id="from" error={this.state.errorFrom} />
           </div>
@@ -142,6 +144,8 @@ class SearchForm extends Component {
           <div className={styles.inputBox}>
             <AutocompleteComp id="to" error={this.state.errorTo} />
           </div>
+        </div>
+        <div className={styles.flex}>
           <div className={styles.inputBox}>
             <DatePicker
               className={styles.datePicker}
@@ -155,16 +159,18 @@ class SearchForm extends Component {
           <div className={styles.inputBox}>
             <AmountPassanger onClose={this.closeModal} />
           </div>
-          <Button
-            className={styles.searchBtn}
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
-            Поиск
-          </Button>
-        </form>
-      </div>
+        </div>
+
+        <Button
+          className={styles.searchBtn}
+          type="submit"
+          variant="contained"
+          color="primary"
+        >
+          Поиск
+        </Button>
+      </form>
+      // </div>
     );
   }
 }

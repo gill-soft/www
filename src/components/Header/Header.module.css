@@ -1,11 +1,14 @@
 .header {
-    padding: 10px 0;
+    position: fixed;
+    width: 100%;
     background-color: var(--color-main);
+    z-index: 50;
 }
 
 .container {
-    width: 1140px;
+    max-width: 540px;
     margin: 0 auto;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -14,16 +17,54 @@
 
 .link {
     display: block;
-    width: 150px;
-    height: 45px;
-    margin: 10px;
+    width: 100px;
+    height: 30px;
     background-image: url('../../images/ibusik-logo-white.png');
+    background-size: cover;
 }
 
 .tel {
-    padding: 5px 0 5px 30px;
-    background-image: url('../../images/support_agent-24px.svg');
-    background-repeat: no-repeat;
-    background-position: 0px 2px;
-    font-size: 18px;
+    display: none;
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+
+    .link {
+        width: 150px;
+        height: 45px;
+    }
+
+    .tel {
+        display: block;
+        padding: 5px 0 5px 30px;
+        background-image: url('../../images/support_agent-24px.svg');
+        background-repeat: no-repeat;
+        background-position: 0px 2px;
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+
+    .tel {
+        font-size: 18px;
+    }
 }

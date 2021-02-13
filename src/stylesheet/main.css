@@ -57,6 +57,9 @@ div>.react-datepicker__day-name {
 .acMainOption {
     font-weight: 700;
 }
+.react-datepicker-wrapper {
+    width: 100%;
+}
 
 /* временные */
 

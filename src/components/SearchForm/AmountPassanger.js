@@ -12,26 +12,28 @@ const AmountPassanger = ({ amount, increment, decrement }) => {
   return (
     <div className={styles.amountBox}>
       <p>Пассажиры: </p>
-      <button
-        type="button"
-        className={styles.button}
-        name="decrement"
-        disabled={amount <= 1}
-        onClick={() => decrement()}
-      >
-        {" "}
-        <Minus />
-      </button>
-      <span>{amount}</span>
-      <button
-        type="button"
-        className={styles.button}
-        name="increment"
-        disabled={amount >= 10}
-        onClick={() => increment()}
-      >
-        <Plus />
-      </button>
+      <div className={styles.flex}>
+        <button
+          type="button"
+          className={styles.button}
+          name="decrement"
+          disabled={amount <= 1}
+          onClick={() => decrement()}
+        >
+          {" "}
+          <Minus />{" "}
+        </button>
+        <span>{amount}</span>
+        <button
+          type="button"
+          className={styles.button}
+          name="increment"
+          disabled={amount >= 10}
+          onClick={() => increment()}
+        >
+          <Plus />
+        </button>
+      </div>
     </div>
   );
 };

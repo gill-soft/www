@@ -11,7 +11,7 @@ const HomePage = ({ history, fetchStops }) => {
         <div className={styles.formContainer}>
           <SearchForm history={history} />
         </div>
-        <ul className={styles.iconsBox}>
+        {/* <ul className={styles.iconsBox}>
           <li className={`${styles.iconItem} ${styles.iconItem1}`}>
             <p>Гарантия низкой цены</p>
           </li>
@@ -27,7 +27,7 @@ const HomePage = ({ history, fetchStops }) => {
           <li className={`${styles.iconItem} ${styles.iconItem5}`}>
             <p>Смс информирование</p>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </div>
   );
