@@ -30,7 +30,7 @@ const TicketPage = ({
   useEffect(() => {
     if (Object.keys(ticket).length > 0) {
       const timeEnd = new Date(ticket.services[0].expire).getTime();
-      const timeStart = new Date().getTime() + 19*60*1000
+      const timeStart = new Date().getTime() 
       setTime(timeEnd - timeStart);
     }
   }, [ticket]);
@@ -124,13 +124,13 @@ const TicketPage = ({
                   })}
                 </p>
               </div>
-              {!!isModal && <Modal onClose={closeModal} component={<GoHome />} isGohome={true}/>}
+              {/* {!!isModal && <Modal onClose={closeModal} component={<GoHome />} isGohome={true}/>} */}
               
             </div>
           </>
         )}
 
-        <pre>{JSON.stringify(ticket, null, 4)} </pre>
+        {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
       </div>
     </div>
   );
