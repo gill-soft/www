@@ -13,7 +13,6 @@ const OrderInfo = ({
   total,
 }) => {
   const getTotalPrice = () => {
-    // const totalPrice = (total * price).toFixed(2)
     return (total * price).toFixed(2);
   };
   return (

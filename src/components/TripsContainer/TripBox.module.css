@@ -30,7 +30,7 @@
 .date {
     font-size: 14px;
     margin-bottom: 5px;
-    color:#636363
+    color: #636363
 }
 
 .locality {
@@ -40,7 +40,7 @@
 
 .localityStop {
     margin-bottom: 24px;
-    color:#636363
+    color: #636363
 }
 
 /* .info {
@@ -121,11 +121,11 @@
 .start:last-child {
     margin-top: 10px;
 }
-.stop{
-    color:#636363
 
-
+.stop {
+    color: #636363
 }
+
 .start::before,
 .stop::before {
     content: '';
@@ -145,58 +145,60 @@
 .departure {
     position: absolute;
     top: -4px;
-    color:rgb(0, 100, 0)
+    color: rgb(0, 100, 0)
 }
-.start .locality{
-    color:rgb(0, 100, 0)
 
+.start .locality {
+    color: rgb(0, 100, 0)
 }
+
 .finish .locality {
-    color:rgb(100, 0, 0)
+    color: rgb(100, 0, 0)
 }
-.start p, .finish p {
+
+.start p,
+.finish p {
     color: #636363;
 }
 
 .arrival {
     position: absolute;
     bottom: -4px;
-    color:rgb(100, 0, 0)
+    color: rgb(100, 0, 0)
 }
 
 h5 {
     border-top: 1px solid var(--color-main);
     padding-top: 10px;
     padding-left: 10px;
-
-}
-
-
-@media (min-width: 576px) {
-    
 }
 
 @media (min-width: 768px) {
     .tripBox {
         flex-direction: row;
     }
+
     .fromTo {
         width: 540px;
         border-bottom: none;
         border-right: 1px solid var(--color-main);
     }
+
     .additionals {
         position: absolute;
         bottom: 10px;
         left: 20px;
     }
+
     .priceBox {
         flex-direction: column;
         padding-left: 30px;
     }
+
     .price {
         margin-top: 50px;
     }
+
     .timeInWay {
         right: 180px;
     }
@@ -207,27 +209,30 @@ h5 {
         display: flex;
         width: 760px;
     }
+
     .info {
         width: 50%;
     }
+
     .timeInWay {
         left: 200px;
     }
+
     .priceBox {
         padding-left: 40px;
     }
+
     .price {
         margin-top: 20px;
     }
-    
 }
 
 @media (min-width: 1200px) {
     .fromTo {
         width: 920px;
     }
+
     .timeInWay {
         left: 260px;
     }
-    
-} 
+}

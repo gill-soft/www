@@ -1,24 +1,30 @@
 .container {
-    width: 720px;
+    width: 96%;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.title, .customer {
+.title,
+.customer {
     color: var(--color-main);
-    font-size: 24px;
-    margin-bottom: 40px;
+    font-size: 18px;
+    margin-bottom: 18px;
 }
+
 .customer {
     margin-bottom: 5px;
 }
 
 .box {
+    position: relative;
     border: 1px solid #ffffff;
     border-radius: 6px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
     background: rgba(194, 227, 255, 0.8);
-    padding-left: 5px;
+    padding: 5px;
 }
 
 
@@ -30,7 +36,7 @@
     height: 50px;
     width: 50px;
     position: relative;
-    margin: 0 20px 0 0;
+    /* margin: 0 20px 0 0; */
 }
 
 .svg {
@@ -55,13 +61,15 @@
 }
 
 .inputBox {
-    padding: 20px 0;
+    width: 90%;
+    padding: 10px 0 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
 .input {
-    width: 150px;
+    width: 100%;
     background: #fff;
     border: 1px solid var(--color-secondary);
     border-radius: 5px;
@@ -69,7 +77,7 @@
     font-size: 16px;
     color: #636363;
     outline: none;
-    margin-right: 20px;
+    margin-bottom: 8px;
 }
 
 .price {
@@ -80,6 +88,9 @@
 }
 
 .buttonRemove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     width: 30px;
     height: 30px;
     background: url(../../images/clear-black-36dp.svg);
@@ -93,8 +104,9 @@
 }
 
 .buttonAdd {
-    width: 200px;
-    padding: 15px 0 15px 40px;
+    width: 220px;
+    margin: 0 auto;
+    padding: 15px 5px 15px 40px;
     display: block;
     background-image: url('../../images/person_add_alt_1-24px.svg');
     background-color: var(--color-third);
@@ -115,13 +127,14 @@
 }
 
 .input[type='email'] {
-    width: 400px;
+    width: 96%px;
     margin-bottom: 20px;
     border-width: 2px;
 }
 
 .buttonBuy {
-    width: 200px;
+    width: 220px;
+    margin: 0 auto;
     margin-bottom: 12px;
     padding: 15px 0;
     text-align: center;
@@ -131,15 +144,18 @@
     border: none;
     color: var(--color-secondary);
     cursor: pointer;
-    
+
 }
-.buttonBuy:disabled{
-    color:#444444;
+
+.buttonBuy:disabled {
+    color: #444444;
     background-color: #636363;
     cursor: not-allowed;
 }
 
 .text {
+    text-align: left;
+    font-size: 14px;
     font-style: italic;
     color: #444444;
 }
@@ -147,7 +163,10 @@
 .publicOfferBox {
     margin-bottom: 14px;
     display: flex;
+    text-align: left;
+    font-size: 14px;
 }
+
 .publicOfferBox input {
     height: 22px;
     width: 22px;
@@ -155,12 +174,77 @@
 }
 
 .publicOfferBox p {
-    color:#444444;
+    color: #444444;
     padding-top: 4px;
 
 }
-.publicOfferBox span{
+
+.publicOfferBox span {
     color: var(--color-main);
     cursor: pointer;
+}
+
+@media (min-width:768px) {
+    .container {
+        width: 400px;
+    }
+    .buttonAdd, .buttonBuy {
+        margin: 0 0 12px 0;
+    }
+}
+
+@media (min-width:992px) {
+    .container {
+        width: 600px;
+        text-align: left;
+    }
+    .title {
+        font-size: 24px;
+    }
+    .box {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .svgBox {
+        margin-right: 18px;
+    }
+    .inputBox{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .input {
+        width: 150px;
+        margin-right: 8px;
+    }
+    .buttonRemove {
+        top: 18px;
+    }
+    .input[type='email'] {
+        width: 300px;
+    }
+    .customer {
+        margin-bottom: 18px;
+    }
     
 }
+
+@media (min-width: 1200px) {
+    .container {
+        width: 700px;
+        margin: 0;
+    }
+    
+    .inputBox {
+        padding-top: 8px;
+        align-items: center;
+    }
+    .input {
+        width: 160px;
+        margin-bottom: 0;
+    }
+
+    .buttonRemove {
+        top: 15px;
+    }
+
+} 

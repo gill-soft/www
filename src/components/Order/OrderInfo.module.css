@@ -1,12 +1,13 @@
 .title {
     color: var(--color-main);
-    margin-bottom: 40px;
-    font-size: 24px;
-
+    margin-bottom: 18px;
+    font-size: 18px;
+    text-align: center;
 }
 
 .orderBox {
-    width: 400px;
+    width: 96%;
+    margin: 0 auto;
     padding: 30px 20px;
     border: 2px solid var(--color-main);
     border-radius: 20px;
@@ -68,3 +69,23 @@
     line-height: 1.5;
     padding-left: 6px;
 }
+
+@media (min-width:768px) {
+    .orderBox {
+        width: 300px;
+    }
+}
+@media (min-width:992px) {
+    .orderBox {
+        width: 340px;
+    }
+    .title {
+        font-size: 24px;
+    }
+    
+}
+@media (min-width: 1200px) {
+    .orderBox {
+        width: 400px;
+    }
+} 

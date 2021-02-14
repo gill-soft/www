@@ -12,7 +12,8 @@ class FormForBuy extends Component {
     values: [],
     email: "",
     resp: {},
-    isCheck: true,
+    isOffer: true,
+    isPersonal: true
   };
 
   componentDidMount() {
@@ -124,7 +125,7 @@ class FormForBuy extends Component {
   };
 
   render() {
-    const { values, email, isModal } = this.state;
+    const { values, email, isModal, isPersonal, isOffer} = this.state;
     const { isLoading } = this.props;
     return (
       <div className={styles.container}>
@@ -209,17 +210,27 @@ class FormForBuy extends Component {
             <input
               name="publicOffer"
               type="checkbox"
-              onChange={() => this.setState({ isCheck: !this.state.isCheck })}
+              onChange={() => this.setState({ isOffer: !this.state.isOffer })}
             />{" "}
             <p>
               Я принимаю условия <span onClick={this.openModal}>публичной оферты</span>
+            </p>
+          </div>
+          <div className={styles.publicOfferBox}>
+            <input
+              name="personalData"
+              type="checkbox"
+              onChange={() => this.setState({ isPersonal: !this.state.isPersonal })}
+            />{" "}
+            <p>
+              Я даю согласие на  <span onClick={this.openModal}>обработку персональных данных</span>
             </p>
           </div>
 
           <button
             className={styles.buttonBuy}
             type="submit"
-            disabled={this.state.isCheck}
+            disabled={isOffer || isPersonal}
           >
             {isLoading ? "Loading..." : "Перейти к оплате"}
           </button>

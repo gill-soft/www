@@ -1,24 +1,57 @@
 .bgnd {
     background-image: url('../images/BlankMap-Europe.png');
     background-repeat: no-repeat;
-    background-size: 100%;
     background-attachment: fixed;
     min-height: 100vh;
+    min-width: 100vw;
+    background-position: center;
 }
 .container {
-    width: 1140px;
-    margin: 0 auto;
-    padding-top: 20px;
+    padding-top: 60px;
 }
 .formBox {
-    width: 1100px;
+    width: 96%;
     margin: 0 auto;
     padding: 30px 17px;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 .main {
-    display: flex;
-    justify-content: space-between;
-    padding: 40px 0;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    padding: 10px 0;
 }
+
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+        
+    }
+    .main {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+    .main {
+        padding-top: 30px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+} 
