@@ -82,7 +82,6 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
     // ==== переключаем видимость дополнительной информации ==== //
     setIsOpen(!isOpen);
   };
-  console.log(windowWidth);
   return (
     <div className={styles.full}>
       <div className={styles.tripBox}>

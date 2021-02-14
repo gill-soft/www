@@ -124,7 +124,7 @@ const TicketPage = ({
                   })}
                 </p>
               </div>
-              {/* {!!isModal && <Modal onClose={closeModal} component={<GoHome />} isGohome={true}/>} */}
+              {!!isModal && <Modal onClose={closeModal} component={<GoHome />} isGohome={true}/>}
               
             </div>
           </>
