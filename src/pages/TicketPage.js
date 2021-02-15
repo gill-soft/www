@@ -5,22 +5,24 @@ import GoHome from "../components/GoHome/GoHome";
 import { fetchStops } from "../redux/order/orderOperation";
 import { getExpireTime } from "../services/getInfo";
 import styles from "./TicketPage.module.css";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../intl/TicketPageMessanges";
 
 const TicketPage = ({
-  match,
-  fetchStops,
-  ticket,
-  from,
-  fromStop,
   to,
-  toStop,
-  departureDate,
-  arrivalDate,
+  from,
   lang,
-  history,
+  match,
+  ticket,
+  toStop,
+  fromStop,
+  fetchStops,
+  arrivalDate,
+  departureDate,
 }) => {
   const [time, setTime] = useState(0);
   const [isModal, setIsModal] = useState(false);
+  const locale = lang === "UA" ? "UK" : lang;
 
   useEffect(() => {
     const id = match.params.id;
@@ -30,7 +32,7 @@ const TicketPage = ({
   useEffect(() => {
     if (Object.keys(ticket).length > 0) {
       const timeEnd = new Date(ticket.services[0].expire).getTime();
-      const timeStart = new Date().getTime() 
+      const timeStart = new Date().getTime();
       setTime(timeEnd - timeStart);
     }
   }, [ticket]);
@@ -51,88 +53,99 @@ const TicketPage = ({
     return ticket.customers[`${id}`][`${type}`];
   };
 
-  const closeModal = () => {
-    setIsModal(false);
-  };
-  // console.log(time);
   return (
-    <div className={styles.bgnd}>
-      <div className={styles.container}>
-        {Object.keys(ticket).length > 0 && (
-          <>
-            <div className={styles.orderBox}>
-              <h4 className={styles.subTitle}>Маршрут:</h4>
-              <div className={styles.arrow}>
-                <p className={styles.locality}>{from}</p>
-                <p className={styles.localityStop}>{fromStop}</p>
-                <p className={styles.date}>{departureDate}</p>
+    <IntlProvider locale={locale} messages={messages[locale]}>
+      <div className={styles.bgnd}>
+        <div className={styles.container}>
+          {Object.keys(ticket).length > 0 && (
+            <>
+              <div className={styles.orderBox}>
+                <h4 className={styles.subTitle}>
+                  <FormattedMessage id="trip" />
+                </h4>
+                <div className={styles.arrow}>
+                  <p className={styles.locality}>{from}</p>
+                  <p className={styles.localityStop}>{fromStop}</p>
+                  <p className={styles.date}>{departureDate}</p>
+                </div>
+                <div>
+                  <p className={styles.locality}>{to}</p>
+                  <p className={styles.localityStop}>{toStop}</p>
+                  <p className={styles.date}>{arrivalDate}</p>
+                </div>
               </div>
-              <div>
-                <p className={styles.locality}>{to}</p>
-                <p className={styles.localityStop}>{toStop}</p>
-                <p className={styles.date}>{arrivalDate}</p>
-              </div>
-            </div>
 
-            <div className={styles.passangersBox}>
-              <h4 className={styles.subTitle}>Данные о пассажирах:</h4>
-              <ul>
-                {ticket.services.map((el, idx) => (
-                  <li key={idx}>
-                    <div className={styles.header}>
-                      <p className={styles.number}>Пассажир №:{idx + 1}</p>
-                      <p className={styles.price}>
-                        <span>Стоимость: </span>
-                        {el.price.amount} грн
-                      </p>
-                    </div>
-                    <div className={styles.passangerData}>
-                      <div>
-                        <p className={styles.passangerTitle}>Имя</p>
-                        <p className={styles.passangerName}>
-                          {getName(el.customer.id, "name")}
+              <div className={styles.passangersBox}>
+                <h4 className={styles.subTitle}>
+                  <FormattedMessage id="passangersData" />
+                </h4>
+                <ul>
+                  {ticket.services.map((el, idx) => (
+                    <li key={idx}>
+                      <div className={styles.header}>
+                        <p className={styles.number}>
+                          <FormattedMessage id="passenger" />
+                          {idx + 1}
+                        </p>
+                        <p className={styles.price}>
+                          <span>
+                            <FormattedMessage id="cost" />
+                          </span>
+                          {el.price.amount} UAH
                         </p>
                       </div>
-                      <div>
-                        <p className={styles.passangerTitle}>Фамилия</p>
-                        <p className={styles.passangerName}>
-                          {getName(el.customer.id, "surname")}
-                        </p>
+                      <div className={styles.passangerData}>
+                        <div>
+                          <p className={styles.passangerTitle}>
+                            <FormattedMessage id="name" />
+                          </p>
+                          <p className={styles.passangerName}>
+                            {getName(el.customer.id, "name")}
+                          </p>
+                        </div>
+                        <div>
+                          <p className={styles.passangerTitle}>
+                            <FormattedMessage id="surname" />
+                          </p>
+                          <p className={styles.passangerName}>
+                            {getName(el.customer.id, "surname")}
+                          </p>
+                        </div>
+                        <div>
+                          <p className={styles.passangerTitle}>
+                            <FormattedMessage id="phone" />
+                          </p>
+                          <p className={styles.passangerName}>
+                            {getName(el.customer.id, "phone")}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className={styles.passangerTitle}>Телефон</p>
-                        <p className={styles.passangerName}>
-                          {getName(el.customer.id, "phone")}
-                        </p>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className={styles.payment}>
-              <div className={styles.warning}>
-                <p className={styles.warningText}>
-                  {" "}
-                  Для оформления заказа оплатите его до:{" "}
-                  <span>{getExpireTime(ticket.services[0].expire, lang)}</span>
-                </p>
-                <p className={styles.time}>
-                  {new Date(time).toLocaleString("uk", {
-                    minute: "2-digit",
-                    second: "2-digit",
-                  })}
-                </p>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {!!isModal && <Modal onClose={closeModal} component={<GoHome />} isGohome={true}/>}
-              
-            </div>
-          </>
-        )}
+              <div className={styles.payment}>
+                <div className={styles.warning}>
+                  <p className={styles.warningText}>
+                    <FormattedMessage id="endTime" />
+                    <span>{getExpireTime(ticket.services[0].expire, lang)}</span>
+                  </p>
+                  <p className={styles.time}>
+                    {new Date(time).toLocaleString("uk", {
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
+                  </p>
+                </div>
+                {!!isModal && <Modal  component={<GoHome />} isGohome={true}/>}
+              </div>
+            </>
+          )}
 
-        {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
+          {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
+        </div>
       </div>
-    </div>
+    </IntlProvider>
   );
 };
 const mapStateToProps = (state) => ({

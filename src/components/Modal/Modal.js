@@ -10,7 +10,7 @@ export default class Modal extends Component {
   backdropRef = createRef();
 
   componentDidMount() {
-    // if (this.props.isGohome) return
+    if (this.props.isGohome) return
     window.addEventListener("keydown", this.handleKeyPress);
   }
 

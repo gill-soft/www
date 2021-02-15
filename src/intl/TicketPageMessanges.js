@@ -1,0 +1,43 @@
+export const messages = {
+    EN: {
+      trip: "Route:",
+      passangersData: "Passenger data:",
+      cost: " Cost:",
+      passenger: "Passenger №:",
+      name: "Name",
+      surname: "Surname",
+      phone: "Phone",
+      endTime: "To place an order, pay for it before:",
+    },
+    RU: {
+      trip: "Маршрут:",
+      passangersData: "Данные о пассажирах:",
+      cost: "Стоимость: ",
+      passenger: "Пассажир №:",
+      name: "Имя",
+      surname: "Фамилия",
+      phone: "Телефон",
+      endTime: "Для оформления заказа оплатите его до:",
+    },
+    UK: {
+      trip: "Маршрут:",
+      passangersData: "Відомості про пасажирів",
+      cost: "Вартість: ",
+      passenger: "Пасажир №:",
+      name: "Ім'я",
+      surname: "Прізвище",
+      phone: "Телефон",
+      endTime: "Для оформлення замовлення оплатіть його до:",
+    },
+    PL: {
+      trip: "Trasa:",
+      passangersData: "Dane pasażera:",
+      cost: "Koszt: ",
+      passenger: "Pasażera №:",
+      name: "Nazwa",
+      surname: "Nazwisko",
+      phone: "Telefon",
+      endTime: "Aby złożyć zamówienie, opłać je wcześniej:",
+    },
+  };
+  
