@@ -16,6 +16,8 @@ import { stopLoader, getError, startLoader } from "../redux/global/globalActions
 import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
 import SortTrips from "../components/TripsContainer/SortTrips";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../intl/TripsPageMessanges";
 
 class TripsPage extends Component {
   state = {
@@ -135,6 +137,7 @@ class TripsPage extends Component {
 
   changeDate = ({ target }) => {
     const { startLoader, history, location } = this.props;
+
     startLoader();
     const parsed = queryString.parse(location.search);
     const newDay =
@@ -169,54 +172,61 @@ class TripsPage extends Component {
   render() {
     const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
+    const locale = lang === "UA" ? "UK" : lang;
     return (
-      <div className={styles.bgnd}>
-        <div className={styles.container}>
-          <div className={styles.formBox}>
-            <SearchForm history={history} />
-          </div>
-          {isLoading && <Loader />}
-          {error && <p>{error}</p>}
-          {Object.keys(trips).length > 0 && (
-            <div className={styles.tripsBox}>
-              <h3 className={styles.title}>
-                Расписание автобусов <br/> {getLocality(parsed.from, stops, lang)} -{" "}
-                {getLocality(parsed.to, stops, lang)}
-              </h3>
-              <div className={styles.dateBox}>
-                <button
-                  className={styles.dateButton}
-                  name="prev"
-                  onClick={this.changeDate}
-                  disabled={this.getDisabled(parsed)}
-                >
-                  {getYesterday(parsed, lang)}
-                </button>
-                <p className={styles.today}>{getTodayDate(parsed, lang)}</p>
-                <button
-                  className={styles.dateButton}
-                  name="next"
-                  onClick={this.changeDate}
-                >
-                  {getTomorrow(parsed, lang)}
-                </button>
-              </div>
-              <SortTrips onChangeValue={(val) => this.setState({value:val })} value={this.state.value} />
-              {tripsInfo.map((el, idx) => (
-                <TripBox
-                  key={idx}
-                  trip={el[`${Object.keys(el)}`]}
-                  tripKey={Object.keys(el)}
-                  from={getLocality(parsed.from, stops, lang)}
-                  to={getLocality(parsed.to, stops, lang)}
-                  location={this.props.location}
-                />
-              ))}
-              {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
+      <IntlProvider locale={locale} messages={messages[locale]}>
+        <div className={styles.bgnd}>
+          <div className={styles.container}>
+            <div className={styles.formBox}>
+              <SearchForm history={history} />
             </div>
-          )}
+            {isLoading && <Loader />}
+            {error && <p>{error}</p>}
+            {Object.keys(trips).length > 0 && (
+              <div className={styles.tripsBox}>
+                <h3 className={styles.title}>
+                  <FormattedMessage id="title" />
+                  <br /> {getLocality(parsed.from, stops, lang)} -{" "}
+                  {getLocality(parsed.to, stops, lang)}
+                </h3>
+                <div className={styles.dateBox}>
+                  <button
+                    className={styles.dateButton}
+                    name="prev"
+                    onClick={this.changeDate}
+                    disabled={this.getDisabled(parsed)}
+                  >
+                    {getYesterday(parsed, lang)}
+                  </button>
+                  <p className={styles.today}>{getTodayDate(parsed, lang)}</p>
+                  <button
+                    className={styles.dateButton}
+                    name="next"
+                    onClick={this.changeDate}
+                  >
+                    {getTomorrow(parsed, lang)}
+                  </button>
+                </div>
+                <SortTrips
+                  onChangeValue={(val) => this.setState({ value: val })}
+                  value={this.state.value}
+                />
+                {tripsInfo.map((el, idx) => (
+                  <TripBox
+                    key={idx}
+                    trip={el[`${Object.keys(el)}`]}
+                    tripKey={Object.keys(el)}
+                    from={getLocality(parsed.from, stops, lang)}
+                    to={getLocality(parsed.to, stops, lang)}
+                    location={this.props.location}
+                  />
+                ))}
+                {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </IntlProvider>
     );
   }
 }

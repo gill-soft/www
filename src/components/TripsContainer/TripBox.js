@@ -5,11 +5,14 @@ import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
 import { getLang } from "../../services/getInfo";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../../intl/TripsPageMessanges";
 
 const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, location }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
   const windowWidth = window.innerWidth;
+  const locale = lang === "UA" ? "UK" : lang;
 
   const getStop = (val) => {
     const key = trip[`${val}`].id;
@@ -35,7 +38,28 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
   };
 
   const getTimeInWay = () => {
-    return `${+trip.timeInWay.split(":")[0]}ч ${trip.timeInWay.split(":")[1]}мин`;
+    let t, m;
+    switch (lang) {
+      case "RU":
+        t = "ч";
+        m = "мин";
+        break;
+      case "UA":
+        t = "г";
+        m = "хв";
+        break;
+      case "EN":
+        t = "h";
+        m = "min";
+        break;
+      case "PL":
+        t = "g";
+        m = "min";
+        break;
+      default:
+        break;
+    }
+    return `${+trip.timeInWay.split(":")[0]}${t} ${trip.timeInWay.split(":")[1]}${m}`;
   };
 
   const getPrice = () => {
@@ -83,78 +107,86 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
     setIsOpen(!isOpen);
   };
   return (
-    <div className={styles.full}>
-      <div className={styles.tripBox}>
-        <p className={styles.timeInWay}>{getTimeInWay()} в пути</p>
-        <div className={styles.fromTo}>
-          <div className={styles.info}>
-            <div>
-              <p className={styles.time}>{getTime("departureDate")}</p>
-              <p className={styles.date}>{getDate("departureDate")}</p>
-            </div>
-            <p className={styles.locality}>{from}</p>
-            <p className={styles.localityStop}>{getStop("departure")}</p>
-          </div>
-          <div className={`${styles.info} ${styles.infoLast}`}>
-            <div>
-              <p className={styles.time}> {getTime("arrivalDate")}</p>
-              <p className={styles.date}>{getDate("arrivalDate")}</p>
-            </div>
-            <p className={styles.locality}>{to}</p>
-            <p className={styles.localityStop}>{getStop("arrival")}</p>
-          </div>
-        </div>
-
-        <div className={styles.priceBox}>
-          <p className={styles.price}>
-            {getPrice()} <span>{getCurrency()}</span>{" "}
+    <IntlProvider locale={locale} messages={messages[locale]}>
+      <div className={styles.full}>
+        <div className={styles.tripBox}>
+          <p className={styles.timeInWay}>
+            {getTimeInWay()} <FormattedMessage id="timeInWay" />
           </p>
-          <Link
-            className={styles.choose}
-            to={{
-              pathname: `/order`,
-              state: { from: location },
-            }}
-            onClick={handleClick}
-          >
-            Выбрать
-          </Link>
-        </div>
-        {windowWidth >= 576 ? (
-          <button className={styles.additionals} onClick={handleAdditionals}>
-            Детали рейса
-          </button>
-        ) : null}
-      </div>
-      {isOpen && (
-        <>
-          <h5>{trip.route.name.EN}</h5>
-          <div className={styles.additionalInfo}>
-            <div className={styles.depArr}>
-              <p className={styles.departure}>Отправление</p>
-              <p className={styles.arrival}>Прибытие</p>
+          <div className={styles.fromTo}>
+            <div className={styles.info}>
+              <div>
+                <p className={styles.time}>{getTime("departureDate")}</p>
+                <p className={styles.date}>{getDate("departureDate")}</p>
+              </div>
+              <p className={styles.locality}>{from}</p>
+              <p className={styles.localityStop}>{getStop("departure")}</p>
             </div>
-            <div>
-              <div className={styles.start}>
-                <p className={`${styles.locality} ${styles.addLocality} `}>{from}</p>
-                <p>{getStop("departure")}</p>
+            <div className={`${styles.info} ${styles.infoLast}`}>
+              <div>
+                <p className={styles.time}> {getTime("arrivalDate")}</p>
+                <p className={styles.date}>{getDate("arrivalDate")}</p>
+              </div>
+              <p className={styles.locality}>{to}</p>
+              <p className={styles.localityStop}>{getStop("arrival")}</p>
+            </div>
+          </div>
+
+          <div className={styles.priceBox}>
+            <p className={styles.price}>
+              {getPrice()} <span>{getCurrency()}</span>{" "}
+            </p>
+            <Link
+              className={styles.choose}
+              to={{
+                pathname: `/order`,
+                state: { from: location },
+              }}
+              onClick={handleClick}
+            >
+              <FormattedMessage id="choose" />
+            </Link>
+          </div>
+          {windowWidth >= 576 ? (
+            <button className={styles.additionals} onClick={handleAdditionals}>
+              <FormattedMessage id="additionals" />
+            </button>
+          ) : null}
+        </div>
+        {isOpen && (
+          <>
+            <h5>{trip.route.name.EN}</h5>
+            <div className={styles.additionalInfo}>
+              <div className={styles.depArr}>
+                <p className={styles.departure}>
+                  <FormattedMessage id="departure" />
+                </p>
+                <p className={styles.arrival}>
+                  <FormattedMessage id="arrival" />
+                </p>
               </div>
               <div>
-                {arrayStops.map((el) => (
-                  <p className={styles.stop} key={el.locality.id}>
-                    {getAllLocalities(el.locality.id)}
-                  </p>
-                ))}{" "}
-              </div>
-              <div className={`${styles.start} ${styles.finish}`}>
-                <p className={`${styles.locality} ${styles.addLocality} `}>{to}</p>
-                <p>{getStop("arrival")}</p>
+                <div className={styles.start}>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>{from}</p>
+                  <p>{getStop("departure")}</p>
+                </div>
+                <div>
+                  {arrayStops.map((el) => (
+                    <p className={styles.stop} key={el.locality.id}>
+                      {getAllLocalities(el.locality.id)}
+                    </p>
+                  ))}{" "}
+                </div>
+                <div className={`${styles.start} ${styles.finish}`}>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>{to}</p>
+                  <p>{getStop("arrival")}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </IntlProvider>
   );
 };
 const mapStateToProps = (state) => ({
