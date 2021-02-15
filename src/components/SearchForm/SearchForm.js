@@ -8,7 +8,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import queryString from "query-string";
-
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../../intl/HomePageMessanges";
 import Button from "@material-ui/core/Button";
 import {
   inputValueFrom,
@@ -132,7 +133,8 @@ class SearchForm extends Component {
   };
 
   render() {
-    const { date, changeInputDate } = this.props;
+    const { date, changeInputDate, lang } = this.props;
+    const locale = lang === "UA" ? "UK" : lang;
     return (
       // <div className={`${styles.searchForm}`}>
       <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
@@ -160,15 +162,16 @@ class SearchForm extends Component {
             <AmountPassanger onClose={this.closeModal} />
           </div>
         </div>
-
-        <Button
-          className={styles.searchBtn}
-          type="submit"
-          variant="contained"
-          color="primary"
-        >
-          Поиск
-        </Button>
+        <IntlProvider locale={locale} messages={messages[locale]}>
+          <Button
+            className={styles.searchBtn}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            <FormattedMessage id="searchBtn" />
+          </Button>
+        </IntlProvider>
       </form>
       // </div>
     );

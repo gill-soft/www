@@ -5,6 +5,9 @@ import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
 import styled from "styled-components";
 
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../../intl/HomePageMessanges";
+
 const filterOptions = createFilterOptions({
   matchFrom: "start",
 });
@@ -129,35 +132,44 @@ const AutocompleteComp = ({
   const handleInputChange = ({ target }) => {
     id === "from" ? changeInputFrom(target.value) : changeInputTo(target.value);
   };
+  const locale = lang === "UA" ? "UK" : lang;
 
   return (
-    <div>
-      <StyledAutocomplete
-        id={id}
-        freeSolo
-        value={value}
-        filterOptions={filterOptions}
-        onChange={(event, value) => handleChange(value)}
-        options={options.map((opt) => opt)}
-        renderOption={(opt) => (
-          <div>
-            <span className="acMainOption">{opt.split(" - ")[0]}</span>
-            <span> - {opt.split(" - ")[1]}</span>
-          </div>
-        )}
-        renderInput={(params) => (
-          <StyledTextField
-            {...params}
-            label={id === "from" ? "откуда" : "куда"}
-            onBlur={(event) => handleInputChange(event)}
-            margin="normal"
-            variant="outlined"
-            error={error}
-            helperText={error ? "уточните параметры поиска" : ""}
-          />
-        )}
-      />
-    </div>
+    <IntlProvider locale={locale} messages={messages[locale]}>
+      <div>
+        <StyledAutocomplete
+          id={id}
+          freeSolo
+          value={value}
+          filterOptions={filterOptions}
+          onChange={(event, value) => handleChange(value)}
+          options={options.map((opt) => opt)}
+          renderOption={(opt) => (
+            <div>
+              <span className="acMainOption">{opt.split(" - ")[0]}</span>
+              <span> - {opt.split(" - ")[1]}</span>
+            </div>
+          )}
+          renderInput={(params) => (
+            <StyledTextField
+              {...params}
+              label={
+                id === "from" ? (
+                  <FormattedMessage id="from" />
+                ) : (
+                  <FormattedMessage id="to" />
+                )
+              }
+              onBlur={(event) => handleInputChange(event)}
+              margin="normal"
+              variant="outlined"
+              error={error}
+              helperText={error ? "уточните параметры поиска" : ""}
+            />
+          )}
+        />
+      </div>
+    </IntlProvider>
   );
 };
 const mapStateToProps = (state) => ({
