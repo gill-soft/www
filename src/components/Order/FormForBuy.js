@@ -59,6 +59,7 @@ class FormForBuy extends Component {
       seat: { id: `0:${idx + 1}` },
       price: { tariff: { id: price } },
     }));
+    console.log(requestBody)
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
 
@@ -267,7 +268,7 @@ class FormForBuy extends Component {
 
 const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
-  price: state.order.order.price,
+  price: state.order.order.priceId,
   lang: state.language,
   tripKey: state.order.order.tripKey,
   isLoading: state.global.isLoading,

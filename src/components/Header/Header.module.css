@@ -27,6 +27,21 @@
     display: none;
 }
 
+.btnMenu {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.menuBox {
+    width: 250px;
+    height: 250px;
+    background-color: aqua;
+    position: absolute;
+    top: 0px
+}
+
 @media (min-width: 576px) {
     .container {
         max-width: 540px;

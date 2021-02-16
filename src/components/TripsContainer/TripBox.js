@@ -78,6 +78,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
       departureDate: trip.departureDate,
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
+      priceId: trip.price.tariff.id,
       tripKey: tripKey,
     };
     fetchOrderInfo(obj);

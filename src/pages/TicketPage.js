@@ -137,12 +137,39 @@ const TicketPage = ({
                     })}
                   </p>
                 </div>
-                {!!isModal && <Modal  component={<GoHome />} isGohome={true}/>}
+                {/* portmone */}
+                <form action="https://www.portmone.com.ua/gateway/" method="post">
+                  <input type="hidden" name="payee_id" value="1185" />
+                  <input
+                    type="hidden"
+                    name="shop_order_number"
+                    value="76575j65465464161hhhh"
+                  />
+                  <input type="hidden" name="bill_amount" value="1" />
+                  <input type="hidden" name="description" value="Опис замовлення" />
+                  <input
+                    type="hidden"
+                    name="success_url"
+                    value="http://example.com/success.html"
+                  />
+                  <input
+                    type="hidden"
+                    name="failure_url"
+                    value="http://localhost:3000"
+                  />
+                  <input type="hidden" name="lang" value="ru" />
+                  <input type="hidden" name="encoding" value="UTF-8" />
+                  <input type="hidden" name="exp_time" value="400" />
+                  <button type="submit">portmone</button>
+                </form>
+                {/* portmone */}
+
+                {/* {!!isModal && <Modal  component={<GoHome />} isGohome={true}/>} */}
               </div>
             </>
           )}
 
-          {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
+          <pre>{JSON.stringify(ticket, null, 4)} </pre>
         </div>
       </div>
     </IntlProvider>
@@ -157,7 +184,7 @@ const mapStateToProps = (state) => ({
   toStop: state.order.order.toStop,
   departureDate: state.order.order.departureDate,
   arrivalDate: state.order.order.arrivalDate,
-  price: state.order.order.price,
+  price: state.order.order.priceId,
 });
 
 const mapDispatchToProps = (dispatch) => ({

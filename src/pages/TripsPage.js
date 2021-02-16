@@ -221,7 +221,7 @@ class TripsPage extends Component {
                     location={this.props.location}
                   />
                 ))}
-                {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
+                <pre>{JSON.stringify(trips, null, 4)}</pre>
               </div>
             )}
           </div>

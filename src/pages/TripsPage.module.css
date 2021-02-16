@@ -35,7 +35,7 @@
 .dateButton {
     width: 200px;
     padding: 8px;
-    background-color: var(--color-main);
+    background-color: var(--color-third);
     color: var(--color-secondary);
     font-size: 14px;
     text-align: center;
@@ -52,7 +52,7 @@
     width: 240px;
     padding: 8px;
     background-color: var(--color-secondary);
-    color: var(--color-main);
+    color: var(--color-third);
     font-size: 16px;
     text-align: center;
     border: none;
