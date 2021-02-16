@@ -42,8 +42,9 @@ class TripsPage extends Component {
 
     // ==== если меняеться строка запроса или язык пользователя  ====//
     if (
-      prevProps.location.search !== this.props.location.search ||
-      prevProps.lang !== this.props.lang
+      prevProps.location.search !== this.props.location.search 
+      // ||
+      // prevProps.lang !== this.props.lang
     ) {
       this.setState({ value: "price" });
       // ==== формируем обьект для запроса ====

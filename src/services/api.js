@@ -25,7 +25,7 @@ export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
     },
     data: {
       id: "string",
-      lang: `${lang}`,
+      // lang: `${lang}`,
       localityPairs: [[`${idFrom}`, `${idWhereTo}`]],
       dates: [`${date}`],
       currency: "UAH",

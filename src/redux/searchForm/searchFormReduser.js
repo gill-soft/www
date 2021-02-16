@@ -1,7 +1,7 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-const getInputValueFrom = (state = "Львов", { type, payload }) => {
+const getInputValueFrom = (state = "Львів", { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_FROM:
       return payload;
@@ -10,7 +10,7 @@ const getInputValueFrom = (state = "Львов", { type, payload }) => {
       return state;
   }
 };
-const getInputValueTo = (state = "Киев", { type, payload }) => {
+const getInputValueTo = (state = "Київ", { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_TO:
       return payload;

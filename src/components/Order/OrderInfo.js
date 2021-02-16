@@ -3,12 +3,15 @@ import React from "react";
 import styles from "./OrderInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
+import { getLocality, getStop } from "../../services/getInfo";
 
 const OrderInfo = ({
   to,
   from,
   lang,
+  stops,
   price,
+  trips,
   total,
   toStop,
   fromStop,
@@ -30,14 +33,14 @@ const OrderInfo = ({
           <h4 className={styles.subTitle}>
             <FormattedMessage id="departure" />
           </h4>
-          <p className={styles.locality}>{from}</p>
-          <p className={styles.localityStop}>{fromStop}</p>
+          <p className={styles.locality}>{getLocality(from, stops, lang)}</p>
+          <p className={styles.localityStop}>{getStop(fromStop, trips, lang)}</p>
           <p className={styles.date}>{departureDate}</p>
           <h4 className={styles.subTitle}>
             <FormattedMessage id="arrival" />
           </h4>
-          <p className={styles.locality}>{to}</p>
-          <p className={styles.localityStop}>{toStop}</p>
+          <p className={styles.locality}>{getLocality(to, stops, lang)}</p>
+          <p className={styles.localityStop}>{getStop(toStop, trips, lang)}</p>
           <p className={styles.date}>{arrivalDate}</p>
           <p className={styles.total}>
             <FormattedMessage id="pay" />
@@ -57,6 +60,8 @@ const mapStateToProps = (state) => ({
   arrivalDate: state.order.order.arrivalDate,
   price: state.order.order.price,
   lang: state.language,
+  stops: state.global.stops,
+  trips: state.trips.trips
 });
 
 export default connect(mapStateToProps)(OrderInfo);

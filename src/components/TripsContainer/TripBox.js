@@ -1,80 +1,43 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { format } from "date-fns";
+import queryString from "query-string";
 import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
-import { getLang } from "../../services/getInfo";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
+import {
+  getLocality,
+  getStop,
+  getDate,
+  getTime,
+  getTimeInWay,
+  getAllLocalities,
+} from "../../services/getInfo";
 
-const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, location }) => {
+const TripBox = ({
+  tripKey,
+  trip,
+  trips,
+  fetchOrderInfo,
+  lang,
+  from,
+  to,
+  location,
+  stops,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
-
-  const getStop = (val) => {
-    const key = trip[`${val}`].id;
-    return trips.localities[`${key}`]?.name[`${lang}`];
-  };
-
-  const getAllLocalities = (key) => {
-    return (
-      trips.localities[`${key}`].name[`${lang}`] || trips.localities[`${key}`].name[`RU`]
-    );
-  };
-
-  const getTime = (key) => {
-    return format(new Date(trip[`${key}`]), "HH:mm");
-  };
-
-  const getDate = (key) => {
-    return new Date(trip[`${key}`]).toLocaleString(getLang(lang), {
-      day: "2-digit",
-      month: "short",
-      year: "2-digit",
-    });
-  };
-
-  const getTimeInWay = () => {
-    let t, m;
-    switch (lang) {
-      case "RU":
-        t = "ч";
-        m = "мин";
-        break;
-      case "UA":
-        t = "г";
-        m = "хв";
-        break;
-      case "EN":
-        t = "h";
-        m = "min";
-        break;
-      case "PL":
-        t = "g";
-        m = "min";
-        break;
-      default:
-        break;
-    }
-    return `${+trip.timeInWay.split(":")[0]}${t} ${trip.timeInWay.split(":")[1]}${m}`;
-  };
-
-  const getPrice = () => {
-    return trip.price.amount;
-  };
-  const getCurrency = () => {
-    return trip.price.currency;
-  };
+  const parsed = queryString.parse(location.search);  
 
   const handleClick = () => {
     const obj = {
-      from: from,
-      fromStop: getStop("departure"),
-      toStop: getStop("arrival"),
-      to: to,
+      from: parsed.from,
+      fromStop: trip.departure.id,
+      toStop: trip.arrival.id,
+      to: parsed.to,
       departureDate: trip.departureDate,
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
@@ -112,30 +75,34 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
       <div className={styles.full}>
         <div className={styles.tripBox}>
           <p className={styles.timeInWay}>
-            {getTimeInWay()} <FormattedMessage id="timeInWay" />
+            {getTimeInWay(trip, lang)} <FormattedMessage id="timeInWay" />
           </p>
           <div className={styles.fromTo}>
             <div className={styles.info}>
               <div>
-                <p className={styles.time}>{getTime("departureDate")}</p>
-                <p className={styles.date}>{getDate("departureDate")}</p>
+                <p className={styles.time}>{getTime("departureDate", trip, lang)}</p>
+                <p className={styles.date}>{getDate("departureDate", trip, lang)}</p>
               </div>
-              <p className={styles.locality}>{from}</p>
-              <p className={styles.localityStop}>{getStop("departure")}</p>
+              <p className={styles.locality}>{getLocality(parsed.from, stops, lang)}</p>
+              <p className={styles.localityStop}>
+                {getStop(trip.departure.id, trips, lang)}
+              </p>
             </div>
             <div className={`${styles.info} ${styles.infoLast}`}>
               <div>
-                <p className={styles.time}> {getTime("arrivalDate")}</p>
-                <p className={styles.date}>{getDate("arrivalDate")}</p>
+                <p className={styles.time}> {getTime("arrivalDate", trip, lang)}</p>
+                <p className={styles.date}>{getDate("arrivalDate", trip, lang)}</p>
               </div>
-              <p className={styles.locality}>{to}</p>
-              <p className={styles.localityStop}>{getStop("arrival")}</p>
+              <p className={styles.locality}>{getLocality(parsed.to, stops, lang)}</p>
+              <p className={styles.localityStop}>
+                {getStop(trip.arrival.id, trips, lang)}
+              </p>
             </div>
           </div>
 
           <div className={styles.priceBox}>
             <p className={styles.price}>
-              {getPrice()} <span>{getCurrency()}</span>{" "}
+              {trip.price.amount} <span>{trip.price.currency}</span>{" "}
             </p>
             <Link
               className={styles.choose}
@@ -168,19 +135,23 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
               </div>
               <div>
                 <div className={styles.start}>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>{from}</p>
-                  <p>{getStop("departure")}</p>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>
+                    {getLocality(parsed.from, stops, lang)}
+                  </p>
+                  <p>{getStop(trip.departure.id, trips, lang)}</p>
                 </div>
                 <div>
                   {arrayStops.map((el) => (
                     <p className={styles.stop} key={el.locality.id}>
-                      {getAllLocalities(el.locality.id)}
+                      {getAllLocalities(el.locality.id, trips, lang)}
                     </p>
                   ))}{" "}
                 </div>
                 <div className={`${styles.start} ${styles.finish}`}>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>{to}</p>
-                  <p>{getStop("arrival")}</p>
+                  <p className={`${styles.locality} ${styles.addLocality} `}>
+                    {getLocality(parsed.to, stops, lang)}
+                  </p>
+                  <p>{getStop(trip.arrival.id, trips, lang)}</p>
                 </div>
               </div>
             </div>
@@ -193,6 +164,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, from, to, locatio
 const mapStateToProps = (state) => ({
   trips: state.trips.trips,
   lang: state.language,
+  stops: state.global.stops,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchOrderInfo: (obj) => dispatch(fetchOrderInfo(obj)),
