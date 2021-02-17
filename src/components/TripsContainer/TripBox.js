@@ -34,6 +34,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
       priceId: trip.price.tariff.id,
       tripKey: tripKey[0],
     };
+    localStorage.setItem("tripKey", JSON.stringify(tripKey[0]));
     fetchOrderInfo(obj);
     sessionStorage.setItem(
       "path",

@@ -9,10 +9,11 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TicketPageMessanges";
 import Timer from "../components/Timer/Timer";
 
-const TicketPage = ({ lang, match, ticket, tripKey, getTicket }) => {
+const TicketPage = ({ lang, match, ticket, getTicket }) => {
   const [time, setTime] = useState(0);
   const [isModal, setIsModal] = useState(false);
   const locale = lang === "UA" ? "UK" : lang;
+  const tripKey = JSON.parse(localStorage.getItem('tripKey'))
 
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
@@ -179,7 +180,7 @@ const mapStateToProps = (state) => ({
   ticket: state.order.ticket,
   lang: state.language,
   price: state.order.order.priceId,
-  tripKey: state.order.order.tripKey,
+  // tripKey: state.order.order.tripKey,
 });
 
 const mapDispatchToProps = (dispatch) => ({
