@@ -21,7 +21,6 @@ export const getLang = (lang) => {
 // ==== получаем наcелённый пункт отправки/прибытия ==== //
 export const getLocality = (id, stops, lang) => {
   const result = stops.find((el) => el.id === id);
-  // console.log(id)
   return result ? result.name[`${lang}`] || result.name[`EN`] : null
 };
 
