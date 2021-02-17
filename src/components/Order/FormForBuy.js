@@ -15,8 +15,8 @@ class FormForBuy extends Component {
     values: [],
     email: "",
     resp: {},
-    isOffer: true,
-    isPersonal: true,
+    isOffer: false,
+    isPersonal: false,
   };
 
   componentDidMount() {
@@ -210,7 +210,7 @@ class FormForBuy extends Component {
               className={styles.input}
               type="email"
               name="email"
-              value={email}
+              value={"w@w.www"}
               placeholder="email"
               autoComplete="nope"
               onChange={this.handleChangeEmail}

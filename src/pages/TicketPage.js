@@ -7,6 +7,7 @@ import { getExpireTime } from "../services/getInfo";
 import styles from "./TicketPage.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TicketPageMessanges";
+import Timer from "../components/Timer/Timer";
 
 const TicketPage = ({ lang, match, ticket, tripKey, getTicket }) => {
   const [time, setTime] = useState(0);
@@ -18,26 +19,6 @@ const TicketPage = ({ lang, match, ticket, tripKey, getTicket }) => {
     const id = match.params.id;
     getTicket(id);
   }, [match.params.id, getTicket]);
-
-  useEffect(() => {
-    if (Object.keys(ticket).length > 0) {
-      const timeEnd = new Date(ticket.services[0].expire).getTime();
-      const timeStart = new Date().getTime();
-      setTime(timeEnd - timeStart);
-    }
-  }, [ticket]);
-
-  useEffect(() => {
-    if (time < 0) {
-      setIsModal(true);
-      return;
-    }
-    const intervalId = setInterval(() => {
-      setTime(time - 1000);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [time]);
 
   const getName = (id, type) => {
     return ticket.customers[`${id}`][`${type}`];
@@ -59,7 +40,6 @@ const TicketPage = ({ lang, match, ticket, tripKey, getTicket }) => {
     return ticket.localities[`${id}`].name[`${lang}`];
   };
 
-  // console.log(getLocalityId())
   return (
     <>
       {Object.keys(ticket).length > 0 && (
@@ -143,12 +123,7 @@ const TicketPage = ({ lang, match, ticket, tripKey, getTicket }) => {
                         <FormattedMessage id="endTime" />
                         <span>{getExpireTime(ticket.services[0].expire, lang)}</span>
                       </p>
-                      <p className={styles.time}>
-                        {new Date(time).toLocaleString("uk", {
-                          minute: "2-digit",
-                          second: "2-digit",
-                        })}
-                      </p>
+                      <Timer />
                     </div>
                     {/* portmone */}
                     <form action="https://www.portmone.com.ua/gateway/" method="post">

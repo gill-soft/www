@@ -145,11 +145,7 @@
     display: inline-block;
 }
 
-.time {
-    color: var(--color-secondary);
-    font-size: 20px;
-    font-weight: 700;
-}
+
 
 @media (min-width: 576px) {
     .container {
