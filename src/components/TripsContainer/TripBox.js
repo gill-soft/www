@@ -15,22 +15,12 @@ import {
   getAllLocalities,
 } from "../../services/getInfo";
 
-const TripBox = ({
-  tripKey,
-  trip,
-  trips,
-  fetchOrderInfo,
-  lang,
-  from,
-  to,
-  location,
-  stops,
-}) => {
+const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
-  const parsed = queryString.parse(location.search);  
+  const parsed = queryString.parse(location.search);
 
   const handleClick = () => {
     const obj = {
@@ -42,7 +32,7 @@ const TripBox = ({
       arrivalDate: trip.arrivalDate,
       price: trip.price.amount,
       priceId: trip.price.tariff.id,
-      tripKey: tripKey,
+      tripKey: tripKey[0],
     };
     fetchOrderInfo(obj);
     sessionStorage.setItem(

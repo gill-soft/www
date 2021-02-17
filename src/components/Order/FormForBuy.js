@@ -55,11 +55,10 @@ class FormForBuy extends Component {
     requestBody.lang = this.props.lang;
     requestBody.services = values.map((el, idx) => ({
       customer: { id: idx },
-      segment: { id: tripKey[0] },
+      segment: { id: tripKey },
       seat: { id: `0:${idx + 1}` },
       price: { tariff: { id: price } },
     }));
-    console.log(requestBody)
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
 

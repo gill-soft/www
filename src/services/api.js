@@ -44,6 +44,16 @@ export const searchTrips = (id) => {
     },
   });
 };
+// ==== список обезательных полей ==== //
+export const getRequaredFields = (key) => {
+  return axios({
+    method: "get",
+    url: `${baseUrl}/search/trip/${key}/required`,
+    headers: {
+      Authorization: AUTH_KEY2,
+    },
+  });
+};
 
 //  ==== запрос на билет ==== //
 export const toBook = (body) => {

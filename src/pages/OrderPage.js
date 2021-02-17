@@ -5,13 +5,18 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
 import styles from "./OrderPage.module.css";
 import { startLoader } from "../redux/global/globalActions";
+import { getRequaredFields} from '../services/api'
 
-const OrderPage = ({ history, amountPassangers, order, location, startLoader }) => {
+const OrderPage = ({ history, amountPassangers, order, location, startLoader, tripKey }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
 
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
   };
+  useEffect(() => {
+    getRequaredFields(tripKey).then(({data}) => console.log(data))
+    
+  }, [tripKey])
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
   useEffect(() => {
@@ -44,6 +49,7 @@ const OrderPage = ({ history, amountPassangers, order, location, startLoader }) 
 const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
   order: state.order.order,
+  tripKey: state.order.order.tripKey,
 });
 const mapDispatchToProps = (dispatch) => ({
   startLoader: (obj) => dispatch(startLoader(obj)),
