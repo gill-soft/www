@@ -77,3 +77,13 @@ export const getTicketInfo = (id) => {
     },
   });
 };
+// ==== информация о билете ==== //
+export const getTicketConfirm = (id) => {
+  return axios({
+    method: "post",
+    url: `${baseUrl}/order/${id}/confirm/CASH`,
+    headers: {
+      Authorization: AUTH_KEY2,
+    },
+  });
+};

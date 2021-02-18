@@ -58,7 +58,7 @@ const TicketPage = ({ lang, match, ticket, getTicket }) => {
               <input
                 type="hidden"
                 name="success_url"
-                value="http://localhost:3000/myTicket"
+                value={`http://localhost:3000/#/myTicket/${match.params.id}`}
               />
               <input type="hidden" name="failure_url" value="http://localhost:3000" />
               <input type="hidden" name="lang" value={lang.toLowerCase()} />

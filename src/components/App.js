@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
+import MyTicketPage from "../pages/MyTicketPage";
 import OrderPage from "../pages/OrderPage";
 import TicketPage from "../pages/TicketPage";
 import TripsPage from "../pages/TripsPage";
@@ -24,7 +25,7 @@ const App = ({ fetchStops, stops }) => {
             <Route path="/trips" component={TripsPage} />
             <Route path="/order" component={OrderPage} />
             <Route path="/ticket/:id" component={TicketPage} />
-            
+            <Route path="/myTicket/:id" component={MyTicketPage} />
           </Switch>
         </div>
       )}
