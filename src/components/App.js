@@ -24,6 +24,7 @@ const App = ({ fetchStops, stops }) => {
             <Route path="/trips" component={TripsPage} />
             <Route path="/order" component={OrderPage} />
             <Route path="/ticket/:id" component={TicketPage} />
+            
           </Switch>
         </div>
       )}
