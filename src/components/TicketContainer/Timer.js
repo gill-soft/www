@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { inputValueDate } from "../../redux/searchForm/searchFormAction";
-import { useSelector} from 'react-redux'
+import { useSelector } from "react-redux";
 import styles from "./Timer.module.css";
 
 const Timer = () => {
-  const ticket = useSelector(state => state.order.ticket)
+  const ticket = useSelector((state) => state.order.ticket);
   const [time, setTime] = useState(0);
   useEffect(() => {
     const timeEnd = new Date(ticket.services[0].expire).getTime();

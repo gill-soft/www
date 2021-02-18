@@ -1,0 +1,82 @@
+.orderBox {
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    margin: 0 auto;
+    padding: 30px 12px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px -1px 3px 1px #7a7a7a;
+}
+
+.subTitle,
+.locality {
+    font-size: 18px;
+    font-weight: 700;
+    color: #232323;
+    margin-bottom: 8px;
+}
+
+.orderBox div {
+    max-width: 200px;
+    padding-bottom: 24px;
+    position: relative;
+    margin-right: 38px;
+}
+
+.arrow {
+    margin-bottom: 20px;
+}
+
+.localityStop,
+.date {
+    font-size: 16px;
+    font-weight: 500;
+    color: #383838;
+}
+
+.date {
+    position: absolute;
+    bottom: 0;
+}
+
+@media (min-width: 576px) {
+    .orderBox {
+        width: 100%;
+        padding: 12px;
+        flex-direction: row;
+    }
+
+    .subTitle {
+        margin: 0 12px 0 0;
+    }
+
+    .passangersBox {
+        width: 100%;
+    }
+
+    .passangersBox li:last-child {
+        margin-bottom: 0;
+    }
+
+    .arrow {
+        margin-bottom: 0;
+    }
+
+    .arrow::after {
+        display: block;
+        content: " \21FE";
+        font-weight: 900;
+        font-size: 28px;
+        position: absolute;
+        right: -30px;
+        top: -8px
+    }
+}
+
+@media (min-width: 768px) {
+
+    .subTitle,
+    .locality {
+        font-size: 24px;
+    }
+}
