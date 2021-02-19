@@ -1,0 +1,64 @@
+.time {
+    color: var(--color-secondary);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.warning {
+    display: flex;
+    background-color: aliceblue;
+    justify-content: space-between;
+    padding: 30px 12px;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.warningText {
+    color: #000000;
+}
+
+.warningText span {
+    font-weight: 700;
+    display: inline-block;
+}
+.payment {
+    display: flex;
+    justify-content: space-around;
+}
+.portmone {
+    width: 170px;
+    padding: 20px 0;
+    background-image: url('../../images/portmone.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 4px 2px #a3a3a3;
+    cursor: pointer;
+}
+
+.portmone:hover {
+    box-shadow: 0 0 2px 1px #a3a3a3;
+}
+.total {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 18px;
+}
+.total span {
+    display: inline-block;
+    width: 200px;
+    background-color: var(--color-third);
+    color: var(--color-danger);
+    padding: 10px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    font-size: 22px;
+    border-radius: 2px;
+}
+.total span > small{
+    letter-spacing: normal;}
+
+

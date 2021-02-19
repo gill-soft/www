@@ -21,7 +21,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   const parsed = queryString.parse(location.search);
-
+  
   const handleClick = () => {
     const obj = {
       from: parsed.from,
@@ -34,7 +34,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
       priceId: trip.price.tariff.id,
       tripKey: tripKey[0],
     };
-    localStorage.setItem("tripKey", JSON.stringify(tripKey[0]));
+    // localStorage.setItem("tripKey", JSON.stringify(tripKey[0]));
     fetchOrderInfo(obj);
     sessionStorage.setItem(
       "path",

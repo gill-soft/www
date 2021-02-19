@@ -7,7 +7,7 @@ class MyTicketPage extends Component {
     status: "NEW",
   };
 
-  // ==== получаем информацию о билете ==== //
+  //  ==== получаем информацию о билете ==== //
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getTicket(id);
@@ -42,7 +42,7 @@ class MyTicketPage extends Component {
         {status === "ERROR" && (
           <>
             <h1 style={{ paddingTop: "70px" }}>
-              Что-то пошло не так! Свяжитесь со службой поддержки
+              Что-то пошло не так! Свяжитесь со службой поддержки по телефону: +1 111 111-11-11
             </h1>
           </>
         )}

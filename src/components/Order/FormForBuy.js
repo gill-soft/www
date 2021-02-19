@@ -48,7 +48,7 @@ class FormForBuy extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.startLoader();
-    const { tripKey, price, getError } = this.props;
+    const { tripKey, priceId, getError } = this.props;
     const { values } = this.state;
 
     const requestBody = {};
@@ -57,7 +57,7 @@ class FormForBuy extends Component {
       customer: { id: idx },
       segment: { id: tripKey },
       seat: { id: `0:${idx + 1}` },
-      price: { tariff: { id: price } },
+      price: { tariff: { id: priceId } },
     }));
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
@@ -210,7 +210,7 @@ class FormForBuy extends Component {
               className={styles.input}
               type="email"
               name="email"
-              value={"w@w.www"}
+              value={email}
               placeholder="email"
               autoComplete="nope"
               onChange={this.handleChangeEmail}
@@ -267,7 +267,8 @@ class FormForBuy extends Component {
 
 const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
-  price: state.order.order.priceId,
+  priceId: state.order.order.priceId,
+  price: state.order.order.price,
   lang: state.language,
   tripKey: state.order.order.tripKey,
   isLoading: state.global.isLoading,

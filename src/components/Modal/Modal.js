@@ -4,7 +4,7 @@ import style from "./Modal.module.css";
 
 export default class Modal extends Component {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
   };
 
   backdropRef = createRef();
