@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getTicket } from "../redux/order/orderOperation";
 import styles from "./TicketPage.module.css";
@@ -7,13 +7,13 @@ import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import CryptoJS from "crypto-js";
 
-const TicketPage = ({ lang, match, ticket, getTicket, location }) => {
+const TicketPage = ({ lang, ticket, getTicket, location }) => {
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
     // ==== получаем зашифрованый id === //
     const encryptId = location.pathname.split("ticket/").reverse()[0];
     // ==== расшифровуем id ==== //
-    const id = CryptoJS.AES.decrypt(encryptId, "pass").toString(CryptoJS.enc.Utf8);
+    const id = CryptoJS.AES.decrypt(encryptId, "KeyVezu").toString(CryptoJS.enc.Utf8);
     getTicket(id);
   }, [getTicket, location.pathname]);
 
@@ -30,7 +30,6 @@ const TicketPage = ({ lang, match, ticket, getTicket, location }) => {
     const tripKey = Object.keys(ticket.segments)[0];
     return ticket.segments[`${tripKey}`][`${type}`];
   };
-  console.log("render");
 
   return (
     <div className={styles.bgnd}>

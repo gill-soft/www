@@ -4,7 +4,6 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import { connect } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/HomePageMessanges";
-import CryptoJS from "crypto-js";
 
 const HomePage = ({ history, lang }) => {
   const locale = lang === "UA" ? "UK" : lang;

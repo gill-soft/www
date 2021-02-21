@@ -10,6 +10,11 @@ import Loader from "../Loader/Loader";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
 import CryptoJS from "crypto-js";
+import * as Yup from "yup";
+
+const schema = Yup.object().shape({
+  name: Yup.string().min(2, "too short").required("Required"), // these constraints take precedence
+});
 
 class FormForBuy extends Component {
   state = {
@@ -18,6 +23,7 @@ class FormForBuy extends Component {
     resp: {},
     isOffer: false,
     isPersonal: false,
+    isValidName: true,
   };
 
   componentDidMount() {
@@ -33,14 +39,14 @@ class FormForBuy extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.resp !== this.state.resp) {
-      this.props.stopLoader();
+      // this.props.stopLoader();
       this.state.resp.services.forEach((el) => {
         // ==== проверяем на ошибки в статусе ==== //
         if (el.status !== "NEW") {
           this.props.getError(el.error.message);
           return;
         } else {
-          const id = CryptoJS.AES.encrypt(this.state.resp.orderId, "pass").toString()
+          const id = CryptoJS.AES.encrypt(this.state.resp.orderId, "KeyVezu").toString();
           this.props.history.push(`/ticket/${id}`);
         }
       });
@@ -49,10 +55,13 @@ class FormForBuy extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.startLoader();
+    // this.props.startLoader();
     const { tripKey, priceId, getError } = this.props;
     const { values } = this.state;
-
+    // console.log(this.state.isValidName)
+    console.log(schema.isValidSync(values[0]))
+    this.setState({isValidName: schema.isValidSync(values[0])});
+    return;
     const requestBody = {};
     requestBody.lang = this.props.lang;
     requestBody.services = values.map((el, idx) => ({
@@ -155,7 +164,7 @@ class FormForBuy extends Component {
                     </div>
                     <div className={styles.inputBox}>
                       <input
-                        className={styles.input}
+                        className={`${styles.input} ${this.state.isValidName ? null : styles.red }`}
                         name="name"
                         type="text"
                         value={this.getValueName(el.id)}
@@ -164,6 +173,7 @@ class FormForBuy extends Component {
                         autoComplete="off"
                         required={true}
                       />
+
                       <input
                         className={styles.input}
                         name="surname"

@@ -15,7 +15,7 @@ class MyTicketPage extends Component {
     // ==== получаем зашифрованый id === //
     const encryptId = this.props.location.pathname.split("myTicket/").reverse()[0];
     // ==== расшифровуем id ==== //
-    const id = CryptoJS.AES.decrypt(encryptId, "pass").toString(CryptoJS.enc.Utf8);
+    const id = CryptoJS.AES.decrypt(encryptId, "KeyVezu").toString(CryptoJS.enc.Utf8);
     this.setState({ id: id });
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);

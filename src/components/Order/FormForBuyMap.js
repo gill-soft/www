@@ -1,66 +1,91 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
 
-// Here is an example of a form with an editable list.
-// Next to each input are buttons for insert and remove.
-// If the list is empty, there is a button to add an item.
-const FormForBuyMap = ({ array }) => {
-  const [pass, setPass] = useState([{}, {}]);
-  // useEffect(() => {
-  //   setPass()
-  // }, [])
+import * as Yup from "yup";
 
-  return (
-    <div>
-      <h1>Friend List</h1>
-      <Formik
-        initialValues={{ friends: pass }}
-        onSubmit={(values) => console.log(values.friends)}
-        render={({ values }) => (
-          <Form>
-            <FieldArray
-              name="friends"
-              render={(arrayHelpers) => (
-                <div>
-                  {console.log(values)}
-                  {values.friends.map((el, idx) => (
-                    <div key={idx}>
-                      {/** both these conventions do the same */}
-                      {array.map((el) => {
-                        console.log(el);
-                        if (el === "NAME") {
-                          return <Field name={`friends[${idx}][${el}]`} />;
-                        }
-                        if (el === "PHONE") {
-                          return (
-                            <Field name={`friends[${idx}][${el}]`} type="checkbox" />
-                          );
-                        }
-                      })}
-                      {/* <Field name={`friends[${idx}].name`} />
-                      <Field name={`friends.${idx}.phine`} /> */}
+const SignupSchema = Yup.object().shape({
+  friends: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().min(4, "too short").required("Required"), // these constraints take precedence
+      })
+    )
+    .required("Must have friends") // these constraints are shown if and only if inner constraints are satisfied
+    .min(3, "Minimum of 3 friends"),
+});
+// [  ONLY_LATIN, GENDER, CITIZENSHIP, DOCUMENT_TYPE, DOCUMENT_NUMBER, DOCUMENT_SERIES, BIRTHDAY, SEAT, TARIFF ]
+class FormForBuyMap extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Passengers List</h1>
+        {console.log(this.props.pass)}
+        <Formik
+          initialValues={this.props.pass}
+          validationSchema={SignupSchema}
+          onSubmit={(values) => {
+            values.pass.map((el) => (el.email = values.email));
+            console.log(values);
+          }}
+          render={({ values, errors, touched }) => (
+            <Form>
+              <FieldArray
+                name="pass"
+                render={(arrayHelpers) => (
+                  <div>
+                    {values.pass.map((el, idx) => (
+                      <div key={idx}>
+                        {/** both these conventions do the same */}
+                        {this.props.array.indexOf("NAME") >= 0 && (
+                          <>
+                            <Field name={`pass[${idx}].name`} />
+                            {errors.name && touched.name ? (
+                              <div>{errors.name}</div>
+                            ) : null}
+                          </>
+                        )}
+                        {this.props.array.indexOf("SURNAME") >= 0 && (
+                          <Field name={`pass[${idx}].surname`} />
+                        )}
 
-                      <button type="button" onClick={() => arrayHelpers.remove(idx)}>
-                        -
-                      </button>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => arrayHelpers.push({ name: "", age: "" })}
-                  >
-                    +
-                  </button>
-                </div>
-              )}
-            />
-            <div>
-              <button type="submit">Submit</button>
-            </div>
-          </Form>
-        )}
-      />
-    </div>
-  );
-};
+                        {this.props.array.indexOf("PHONE") >= 0 && (
+                          <Field name={`pass[${idx}].phone`} placeholder="phone**" />
+                        )}
+                        {this.props.array.indexOf("PATRONYMIC") >= 0 && (
+                          <Field
+                            name={`pass[${idx}].patronymic`}
+                            placeholder="PATRONYMIC**"
+                          />
+                        )}
+                        {this.props.array.indexOf("GENDER") >= 0 && (
+                          <Field name={`pass[${idx}].gender`} as="select">
+                            {["M", "F"].map((el) => (
+                              <option value={el}>{el}</option>
+                            ))}
+                          </Field>
+                        )}
+
+                        <button type="button" onClick={() => arrayHelpers.remove(idx)}>
+                          -
+                        </button>
+                      </div>
+                    ))}
+                    <button type="button" onClick={() => arrayHelpers.push({})}>
+                      +
+                    </button>
+                  </div>
+                )}
+              />
+              <Field name={"email"} />
+
+              <div>
+                <button type="submit">Submit</button>
+              </div>
+            </Form>
+          )}
+        />
+      </div>
+    );
+  }
+}
 export default FormForBuyMap;

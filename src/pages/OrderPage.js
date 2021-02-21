@@ -3,26 +3,40 @@ import { connect } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
+import { useSelector } from "react-redux";
 import FormForBuyMap from "../components/Order/FormForBuyMap";
 
 import styles from "./OrderPage.module.css";
 import { startLoader } from "../redux/global/globalActions";
-import { getRequaredFields} from '../services/api'
+import { getRequaredFields } from "../services/api";
 
-
-const OrderPage = ({ history, amountPassangers, order, location, startLoader, tripKey }) => {
+const OrderPage = ({
+  history,
+  amountPassangers,
+  order,
+  location,
+  startLoader,
+  tripKey,
+}) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
+  const [pass, setPass] = useState({ pass: [] });
+  const amountPass = useSelector((state) => state.searchForm.amountPassanger);
+  useEffect(() => {
+    for (let i = 0; i <= amountPass - 1; i++) {
+      setPass((prev) => ({ pass: [...prev.pass, {}] }));
+    }
+  }, [amountPass]);
 
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
   };
   // useEffect(() => {
   //   getRequaredFields(tripKey).then(({data}) => console.log(data))
-    
+
   // }, [tripKey])
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
- 
+
   useEffect(() => {
     if (Object.keys(order).length <= 0) {
       const path = JSON.parse(sessionStorage.getItem("path")) || "/";
@@ -43,12 +57,31 @@ const OrderPage = ({ history, amountPassangers, order, location, startLoader, tr
             total={totalPassanger}
             history={history}
           />
-          <FormForBuyMap
-            changeAmountPassanger={changeAmountPassanger}
-            total={totalPassanger}
-            history={history}
-            array = {["NAME", "SURNAME", "PHONE"]}
-          />
+          {/* {pass.pass.length > 0 && (
+            <FormForBuyMap
+              changeAmountPassanger={changeAmountPassanger}
+              total={totalPassanger}
+              history={history}
+              array={[
+                "NAME",
+                "PATRONYMIC",
+                "SURNAME",
+                "ONLY_LATIN",
+                "EMAIL",
+                "PHONE",
+                "GENDER",
+                "CITIZENSHIP",
+                "DOCUMENT_TYPE",
+                "DOCUMENT_NUMBER",
+                "DOCUMENT_SERIES",
+                "BIRTHDAY",
+                "SEAT",
+                "TARIFF",
+              ]}
+              pass={pass}
+            />
+          )} */}
+
           <OrderInfo total={totalPassanger} />
         </div>
       </div>
