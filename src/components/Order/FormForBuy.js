@@ -9,6 +9,7 @@ import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
+import CryptoJS from "crypto-js";
 
 class FormForBuy extends Component {
   state = {
@@ -39,7 +40,8 @@ class FormForBuy extends Component {
           this.props.getError(el.error.message);
           return;
         } else {
-          this.props.history.push(`/ticket/${this.state.resp.orderId}`);
+          const id = CryptoJS.AES.encrypt(this.state.resp.orderId, "pass").toString()
+          this.props.history.push(`/ticket/${id}`);
         }
       });
     }

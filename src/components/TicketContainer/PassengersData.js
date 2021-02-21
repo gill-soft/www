@@ -4,8 +4,9 @@ import styles from "./PassengersData.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 
-const PassengersData = ({ ticket }) => {
+const PassengersData = () => {
   const lang = useSelector((state) => state.language);
+  const ticket = useSelector((state) => state.order.ticket)
   const locale = lang === "UA" ? "UK" : lang;
   const getPassengersData = (id, type) => {
     return ticket.customers[`${id}`][`${type}`];

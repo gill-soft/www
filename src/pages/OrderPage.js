@@ -3,9 +3,12 @@ import { connect } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
+import FormForBuyMap from "../components/Order/FormForBuyMap";
+
 import styles from "./OrderPage.module.css";
 import { startLoader } from "../redux/global/globalActions";
 import { getRequaredFields} from '../services/api'
+
 
 const OrderPage = ({ history, amountPassangers, order, location, startLoader, tripKey }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
@@ -13,12 +16,13 @@ const OrderPage = ({ history, amountPassangers, order, location, startLoader, tr
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
   };
-  useEffect(() => {
-    getRequaredFields(tripKey).then(({data}) => console.log(data))
+  // useEffect(() => {
+  //   getRequaredFields(tripKey).then(({data}) => console.log(data))
     
-  }, [tripKey])
+  // }, [tripKey])
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
+ 
   useEffect(() => {
     if (Object.keys(order).length <= 0) {
       const path = JSON.parse(sessionStorage.getItem("path")) || "/";
@@ -38,6 +42,12 @@ const OrderPage = ({ history, amountPassangers, order, location, startLoader, tr
             changeAmountPassanger={changeAmountPassanger}
             total={totalPassanger}
             history={history}
+          />
+          <FormForBuyMap
+            changeAmountPassanger={changeAmountPassanger}
+            total={totalPassanger}
+            history={history}
+            array = {["NAME", "SURNAME", "PHONE"]}
           />
           <OrderInfo total={totalPassanger} />
         </div>

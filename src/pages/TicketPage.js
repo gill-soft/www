@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getTicket } from "../redux/order/orderOperation";
 import styles from "./TicketPage.module.css";
 import PaymentBox from "../components/TicketContainer/PaymentBox";
 import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
+import CryptoJS from "crypto-js";
 
-const TicketPage = ({ lang, match, ticket, getTicket }) => {
+const TicketPage = ({ lang, match, ticket, getTicket, location }) => {
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
-    const id = match.params.id;
+    // ==== получаем зашифрованый id === //
+    const encryptId = location.pathname.split("ticket/").reverse()[0];
+    // ==== расшифровуем id ==== //
+    const id = CryptoJS.AES.decrypt(encryptId, "pass").toString(CryptoJS.enc.Utf8);
     getTicket(id);
-  }, [getTicket, match.params.id]);
+  }, [getTicket, location.pathname]);
 
   // ==== получаем название населенного пункта отправки/прибытия ====//
   const getLocality = (type) => {
@@ -26,13 +30,19 @@ const TicketPage = ({ lang, match, ticket, getTicket }) => {
     const tripKey = Object.keys(ticket.segments)[0];
     return ticket.segments[`${tripKey}`][`${type}`];
   };
+  console.log("render");
+
   return (
     <div className={styles.bgnd}>
       {Object.keys(ticket).length > 0 && (
         <div className={styles.container}>
           <TripInfo ticket={ticket} getLocality={getLocality} getDate={getDate} />
-          <PassengersData ticket={ticket} />
-          <PaymentBox getLocality={getLocality} getDate={getDate} id={match.params.id} />
+          <PassengersData />
+          <PaymentBox
+            getLocality={getLocality}
+            getDate={getDate}
+            id={location.pathname.split("ticket/").reverse()[0]}
+          />
         </div>
       )}
 
