@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import CryptoJS from "crypto-js";
 import { getConfirm, getTicket } from "../redux/order/orderOperation";
 import { getTicketPrint } from "../services/api";
-
+import styles from "./MyTicketPage.module.css";
 class MyTicketPage extends Component {
   state = {
     status: "NEW",
     id: "",
+    url: [],
   };
 
   //  ==== получаем информацию о билете ==== //
@@ -17,6 +18,13 @@ class MyTicketPage extends Component {
     // ==== расшифровуем id ==== //
     const id = CryptoJS.AES.decrypt(encryptId, "KeyVezu").toString(CryptoJS.enc.Utf8);
     this.setState({ id: id });
+    // ==== получаем билеты для печати ==== //
+    getTicketPrint(id, this.props.lang)
+      .then(({ data }) => {
+        this.getURLs(data);
+      })
+      .catch((err) => console.log(err));
+
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);
   }
@@ -39,39 +47,65 @@ class MyTicketPage extends Component {
       }
     }
   }
-  //  ==== получить билет ====//
-  getTicketForPrint = () => {
-    const { id } = this.state;
-    getTicketPrint(id, "RU").then(console.log);
+  getURLs = (data) => {
+    let base64 = [];
+    if (data.documents) {
+      base64 = [data.documents[0].base64];
+    } else {
+      base64 = data.services.map((el) => el.documents[0].base64);
+    }
+    this.setState({
+      url: base64.map((el) => {
+        const byteCharacters = atob(el);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const pdf = new Blob([byteArray], { type: "application/pdf" });
+        return window.URL.createObjectURL(pdf);
+      }),
+    });
   };
 
   render() {
-    const { status, id } = this.state;
+    const { status, id, url } = this.state;
+    console.log(this.state);
     return (
-      <>
-        {status === "CONFIRM" && (
-          <>
-            <h1 style={{ paddingTop: "70px" }}>Оплата прошла Успешно!!!</h1>
-            <p>Hомер вашего заказа: {id}</p>
-          </>
-        )}
-        {status === "ERROR" && (
-          <>
-            <h1 style={{ paddingTop: "70px" }}>
-              Что-то пошло не так! Свяжитесь со службой поддержки по телефону: +1 111
-              111-11-11
-            </h1>
-          </>
-        )}
-        <button
-          type="button"
-          onClick={this.getTicketForPrint}
-        >
-          Скачать билет
-        </button>
-        {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
-        {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
-      </>
+      <div className={styles.bgnd}>
+        <div className={styles.container}>
+          {status === "CONFIRM" && (
+            <>
+              <h1>Оплата прошла Успешно!!!</h1>
+              <p>Hомер вашего заказа: {id}</p>
+              {url.length > 0 &&
+                url.map((el, idx) => (
+                  <a
+                    className={styles.link}
+                    key={idx}
+                    href={el}
+                    // target="_blank"
+                    // rel="noreferrer"
+                  >
+                    пассажир{idx + 1}
+                  </a>
+                ))}
+            </>
+          )}
+          {status === "ERROR" && (
+            <>
+              <h1>Что-то пошло не так!</h1>
+              <p>
+                Свяжитесь со службой поддержки по телефону:{" "}
+                <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
+              </p>
+            </>
+          )}
+
+          {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
+          {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
+        </div>
+      </div>
     );
   }
 }

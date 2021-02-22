@@ -1,0 +1,57 @@
+.bgnd {
+    background-image: url('../images/BlankMap-Europe.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    /* min-width: 100vw; */
+    background-position: center;
+}
+.container {
+    padding-top: 60px;
+}
+.link {
+    color: var(--color-main)
+}
+.link:active {
+    color: red
+}
+
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    padding-top: 70px;
+
+        
+    }
+    .main {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    padding-top: 90px;
+
+    }
+    .main {
+        padding-top: 30px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    padding-top: 110px;
+
+    }
+} 

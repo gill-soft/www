@@ -19,13 +19,7 @@ const OrderPage = ({
   tripKey,
 }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
-  const [pass, setPass] = useState({ pass: [] });
-  const amountPass = useSelector((state) => state.searchForm.amountPassanger);
-  useEffect(() => {
-    for (let i = 0; i <= amountPass - 1; i++) {
-      setPass((prev) => ({ pass: [...prev.pass, {}] }));
-    }
-  }, [amountPass]);
+  
 
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
@@ -34,9 +28,9 @@ const OrderPage = ({
   //   getRequaredFields(tripKey).then(({data}) => console.log(data))
 
   // }, [tripKey])
+
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
-
   useEffect(() => {
     if (Object.keys(order).length <= 0) {
       const path = JSON.parse(sessionStorage.getItem("path")) || "/";

@@ -12,9 +12,9 @@ import { messages } from "../../intl/OrderPageMessanges";
 import CryptoJS from "crypto-js";
 import * as Yup from "yup";
 
-const schema = Yup.object().shape({
-  name: Yup.string().min(2, "too short").required("Required"), // these constraints take precedence
-});
+// const schema = Yup.object().shape({
+//   name: Yup.string().min(2, "too short").required("Required"), // these constraints take precedence
+// });
 
 class FormForBuy extends Component {
   state = {
@@ -59,9 +59,8 @@ class FormForBuy extends Component {
     const { tripKey, priceId, getError } = this.props;
     const { values } = this.state;
     // console.log(this.state.isValidName)
-    console.log(schema.isValidSync(values[0]))
-    this.setState({isValidName: schema.isValidSync(values[0])});
-    return;
+    // console.log(schema.isValidSync(values[0]))
+    // this.setState({isValidName: schema.isValidSync(values[0])});
     const requestBody = {};
     requestBody.lang = this.props.lang;
     requestBody.services = values.map((el, idx) => ({
