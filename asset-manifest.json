@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/www/static/css/main.db27f033.chunk.css",
-    "main.js": "/www/static/js/main.e4810e4d.chunk.js",
-    "main.js.map": "/www/static/js/main.e4810e4d.chunk.js.map",
-    "runtime-main.js": "/www/static/js/runtime-main.f4b248b9.js",
-    "runtime-main.js.map": "/www/static/js/runtime-main.f4b248b9.js.map",
+    "main.css": "/www/static/css/main.50a4d1a0.chunk.css",
+    "main.js": "/www/static/js/main.e2d80a0d.chunk.js",
+    "main.js.map": "/www/static/js/main.e2d80a0d.chunk.js.map",
+    "runtime-main.js": "/www/static/js/runtime-main.a543a44b.js",
+    "runtime-main.js.map": "/www/static/js/runtime-main.a543a44b.js.map",
     "static/css/2.95456d05.chunk.css": "/www/static/css/2.95456d05.chunk.css",
-    "static/js/2.756dad41.chunk.js": "/www/static/js/2.756dad41.chunk.js",
-    "static/js/2.756dad41.chunk.js.map": "/www/static/js/2.756dad41.chunk.js.map",
-    "static/js/3.06e20cbd.chunk.js": "/www/static/js/3.06e20cbd.chunk.js",
-    "static/js/3.06e20cbd.chunk.js.map": "/www/static/js/3.06e20cbd.chunk.js.map",
+    "static/js/2.eec73d15.chunk.js": "/www/static/js/2.eec73d15.chunk.js",
+    "static/js/2.eec73d15.chunk.js.map": "/www/static/js/2.eec73d15.chunk.js.map",
+    "static/js/3.6d605930.chunk.js": "/www/static/js/3.6d605930.chunk.js",
+    "static/js/3.6d605930.chunk.js.map": "/www/static/js/3.6d605930.chunk.js.map",
     "index.html": "/www/index.html",
     "static/css/2.95456d05.chunk.css.map": "/www/static/css/2.95456d05.chunk.css.map",
-    "static/css/main.db27f033.chunk.css.map": "/www/static/css/main.db27f033.chunk.css.map",
-    "static/js/2.756dad41.chunk.js.LICENSE.txt": "/www/static/js/2.756dad41.chunk.js.LICENSE.txt",
+    "static/css/main.50a4d1a0.chunk.css.map": "/www/static/css/main.50a4d1a0.chunk.css.map",
+    "static/js/2.eec73d15.chunk.js.LICENSE.txt": "/www/static/js/2.eec73d15.chunk.js.LICENSE.txt",
     "static/media/main.css": "/www/static/media/HelveticaNeueCyr-UltraLightItalic.b1b6c88c.eot",
     "static/media/TicketPage.module.css": "/www/static/media/BlankMap-Europe.e43988da.png",
     "static/media/add-black-18dp.aceff8ea.svg": "/www/static/media/add-black-18dp.aceff8ea.svg",
@@ -28,10 +28,10 @@
     "static/media/sync_alt-white-36dp.c9deb1dc.svg": "/www/static/media/sync_alt-white-36dp.c9deb1dc.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.f4b248b9.js",
+    "static/js/runtime-main.a543a44b.js",
     "static/css/2.95456d05.chunk.css",
-    "static/js/2.756dad41.chunk.js",
-    "static/css/main.db27f033.chunk.css",
-    "static/js/main.e4810e4d.chunk.js"
+    "static/js/2.eec73d15.chunk.js",
+    "static/css/main.50a4d1a0.chunk.css",
+    "static/js/main.e2d80a0d.chunk.js"
   ]
 }
