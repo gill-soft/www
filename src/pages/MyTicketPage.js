@@ -47,6 +47,7 @@ class MyTicketPage extends Component {
       }
     }
   }
+  // ==== получаем массив ссылок билетов ==== //
   getURLs = (data) => {
     let base64 = [];
     if (data.documents) {
@@ -70,7 +71,6 @@ class MyTicketPage extends Component {
 
   render() {
     const { status, id, url } = this.state;
-    console.log(this.state);
     return (
       <div className={styles.bgnd}>
         <div className={styles.container}>

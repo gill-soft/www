@@ -7,7 +7,6 @@ import pl from "date-fns/locale/pl";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
-import queryString from "query-string";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/HomePageMessanges";
 import Button from "@material-ui/core/Button";
@@ -15,9 +14,10 @@ import {
   inputValueFrom,
   inputValueTo,
   inputValueDate,
+  setTime,
 } from "../../redux/searchForm/searchFormAction";
 import { fetchTripsSuccess } from "../../redux/trips/tripsActions";
-import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
+import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
 import AutocompleteComp from "./Autocomplete";
 import AmountPassanger from "./AmountPassanger";
@@ -28,7 +28,6 @@ class SearchForm extends Component {
     errorFrom: false,
     errorTo: false,
   };
-  windowWidth = window.innerWidth;
 
   // ====
   componentDidUpdate(prevProps) {
@@ -71,42 +70,23 @@ class SearchForm extends Component {
       date,
       amount,
       history,
+      setTime,
       getError,
       startLoader,
       fetchTripsSuccess,
     } = this.props;
-    const parsed = queryString.parse(history.location.search);
-    // ==== проверка на не пустой инпут ==== //
-    if (!from) {
-      this.setState({ errorFrom: true });
-      return;
-    }
-    if (!to) {
-      this.setState({ errorTo: true });
-      return;
-    }
 
     // ==== формируем данные для запроса ==== //
     const fromId = this.getId(from, "from");
     const toId = this.getId(to, "to");
     const dateQuery = format(new Date(date), "yyyy-MM-dd");
-
     // ==== проверяем есть ли введенные города в списке остановок ==== //
     if (fromId && toId) {
-      //  ==== если строка запроса не изменилась - выходим ==== //
-      if (
-        parsed.from === fromId &&
-        parsed.to === toId &&
-        parsed.date === dateQuery &&
-        +parsed.passengers === amount
-      )
-        return;
-
       // ==== запускаем лоадер, очищаем ошибки и данные предыдущего запроса ==== //
       getError("");
       fetchTripsSuccess({});
       startLoader();
-
+      setTime(new Date().getTime());
       //  ==== переход на страницу поездок ==== //
       history.push(
         `/trips?from=${fromId}&to=${toId}&date=${dateQuery}&passengers=${amount}`
@@ -114,7 +94,7 @@ class SearchForm extends Component {
     }
   };
 
-  getId = (val, inp) => {
+  getId = (val, type) => {
     const { lang, stops } = this.props;
     const result = stops.find((item) =>
       item.type === "LOCALITY"
@@ -125,7 +105,7 @@ class SearchForm extends Component {
     if (result) {
       return result.id;
     } else {
-      inp === "from"
+      type === "from"
         ? this.setState({ errorFrom: true })
         : this.setState({ errorTo: true });
       return;
@@ -136,7 +116,6 @@ class SearchForm extends Component {
     const { date, changeInputDate, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
     return (
-      // <div className={`${styles.searchForm}`}>
       <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
         <div className={styles.fromTo}>
           <div className={styles.inputBox}>
@@ -173,7 +152,6 @@ class SearchForm extends Component {
           </Button>
         </IntlProvider>
       </form>
-      // </div>
     );
   }
 }
@@ -184,7 +162,6 @@ const mapStateToProps = (state) => ({
   date: state.searchForm.date,
   amount: state.searchForm.amountPassanger,
   stops: state.global.stops,
-  error: state.global.error,
 });
 const mapDispatchToProps = (dispatch) => ({
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
@@ -193,7 +170,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   getError: (err) => dispatch(getError(err)),
   startLoader: () => dispatch(startLoader()),
-  stopLoader: () => dispatch(stopLoader()),
+  setTime: (time) => dispatch(setTime(time)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

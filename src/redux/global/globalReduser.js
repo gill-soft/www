@@ -14,7 +14,6 @@ const getStops = (state = [], { type, payload }) => {
 const getError = (state = "", { type, payload }) => {
   switch (type) {
     case Types.GET_ERROR:
-      console.log(payload);
       return payload;
 
     default:

@@ -37,16 +37,11 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { trips, getTripsInfo } = this.props;
+    const { trips, getTripsInfo, time } = this.props;
     const parsed = queryString.parse(this.props.location.search);
 
-    // ==== если меняеться строка запроса или язык пользователя  ====//
-    if (
-      prevProps.location.search !== this.props.location.search
-      // ||
-      // prevProps.lang !== this.props.lang
-    ) {
-      this.setState({ value: "price" });
+    // ==== если меняеться время запроса  ====//
+    if (prevProps.time !== time) {
       // ==== формируем обьект для запроса ====
       const requestData = {
         idFrom: parsed.from,
@@ -58,6 +53,7 @@ class TripsPage extends Component {
     }
     // ==== сортируем по цене и записываем в redux ==== //
     if (prevProps.trips !== trips) {
+      this.setState({ value: "price" });
       if (Object.keys(trips).length > 0) {
         const arr = [];
         for (let [key, values] of Object.entries(trips.segments)) {
@@ -239,6 +235,7 @@ const mapStateToProps = (state) => ({
   trips: state.trips.trips,
   lang: state.language,
   tripsInfo: state.trips.tripsInfo,
+  time: state.searchForm.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({

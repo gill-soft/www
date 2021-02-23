@@ -38,10 +38,20 @@ const getAmountPassanger = (state = 1, { type, payload }) => {
       return state;
   }
 };
+const getTime = (state = '', { type, payload }) => {
+  switch (type) {
+    case Types.TIME:
+      return payload;
+
+    default:
+      return state;
+  }
+};
 
 export const searchFormReduser = combineReducers({
   from: getInputValueFrom,
   to: getInputValueTo,
   date: getInputValueDate,
   amountPassanger: getAmountPassanger,
+  time: getTime
 });

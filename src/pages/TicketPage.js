@@ -45,7 +45,7 @@ const TicketPage = ({ lang, ticket, getTicket, location }) => {
         </div>
       )}
 
-      {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
+      <pre>{JSON.stringify(ticket, null, 4)} </pre>
     </div>
   );
 };

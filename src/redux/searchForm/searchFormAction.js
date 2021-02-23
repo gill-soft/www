@@ -20,3 +20,8 @@ export const incrementAmountPassangers = () => ({
 export const decrementAmountPassangers = () => ({
   type: Types.DECREMENT_AMOUNT_PASSANGER,
 });
+
+export const setTime = (time) => ({
+  type: Types.TIME,
+  payload: time
+});

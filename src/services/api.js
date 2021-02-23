@@ -1,8 +1,7 @@
 import axios from "axios";
 const baseUrl = "https://busis.eu/gds-control/api/v1";
 const localityAll = "/locality/all";
-// const AUTH_KEY = 'Basic Y2Fycmllcl90ZXN0OnRlc3RfY2Fycmllcg==';
-const AUTH_KEY2 = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
+const AUTH_KEY = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
 
 //  ==== получение всех остановок ==== //
 export const getAllStops = () => {
@@ -10,7 +9,7 @@ export const getAllStops = () => {
     method: "get",
     url: `${baseUrl}${localityAll}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
@@ -19,9 +18,9 @@ export const getAllStops = () => {
 export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
   return axios({
     method: "post",
-    url: "https://busis.eu/gds-control/api/v1/search",
+    url: `${baseUrl}/search`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
     data: {
       id: "string",
@@ -40,7 +39,7 @@ export const searchTrips = (id) => {
     method: "get",
     url: `${baseUrl}/search/${id}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
@@ -50,7 +49,7 @@ export const getRequaredFields = (key) => {
     method: "get",
     url: `${baseUrl}/search/trip/${key}/required`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
@@ -61,7 +60,7 @@ export const toBook = (body) => {
     method: "post",
     url: `${baseUrl}/order`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
     data: body,
   });
@@ -73,7 +72,7 @@ export const getTicketInfo = (id) => {
     method: "get",
     url: `${baseUrl}/order/${id}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
@@ -83,7 +82,7 @@ export const getTicketConfirm = (id) => {
     method: "post",
     url: `${baseUrl}/order/${id}/confirm/CASH`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
@@ -94,9 +93,7 @@ export const getTicketPrint = (id, lang) => {
     method: "get",
     url: `${baseUrl}/order/${id}/document/${lang}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
-
-
