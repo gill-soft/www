@@ -19,7 +19,6 @@ const OrderInfo = ({
   departureDate,
 }) => {
   const locale = lang === "UA" ? "UK" : lang;
-
   const getTotalPrice = () => {
     return (total * price).toFixed(2);
   };

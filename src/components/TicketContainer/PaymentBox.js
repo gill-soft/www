@@ -10,7 +10,7 @@ import GoHome from "../GoHome/GoHome";
 const PaymentBox = ({ id, fromId, toId, getDate }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
-  const stops = useSelector(state => state.global.stops)
+  const stops = useSelector((state) => state.global.stops);
   const locale = lang === "UA" ? "UK" : lang;
   const [time, setTime] = useState(0);
   const [isModal, setIsModal] = useState(false);
@@ -56,7 +56,6 @@ const PaymentBox = ({ id, fromId, toId, getDate }) => {
       <p>Выберите способ оплаты:</p>
       <br></br>
       <div className={styles.payment}>
-
         <form action="https://www.portmone.com.ua/gateway/" method="post">
           <input type="hidden" name="payee_id" value="1185" />
           <input type="hidden" name="shop_order_number" value={ticket.orderId} />
@@ -71,19 +70,20 @@ const PaymentBox = ({ id, fromId, toId, getDate }) => {
             type="hidden"
             name="success_url"
             value={`http://localhost:3000/#/myTicket/${id}`}
+            // value={`https://gill-soft.github.io/www/#/MyTicket/${id}`}
           />
           <input
             type="hidden"
             name="failure_url"
             value={`http://localhost:3000/#/ticket/${id}`}
+            // value={`https://gill-soft.github.io/www/#/ticket/${id}`}
           />
           <input type="hidden" name="lang" value={locale.toLowerCase()} />
           <input type="hidden" name="encoding" value="UTF-8" />
-          <input type="hidden" name="exp_time" 
-          // value={(time / 1000).toFixed()}
-          value="400" />
+          <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
           <button className={styles.portmone} type="submit"></button>
         </form>
+
         <p className={styles.total}>
           Сума до сплати:{" "}
           <span>

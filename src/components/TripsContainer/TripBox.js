@@ -21,7 +21,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   const parsed = queryString.parse(location.search);
-  
+
   const handleClick = () => {
     const obj = {
       from: parsed.from,
@@ -105,6 +105,10 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
             >
               <FormattedMessage id="choose" />
             </Link>
+            <p className={trip.freeSeatsCount > 10 ? styles.green : styles.red}>
+              {" "}
+              мест {trip.freeSeatsCount > 10 ? "10+" : trip.freeSeatsCount}
+            </p>
           </div>
           {windowWidth >= 576 ? (
             <button className={styles.additionals} onClick={handleAdditionals}>
@@ -132,10 +136,18 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
                   <p>{getStop(trip.departure.id, trips, lang)}</p>
                 </div>
                 <div>
-                  {arrayStops.map((el) => (
-                    <p className={styles.stop} key={el.locality.id}>
-                      {getAllLocalities(el.locality.id, trips, lang)}
-                    </p>
+                  {arrayStops.map((el, idx) => (
+                    <div className={styles.stop} key={idx}>
+                      <p className={styles.timeStop}>{el.departureTime}</p>
+                      <p>
+                        {getLocality(
+                          trips.localities[`${el.locality.id}`].parent.id,
+                          stops,
+                          lang
+                        )}
+                      </p>
+                      <p>{getAllLocalities(el.locality.id, trips, lang)}</p>
+                    </div>
                   ))}{" "}
                 </div>
                 <div className={`${styles.start} ${styles.finish}`}>

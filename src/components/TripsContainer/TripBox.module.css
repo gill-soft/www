@@ -43,9 +43,7 @@
     color: #636363
 }
 
-/* .info {
-    width: 300px;
-} */
+
 .fromTo {
     border-bottom: 1px solid var(--color-main);
     margin-bottom: 14px;
@@ -64,8 +62,7 @@
     color: var(--color-secondary);
     font-size: 25px;
     font-weight: 700;
-    /* padding: 10px; */
-    /* margin: 20px auto; */
+   
 }
 
 .priceBox {
@@ -74,8 +71,7 @@
     align-items: center;
     text-align: center;
     margin-bottom: 12px;
-    /* padding: 0 10px 0 50px; */
-    /* border-left: 1px solid var(--color-main); */
+    
 }
 
 .price span {
@@ -93,6 +89,7 @@
     border-radius: 4px;
     background-color: var(--color-third);
     box-shadow: 2px 1px 1px 2px #3f51b5;
+    margin-bottom: 14px;
 }
 
 .choose:hover,
@@ -123,7 +120,8 @@
 }
 
 .stop {
-    color: #636363
+    color: #636363;
+    position: relative;
 }
 
 .start::before,
@@ -136,6 +134,11 @@
     border-radius: 50%;
     background-color: #ffffff;
     transform: translate(-28px, 16px);
+}
+
+.timeStop {
+position: absolute;
+left: -80px
 }
 
 .stop::before {
@@ -172,6 +175,14 @@ h5 {
     padding-top: 10px;
     padding-left: 10px;
 }
+.red {
+    color: var(--color-danger);
+    font-size: 16px;
+}
+.green {
+    color: green;
+    font-size: 16px;
+}
 
 @media (min-width: 768px) {
     .tripBox {
@@ -196,7 +207,7 @@ h5 {
     }
 
     .price {
-        margin-top: 50px;
+        padding-top: 50px;
     }
 
     .timeInWay {
@@ -224,7 +235,8 @@ h5 {
     }
 
     .price {
-        margin-top: 20px;
+        padding-top: 20px;
+        margin-bottom: 14px;
     }
 }
 
