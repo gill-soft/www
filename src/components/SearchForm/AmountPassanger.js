@@ -1,25 +1,21 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./AmountPassanger.module.css";
+import { IntlProvider, FormattedMessage } from "react-intl";
 import {
   decrementAmountPassangers,
   incrementAmountPassangers,
 } from "../../redux/searchForm/searchFormAction";
+import { messages } from "../../intl/HomePageMessanges";
 import { ReactComponent as Plus } from "../../images/add-black-18dp.svg";
 import { ReactComponent as Minus } from "../../images/remove-black-18dp.svg";
-import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/HomePageMessanges";
+import styles from "./AmountPassanger.module.css";
 
 const AmountPassanger = () => {
+  // ==== redux ==== //
   const dispatch = useDispatch();
-  const decrement = useCallback(() => {
-    dispatch(decrementAmountPassangers());
-  }, [dispatch]);
-  const increment = useCallback(() => {
-    dispatch(incrementAmountPassangers());
-  }, [dispatch]);
   const amount = useSelector((state) => state.searchForm.amountPassanger);
   const lang = useSelector((state) => state.language);
+
   const locale = lang === "UA" ? "UK" : lang;
 
   return (
@@ -34,7 +30,7 @@ const AmountPassanger = () => {
             className={styles.button}
             name="decrement"
             disabled={amount <= 1}
-            onClick={decrement}
+            onClick={() => dispatch(decrementAmountPassangers())}
           >
             {" "}
             <Minus />{" "}
@@ -45,7 +41,7 @@ const AmountPassanger = () => {
             className={styles.button}
             name="increment"
             disabled={amount >= 10}
-            onClick={increment}
+            onClick={() => dispatch(incrementAmountPassangers())}
           >
             <Plus />
           </button>
