@@ -21,17 +21,18 @@ export const getLang = (lang) => {
 // ==== получаем наcелённый пункт отправки/прибытия ==== //
 export const getLocality = (id, stops, lang) => {
   const result = stops.find((el) => el.id === id);
-  return result ? result.name[`${lang}`] || result.name[`EN`] : null
+  return result ? result.name[`${lang}`] || result.name[`EN`] : null;
 };
 
 // ==== получаем остановку отправки/прибытия === //
-export const getStop = (key, trips, lang) => Object.keys(trips).length >0? trips.localities[`${key}`].name[`${lang}`] : null;
+export const getStop = (key, trips, lang) =>
+  Object.keys(trips).length > 0 ? trips.localities[`${key}`].name[`${lang}`] : null;
 
 // ==== получаем промежуточную остановку ==== //
 export const getAllLocalities = (key, trips, lang) => {
-  return (
-    Object.keys(trips).length >0 ?trips.localities[`${key}`].name[`${lang}`] || trips.localities[`${key}`].name[`RU`] : null
-  );
+  return Object.keys(trips).length > 0
+    ? trips.localities[`${key}`].name[`${lang}`] || trips.localities[`${key}`].name[`RU`]
+    : null;
 };
 
 // ==== получаем дату отправки/прибытия ==== //

@@ -3,13 +3,14 @@ import { useSelector } from "react-redux";
 import styles from "./PaymentBox.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
-import { getExpireTime } from "../../services/getInfo";
+import { getExpireTime, getLocality } from "../../services/getInfo";
 import Modal from "../Modal/Modal";
 import GoHome from "../GoHome/GoHome";
 
-const PaymentBox = ({ id, getLocality, getDate }) => {
+const PaymentBox = ({ id, fromId, toId, getDate }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
+  const stops = useSelector(state => state.global.stops)
   const locale = lang === "UA" ? "UK" : lang;
   const [time, setTime] = useState(0);
   const [isModal, setIsModal] = useState(false);
@@ -52,7 +53,10 @@ const PaymentBox = ({ id, getLocality, getDate }) => {
           })}
         </p>
       </div>
+      <p>Выберите способ оплаты:</p>
+      <br></br>
       <div className={styles.payment}>
+
         <form action="https://www.portmone.com.ua/gateway/" method="post">
           <input type="hidden" name="payee_id" value="1185" />
           <input type="hidden" name="shop_order_number" value={ticket.orderId} />
@@ -60,8 +64,8 @@ const PaymentBox = ({ id, getLocality, getDate }) => {
           <input
             type="hidden"
             name="description"
-            value={`${getLocality("departure")} -
-                     ${getLocality("arrival")} ${getDate("departureDate")}`}
+            value={`${getLocality(fromId, stops, lang)} -
+                     ${getLocality(toId, stops, lang)} ${getDate("departureDate")}`}
           />
           <input
             type="hidden"
@@ -73,9 +77,11 @@ const PaymentBox = ({ id, getLocality, getDate }) => {
             name="failure_url"
             value={`http://localhost:3000/#/ticket/${id}`}
           />
-          <input type="hidden" name="lang" value={lang.toLowerCase()} />
+          <input type="hidden" name="lang" value={locale.toLowerCase()} />
           <input type="hidden" name="encoding" value="UTF-8" />
-          <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
+          <input type="hidden" name="exp_time" 
+          // value={(time / 1000).toFixed()}
+          value="400" />
           <button className={styles.portmone} type="submit"></button>
         </form>
         <p className={styles.total}>

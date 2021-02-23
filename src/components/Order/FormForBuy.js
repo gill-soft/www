@@ -46,7 +46,7 @@ class FormForBuy extends Component {
           this.props.getError(el.error.message);
           return;
         } else {
-          const id = CryptoJS.AES.encrypt(this.state.resp.orderId, "KeyVezu").toString();
+          const id = btoa(CryptoJS.AES.encrypt(this.state.resp.orderId, "KeyVezu").toString())
           this.props.history.push(`/ticket/${id}`);
         }
       });
