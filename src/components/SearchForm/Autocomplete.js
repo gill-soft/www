@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import TextField from "@material-ui/core/TextField";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
@@ -53,16 +55,27 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 `;
 
-const AutocompleteComp = ({
-  id,
-  stops,
-  lang,
-  changeInputFrom,
-  changeInputTo,
-  from,
-  to,
-  error,
-}) => {
+const AutocompleteComp = ({ id, error }) => {
+  // ====redux ====//
+  const stops = useSelector((state) => state.global.stops);
+  const lang = useSelector((state) => state.language);
+  const from = useSelector((state) => state.searchForm.from);
+  const to = useSelector((state) => state.searchForm.to);
+
+  const dispatch = useDispatch();
+  const changeInputFrom = useCallback(
+    (value) => {
+      dispatch(inputValueFrom(value));
+    },
+    [dispatch]
+  );
+  const changeInputTo = useCallback(
+    (value) => {
+      dispatch(inputValueTo(value));
+    },
+    [dispatch]
+  );
+  // === state ==== //
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState(id === "from" ? from : to);
 
@@ -172,15 +185,5 @@ const AutocompleteComp = ({
     </IntlProvider>
   );
 };
-const mapStateToProps = (state) => ({
-  stops: state.global.stops,
-  lang: state.language,
-  from: state.searchForm.from,
-  to: state.searchForm.to,
-});
-const mapDispatchToProps = (dispatch) => ({
-  changeInputFrom: (value) => dispatch(inputValueFrom(value)),
-  changeInputTo: (value) => dispatch(inputValueTo(value)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AutocompleteComp);
+export default AutocompleteComp;
