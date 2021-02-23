@@ -42,7 +42,7 @@ class TripsPage extends Component {
 
     // ==== если меняеться строка запроса или язык пользователя  ====//
     if (
-      prevProps.location.search !== this.props.location.search 
+      prevProps.location.search !== this.props.location.search
       // ||
       // prevProps.lang !== this.props.lang
     ) {

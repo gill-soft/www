@@ -18,12 +18,6 @@ class MyTicketPage extends Component {
     // ==== расшифровуем id ==== //
     const id = CryptoJS.AES.decrypt(encryptId, "KeyVezu").toString(CryptoJS.enc.Utf8);
     this.setState({ id: id });
-    // ==== получаем билеты для печати ==== //
-    getTicketPrint(id, this.props.lang)
-      .then(({ data }) => {
-        this.getURLs(data);
-      })
-      .catch((err) => console.log(err));
 
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);
@@ -38,6 +32,12 @@ class MyTicketPage extends Component {
       }
       if (this.props.ticket.services[0].status === "CONFIRM") {
         this.setState({ status: "CONFIRM" });
+        // ==== получаем билеты для печати ==== //
+        getTicketPrint(id, this.props.lang)
+          .then(({ data }) => {
+            this.getURLs(data);
+          })
+          .catch((err) => console.log(err));
       }
       if (
         this.props.ticket.services[0].status !== "CONFIRM" &&
@@ -76,29 +76,39 @@ class MyTicketPage extends Component {
         <div className={styles.container}>
           {status === "CONFIRM" && (
             <>
-              <h1>Оплата прошла Успешно!!!</h1>
-              <p>Hомер вашего заказа: {id}</p>
-              {url.length > 0 &&
-                url.map((el, idx) => (
-                  <a
-                    className={styles.link}
-                    key={idx}
-                    href={el}
-                    // target="_blank"
-                    // rel="noreferrer"
-                  >
-                    пассажир{idx + 1}
-                  </a>
-                ))}
+              <h1 className={styles.title}>Оплата прошла Успешно!!!</h1>
+              <p className={styles.text}>Hомер вашего заказа</p>
+              <p className={styles.id}>{id}</p>
+              {url.length > 0 && (
+                <>
+                  <p className={styles.text}>скачать билеты </p>
+                  <ul className={styles.list}>
+                    {url.map((el, idx) => (
+                      <li key={idx}>
+                        <a
+                          className={styles.link}
+                          href={el}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          пассажир{idx + 1}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </>
           )}
           {status === "ERROR" && (
             <>
-              <h1>Что-то пошло не так!</h1>
-              <p>
+              <h1>При офрормлении билета произошла ошибка!!!</h1>
+              <p className={styles.text}>
                 Свяжитесь со службой поддержки по телефону:{" "}
                 <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
               </p>
+              <p className={styles.text}>Hомер вашего заказа</p>
+              <p className={styles.id}>{id}</p>
             </>
           )}
 
