@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
@@ -10,35 +10,33 @@ import TripsPage from "../pages/TripsPage";
 import { fetchStops } from "../redux/global/globalOperations";
 import Header from "./Header/Header";
 
-const App = ({ fetchStops, stops }) => {
-  //  ==== получаем все остановки через redux ==== //
+const App = () => {
+  // ====redux===//
+  const dispatch = useDispatch();
+  const getStops = useCallback(() => {
+    dispatch(fetchStops());
+  }, [dispatch]);
+
+  //  ==== очищаем ошибки и получаем все остановки через redux ==== //
   useEffect(() => {
-    fetchStops();
-  }, [fetchStops]);
+    getStops();
+  }, [getStops]);
 
   return (
     <>
-      {stops.length > 0 && (
-        <div>
-          <Header />
-          <Switch>
-            <Route path="/" exact component={HomePage} />
-            <Route path="/trips" component={TripsPage} />
-            <Route path="/order" component={OrderPage} />
-            <Route path="/ticket/:id" component={TicketPage} />
-            <Route path="/myTicket/:id" component={MyTicketPage} />
-            <Route path="/error" component={ErrorPage} />
-          </Switch>
-        </div>
-      )}
+      <div>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/trips" component={TripsPage} />
+          <Route path="/order" component={OrderPage} />
+          <Route path="/ticket/:id" component={TicketPage} />
+          <Route path="/myTicket/:id" component={MyTicketPage} />
+          <Route path="/error" component={ErrorPage} />
+        </Switch>
+      </div>
     </>
   );
 };
-const mapStateToProps = (state) => ({
-  stops: state.global.stops,
-});
-const mapDispatchToProps = (dispatch) => ({
-  fetchStops: () => dispatch(fetchStops()),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

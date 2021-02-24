@@ -19,6 +19,7 @@ import SortTrips from "../components/TripsContainer/SortTrips";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TripsPageMessanges";
 import { inputValueDate, setTime } from "../redux/searchForm/searchFormAction";
+import { Redirect } from "react-router-dom";
 
 class TripsPage extends Component {
   state = {
@@ -133,7 +134,7 @@ class TripsPage extends Component {
     }
   };
 
-// ==== управление изменением даты на следующюю/предыдущую ==== //
+  // ==== управление изменением даты на следующюю/предыдущую ==== //
   changeDate = ({ target }) => {
     const { startLoader, history, location } = this.props;
     const parsed = queryString.parse(location.search);
@@ -179,7 +180,7 @@ class TripsPage extends Component {
               <SearchForm history={history} />
             </div>
             {isLoading && <Loader />}
-            {error && <p>{error}</p>}
+            {error && <Redirect to="/error" />}
             {Object.keys(trips).length > 0 && (
               <div className={styles.tripsBox}>
                 <h3 className={styles.title}>

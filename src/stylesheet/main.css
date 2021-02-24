@@ -32,7 +32,11 @@ input {
 body {
     font-family: 'HelveticaNeueCyr', 'BauhausC', sans-serif;
 }
-
+.error {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 500;
+}
 .react-datepicker__header {
     background-color: var(--color-main) !important;
 }
