@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from "react";
-import {useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getTicket } from "../redux/order/orderOperation";
 import styles from "./TicketPage.module.css";
 import PaymentBox from "../components/TicketContainer/PaymentBox";
@@ -35,9 +35,9 @@ const TicketPage = ({ match }) => {
   };
 
   return (
-    <div className={styles.bgnd}>
+    <div>
       {Object.keys(ticket).length > 0 && (
-        <div className={styles.container}>
+        <div>
           <TripInfo
             ticket={ticket}
             fromId={getLocalityId("departure")}

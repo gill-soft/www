@@ -19,7 +19,6 @@ const OrderPage = ({
   tripKey,
 }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
-  
 
   const changeAmountPassanger = (val) => {
     setTotalPassanger(val);
@@ -40,18 +39,17 @@ const OrderPage = ({
   }, [location, order, history, startLoader]);
 
   return (
-    <div className={styles.bgnd}>
-      <div className={styles.container}>
-        <div className={styles.formBox}>
-          <SearchForm history={history} />
-        </div>
-        <div className={styles.main}>
-          <FormForBuy
-            changeAmountPassanger={changeAmountPassanger}
-            total={totalPassanger}
-            history={history}
-          />
-          {/* {pass.pass.length > 0 && (
+    <>
+      <div className={styles.formBox}>
+        <SearchForm history={history} />
+      </div>
+      <div className={styles.main}>
+        <FormForBuy
+          changeAmountPassanger={changeAmountPassanger}
+          total={totalPassanger}
+          history={history}
+        />
+        {/* {pass.pass.length > 0 && (
             <FormForBuyMap
               changeAmountPassanger={changeAmountPassanger}
               total={totalPassanger}
@@ -76,10 +74,9 @@ const OrderPage = ({
             />
           )} */}
 
-          <OrderInfo total={totalPassanger} />
-        </div>
+        <OrderInfo total={totalPassanger} />
       </div>
-    </div>
+    </>
   );
 };
 

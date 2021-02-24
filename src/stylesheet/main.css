@@ -57,24 +57,48 @@ div>.react-datepicker__day-name {
 .acMainOption {
     font-weight: 700;
 }
+
 .react-datepicker-wrapper {
     width: 100%;
 }
 
-/* временные */
-
-.wrapper {
-    position: relative;
+.bgnd {
+    background-image: url('../images/BlankMap-Europe.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    background-position: center;
 }
 
-.title {
-    position: absolute;
-    top: 500px;
-    left: 500px;
+.container {
+    padding-top: 60px;
 }
 
-.disabled {
-    display: none;
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+        margin: 0 auto;
+    }
 }
 
-/* временные */
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+        padding-top: 70px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+        padding-top: 90px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+        padding-top: 110px;
+    }
+}

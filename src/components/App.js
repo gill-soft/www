@@ -22,10 +22,14 @@ const App = ({ fetchStops, stops }) => {
           <Header />
           <Switch>
             <Route path="/" exact component={HomePage} />
-            <Route path="/trips" component={TripsPage} />
-            <Route path="/order" component={OrderPage} />
-            <Route path="/ticket/:id" component={TicketPage} />
-            <Route path="/myTicket/:id" component={MyTicketPage} />
+            <div className="bgnd">
+              <div className="container">
+                <Route path="/trips" component={TripsPage} />
+                <Route path="/order" component={OrderPage} />
+                <Route path="/ticket/:id" component={TicketPage} />
+                <Route path="/myTicket/:id" component={MyTicketPage} />
+              </div>
+            </div>
           </Switch>
         </div>
       )}

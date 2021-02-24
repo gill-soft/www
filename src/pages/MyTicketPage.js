@@ -72,50 +72,48 @@ class MyTicketPage extends Component {
   render() {
     const { status, id, url } = this.state;
     return (
-      <div className={styles.bgnd}>
-        <div className={styles.container}>
-          {status === "CONFIRM" && (
-            <>
-              <h1 className={styles.title}>Оплата прошла Успешно!!!</h1>
-              <p className={styles.text}>Hомер вашего заказа</p>
-              <p className={styles.id}>{id}</p>
-              {url.length > 0 && (
-                <>
-                  <p className={styles.text}>скачать билеты </p>
-                  <ul className={styles.list}>
-                    {url.map((el, idx) => (
-                      <li key={idx}>
-                        <a
-                          className={styles.link}
-                          href={el}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          пассажир{idx + 1}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </>
-          )}
-          {status === "ERROR" && (
-            <>
-              <h1>При офрормлении билета произошла ошибка!!!</h1>
-              <p className={styles.text}>
-                Свяжитесь со службой поддержки по телефону:{" "}
-                <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
-              </p>
-              <p className={styles.text}>Hомер вашего заказа</p>
-              <p className={styles.id}>{id}</p>
-            </>
-          )}
+      <>
+        {status === "CONFIRM" && (
+          <>
+            <h1 className={styles.title}>Оплата прошла Успешно!!!</h1>
+            <p className={styles.text}>Hомер вашего заказа</p>
+            <p className={styles.id}>{id}</p>
+            {url.length > 0 && (
+              <>
+                <p className={styles.text}>скачать билеты </p>
+                <ul className={styles.list}>
+                  {url.map((el, idx) => (
+                    <li key={idx}>
+                      <a
+                        className={styles.link}
+                        href={el}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        пассажир{idx + 1}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </>
+        )}
+        {status === "ERROR" && (
+          <>
+            <h1>При офрормлении билета произошла ошибка!!!</h1>
+            <p className={styles.text}>
+              Свяжитесь со службой поддержки по телефону:{" "}
+              <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
+            </p>
+            <p className={styles.text}>Hомер вашего заказа</p>
+            <p className={styles.id}>{id}</p>
+          </>
+        )}
 
-          {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
-          {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
-        </div>
-      </div>
+        {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
+        {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
+      </>
     );
   }
 }
