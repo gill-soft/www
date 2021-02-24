@@ -35,9 +35,9 @@ const TicketPage = ({ match }) => {
   };
 
   return (
-    <div>
+    <div className="bgnd">
       {Object.keys(ticket).length > 0 && (
-        <div>
+        <div className="container">
           <TripInfo
             ticket={ticket}
             fromId={getLocalityId("departure")}

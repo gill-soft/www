@@ -32,9 +32,11 @@
     font-weight: 600;
     margin-bottom: 25px;
 }
+
 @media (min-width: 576px) {}
 
 @media (min-width: 768px) {
+
     .main {
         display: flex;
         justify-content: space-between;
@@ -42,6 +44,8 @@
 }
 
 @media (min-width: 992px) {
+
+
     .main {
         padding-top: 30px;
     }

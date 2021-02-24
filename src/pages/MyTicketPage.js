@@ -72,9 +72,9 @@ class MyTicketPage extends Component {
   render() {
     const { status, id, url } = this.state;
     return (
-      <>
+      <div className="bgnd">
         {status === "CONFIRM" && (
-          <>
+          <div className="container">
             <h1 className={styles.title}>Оплата прошла Успешно!!!</h1>
             <p className={styles.text}>Hомер вашего заказа</p>
             <p className={styles.id}>{id}</p>
@@ -97,7 +97,7 @@ class MyTicketPage extends Component {
                 </ul>
               </>
             )}
-          </>
+          </div>
         )}
         {status === "ERROR" && (
           <>
@@ -113,7 +113,7 @@ class MyTicketPage extends Component {
 
         {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
         {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
-      </>
+      </div>
     );
   }
 }
