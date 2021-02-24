@@ -18,6 +18,7 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import SortTrips from "../components/TripsContainer/SortTrips";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TripsPageMessanges";
+import { inputValueDate, setTime } from "../redux/searchForm/searchFormAction";
 
 class TripsPage extends Component {
   state = {
@@ -37,10 +38,10 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { trips, getTripsInfo, time } = this.props;
-    const parsed = queryString.parse(this.props.location.search);
+    const { trips, getTripsInfo, time, location } = this.props;
+    const parsed = queryString.parse(location.search);
 
-    // ==== если меняеться время запроса  ====//
+    // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time) {
       // ==== формируем обьект для запроса ====
       const requestData = {
@@ -132,11 +133,12 @@ class TripsPage extends Component {
     }
   };
 
+// ==== управление изменением даты на следующюю/предыдущую ==== //
   changeDate = ({ target }) => {
     const { startLoader, history, location } = this.props;
+    const parsed = queryString.parse(location.search);
 
     startLoader();
-    const parsed = queryString.parse(location.search);
     const newDay =
       target.name === "prev"
         ? format(
@@ -147,12 +149,11 @@ class TripsPage extends Component {
             new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
             "yyyy-MM-dd"
           );
-
-    setTimeout(() => {
-      history.push(
-        `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=${parsed.passengers}`
-      );
-    }, 500);
+    this.props.changeInputDate(new Date(newDay));
+    this.props.setTime(new Date().getTime());
+    history.push(
+      `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=${parsed.passengers}`
+    );
   };
   // ==== делаем кпопку предыдущей даты неактивной при сегодняшней дате ==== //
   getDisabled = ({ date }) => {
@@ -244,6 +245,8 @@ const mapDispatchToProps = (dispatch) => ({
   startLoader: () => dispatch(startLoader()),
   stopLoader: () => dispatch(stopLoader()),
   getError: (error) => dispatch(getError(error)),
+  changeInputDate: (date) => dispatch(inputValueDate(date)),
+  setTime: (time) => dispatch(setTime(time)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
+import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
 import MyTicketPage from "../pages/MyTicketPage";
 import OrderPage from "../pages/OrderPage";
@@ -26,6 +27,7 @@ const App = ({ fetchStops, stops }) => {
             <Route path="/order" component={OrderPage} />
             <Route path="/ticket/:id" component={TicketPage} />
             <Route path="/myTicket/:id" component={MyTicketPage} />
+            <Route path="/error" component={ErrorPage} />
           </Switch>
         </div>
       )}

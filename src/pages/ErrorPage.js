@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 
 const ErrorPage = () => {
-    return (
-        <div style={{padding:"100px"}}>
-            ERROR
-        </div>
-    );
+  return (
+    <div>
+      <div style={{ padding: "100px" }}>ERROR</div>
+      <p>Ooops...!</p>
+    </div>
+  );
 };
 
 export default ErrorPage;
