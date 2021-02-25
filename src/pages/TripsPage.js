@@ -11,7 +11,11 @@ import {
 } from "../services/getInfo";
 import { getInitialization, searchTrips } from "../services/api";
 import Loader from "../components/Loader/Loader";
-import { fetchTripsSuccess, getTripsInfo } from "../redux/trips/tripsActions";
+import {
+  changeSortType,
+  fetchTripsSuccess,
+  getTripsInfo,
+} from "../redux/trips/tripsActions";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
 import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
@@ -39,7 +43,7 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { trips, getTripsInfo, time, location } = this.props;
+    const { trips, getTripsInfo, time, location, changeSortType } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
@@ -55,7 +59,7 @@ class TripsPage extends Component {
     }
     // ==== сортируем по цене и записываем в redux ==== //
     if (prevProps.trips !== trips) {
-      this.setState({ value: "price" });
+      changeSortType("price");
       if (Object.keys(trips).length > 0) {
         const arr = [];
         for (let [key, values] of Object.entries(trips.segments)) {
@@ -207,8 +211,8 @@ class TripsPage extends Component {
                   </button>
                 </div>
                 <SortTrips
-                  onChangeValue={(val) => this.setState({ value: val })}
-                  value={this.state.value}
+                // onChangeValue={(val) => this.props.changeSortType( val)}
+                // value={this.state.value}
                 />
                 {tripsInfo.map((el, idx) => (
                   <TripBox
@@ -248,6 +252,7 @@ const mapDispatchToProps = (dispatch) => ({
   getError: (error) => dispatch(getError(error)),
   changeInputDate: (date) => dispatch(inputValueDate(date)),
   setTime: (time) => dispatch(setTime(time)),
+  changeSortType: (val) => dispatch(changeSortType(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);
