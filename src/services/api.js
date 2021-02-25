@@ -1,13 +1,14 @@
 import axios from "axios";
-const baseUrl = "https://busis.eu/gds-control/api/v1";
-const localityAll = "/locality/all";
+const baseURLcontrol = "https://busis.eu/gds-control/api/v1";
+const baseURLsale = "https://busis.eu/gds-sale/api/v1";
+
 const AUTH_KEY = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
 
 //  ==== получение всех остановок ==== //
 export const getAllStops = () => {
   return axios({
     method: "get",
-    url: `${baseUrl}${localityAll}`,
+    url: `${baseURLcontrol}/locality/all`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -18,7 +19,7 @@ export const getAllStops = () => {
 export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
   return axios({
     method: "post",
-    url: `${baseUrl}/search`,
+    url: `${baseURLcontrol}/search`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -37,7 +38,7 @@ export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
 export const searchTrips = (id) => {
   return axios({
     method: "get",
-    url: `${baseUrl}/search/${id}`,
+    url: `${baseURLcontrol}/search/${id}`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -47,7 +48,7 @@ export const searchTrips = (id) => {
 export const getRequaredFields = (key) => {
   return axios({
     method: "get",
-    url: `${baseUrl}/search/trip/${key}/required`,
+    url: `${baseURLcontrol}/search/trip/${key}/required`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -58,7 +59,7 @@ export const getRequaredFields = (key) => {
 export const toBook = (body) => {
   return axios({
     method: "post",
-    url: `${baseUrl}/order`,
+    url: `${baseURLcontrol}/order`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -70,17 +71,18 @@ export const toBook = (body) => {
 export const getTicketInfo = (id) => {
   return axios({
     method: "get",
-    url: `${baseUrl}/order/${id}`,
+    url: `${baseURLcontrol}/order/${id}`,
     headers: {
       Authorization: AUTH_KEY,
     },
   });
 };
+
 // ==== подтверждение покупки билете ==== //
 export const getTicketConfirm = (id) => {
   return axios({
     method: "post",
-    url: `${baseUrl}/order/${id}/confirm/CASH`,
+    url: `${baseURLcontrol}/order/${id}/confirm/CASH`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -91,7 +93,7 @@ export const getTicketConfirm = (id) => {
 export const getTicketPrint = (id, lang) => {
   return axios({
     method: "get",
-    url: `${baseUrl}/order/${id}/document/${lang}`,
+    url: `${baseURLsale}/order/${id}/document/${lang}`,
     headers: {
       Authorization: AUTH_KEY,
     },

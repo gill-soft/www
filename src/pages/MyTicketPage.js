@@ -23,7 +23,7 @@ class MyTicketPage extends Component {
     this.props.getTicket(id);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { id } = this.state;
 
     if (prevProps.ticket !== this.props.ticket) {
@@ -35,7 +35,7 @@ class MyTicketPage extends Component {
         // ==== получаем билеты для печати ==== //
         getTicketPrint(id, this.props.lang)
           .then(({ data }) => {
-            this.getURLs(data);
+            this.getURL(data.documents[0].base64);
           })
           .catch((err) => console.log(err));
       }
@@ -47,56 +47,32 @@ class MyTicketPage extends Component {
       }
     }
   }
-  // ==== получаем массив ссылок билетов ==== //
-  getURLs = (data) => {
-    let base64 = [];
-    if (data.documents) {
-      base64 = [data.documents[0].base64];
-    } else {
-      base64 = data.services.map((el) => el.documents[0].base64);
+  // ==== получаем ссылку на билет ==== //
+  getURL = (data) => {
+    const byteCharacters = atob(data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
-    this.setState({
-      url: base64.map((el) => {
-        const byteCharacters = atob(el);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const pdf = new Blob([byteArray], { type: "application/pdf" });
-        return window.URL.createObjectURL(pdf);
-      }),
-    });
+    const byteArray = new Uint8Array(byteNumbers);
+    const pdf = new Blob([byteArray], { type: "application/pdf" });
+    const base64 = window.URL.createObjectURL(pdf);
+    this.setState({ url: base64 });
   };
 
   render() {
     const { status, id, url } = this.state;
     return (
       <div className="bgnd">
+        
         {status === "CONFIRM" && (
           <div className="container">
             <h1 className={styles.title}>Оплата прошла Успешно!!!</h1>
             <p className={styles.text}>Hомер вашего заказа</p>
             <p className={styles.id}>{id}</p>
-            {url.length > 0 && (
-              <>
-                <p className={styles.text}>скачать билеты </p>
-                <ul className={styles.list}>
-                  {url.map((el, idx) => (
-                    <li key={idx}>
-                      <a
-                        className={styles.link}
-                        href={el}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        пассажир{idx + 1}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+            <a className={styles.link} href={url} target="_blank" rel="noreferrer">
+              Cкачать билет
+            </a>
           </div>
         )}
         {status === "ERROR" && (

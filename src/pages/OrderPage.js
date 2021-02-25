@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
-import { useSelector } from "react-redux";
-import FormForBuyMap from "../components/Order/FormForBuyMap";
+// import { useSelector } from "react-redux";
+// import FormForBuyMap from "../components/Order/FormForBuyMap";
 
 import styles from "./OrderPage.module.css";
 import { startLoader } from "../redux/global/globalActions";
-import { getRequaredFields } from "../services/api";
+// import { getRequaredFields } from "../services/api";
 
 const OrderPage = ({
   history,
