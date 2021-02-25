@@ -25,12 +25,14 @@ const TripInfo = ({ fromId, toId, getDate }) => {
           <FormattedMessage id="trip" />
         </h4>
         <div className={styles.arrow}>
-          <p className={styles.locality}>{getLocality(fromId, stops, lang)}</p>
+          {getLocality(fromId, stops, lang) && (
+            <p className={styles.locality}>{getLocality(fromId, stops, lang)}</p>
+          )}
           <p className={styles.localityStop}>{getStop("departure")}</p>
           <p className={styles.date}>{getDate("departureDate")}</p>
         </div>
         <div>
-          <p className={styles.locality}>{getLocality(toId, stops, lang)}</p>
+          {getLocality(toId, stops, lang) && <p className={styles.locality}>{getLocality(toId, stops, lang)}</p>}
           <p className={styles.localityStop}>{getStop("arrival")}</p>
           <p className={styles.date}>{getDate("arrivalDate")}</p>
         </div>

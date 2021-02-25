@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import CryptoJS from "crypto-js";
 import styles from "./PaymentBox.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getExpireTime, getLocality } from "../../services/getInfo";
-import Modal from "../Modal/Modal";
-import GoHome from "../GoHome/GoHome";
+// import { fetchPayeeId } from "../../services/api";
+// import Modal from "../Modal/Modal";
+// import GoHome from "../GoHome/GoHome";
 
-const PaymentBox = ({ id, fromId, toId, getDate }) => {
+const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const stops = useSelector((state) => state.global.stops);
   const locale = lang === "UA" ? "UK" : lang;
   const [time, setTime] = useState(0);
-  const [isModal, setIsModal] = useState(false);
+  // const [isModal, setIsModal] = useState(false);
 
   // ==== определяем время до конца оплаты ==== //
   useEffect(() => {
@@ -24,7 +26,7 @@ const PaymentBox = ({ id, fromId, toId, getDate }) => {
 
   useEffect(() => {
     if (time < 0) {
-      setIsModal(true);
+      // setIsModal(true);
       setTime(0);
       return;
     }
@@ -39,6 +41,15 @@ const PaymentBox = ({ id, fromId, toId, getDate }) => {
     ticket.services.reduce((acc, el) => {
       return acc + el.price.amount;
     }, 0);
+
+  // useEffect(() => {
+  //   fetchPayeeId("PORTMONE")
+  //     .then((data) => console.log(data))
+  //     .catch((err) => console.log(err));
+  // }, []);
+  // const getPayeeID = (val) => {
+
+  // };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.warning}>
@@ -57,7 +68,8 @@ const PaymentBox = ({ id, fromId, toId, getDate }) => {
       <br></br>
       <div className={styles.payment}>
         <form action="https://www.portmone.com.ua/gateway/" method="post">
-          <input type="hidden" name="payee_id" value="1185" />
+          <input type="hidden" name="payee_id" value={CryptoJS.AES.decrypt(atob(payeeId), "KeyVezu").toString(CryptoJS.enc.Utf8)
+} />
           <input type="hidden" name="shop_order_number" value={ticket.orderId} />
           <input type="hidden" name="bill_amount" value={getTotalPrice()} />
           <input

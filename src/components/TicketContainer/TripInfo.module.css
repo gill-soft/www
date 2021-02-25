@@ -17,7 +17,7 @@
 }
 
 .orderBox div {
-    max-width: 200px;
+    width: 200px;
     padding-bottom: 24px;
     position: relative;
     margin-right: 38px;

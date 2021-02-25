@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./FormForBuy.module.css";
 import { ReactComponent as Person } from "../../images/person-24px.svg";
-import { toBook } from "../../services/api";
+import { toBookTicket } from "../../services/api";
 import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
 import PublickOffer from "../PublickOffer/PublickOffer";
 import Modal from "../Modal/Modal";
@@ -10,7 +10,7 @@ import Loader from "../Loader/Loader";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
 import CryptoJS from "crypto-js";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 
 // const schema = Yup.object().shape({
 //   name: Yup.string().min(2, "too short").required("Required"), // these constraints take precedence
@@ -47,7 +47,8 @@ class FormForBuy extends Component {
           return;
         } else {
           const id = btoa(CryptoJS.AES.encrypt(this.state.resp.orderId, "KeyVezu").toString())
-          this.props.history.push(`/ticket/${id}`);
+          const payeeId = btoa(CryptoJS.AES.encrypt(this.state.resp.additionals.payeeId, "KeyVezu").toString())
+          this.props.history.push(`/ticket/${id}/${payeeId}`);
         }
       });
     }
@@ -71,10 +72,16 @@ class FormForBuy extends Component {
     }));
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
+    toBookTicket(requestBody)
+    .then(({data}) => this.setState({ resp: data }))
+    .catch((err) => (err) => getError(err.message));
 
-    toBook(requestBody)
-      .then(({ data }) => this.setState({ resp: data }))
-      .catch((err) => getError(err.message));
+    // toBook(requestBody)
+    //   .then(({ data }) => {
+    //     console.log(data)
+    //     // this.setState({ resp: data })
+    //   })
+    //   .catch((err) => getError(err.message));
   };
 
   handleChange = (idx, { target }) => {

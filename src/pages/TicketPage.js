@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTicket } from "../redux/order/orderOperation";
-import styles from "./TicketPage.module.css";
+// import styles from "./TicketPage.module.css";
 import PaymentBox from "../components/TicketContainer/PaymentBox";
 import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
@@ -10,7 +10,6 @@ import CryptoJS from "crypto-js";
 const TicketPage = ({ match }) => {
   const dispatch = useDispatch();
   const ticket = useSelector((state) => state.order.ticket);
-
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
     // ==== получаем зашифрованый id === //
@@ -50,6 +49,7 @@ const TicketPage = ({ match }) => {
             toId={getLocalityId("arrival")}
             getDate={getDate}
             id={match.params.id}
+            payeeId={match.params.pay}
           />
         </div>
       )}

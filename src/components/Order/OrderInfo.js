@@ -1,24 +1,23 @@
-import { connect } from "react-redux";
 import React from "react";
+import { useSelector } from "react-redux";
 import styles from "./OrderInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
 import { getLocality, getStop } from "../../services/getInfo";
 
-const OrderInfo = ({
-  to,
-  from,
-  lang,
-  stops,
-  price,
-  trips,
-  total,
-  toStop,
-  fromStop,
-  arrivalDate,
-  departureDate,
-}) => {
+const OrderInfo = ({ total }) => {
+  const lang = useSelector((state) => state.language);
+  const trips = useSelector((state) => state.trips.trips);
+  const to = useSelector((state) => state.order.order.to);
+  const stops = useSelector((state) => state.global.stops);
+  const from = useSelector((state) => state.order.order.from);
+  const price = useSelector((state) => state.order.order.price);
+  const toStop = useSelector((state) => state.order.order.toStop);
+  const fromStop = useSelector((state) => state.order.order.fromStop);
+  const arrivalDate = useSelector((state) => state.order.order.arrivalDate);
+  const departureDate = useSelector((state) => state.order.order.departureDate);
   const locale = lang === "UA" ? "UK" : lang;
+  
   const getTotalPrice = () => {
     return (total * price).toFixed(2);
   };
@@ -50,17 +49,5 @@ const OrderInfo = ({
     </IntlProvider>
   );
 };
-const mapStateToProps = (state) => ({
-  from: state.order.order.from,
-  to: state.order.order.to,
-  fromStop: state.order.order.fromStop,
-  toStop: state.order.order.toStop,
-  departureDate: state.order.order.departureDate,
-  arrivalDate: state.order.order.arrivalDate,
-  price: state.order.order.price,
-  lang: state.language,
-  stops: state.global.stops,
-  trips: state.trips.trips
-});
 
-export default connect(mapStateToProps)(OrderInfo);
+export default OrderInfo;

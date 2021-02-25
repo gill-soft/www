@@ -14,15 +14,11 @@ const OrderPage = ({
   history,
   amountPassangers,
   order,
-  location,
   startLoader,
   tripKey,
 }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
 
-  const changeAmountPassanger = (val) => {
-    setTotalPassanger(val);
-  };
   // useEffect(() => {
   //   getRequaredFields(tripKey).then(({data}) => console.log(data))
 
@@ -36,7 +32,7 @@ const OrderPage = ({
       history.replace(path);
       startLoader();
     }
-  }, [location, order, history, startLoader]);
+  }, [order, history, startLoader]);
 
   return (
     <div className="bgnd">
@@ -46,10 +42,12 @@ const OrderPage = ({
         </div>
         <div className={styles.main}>
           <FormForBuy
-            changeAmountPassanger={changeAmountPassanger}
+            changeAmountPassanger={(val) => setTotalPassanger(val)}
             total={totalPassanger}
             history={history}
           />
+          <OrderInfo total={totalPassanger} />
+
           {/* {pass.pass.length > 0 && (
             <FormForBuyMap
               changeAmountPassanger={changeAmountPassanger}
@@ -74,8 +72,6 @@ const OrderPage = ({
               pass={pass}
             />
           )} */}
-
-          <OrderInfo total={totalPassanger} />
         </div>
       </div>
     </div>
