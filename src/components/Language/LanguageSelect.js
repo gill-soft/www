@@ -1,10 +1,19 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/Language/LanguageAction";
+import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
 import styles from "./LanguageSelect.module.css";
 
-const LanguageSelect = ({ onChangeLanguage, language }) => {
+const LanguageSelect = () => {
+  const language = useSelector((state) => state.language);
+  const dispatch = useDispatch();
+  const changeInputFrom = (value) => dispatch(inputValueFrom(value));
+  const changeInputTo = (value) => dispatch(inputValueTo(value));
+  const onChangeLanguage = (value) => dispatch(changeLanguage(value));
+
   const handleChange = ({ target }) => {
+    changeInputFrom("");
+    changeInputTo("");
     onChangeLanguage(target.value);
   };
   return (
@@ -26,10 +35,5 @@ const LanguageSelect = ({ onChangeLanguage, language }) => {
     </div>
   );
 };
-const mapStateToProps = (state) => ({
-  language: state.language,
-});
-const mapDispatchToProps = (dispatch) => ({
-  onChangeLanguage: (value) => dispatch(changeLanguage(value)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(LanguageSelect);
+
+export default LanguageSelect;

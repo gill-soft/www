@@ -26,7 +26,7 @@ export const getLocality = (id, stops, lang) => {
 
 // ==== получаем остановку отправки/прибытия === //
 export const getStop = (key, trips, lang) =>
-  Object.keys(trips).length > 0 ? trips.localities[`${key}`].name[`${lang}`] : null;
+  Object.keys(trips).length > 0 ? trips.localities[`${key}`]?.name[`${lang}`] : null;
 
 // ==== получаем промежуточную остановку ==== //
 export const getAllLocalities = (key, trips, lang) => {

@@ -27,7 +27,8 @@ import { Redirect } from "react-router-dom";
 
 class TripsPage extends Component {
   state = {
-    value: "price",
+    // value: "price",
+    isTrip: false,
   };
   componentDidMount() {
     const parsed = queryString.parse(this.props.location.search);
@@ -48,6 +49,7 @@ class TripsPage extends Component {
 
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time) {
+      this.setState({isTrip: false})
       // ==== формируем обьект для запроса ====
       const requestData = {
         idFrom: parsed.from,
@@ -134,7 +136,7 @@ class TripsPage extends Component {
       }, 2000);
     } else {
       this.props.stopLoader();
-      this.props.getError("По вашему запросу поездок нет. Попробуйте другую дату");
+      this.setState({ isTrip: "По вашему запросу поездок нет. Попробуйте другую дату" });
     }
   };
 
@@ -185,6 +187,7 @@ class TripsPage extends Component {
             </div>
             {isLoading && <Loader />}
             {error && <Redirect to="/error" />}
+            {this.state.isTrip && <p>{this.state.isTrip}</p>}
             {Object.keys(trips).length > 0 && (
               <div className={styles.tripsBox}>
                 <h3 className={styles.title}>

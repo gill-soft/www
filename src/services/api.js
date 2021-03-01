@@ -111,3 +111,13 @@ export const getTicketPrint = (id, lang) => {
     },
   });
 };
+export const getCities = (val, lang) => {
+  return axios({
+    method: "get",
+    url: `${baseURLsale}/locality/cities/${lang}?prefix=${val}`,
+    headers: {
+      Authorization: AUTH_KEY2,
+    },
+  });
+};
+// /locality/cities/{lang}?prefix={value, min length 2}

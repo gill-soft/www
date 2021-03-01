@@ -15,11 +15,15 @@ import {
   inputValueTo,
   inputValueDate,
   setTime,
+  setFromId,
+  setToId,
 } from "../../redux/searchForm/searchFormAction";
 import { fetchTripsSuccess } from "../../redux/trips/tripsActions";
 import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
-import AutocompleteComp from "./Autocomplete";
+// import AutocompleteComp from "./Autocomplete";
+import Autocomplete2 from "./Autocomplete2";
+
 import AmountPassanger from "./AmountPassanger";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 
@@ -46,11 +50,24 @@ class SearchForm extends Component {
 
   // ==== поменять отправку и прибытие местами ==== //
   changeButton = () => {
-    const { changeInputFrom, changeInputTo, from, to } = this.props;
+    const {
+      changeInputFrom,
+      setToId,
+      setFromId,
+      changeInputTo,
+      from,
+      to,
+      fromID,
+      toID,
+    } = this.props;
     const fromInp = from;
+    const fromId = fromID;
     const toInp = to;
+    const toId = toID;
     changeInputFrom(toInp);
+    setFromId(toId);
     changeInputTo(fromInp);
+    setToId(fromId);
   };
 
   // ==== данные для отображения календаря на языке пользователя ==== //
@@ -66,8 +83,10 @@ class SearchForm extends Component {
     e.preventDefault();
     const {
       to,
-      from,
       date,
+      toID,
+      from,
+      fromID,
       amount,
       history,
       setTime,
@@ -77,9 +96,10 @@ class SearchForm extends Component {
     } = this.props;
 
     // ==== формируем данные для запроса ==== //
-    const fromId = this.getId(from, "from");
-    const toId = this.getId(to, "to");
+    const fromId = fromID ? fromID : this.getId(from, "from");
+    const toId = toID ? toID : this.getId(to, "to");
     const dateQuery = format(new Date(date), "yyyy-MM-dd");
+
     // ==== проверяем есть ли введенные города в списке остановок ==== //
     if (fromId && toId) {
       // ==== запускаем лоадер, очищаем ошибки и данные предыдущего запроса ==== //
@@ -95,6 +115,7 @@ class SearchForm extends Component {
   };
 
   getId = (val, type) => {
+    console.log("object")
     const { lang, stops } = this.props;
     const result = stops.find((item) =>
       item.type === "LOCALITY"
@@ -119,11 +140,13 @@ class SearchForm extends Component {
       <form onSubmit={this.handleSubmit} className={`${styles.form} `}>
         <div className={styles.fromTo}>
           <div className={styles.inputBox}>
-            <AutocompleteComp id="from" error={this.state.errorFrom} />
+            {/* <AutocompleteComp id="from" error={this.state.errorFrom} /> */}
+            <Autocomplete2 id="from" error={this.state.errorFrom} />
           </div>
           <Arrow className={styles.arrow} onClick={this.changeButton} />
           <div className={styles.inputBox}>
-            <AutocompleteComp id="to" error={this.state.errorTo} />
+            {/* <AutocompleteComp id="to" error={this.state.errorTo} /> */}
+            <Autocomplete2 id="to" error={this.state.errorTo} />
           </div>
         </div>
         <div className={styles.flex}>
@@ -158,14 +181,18 @@ class SearchForm extends Component {
 const mapStateToProps = (state) => ({
   lang: state.language,
   from: state.searchForm.from,
+  fromID: state.searchForm.fromID,
   to: state.searchForm.to,
+  toID: state.searchForm.toID,
   date: state.searchForm.date,
   amount: state.searchForm.amountPassanger,
   stops: state.global.stops,
 });
 const mapDispatchToProps = (dispatch) => ({
   changeInputFrom: (value) => dispatch(inputValueFrom(value)),
+  setFromId: (value) => dispatch(setFromId(value)),
   changeInputTo: (value) => dispatch(inputValueTo(value)),
+  setToId: (value) => dispatch(setToId(value)),
   changeInputDate: (date) => dispatch(inputValueDate(date)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   getError: (err) => dispatch(getError(err)),

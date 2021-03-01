@@ -4,8 +4,16 @@ export const inputValueFrom = (value) => ({
   type: Types.INPUT_VALUE_FROM,
   payload: value,
 });
+export const setFromId = (value) => ({
+  type: Types.FROM_ID,
+  payload: value,
+});
 export const inputValueTo = (value) => ({
   type: Types.INPUT_VALUE_TO,
+  payload: value,
+});
+export const setToId = (value) => ({
+  type: Types.TO_ID,
   payload: value,
 });
 export const inputValueDate = (date) => ({

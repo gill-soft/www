@@ -1,7 +1,7 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-const getInputValueFrom = (state = "Львів", { type, payload }) => {
+const getInputValueFrom = (state = "", { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_FROM:
       return payload;
@@ -10,9 +10,27 @@ const getInputValueFrom = (state = "Львів", { type, payload }) => {
       return state;
   }
 };
-const getInputValueTo = (state = "Київ", { type, payload }) => {
+const getFromId = (state = "", { type, payload }) => {
+  switch (type) {
+    case Types.FROM_ID:
+      return payload;
+
+    default:
+      return state;
+  }
+};
+const getInputValueTo = (state = "", { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_TO:
+      return payload;
+
+    default:
+      return state;
+  }
+};
+const getToId = (state = "", { type, payload }) => {
+  switch (type) {
+    case Types.TO_ID:
       return payload;
 
     default:
@@ -38,7 +56,7 @@ const getAmountPassanger = (state = 1, { type, payload }) => {
       return state;
   }
 };
-const getTime = (state = '', { type, payload }) => {
+const getTime = (state = "", { type, payload }) => {
   switch (type) {
     case Types.TIME:
       return payload;
@@ -50,8 +68,10 @@ const getTime = (state = '', { type, payload }) => {
 
 export const searchFormReduser = combineReducers({
   from: getInputValueFrom,
+  fromID: getFromId,
   to: getInputValueTo,
+  toID: getToId,
   date: getInputValueDate,
   amountPassanger: getAmountPassanger,
-  time: getTime
+  time: getTime,
 });
