@@ -85,9 +85,10 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 `;
 
-const AutocompleteComp = ({ id, error }) => {
-  // ====redux ====//
-  //   const stops = useSelector((state) => state.global.stops);
+
+export default function AutoComplete3({id, error}) {
+  const [value2, setValue2] = useState({ label: "", code: "34" });
+  const [value, setValue] = useState({ label: "", code: "34" });
   const lang = useSelector((state) => state.language);
   const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
@@ -102,81 +103,81 @@ const AutocompleteComp = ({ id, error }) => {
 
   const locale = lang === "UA" ? "UK" : lang;
 
-  // ==== формируем популярные города отправки/прибытия ==== //
-  useEffect(() => {
-    setOptions(INITIAL_STATE.map((el) => `${el.text} - ${el.description} - ${el.value}`));
-  }, []);
-
-  // ==== записываем в редакс выбраный город при клике ==== //
-  const handleChange = (event, value) => {
-      console.log(event.target)
-    const val = value ? value.split(" - ")[0].trim() : null;
-    const valId = value ? value.split(" - ")[2] : null;
-
-    id === "from" ? changeInputFrom(val) : changeInputTo(val);
-    if (valId) id === "from" ? fromId(valId) : toId(valId);
+  const clickHa = () => {
+    const a = value;
+    const b = value2;
+    setValue(b);
+    setValue2(a);
   };
-  
-  // ==== записываем в редакс выбраный город при потере фокуса ==== //
-  const handleInputBlur = ({ target }) => {
-    const val = target.value ? target.value.split(" - ")[0].trim() : "";
-    id === "from" ? changeInputFrom(val) : changeInputTo(val);
-  };
-
-  //   ==== если введено больше двух символов получаем новые опшины ====//
-  const getOtpions = (target) => {
-    id === "from" ? fromId("") : toId("");
-
-    if (target.value.length >= 2)
-      getCities(target.value, lang).then(({ data }) => {
-        setOptions(data.map((el) => `${el.text} - ${el.description} - ${el.value}`));
-      });
-    if (target.value.length === 0) {
-      setOptions(
-        INITIAL_STATE.map((el) => `${el.text} - ${el.description} - ${el.value}`)
-      );
-    }
-  };
+console.log(value)
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <div>
-        <StyledAutocomplete
-          id={id}
-          freeSolo
-          value={id === "from" ? from : to}
-          filterOptions={filterOptions}
-          onChange={(event, value) => handleChange(event, value)}
-          onClick={(event, value) => handleChange(value)}
-          options={options.map((opt) => opt)}
-          renderOption={(opt) => (
-            <div>
-              <span className="acMainOption">{opt.split(" - ")[0]}</span>
-              <span> - {opt.split(" - ")[1]}</span>
-            </div>
-          )}
-          renderInput={(params) => (
-            <StyledTextField
-              {...params}
-              label={
+    
+      <StyledAutocomplete
+        id="country-select-demo"
+        style={{ width: 300 }}
+        options={options}
+        // classes={{
+        //   option: classes.option
+        // }}
+        autoHighlight
+        value={value}
+        getOptionLabel={(option) => option.label}
+        getOptionSelected={(o, v) => o !== v}
+        onChange={(event, value) => setValue(value)}
+        renderOption={(option) => (
+          <React.Fragment>
+            {option.label} ({option.code}) +{option.phone}
+          </React.Fragment>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={
                 id === "from" ? (
                   <FormattedMessage id="from" />
                 ) : (
                   <FormattedMessage id="to" />
                 )
               }
-              onMouseDown={({ target }) => getOtpions(target)}
-              onChange={({ target }) => getOtpions(target)}
-              onBlur={(event) => handleInputBlur(event)}
-              margin="normal"
-              variant="outlined"
-              error={error}
-              helperText={error ? "уточните параметры поиска" : ""}
-            />
-          )}
-        />
-      </div>
+            variant="outlined"
+            // inputProps={{
+            //   ...params.inputProps,
+            //   autoComplete: "new-password" // disable autocomplete and autofill
+            // }}
+          />
+        )}
+      />
+      <button onClick={clickHa}> fffff </button>
+      <Autocomplete
+        id="country-select-demo"
+        style={{ width: 300 }}
+        options={options}
+        // classes={{
+        //   option: classes.option
+        // }}
+        autoHighlight
+        value={value2}
+        getOptionLabel={(option) => option.label}
+        getOptionSelected={(o, v) => true}
+        onChange={(event, value) => setValue2(value)}
+        renderOption={(option) => (
+          <React.Fragment>
+            {option.label} ({option.code}) +{option.phone}
+          </React.Fragment>
+        )}
+        renderInput={(params) => (
+          <StyledTextField
+            {...params}
+            label="Choose a country"
+            variant="outlined"
+            inputProps={{
+              ...params.inputProps,
+              autoComplete: "new-password" // disable autocomplete and autofill
+            }}
+          />
+        )}
+      />
     </IntlProvider>
   );
-};
-
-export default AutocompleteComp;
+}

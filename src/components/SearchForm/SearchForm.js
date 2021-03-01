@@ -115,7 +115,6 @@ class SearchForm extends Component {
   };
 
   getId = (val, type) => {
-    console.log("object")
     const { lang, stops } = this.props;
     const result = stops.find((item) =>
       item.type === "LOCALITY"
