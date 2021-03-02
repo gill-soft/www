@@ -10,7 +10,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/HomePageMessanges";
-import { inputValueDate, setTime } from "../../redux/searchForm/searchFormAction";
+import {
+  inputValueDate,
+  setIsOpenDate,
+  setIsOpenFrom,
+  setIsOpenTo,
+  setTime,
+} from "../../redux/searchForm/searchFormAction";
 import { fetchTripsSuccess } from "../../redux/trips/tripsActions";
 import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
@@ -23,6 +29,7 @@ const SearchForm = ({ history }) => {
   const to = useSelector((state) => state.searchForm.to);
   const date = useSelector((state) => state.searchForm.date);
   const amount = useSelector((state) => state.searchForm.amountPassanger);
+  const isOpenDate = useSelector((state) => state.searchForm.isOpenDate);
 
   const dispatch = useDispatch();
   const setData = (date) => dispatch(inputValueDate(date));
@@ -30,6 +37,9 @@ const SearchForm = ({ history }) => {
   const setError = (err) => dispatch(getError(err));
   const loaderStart = () => dispatch(startLoader());
   const getTime = (time) => dispatch(setTime(time));
+  const changeIsOpenFrom = (bool) => dispatch(setIsOpenFrom(bool));
+  const changeIsOpenTo = (bool) => dispatch(setIsOpenTo(bool));
+  const changeIsOpenDate = (bool) => dispatch(setIsOpenDate(bool));
 
   const locale = lang === "UA" ? "UK" : lang;
 
@@ -43,10 +53,14 @@ const SearchForm = ({ history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!from.text) {
+    changeIsOpenFrom(false)
+    changeIsOpenTo(false)
+    if (from === null || !from?.text) {
+      changeIsOpenFrom(true);
       return;
     }
-    if (!to.text) {
+    if (to === null || !to?.text) {
+      changeIsOpenTo(true);
       return;
     }
     const dateQuery = format(new Date(date), "yyyy-MM-dd");
@@ -75,7 +89,17 @@ const SearchForm = ({ history }) => {
               selected={date}
               minDate={new Date()}
               locale={dateLocale()}
-              onChange={(date) => setData(date)}
+              onChange={(date) => {
+                setData(date);
+                changeIsOpenDate(false);
+              }}
+              onClickOutside={() => changeIsOpenDate(false)}
+              onFocus={() => {
+                changeIsOpenDate(true);
+                changeIsOpenFrom(false)
+                changeIsOpenTo(false)
+              }}
+              open={isOpenDate}
             />
           </div>
           <div className={styles.inputBox}>

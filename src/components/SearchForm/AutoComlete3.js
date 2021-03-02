@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
-import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
+import {
+  inputValueFrom,
+  inputValueTo,
+  setIsOpenDate,
+  setIsOpenFrom,
+  setIsOpenTo,
+} from "../../redux/searchForm/searchFormAction";
 import styled from "styled-components";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/HomePageMessanges";
@@ -68,6 +74,7 @@ const StyledTextField = styled(TextField)`
   }
   .MuiIconButton-root {
     color: var(--color-secondary);
+    display: none;
   }
   .MuiAutocomplete-popupIndicator {
     display: none;
@@ -89,9 +96,14 @@ const AutoComplete3 = () => {
   const lang = useSelector((state) => state.language);
   const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
+  const isOpenFrom = useSelector((state) => state.searchForm.isOpenFrom);
+  const isOpenTo = useSelector((state) => state.searchForm.isOpenTo);
   const dispatch = useDispatch();
   const setFrom = (value) => dispatch(inputValueFrom(value));
   const setTo = (value) => dispatch(inputValueTo(value));
+  const changeIsOpenFrom = (bool) => dispatch(setIsOpenFrom(bool));
+  const changeIsOpenTo = (bool) => dispatch(setIsOpenTo(bool));
+  const changeIsOpenDate = (bool) => dispatch(setIsOpenDate(bool));
 
   const [options, setOptions] = useState(INITIAL_STATE);
 
@@ -123,10 +135,15 @@ const AutoComplete3 = () => {
           options={options}
           autoHighlight
           value={from}
+          open={isOpenFrom}
           filterOptions={filterOptions}
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
-          onChange={(event, value) => setFrom(value)}
+          onChange={(event, value) => {
+            setFrom(value);
+            changeIsOpenFrom(false);
+            changeIsOpenTo(true);
+          }}
           renderOption={(option) => (
             <div>
               <span className="acMainOption">{option.text}</span>
@@ -138,13 +155,16 @@ const AutoComplete3 = () => {
               {...params}
               label={<FormattedMessage id="from" />}
               variant="outlined"
-              onMouseDown={({ target }) => getOtpions(target)}
-              onChange={({ target }) => getOtpions(target)}
-
-              // inputProps={{
-              //   ...params.inputProps,
-              //   autoComplete: "new-password" // disable autocomplete and autofill
-              // }}
+              onMouseDown={({ target }) => {
+                getOtpions(target);
+                changeIsOpenFrom(true);
+                changeIsOpenTo(false);
+              }}
+              onChange={({ target }) => {
+                getOtpions(target);
+                changeIsOpenFrom(true);
+                changeIsOpenTo(false);
+              }}
             />
           )}
         />
@@ -157,10 +177,15 @@ const AutoComplete3 = () => {
           options={options}
           autoHighlight
           value={to}
+          open={isOpenTo}
           filterOptions={filterOptions}
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
-          onChange={(event, value) => setTo(value)}
+          onChange={(event, value) => {
+            setTo(value);
+            changeIsOpenTo(false);
+            changeIsOpenDate(true);
+          }}
           renderOption={(option) => (
             <div>
               <span className="acMainOption">{option.text}</span>
@@ -172,12 +197,18 @@ const AutoComplete3 = () => {
               {...params}
               label={<FormattedMessage id="to" />}
               variant="outlined"
-              onMouseDown={({ target }) => getOtpions(target)}
-              onChange={({ target }) => getOtpions(target)}
-              // inputProps={{
-              //   ...params.inputProps,
-              //   autoComplete: "new-password" // disable autocomplete and autofill
-              // }}
+              onMouseDown={({ target }) => {
+                getOtpions(target);
+                changeIsOpenTo(true);
+                changeIsOpenFrom(false);
+                changeIsOpenDate(false);
+              }}
+              onChange={({ target }) => {
+                getOtpions(target);
+                changeIsOpenTo(true);
+                changeIsOpenFrom(false);
+                changeIsOpenDate(false);
+              }}
             />
           )}
         />

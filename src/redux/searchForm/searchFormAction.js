@@ -4,18 +4,12 @@ export const inputValueFrom = (value) => ({
   type: Types.INPUT_VALUE_FROM,
   payload: value,
 });
-export const setFromId = (value) => ({
-  type: Types.FROM_ID,
-  payload: value,
-});
+
 export const inputValueTo = (value) => ({
   type: Types.INPUT_VALUE_TO,
   payload: value,
 });
-export const setToId = (value) => ({
-  type: Types.TO_ID,
-  payload: value,
-});
+
 export const inputValueDate = (date) => ({
   type: Types.INPUT_DATE,
   payload: date,
@@ -31,5 +25,17 @@ export const decrementAmountPassangers = () => ({
 
 export const setTime = (time) => ({
   type: Types.TIME,
-  payload: time
+  payload: time,
+});
+export const setIsOpenFrom = (bool) => ({
+  type: Types.IS_OPEN_FROM,
+  payload: bool,
+});
+export const setIsOpenTo = (bool) => ({
+  type: Types.IS_OPEN_TO,
+  payload: bool,
+});
+export const setIsOpenDate = (bool) => ({
+  type: Types.IS_OPEN_DATE,
+  payload: bool,
 });
