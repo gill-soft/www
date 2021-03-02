@@ -10,6 +10,11 @@ import TripsPage from "../pages/TripsPage";
 import { fetchStops } from "../redux/global/globalOperations";
 import Header from "./Header/Header";
 
+// const MyTicketPage = lazy(() => import("../pages/MyTicketPage"));
+// const OrderPage = lazy(() => import("../pages/OrderPage"));
+// const TicketPage = lazy(() => import("../pages/TicketPage"));
+// const TripsPage = lazy(() => import("../pages/TripsPage"));
+
 const App = () => {
   // ====redux===//
   const dispatch = useDispatch();

@@ -27,7 +27,7 @@ import { Redirect } from "react-router-dom";
 
 class TripsPage extends Component {
   state = {
-    // value: "price",
+    value: "price",
     isTrip: false,
   };
   componentDidMount() {
@@ -44,12 +44,12 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { trips, getTripsInfo, time, location, changeSortType } = this.props;
+    const { trips, getTripsInfo, time, location, changeSortType, sortType } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time) {
-      this.setState({isTrip: false})
+      this.setState({ isTrip: false });
       // ==== формируем обьект для запроса ====
       const requestData = {
         idFrom: parsed.from,
@@ -74,6 +74,9 @@ class TripsPage extends Component {
           )
         );
       }
+    }
+    if (prevProps.sortType !== sortType) {
+      this.setState({ value: sortType });
     }
   }
 
@@ -213,10 +216,7 @@ class TripsPage extends Component {
                     {getTomorrow(parsed, lang)}
                   </button>
                 </div>
-                <SortTrips
-                // onChangeValue={(val) => this.props.changeSortType( val)}
-                // value={this.state.value}
-                />
+                <SortTrips />
                 {tripsInfo.map((el, idx) => (
                   <TripBox
                     key={idx}
@@ -245,6 +245,7 @@ const mapStateToProps = (state) => ({
   lang: state.language,
   tripsInfo: state.trips.tripsInfo,
   time: state.searchForm.time,
+  sortType: state.trips.sortType,
 });
 
 const mapDispatchToProps = (dispatch) => ({
