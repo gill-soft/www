@@ -62,7 +62,7 @@
     color: var(--color-secondary);
     font-size: 25px;
     font-weight: 700;
-   
+
 }
 
 .priceBox {
@@ -71,7 +71,7 @@
     align-items: center;
     text-align: center;
     margin-bottom: 12px;
-    
+
 }
 
 .price span {
@@ -88,13 +88,15 @@
     width: 100px;
     border-radius: 4px;
     background-color: var(--color-third);
-    box-shadow: 2px 1px 1px 2px #3f51b5;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
     margin-bottom: 14px;
+    transition: box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
 }
 
 .choose:hover,
 .choose:focus {
-    background-color: #303f9f;
+    /* background-color: #303f9f; */
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
 }
 
 .additionalInfo {
@@ -137,8 +139,8 @@
 }
 
 .timeStop {
-position: absolute;
-left: -80px
+    position: absolute;
+    left: -80px
 }
 
 .stop::before {
@@ -175,10 +177,12 @@ h5 {
     padding-top: 10px;
     padding-left: 10px;
 }
+
 .red {
     color: var(--color-danger);
     font-size: 16px;
 }
+
 .green {
     color: green;
     font-size: 16px;

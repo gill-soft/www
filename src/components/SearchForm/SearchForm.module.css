@@ -28,7 +28,8 @@
 .searchBtn {
     height: 58px;
     width: 86%;
-    color: var(--color-secondary)
+    color: var(--color-secondary) !important;
+    background-color: var(--color-third) !important
 }
 
 .arrow {
@@ -36,6 +37,7 @@
     top: 40px;
     right: 0px;
     transform: rotate(90deg);
+    cursor: pointer;
 }
 
 @media (min-width: 576px) {

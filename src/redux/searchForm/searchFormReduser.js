@@ -1,7 +1,7 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-const getInputValueFrom = (state = "", { type, payload }) => {
+const getInputValueFrom = (state = { text: "", description: "" }, { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_FROM:
       return payload;
@@ -10,16 +10,16 @@ const getInputValueFrom = (state = "", { type, payload }) => {
       return state;
   }
 };
-const getFromId = (state = "", { type, payload }) => {
-  switch (type) {
-    case Types.FROM_ID:
-      return payload;
+// const getFromId = (state = "", { type, payload }) => {
+//   switch (type) {
+//     case Types.FROM_ID:
+//       return payload;
 
-    default:
-      return state;
-  }
-};
-const getInputValueTo = (state = "", { type, payload }) => {
+//     default:
+//       return state;
+//   }
+// };
+const getInputValueTo = (state = {text: "", description: ""}, { type, payload }) => {
   switch (type) {
     case Types.INPUT_VALUE_TO:
       return payload;
@@ -28,15 +28,15 @@ const getInputValueTo = (state = "", { type, payload }) => {
       return state;
   }
 };
-const getToId = (state = "", { type, payload }) => {
-  switch (type) {
-    case Types.TO_ID:
-      return payload;
+// const getToId = (state = "", { type, payload }) => {
+//   switch (type) {
+//     case Types.TO_ID:
+//       return payload;
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
 const getInputValueDate = (state = new Date(), { type, payload }) => {
   switch (type) {
     case Types.INPUT_DATE:
@@ -68,9 +68,9 @@ const getTime = (state = "", { type, payload }) => {
 
 export const searchFormReduser = combineReducers({
   from: getInputValueFrom,
-  fromID: getFromId,
+  // fromID: getFromId,
   to: getInputValueTo,
-  toID: getToId,
+  // toID: getToId,
   date: getInputValueDate,
   amountPassanger: getAmountPassanger,
   time: getTime,
