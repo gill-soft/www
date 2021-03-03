@@ -21,7 +21,7 @@
 }
 
 .inputBox {
-    width: 86%;
+    /* width: 86%; */
     margin-bottom: 10px;
 }
 
@@ -34,10 +34,14 @@
 
 .arrow {
     position: absolute;
-    top: 40px;
-    right: 0px;
+    top: 44px;
+    right: 10px;
     transform: rotate(90deg);
     cursor: pointer;
+    background-color: #747474;
+    border-radius: 50%;
+    border: 1px solid var(--color-secondary); 
+    z-index: 9;
 }
 
 @media (min-width: 576px) {
@@ -59,12 +63,17 @@
     .fromTo {
         display: flex;
     }
+    .inputBox {
+        width: 48%;
+    }
 
     .arrow {
         position: static;
         transform: rotate(180deg);
         margin: 10px;
         width: 50px;
+        border: none;
+        background-color: transparent;
     }
 }
 
@@ -78,7 +87,7 @@
         width: 100px;
     }
     .inputBox{
-        width: 210px;
+        width: 220px;
     }
     .flex {
         width: 470px;

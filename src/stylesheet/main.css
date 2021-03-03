@@ -49,16 +49,18 @@ div>.react-datepicker__day-name {
 }
 
 .MuiAutocomplete-option {
-    white-space: wrap;
     font-size: 12px;
-    padding: 0;
-    margin: 0;
     line-height: 1;
 }
 
-.MuiAutocomplete-listbox {
-    width: 110%;
+.MuiAutocomplete-option[aria-selected="true"] {
+    background-color: #ffffff !important;
 }
+
+.MuiAutocomplete-option[data-focus="true"] {
+    background-color: #d4e2ff !important;
+}
+
 
 .acMainOption {
     font-weight: 700;

@@ -1,11 +1,18 @@
 import React from "react";
 import styles from "./SortTrips.module.css";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import { changeSortType } from "../../redux/trips/tripsActions";
 
-const SortTrips = ({ tripsInfo, changeSortType, sortType, lang }) => {
+const SortTrips = () => {
+  const tripsInfo = useSelector((state) => state.trips.tripsInfo);
+  const lang = useSelector((state) => state.language);
+  const sortType = useSelector((state) => state.trips.sortType);
+
+  const dispatch = useDispatch();
+  const setSortType = (val) => dispatch(changeSortType(val));
+
   const locale = lang === "UA" ? "UK" : lang;
 
   const sortTimeInWay = () => {
@@ -38,7 +45,7 @@ const SortTrips = ({ tripsInfo, changeSortType, sortType, lang }) => {
     if (target.value === "arrival") sortTime("arrivalDate");
     if (target.value === "timeInWay") sortTimeInWay();
     if (target.value === "price") sortPrice();
-    changeSortType(target.value);
+    setSortType(target.value);
   };
   const chLang = (name) => {
     let price, arrival, departure, time;
@@ -104,13 +111,5 @@ const SortTrips = ({ tripsInfo, changeSortType, sortType, lang }) => {
     </IntlProvider>
   );
 };
-const mapStateToProps = (state) => ({
-  tripsInfo: state.trips.tripsInfo,
-  lang: state.language,
-  sortType: state.trips.sortType,
-});
-const mapDispatchToProps = (dispatch) => ({
-  changeSortType: (val) => dispatch(changeSortType(val)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SortTrips);
+export default SortTrips;

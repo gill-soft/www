@@ -83,14 +83,21 @@ const StyledTextField = styled(TextField)`
     margin: 0;
   }
 `;
-const StyledAutocomplete = styled(Autocomplete)`
-  .MuiFormControl-marginNormal {
-    margin: 0;
-  }
-  .MuiAutocomplete-option[data-focus="true"] {
-    background: "blue";
-  }
-`;
+// const StyledAutocomplete = styled(Autocomplete)`
+//   /* .MuiFormControl-marginNormal {
+//     margin: 0;
+//   }
+//   .MuiAutocomplete-option {
+//     /* white-space: wrap; */
+//     font-size: 12px;
+//     padding: 0;
+//     margin: 0;
+//     line-height: 1;
+// }
+//   .MuiAutocomplete-option[data-focus="true"] {
+//     background-color: "blue" !important;
+//   } */
+// `;
 
 const AutoComplete3 = () => {
   const lang = useSelector((state) => state.language);
@@ -130,7 +137,7 @@ const AutoComplete3 = () => {
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.inputBox}>
-        <StyledAutocomplete
+        <Autocomplete
           id="from"
           options={options}
           autoHighlight
@@ -165,6 +172,7 @@ const AutoComplete3 = () => {
                 changeIsOpenFrom(true);
                 changeIsOpenTo(false);
               }}
+
             />
           )}
         />
@@ -172,7 +180,7 @@ const AutoComplete3 = () => {
 
       <Arrow className={styles.arrow} onClick={handleChange} />
       <div className={styles.inputBox}>
-        <StyledAutocomplete
+        <Autocomplete
           id="to"
           options={options}
           autoHighlight

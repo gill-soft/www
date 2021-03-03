@@ -145,10 +145,16 @@ class TripsPage extends Component {
 
   // ==== управление изменением даты на следующюю/предыдущую ==== //
   changeDate = ({ target }) => {
-    const { startLoader, history, location } = this.props;
+    const {
+      startLoader,
+      history,
+      location,
+      changeInputDate,
+      setTime,
+      getTripsInfo,
+    } = this.props;
     const parsed = queryString.parse(location.search);
 
-    startLoader();
     const newDay =
       target.name === "prev"
         ? format(
@@ -159,8 +165,10 @@ class TripsPage extends Component {
             new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
             "yyyy-MM-dd"
           );
-    this.props.changeInputDate(new Date(newDay));
-    this.props.setTime(new Date().getTime());
+    startLoader();
+    changeInputDate(new Date(newDay));
+    setTime(new Date().getTime());
+    getTripsInfo({});
     history.push(
       `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=${parsed.passengers}`
     );
@@ -181,6 +189,7 @@ class TripsPage extends Component {
     const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
     const locale = lang === "UA" ? "UK" : lang;
+    console.log(this.state);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className="bgnd">
@@ -217,17 +226,18 @@ class TripsPage extends Component {
                   </button>
                 </div>
                 <SortTrips />
-                {tripsInfo.map((el, idx) => (
-                  <TripBox
-                    key={idx}
-                    trip={el[`${Object.keys(el)}`]}
-                    tripKey={Object.keys(el)}
-                    from={getLocality(parsed.from, stops, lang)}
-                    to={getLocality(parsed.to, stops, lang)}
-                    location={this.props.location}
-                  />
-                ))}
-                <pre>{JSON.stringify(trips, null, 4)}</pre>
+                {Object.keys(tripsInfo).length > 0 &&
+                  tripsInfo.map((el, idx) => (
+                    <TripBox
+                      key={idx}
+                      trip={el[`${Object.keys(el)}`]}
+                      tripKey={Object.keys(el)}
+                      from={getLocality(parsed.from, stops, lang)}
+                      to={getLocality(parsed.to, stops, lang)}
+                      location={this.props.location}
+                    />
+                  ))}
+                {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
               </div>
             )}
           </div>
