@@ -197,7 +197,7 @@ class TripsPage extends Component {
             <div className={styles.formBox}>
               <SearchForm history={history} />
             </div>
-            {isLoading && <Loader />}
+            {/* {isLoading && <Loader />} */}
             {error && <Redirect to="/error" />}
             {this.state.isTrip && <p>{this.state.isTrip}</p>}
             {Object.keys(trips).length > 0 && (

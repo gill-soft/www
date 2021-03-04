@@ -10,6 +10,13 @@ import Loader from "../Loader/Loader";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
 import CryptoJS from "crypto-js";
+import PhoneInput, {
+  formatPhoneNumber,
+  formatPhoneNumberIntl,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+
 // import * as Yup from "yup";
 
 // const schema = Yup.object().shape({
@@ -19,11 +26,13 @@ import CryptoJS from "crypto-js";
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "",
+    email: "w@w.com",
     resp: {},
     isOffer: false,
     isPersonal: false,
     isValidName: true,
+    // isValidPhone: false,
+    isField: true
   };
 
   componentDidMount() {
@@ -32,12 +41,13 @@ class FormForBuy extends Component {
       this.setState((prev) => ({
         values: [
           ...prev.values,
-          { name: "M", phone: "3", id: `${i}`, surname: "surname1", email: "" },
+          { name: "M", surname: "surname1", phone: "", id: `${i}`, email: "" },
         ],
       }));
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    const { resp } = this.state;
     if (prevState.resp !== this.state.resp) {
       // this.props.stopLoader();
       this.state.resp.services.forEach((el) => {
@@ -46,9 +56,11 @@ class FormForBuy extends Component {
           this.props.getError(el.error.message);
           return;
         } else {
-          const id = btoa(CryptoJS.AES.encrypt(this.state.resp.orderId, "KeyVezu").toString())
-          const payeeId = btoa(CryptoJS.AES.encrypt(this.state.resp.additionals.payeeId, "KeyVezu").toString())
-          this.props.history.push(`/ticket/${id}/${payeeId}`);
+          const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVezu").toString());
+          const payeeId = btoa(
+            CryptoJS.AES.encrypt(resp.additionals.payeeId, "KeyVezu").toString()
+          );
+          // this.props.history.push(`/ticket/${id}/${payeeId}`);
         }
       });
     }
@@ -62,6 +74,10 @@ class FormForBuy extends Component {
     // console.log(this.state.isValidName)
     // console.log(schema.isValidSync(values[0]))
     // this.setState({isValidName: schema.isValidSync(values[0])});
+    values.forEach(el=> !el.name ? this.setState({isField: false}) : null )
+
+
+
     const requestBody = {};
     requestBody.lang = this.props.lang;
     requestBody.services = values.map((el, idx) => ({
@@ -73,31 +89,17 @@ class FormForBuy extends Component {
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
     toBookTicket(requestBody)
-    .then(({data}) => this.setState({ resp: data }))
-    .catch((err) => (err) => getError(err.message));
-
-    // toBook(requestBody)
-    //   .then(({ data }) => {
-    //     console.log(data)
-    //     // this.setState({ resp: data })
-    //   })
-    //   .catch((err) => getError(err.message));
+      .then(({ data }) => this.setState({ resp: data }))
+      .catch((err) => getError(err.message));
   };
 
-  handleChange = (idx, { target }) => {
-    target.name === "phone"
-      ? this.setState((prev) =>
-          // eslint-disable-next-line array-callback-return
-          prev.values.map((el) => {
-            if (el.id === idx) el[`${target.name}`] = target.value.replace(/\D/, "");
-          })
-        )
-      : this.setState((prev) =>
-          // eslint-disable-next-line array-callback-return
-          prev.values.map((el) => {
-            if (el.id === idx) el[`${target.name}`] = target.value;
-          })
-        );
+  handleChangeInput = (idx, { target }) => {
+    this.setState((prev) =>
+      // eslint-disable-next-line array-callback-return
+      prev.values.map((el) => {
+        if (el.id === idx) el[`${target.name}`] = target.value;
+      })
+    );
   };
 
   handleChangeEmail = ({ target }) => {
@@ -106,6 +108,14 @@ class FormForBuy extends Component {
       // eslint-disable-next-line array-callback-return
       prev.values.map((el) => {
         el[`${target.name}`] = target.value;
+      })
+    );
+  };
+  handleChangePhone = (val, idx) => {
+    this.setState((prev) =>
+      // eslint-disable-next-line array-callback-return
+      prev.values.map((el) => {
+        if (el.id === idx) el["phone"] = val;
       })
     );
   };
@@ -127,15 +137,15 @@ class FormForBuy extends Component {
     }));
     this.props.changeAmountPassanger(this.props.total - 1);
   };
-  getValueName = (id) => {
-    return this.state.values.find((el) => el.id === id).name;
-  };
-  getValueSurname = (id) => {
-    return this.state.values.find((el) => el.id === id).surname;
-  };
-  getValuePhone = (id) => {
-    return this.state.values.find((el) => el.id === id).phone;
-  };
+  // getValueName = (id) => {
+  //   return this.state.values.find((el) => el.id === id).name;
+  // };
+  // getValueSurname = (id) => {
+  //   return this.state.values.find((el) => el.id === id).surname;
+  // };
+  // getValuePhone = (id) => {
+  //   return this.state.values.find((el) => el.id === id).phone;
+  // };
   openModal = () => {
     this.setState({ isModal: true });
   };
@@ -148,12 +158,10 @@ class FormForBuy extends Component {
     const { values, email, isModal, isPersonal, isOffer } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-
+    console.log(this.state);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.container}>
-          {/* <pre>{JSON.stringify(this.state, null, 4)}</pre> */}
-
           <h3 className={styles.title}>
             <FormattedMessage id="title" />
           </h3>
@@ -170,37 +178,36 @@ class FormForBuy extends Component {
                     </div>
                     <div className={styles.inputBox}>
                       <input
-                        className={`${styles.input} ${this.state.isValidName ? null : styles.red }`}
+                        className={styles.input}
                         name="name"
                         type="text"
-                        value={this.getValueName(el.id)}
-                        onChange={(e) => this.handleChange(el.id, e)}
+                        // value={this.getValueName(el.id)}
+                        value={this.state.values[idx].name}
+                        onChange={(e) => this.handleChangeInput(el.id, e)}
                         placeholder="name"
                         autoComplete="off"
-                        required={true}
+                        // required={true}
                       />
-
                       <input
                         className={styles.input}
                         name="surname"
                         type="text"
-                        value={this.getValueSurname(el.id)}
-                        onChange={(e) => this.handleChange(el.id, e)}
+                        // value={this.getValueSurname(el.id)}
+                        value={this.state.values[idx].surname}
+                        onChange={(e) => this.handleChangeInput(el.id, e)}
                         placeholder="surname"
                         autoComplete="off"
-                        required={true}
+                        // required={true}
                       />
-                      <input
-                        className={styles.input}
-                        name="phone"
-                        type="tel"
-                        value={this.getValuePhone(el.id)}
-                        onChange={(e) => this.handleChange(el.id, e)}
-                        placeholder="phone**"
-                        autoComplete="nope"
-                        required={true}
+                      <PhoneInput
+                        className={styles.inputPhone}
+                        international
+                        countryCallingCodeEditable={false}
+                        defaultCountry="UA"
+                        value={this.state.values[idx].phone}
+                        onChange={(r) => this.handleChangePhone(r, el.id)}
                       />
-                      <p className={styles.price}>{this.props.price} грн</p>
+                      {/* <p className={styles.price}>{this.props.price} грн</p> */}
                       <button
                         className={styles.buttonRemove}
                         type="button"
@@ -276,7 +283,7 @@ class FormForBuy extends Component {
             <FormattedMessage id="numTel" />
           </p>
           {isModal && <Modal onClose={this.closeModal} component={<PublickOffer />} />}
-          <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
+          {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
         </div>
       </IntlProvider>
     );

@@ -80,6 +80,10 @@
     outline: none;
     margin-bottom: 8px;
 }
+.errorPhone {
+    border: red
+}
+
 
 .price {
     color: var(--color-secondary);
