@@ -1,34 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import queryString from "query-string";
-import { format } from "date-fns";
 import styles from "./TripsPage.module.css";
-import {
-  getLocality,
-  getTodayDate,
-  getTomorrow,
-  getYesterday,
-} from "../services/getInfo";
+import { getLocality } from "../services/getInfo";
 import { getInitialization, searchTrips } from "../services/api";
-import Loader from "../components/Loader/Loader";
 import {
   changeSortType,
   fetchTripsSuccess,
   getTripsInfo,
 } from "../redux/trips/tripsActions";
-import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
+import { stopLoader, getError } from "../redux/global/globalActions";
 import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
 import SortTrips from "../components/TripsContainer/SortTrips";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TripsPageMessanges";
-import { inputValueDate, setTime } from "../redux/searchForm/searchFormAction";
 import { Redirect } from "react-router-dom";
 import Scelet from "../components/Skelet/Skelet";
+import DateCarousel from "../components/TripsContainer/DateCarousel";
 
 class TripsPage extends Component {
   state = {
-    value: "price",
     isTrip: false,
   };
   componentDidMount() {
@@ -45,11 +37,12 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { trips, getTripsInfo, time, location, changeSortType, sortType } = this.props;
+    const { trips, getTripsInfo, time, location, changeSortType } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time) {
+      console.log('2')
       this.setState({ isTrip: false });
       // ==== формируем обьект для запроса ====
       const requestData = {
@@ -76,13 +69,11 @@ class TripsPage extends Component {
         );
       }
     }
-    if (prevProps.sortType !== sortType) {
-      this.setState({ value: sortType });
-    }
   }
 
   //  ==== инициализация поиска ==== //
   startSerch = (time, requestData) => {
+    console.log("object")
     getInitialization(requestData, this.props.lang)
       .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
       .catch((err) => {
@@ -144,61 +135,18 @@ class TripsPage extends Component {
     }
   };
 
-  // ==== управление изменением даты на следующюю/предыдущую ==== //
-  changeDate = ({ target }) => {
-    const {
-      startLoader,
-      history,
-      location,
-      changeInputDate,
-      setTime,
-      getTripsInfo,
-    } = this.props;
-    const parsed = queryString.parse(location.search);
-
-    const newDay =
-      target.name === "prev"
-        ? format(
-            new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000),
-            "yyyy-MM-dd"
-          )
-        : format(
-            new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
-            "yyyy-MM-dd"
-          );
-    startLoader();
-    changeInputDate(new Date(newDay));
-    setTime(new Date().getTime());
-    getTripsInfo({});
-    history.push(
-      `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=${parsed.passengers}`
-    );
-  };
-  // ==== делаем кпопку предыдущей даты неактивной при сегодняшней дате ==== //
-  getDisabled = ({ date }) => {
-    const yyyy = new Date().getFullYear();
-    const mm = new Date().getMonth();
-    const dd = new Date().getDate();
-    if (new Date(date).getTime() - 7200000 <= new Date(yyyy, mm, dd).getTime()) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   render() {
-    const { error, isLoading, tripsInfo, trips, history, stops, lang } = this.props;
+    const { error, isLoading, tripsInfo, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(this.state);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
+        {error && <Redirect to="/error" />}
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>
               <SearchForm history={history} />
             </div>
-            {error && <Redirect to="/error" />}
             {this.state.isTrip ? (
               <p>{this.state.isTrip}</p>
             ) : (
@@ -208,26 +156,9 @@ class TripsPage extends Component {
                   <br /> {getLocality(parsed.from, stops, lang)} -{" "}
                   {getLocality(parsed.to, stops, lang)}
                 </h2>
-                <div className={styles.dateBox}>
-                  <button
-                    className={styles.dateButton}
-                    name="prev"
-                    onClick={this.changeDate}
-                    disabled={this.getDisabled(parsed)}
-                  >
-                    {getYesterday(parsed, lang)}
-                  </button>
-                  <p className={styles.today}>{getTodayDate(parsed, lang)}</p>
-                  <button
-                    className={styles.dateButton}
-                    name="next"
-                    onClick={this.changeDate}
-                  >
-                    {getTomorrow(parsed, lang)}
-                  </button>
-                </div>
+                <DateCarousel parsed={parsed} history={history} />
                 <SortTrips />
-                { isLoading && <Scelet />}
+                {isLoading && <Scelet />}
                 {Object.keys(tripsInfo).length > 0 &&
                   tripsInfo.map((el, idx) => (
                     <TripBox
@@ -239,7 +170,6 @@ class TripsPage extends Component {
                       location={this.props.location}
                     />
                   ))}
-                {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
               </div>
             )}
           </div>
@@ -263,11 +193,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTripsInfo: (trips) => dispatch(getTripsInfo(trips)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
-  startLoader: () => dispatch(startLoader()),
   stopLoader: () => dispatch(stopLoader()),
   getError: (error) => dispatch(getError(error)),
-  changeInputDate: (date) => dispatch(inputValueDate(date)),
-  setTime: (time) => dispatch(setTime(time)),
   changeSortType: (val) => dispatch(changeSortType(val)),
 });
 

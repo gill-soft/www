@@ -5,8 +5,8 @@ import styles from "./Skelet.module.css";
 const Scelet = () => {
   return (
     <>
-      {Array.from(new Array(5)).map((el) => (
-        <div className={styles.box}>
+      {Array.from(new Array(5)).map((el, idx) => (
+        <div key={idx} className={styles.box}>
           <div className={styles.toFrom}>
             <div className={styles.departure}>
               <Skeleton variant="rect" width={70} height={30} />
