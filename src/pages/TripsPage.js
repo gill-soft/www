@@ -24,6 +24,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TripsPageMessanges";
 import { inputValueDate, setTime } from "../redux/searchForm/searchFormAction";
 import { Redirect } from "react-router-dom";
+import Scelet from "../components/Skelet/Skelet";
 
 class TripsPage extends Component {
   state = {
@@ -121,7 +122,7 @@ class TripsPage extends Component {
           })
           .catch(({ err }) => this.props.getError(err));
       }, 300);
-    } else if (deltaTime > 3000 && deltaTime < 5000) {
+    } else if (deltaTime > 3000 && deltaTime < 10000) {
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {
@@ -197,16 +198,16 @@ class TripsPage extends Component {
             <div className={styles.formBox}>
               <SearchForm history={history} />
             </div>
-            {/* {isLoading && <Loader />} */}
             {error && <Redirect to="/error" />}
-            {this.state.isTrip && <p>{this.state.isTrip}</p>}
-            {Object.keys(trips).length > 0 && (
+            {this.state.isTrip ? (
+              <p>{this.state.isTrip}</p>
+            ) : (
               <div className={styles.tripsBox}>
-                <h3 className={styles.title}>
+                <h2 className={styles.title}>
                   <FormattedMessage id="title" />
                   <br /> {getLocality(parsed.from, stops, lang)} -{" "}
                   {getLocality(parsed.to, stops, lang)}
-                </h3>
+                </h2>
                 <div className={styles.dateBox}>
                   <button
                     className={styles.dateButton}
@@ -226,6 +227,7 @@ class TripsPage extends Component {
                   </button>
                 </div>
                 <SortTrips />
+                { isLoading && <Scelet />}
                 {Object.keys(tripsInfo).length > 0 &&
                   tripsInfo.map((el, idx) => (
                     <TripBox
