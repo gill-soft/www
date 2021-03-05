@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../pages/TripsPage.module.css";
+import styles from "./DateCarousel.module.css"
 import { getTodayDate, getTomorrow, getYesterday } from "../../services/getInfo";
 import { format } from "date-fns";
 import { startLoader } from "../../redux/global/globalActions";

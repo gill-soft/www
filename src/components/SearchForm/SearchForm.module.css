@@ -27,7 +27,7 @@
 
 .searchBtn {
     height: 58px;
-    width: 86%;
+    width: 100%;
     color: var(--color-secondary) !important;
     background-color: var(--color-third) !important
 }

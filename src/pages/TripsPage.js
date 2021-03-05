@@ -16,8 +16,9 @@ import SortTrips from "../components/TripsContainer/SortTrips";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TripsPageMessanges";
 import { Redirect } from "react-router-dom";
-import Scelet from "../components/Skelet/Skelet";
+import Scelet from "../components/TripsContainer/Skelet";
 import DateCarousel from "../components/TripsContainer/DateCarousel";
+import NoTrips from "../components/TripsContainer/NoTrips";
 
 class TripsPage extends Component {
   state = {
@@ -42,7 +43,6 @@ class TripsPage extends Component {
 
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time) {
-      console.log('2')
       this.setState({ isTrip: false });
       // ==== формируем обьект для запроса ====
       const requestData = {
@@ -73,7 +73,6 @@ class TripsPage extends Component {
 
   //  ==== инициализация поиска ==== //
   startSerch = (time, requestData) => {
-    console.log("object")
     getInitialization(requestData, this.props.lang)
       .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
       .catch((err) => {
@@ -131,7 +130,7 @@ class TripsPage extends Component {
       }, 2000);
     } else {
       this.props.stopLoader();
-      this.setState({ isTrip: "По вашему запросу поездок нет. Попробуйте другую дату" });
+      this.setState({ isTrip: true });
     }
   };
 
@@ -148,7 +147,7 @@ class TripsPage extends Component {
               <SearchForm history={history} />
             </div>
             {this.state.isTrip ? (
-              <p>{this.state.isTrip}</p>
+              <NoTrips />
             ) : (
               <div className={styles.tripsBox}>
                 <h2 className={styles.title}>

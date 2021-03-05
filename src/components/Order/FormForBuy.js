@@ -17,11 +17,15 @@ import PhoneInput, {
 } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
-// import * as Yup from "yup";
+import * as Yup from "yup";
 
-// const schema = Yup.object().shape({
-//   name: Yup.string().min(2, "too short").required("Required"), // these constraints take precedence
-// });
+const schema = Yup.array().of(
+  Yup.object().shape({
+  name: Yup.string().min(2, "malo")
+  
+})
+);
+// const schema = Yup.string().min(12)
 
 class FormForBuy extends Component {
   state = {
@@ -32,7 +36,7 @@ class FormForBuy extends Component {
     isPersonal: false,
     isValidName: true,
     // isValidPhone: false,
-    isField: true
+    isField: true,
   };
 
   componentDidMount() {
@@ -74,9 +78,10 @@ class FormForBuy extends Component {
     // console.log(this.state.isValidName)
     // console.log(schema.isValidSync(values[0]))
     // this.setState({isValidName: schema.isValidSync(values[0])});
-    values.forEach(el=> !el.name ? this.setState({isField: false}) : null )
-
-
+    console.log(schema.isValidSync(values));
+    // values.forEach((el) =>
+    //   el.name.length <= 1 ? null : console.log("object")
+    // );
 
     const requestBody = {};
     requestBody.lang = this.props.lang;
@@ -88,9 +93,10 @@ class FormForBuy extends Component {
     }));
     requestBody.customers = { ...values };
     requestBody.currency = "UAH";
-    toBookTicket(requestBody)
-      .then(({ data }) => this.setState({ resp: data }))
-      .catch((err) => getError(err.message));
+    // toBookTicket(requestBody)
+    //   .then(({ data }) => this.setState({ resp: data }))
+    //   .catch((err) => getError(err.message));
+    // .finally(stopLoader add....)
   };
 
   handleChangeInput = (idx, { target }) => {
@@ -125,7 +131,7 @@ class FormForBuy extends Component {
     this.setState((prev) => ({
       values: [
         ...prev.values,
-        { name: "", phone: "", id: `${id}`, surname: "", email: this.state.email },
+        { name: "", surname: "", phone: "", id: `${id}`, email: this.state.email },
       ],
     }));
     this.props.changeAmountPassanger(this.props.total + 1);
@@ -158,7 +164,7 @@ class FormForBuy extends Component {
     const { values, email, isModal, isPersonal, isOffer } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.container}>
@@ -283,7 +289,7 @@ class FormForBuy extends Component {
             <FormattedMessage id="numTel" />
           </p>
           {isModal && <Modal onClose={this.closeModal} component={<PublickOffer />} />}
-          {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
+          <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
         </div>
       </IntlProvider>
     );
