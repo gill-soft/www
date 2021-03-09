@@ -4,14 +4,14 @@ import styles from "./FormForBuy.module.css";
 import { ReactComponent as Person } from "../../images/person-24px.svg";
 import { toBookTicket } from "../../services/api";
 import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
-import PublickOffer from "../PublickOffer/PublickOffer";
-import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
 import CryptoJS from "crypto-js";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import Offerta from "../../assets/Oferta_1.pdf";
+import Pk from "../../assets/pk_.pdf";
 
 class FormForBuy extends Component {
   state = {
@@ -19,10 +19,10 @@ class FormForBuy extends Component {
     email: "w@w.com",
     resp: {},
     isOffer: false,
-    isPersonal: false,
-    isPhone: null,
+    isValidPhone: null,
     isValidName: null,
     isValidSurname: null,
+    goSearch: false,
   };
 
   componentDidMount() {
@@ -37,11 +37,18 @@ class FormForBuy extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    const { resp, isPhone, values } = this.state;
+    const {
+      resp,
+      isValidPhone,
+      values,
+      goSearch,
+      isValidName,
+      isValidSurname,
+    } = this.state;
     const { tripKey, priceId } = this.props;
 
-    if (prevState.isPhone !== isPhone) {
-      if (isPhone === null) {
+    if (prevState.goSearch !== goSearch) {
+      if (isValidPhone === null && isValidName === null && isValidSurname === null) {
         const requestBody = {};
         requestBody.lang = this.props.lang;
         requestBody.services = values.map((el, idx) => ({
@@ -83,20 +90,21 @@ class FormForBuy extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // this.props.startLoader();
-    const { values } = this.state;
-    this.setState({ isValidName: null, isValidSurname: null, isPhone: null });
+    const { values, goSearch } = this.state;
+    this.setState({ isValidName: null, isValidSurname: null, isValidPhone: null });
 
     values.forEach((el, idx) => {
       if (!el.phone || el.phone.length <= 11) {
-        this.setState({ isPhone: idx });
+        this.setState({ isValidPhone: idx });
       }
-      if (!el.name || el.name.length < 2) {
+      if (!el.name || el.name.length <= 2) {
         this.setState({ isValidName: idx });
       }
-      if (!el.surname || el.surname.length < 2) {
+      if (!el.surname || el.surname.length <= 2) {
         this.setState({ isValidSurname: idx });
       }
     });
+    this.setState({ goSearch: !goSearch });
   };
 
   handleChangeInput = (idx, { target }) => {
@@ -144,22 +152,12 @@ class FormForBuy extends Component {
     this.props.changeAmountPassanger(this.props.total - 1);
   };
 
-  openModal = () => {
-    this.setState({ isModal: true });
-  };
-
-  closeModal = () => {
-    this.setState({ isModal: false });
-  };
-
   render() {
     const {
       values,
       email,
-      isModal,
-      isPersonal,
       isOffer,
-      isPhone,
+      isValidPhone,
       isValidName,
       isValidSurname,
     } = this.state;
@@ -210,7 +208,7 @@ class FormForBuy extends Component {
                       />
                       <PhoneInput
                         className={`${styles.inputPhone} ${
-                          isPhone === idx ? styles.red : null
+                          isValidPhone === idx ? styles.red : null
                         }`}
                         international
                         countryCallingCodeEditable={false}
@@ -258,31 +256,22 @@ class FormForBuy extends Component {
                 name="publicOffer"
                 type="checkbox"
                 onChange={() => this.setState({ isOffer: !this.state.isOffer })}
-              />{" "}
+              />
               <p>
                 <FormattedMessage id="offer" />
-                <span onClick={this.openModal}>
+                <a href={Offerta} target="_blanc">
                   <FormattedMessage id="offerSpan" />
-                </span>
-              </p>
-            </div>
-            <div className={styles.publicOfferBox}>
-              <input
-                name="personalData"
-                type="checkbox"
-                onChange={() => this.setState({ isPersonal: !this.state.isPersonal })}
-              />{" "}
-              <p>
+                </a>
                 <FormattedMessage id="myData" />
-                <span onClick={this.openModal}>
+                <a href={Pk} target="_blanc">
                   <FormattedMessage id="myDataSpan" />
-                </span>
+                </a>
               </p>
             </div>
             <button
               className={styles.buttonBuy}
               type="submit"
-              disabled={isOffer || isPersonal}
+              disabled={isOffer}
             >
               {isLoading ? <Loader /> : <FormattedMessage id="buy" />}
             </button>
@@ -294,8 +283,7 @@ class FormForBuy extends Component {
           <p className={styles.text}>
             <FormattedMessage id="numTel" />
           </p>
-          {isModal && <Modal onClose={this.closeModal} component={<PublickOffer />} />}
-          <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
+          {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
         </div>
       </IntlProvider>
     );

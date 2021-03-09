@@ -11,7 +11,7 @@
 a {
     color: #ffffff;
     text-decoration: none;
-    margin-right: 15px;
+    /* margin-right: 15px; */
 }
 
 li {
@@ -84,11 +84,6 @@ div>.react-datepicker__day-name {
 
 }
 
-.MuiButton-contained {
-    /* background-color: var(--color-third) !important */
-}
-
-
 @media (min-width: 576px) {
     .container {
         max-width: 540px;
@@ -121,5 +116,5 @@ div>.react-datepicker__day-name {
 
 .PhoneInputInput {
     border: none;
-    font-size: 14px;    
+    font-size: 14px;
 }
