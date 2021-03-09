@@ -9,7 +9,7 @@ import {
   fetchTripsSuccess,
   getTripsInfo,
 } from "../redux/trips/tripsActions";
-import { stopLoader, getError } from "../redux/global/globalActions";
+import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
 import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
 import SortTrips from "../components/TripsContainer/SortTrips";
@@ -25,6 +25,7 @@ class TripsPage extends Component {
     isTrip: false,
   };
   componentDidMount() {
+    this.props.startLoader()
     const parsed = queryString.parse(this.props.location.search);
     // ==== формируем обьект для запроса ====
     const requestData = {
@@ -195,6 +196,7 @@ const mapDispatchToProps = (dispatch) => ({
   stopLoader: () => dispatch(stopLoader()),
   getError: (error) => dispatch(getError(error)),
   changeSortType: (val) => dispatch(changeSortType(val)),
+  startLoader: () => dispatch(startLoader())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

@@ -117,14 +117,9 @@ div>.react-datepicker__day-name {
     }
 }
 
+
+
 .PhoneInputInput {
-    width: 160px;
-    background: #fff;
-    border: 1px solid var(--color-secondary);
-    border-radius: 5px;
-    padding: 8px 0 8px 10px;
-    font-size: 16px;
-    color: #636363;
-    outline: none;
-    margin-bottom: 8px;
+    border: none;
+    font-size: 14px;    
 }

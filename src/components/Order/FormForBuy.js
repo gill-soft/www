@@ -10,22 +10,8 @@ import Loader from "../Loader/Loader";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
 import CryptoJS from "crypto-js";
-import PhoneInput, {
-  formatPhoneNumber,
-  formatPhoneNumberIntl,
-  isValidPhoneNumber,
-} from "react-phone-number-input";
+import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-
-import * as Yup from "yup";
-
-const schema = Yup.array().of(
-  Yup.object().shape({
-  name: Yup.string().min(2, "malo")
-  
-})
-);
-// const schema = Yup.string().min(12)
 
 class FormForBuy extends Component {
   state = {
@@ -34,9 +20,9 @@ class FormForBuy extends Component {
     resp: {},
     isOffer: false,
     isPersonal: false,
-    isValidName: true,
-    // isValidPhone: false,
-    isField: true,
+    isPhone: null,
+    isValidName: null,
+    isValidSurname: null,
   };
 
   componentDidMount() {
@@ -51,7 +37,31 @@ class FormForBuy extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    const { resp } = this.state;
+    const { resp, isPhone, values } = this.state;
+    const { tripKey, priceId } = this.props;
+
+    if (prevState.isPhone !== isPhone) {
+      if (isPhone === null) {
+        const requestBody = {};
+        requestBody.lang = this.props.lang;
+        requestBody.services = values.map((el, idx) => ({
+          customer: { id: idx },
+          segment: { id: tripKey },
+          seat: { id: `0:${idx + 1}` },
+          price: { tariff: { id: priceId } },
+        }));
+        requestBody.customers = { ...values };
+        requestBody.currency = "UAH";
+        console.log("ZAPROS");
+        // toBookTicket(requestBody)
+        //   .then(({ data }) => this.setState({ resp: data }))
+        //   .catch((err) => getError(err.message));
+        // // .finally(stopLoader add....)
+      } else {
+        return;
+      }
+    }
+
     if (prevState.resp !== this.state.resp) {
       // this.props.stopLoader();
       this.state.resp.services.forEach((el) => {
@@ -64,7 +74,7 @@ class FormForBuy extends Component {
           const payeeId = btoa(
             CryptoJS.AES.encrypt(resp.additionals.payeeId, "KeyVezu").toString()
           );
-          // this.props.history.push(`/ticket/${id}/${payeeId}`);
+          this.props.history.push(`/ticket/${id}/${payeeId}`);
         }
       });
     }
@@ -73,30 +83,20 @@ class FormForBuy extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // this.props.startLoader();
-    const { tripKey, priceId, getError } = this.props;
     const { values } = this.state;
-    // console.log(this.state.isValidName)
-    // console.log(schema.isValidSync(values[0]))
-    // this.setState({isValidName: schema.isValidSync(values[0])});
-    console.log(schema.isValidSync(values));
-    // values.forEach((el) =>
-    //   el.name.length <= 1 ? null : console.log("object")
-    // );
+    this.setState({ isValidName: null, isValidSurname: null, isPhone: null });
 
-    const requestBody = {};
-    requestBody.lang = this.props.lang;
-    requestBody.services = values.map((el, idx) => ({
-      customer: { id: idx },
-      segment: { id: tripKey },
-      seat: { id: `0:${idx + 1}` },
-      price: { tariff: { id: priceId } },
-    }));
-    requestBody.customers = { ...values };
-    requestBody.currency = "UAH";
-    // toBookTicket(requestBody)
-    //   .then(({ data }) => this.setState({ resp: data }))
-    //   .catch((err) => getError(err.message));
-    // .finally(stopLoader add....)
+    values.forEach((el, idx) => {
+      if (!el.phone || el.phone.length <= 11) {
+        this.setState({ isPhone: idx });
+      }
+      if (!el.name || el.name.length < 2) {
+        this.setState({ isValidName: idx });
+      }
+      if (!el.surname || el.surname.length < 2) {
+        this.setState({ isValidSurname: idx });
+      }
+    });
   };
 
   handleChangeInput = (idx, { target }) => {
@@ -143,15 +143,7 @@ class FormForBuy extends Component {
     }));
     this.props.changeAmountPassanger(this.props.total - 1);
   };
-  // getValueName = (id) => {
-  //   return this.state.values.find((el) => el.id === id).name;
-  // };
-  // getValueSurname = (id) => {
-  //   return this.state.values.find((el) => el.id === id).surname;
-  // };
-  // getValuePhone = (id) => {
-  //   return this.state.values.find((el) => el.id === id).phone;
-  // };
+
   openModal = () => {
     this.setState({ isModal: true });
   };
@@ -161,10 +153,19 @@ class FormForBuy extends Component {
   };
 
   render() {
-    const { values, email, isModal, isPersonal, isOffer } = this.state;
+    const {
+      values,
+      email,
+      isModal,
+      isPersonal,
+      isOffer,
+      isPhone,
+      isValidName,
+      isValidSurname,
+    } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    // console.log(this.state);
+    console.log(this.state);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.container}>
@@ -184,35 +185,40 @@ class FormForBuy extends Component {
                     </div>
                     <div className={styles.inputBox}>
                       <input
-                        className={styles.input}
+                        className={`${styles.input} ${
+                          isValidName === idx ? styles.red : null
+                        }`}
                         name="name"
                         type="text"
-                        // value={this.getValueName(el.id)}
                         value={this.state.values[idx].name}
                         onChange={(e) => this.handleChangeInput(el.id, e)}
                         placeholder="name"
                         autoComplete="off"
-                        // required={true}
+                        required={true}
                       />
                       <input
-                        className={styles.input}
+                        className={`${styles.input} ${
+                          isValidSurname === idx ? styles.red : null
+                        }`}
                         name="surname"
                         type="text"
-                        // value={this.getValueSurname(el.id)}
                         value={this.state.values[idx].surname}
                         onChange={(e) => this.handleChangeInput(el.id, e)}
                         placeholder="surname"
                         autoComplete="off"
-                        // required={true}
+                        required={true}
                       />
                       <PhoneInput
-                        className={styles.inputPhone}
+                        className={`${styles.inputPhone} ${
+                          isPhone === idx ? styles.red : null
+                        }`}
                         international
                         countryCallingCodeEditable={false}
                         defaultCountry="UA"
                         value={this.state.values[idx].phone}
-                        onChange={(r) => this.handleChangePhone(r, el.id)}
+                        onChange={(val) => this.handleChangePhone(val, el.id)}
                       />
+
                       {/* <p className={styles.price}>{this.props.price} грн</p> */}
                       <button
                         className={styles.buttonRemove}
