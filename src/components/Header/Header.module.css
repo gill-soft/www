@@ -26,6 +26,11 @@
 .tel {
     display: none;
 }
+.telS, .telS > a {
+    margin-bottom: 12px;
+    color: var(--color-secondary);
+    font-size: 14px;
+}
 
 .btnMenu {
     border: none;
@@ -33,13 +38,30 @@
     outline: none;
     cursor: pointer;
 }
+.backdrop {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: rgba(0, 0, 0, 50%); */
+    top: 0;
+    right: 0;
+}
 
 .menuBox {
-    width: 250px;
-    height: 250px;
-    background-color: aqua;
+    width: 80%;
+    /* height: 250px; */
+    padding: 30px 10px;
+    background-color: rgb(83, 83, 83);
     position: absolute;
-    top: 0px
+    top: 0px;
+    right: 0px;
+}
+.btn {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 @media (min-width: 576px) {

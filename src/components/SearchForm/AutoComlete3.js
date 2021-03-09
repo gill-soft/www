@@ -83,21 +83,6 @@ const StyledTextField = styled(TextField)`
     margin: 0;
   }
 `;
-// const StyledAutocomplete = styled(Autocomplete)`
-//   /* .MuiFormControl-marginNormal {
-//     margin: 0;
-//   }
-//   .MuiAutocomplete-option {
-//     /* white-space: wrap; */
-//     font-size: 12px;
-//     padding: 0;
-//     margin: 0;
-//     line-height: 1;
-// }
-//   .MuiAutocomplete-option[data-focus="true"] {
-//     background-color: "blue" !important;
-//   } */
-// `;
 
 const AutoComplete3 = () => {
   const lang = useSelector((state) => state.language);
@@ -133,7 +118,6 @@ const AutoComplete3 = () => {
       setOptions(INITIAL_STATE);
     }
   };
-
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.inputBox}>
@@ -148,6 +132,7 @@ const AutoComplete3 = () => {
           getOptionSelected={(o, v) => o !== v}
           onChange={(event, value) => {
             setFrom(value);
+            setOptions(INITIAL_STATE);
             changeIsOpenFrom(false);
             changeIsOpenTo(true);
           }}
@@ -172,7 +157,6 @@ const AutoComplete3 = () => {
                 changeIsOpenFrom(true);
                 changeIsOpenTo(false);
               }}
-
             />
           )}
         />
@@ -205,6 +189,7 @@ const AutoComplete3 = () => {
               {...params}
               label={<FormattedMessage id="to" />}
               variant="outlined"
+              autoFocus={isOpenTo}
               onMouseDown={({ target }) => {
                 getOtpions(target);
                 changeIsOpenTo(true);
@@ -213,9 +198,9 @@ const AutoComplete3 = () => {
               }}
               onChange={({ target }) => {
                 getOtpions(target);
-                changeIsOpenTo(true);
-                changeIsOpenFrom(false);
-                changeIsOpenDate(false);
+                // changeIsOpenTo(true);
+                // changeIsOpenFrom(false);
+                // changeIsOpenDate(false);
               }}
             />
           )}
