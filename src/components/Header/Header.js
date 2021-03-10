@@ -35,8 +35,13 @@ const Header = () => {
             >
               <Menu />
             </button>
-            {/* {isMenu && ( */}
-            <CSSTransition in={isMenu} timeout={300} classNames="alert" unmountOnExit nodeRef={backdropRef}>
+            <CSSTransition
+              in={isMenu}
+              timeout={300}
+              classNames="alert"
+              unmountOnExit
+              nodeRef={backdropRef}
+            >
               <div
                 className={styles.backdrop}
                 ref={backdropRef}
@@ -58,7 +63,6 @@ const Header = () => {
                 </div>
               </div>
             </CSSTransition>
-            {/* )} */}
           </>
         ) : (
           <>

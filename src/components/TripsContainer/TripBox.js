@@ -121,15 +121,10 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
             <h5>{trip.route.name.EN}</h5>
             <div className={styles.additionalInfo}>
               <div className={styles.depArr}>
-                <p className={styles.departure}>
-                  <FormattedMessage id="departure" />
-                </p>
-                <p className={styles.arrival}>
-                  <FormattedMessage id="arrival" />
-                </p>
-              </div>
-              <div>
                 <div className={styles.start}>
+                  <p className={styles.timeStop}>
+                    {getTime("departureDate", trip, lang)}
+                  </p>
                   <p className={`${styles.locality} ${styles.addLocality} `}>
                     {getLocality(parsed.from, stops, lang)}
                   </p>
@@ -151,6 +146,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
                   ))}{" "}
                 </div>
                 <div className={`${styles.start} ${styles.finish}`}>
+                  <p className={styles.timeStop}> {getTime("arrivalDate", trip, lang)}</p>
                   <p className={`${styles.locality} ${styles.addLocality} `}>
                     {getLocality(parsed.to, stops, lang)}
                   </p>

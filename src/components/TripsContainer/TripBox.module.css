@@ -106,14 +106,17 @@
 
 .depArr {
     position: relative;
-    width: 120px;
-    border-right: 2px dotted #000000;
-    margin: 8px 20px 18px 0;
+    /* width: 120px; */
+    border-left: 2px dotted #000000;
+    margin: 8px 20px 8px 80px;
+    padding-left: 20px;
 }
 
 .start {
-    margin-bottom: -15px;
-    transform: translate(0px, -10px);
+    position: relative;
+}
+.start:first-child {
+    margin-bottom: 10px;
 }
 
 .start:last-child {
@@ -125,7 +128,7 @@
     position: relative;
 }
 
-.start::before,
+.start::after,
 .stop::before {
     content: '';
     display: block;
@@ -134,7 +137,22 @@
     border: 2px solid #000000;
     border-radius: 50%;
     background-color: #ffffff;
-    transform: translate(-28px, 16px);
+    z-index: 9;
+    position: absolute;
+    top: 0px;
+    left: -28px;
+}
+
+.finish ::before {
+    content: '';
+    display: block;    
+    background-color: #ffffff;
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    top: 10px;
+    left: -31px;
+    padding: 10px;
 }
 
 .timeStop {
@@ -216,7 +234,9 @@ h5 {
         padding-top: 50px;
         order: 0
     }
-    .red, .green {
+
+    .red,
+    .green {
         order: 2
     }
 
@@ -249,6 +269,7 @@ h5 {
         padding-top: 20px;
         margin-bottom: 14px;
     }
+
     .choose {
         margin-bottom: 14px;
     }
