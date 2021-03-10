@@ -60,6 +60,7 @@ class FormForBuy extends Component {
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
         console.log("ZAPROS");
+
         // toBookTicket(requestBody)
         //   .then(({ data }) => this.setState({ resp: data }))
         //   .catch((err) => getError(err.message));
@@ -94,6 +95,7 @@ class FormForBuy extends Component {
     this.setState({ isValidName: null, isValidSurname: null, isValidPhone: null });
 
     values.forEach((el, idx) => {
+      console.log(Date.now())
       if (!el.phone || el.phone.length <= 11) {
         this.setState({ isValidPhone: idx });
       }
@@ -105,6 +107,7 @@ class FormForBuy extends Component {
       }
     });
     this.setState({ goSearch: !goSearch });
+
   };
 
   handleChangeInput = (idx, { target }) => {
