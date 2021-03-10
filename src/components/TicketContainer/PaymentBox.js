@@ -64,45 +64,50 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
           })}
         </p>
       </div>
-      <p>Выберите способ оплаты:</p>
-      <br></br>
       <div className={styles.payment}>
-        <form action="https://www.portmone.com.ua/gateway/" method="post">
-          <input type="hidden" name="payee_id" value={CryptoJS.AES.decrypt(atob(payeeId), "KeyVezu").toString(CryptoJS.enc.Utf8)
-} />
-          <input type="hidden" name="shop_order_number" value={ticket.orderId} />
-          <input type="hidden" name="bill_amount" value={getTotalPrice()} />
-          <input
-            type="hidden"
-            name="description"
-            value={`${getLocality(fromId, stops, lang)} -
+        <div className={styles.flexItem}>
+          <p>сплатити за допомогою:</p>
+          <form action="https://www.portmone.com.ua/gateway/" method="post">
+            <input
+              type="hidden"
+              name="payee_id"
+              value={CryptoJS.AES.decrypt(atob(payeeId), "KeyVezu").toString(
+                CryptoJS.enc.Utf8
+              )}
+            />
+            <input type="hidden" name="shop_order_number" value={ticket.orderId} />
+            <input type="hidden" name="bill_amount" value={getTotalPrice()} />
+            <input
+              type="hidden"
+              name="description"
+              value={`${getLocality(fromId, stops, lang)} -
                      ${getLocality(toId, stops, lang)} ${getDate("departureDate")}`}
-          />
-          <input
-            type="hidden"
-            name="success_url"
-            value={`http://localhost:3000/#/myTicket/${id}`}
-            // value={`https://gill-soft.github.io/www/#/MyTicket/${id}`}
-          />
-          <input
-            type="hidden"
-            name="failure_url"
-            value={`http://localhost:3000/#/ticket/${id}`}
-            // value={`https://gill-soft.github.io/www/#/ticket/${id}`}
-          />
-          <input type="hidden" name="lang" value={locale.toLowerCase()} />
-          <input type="hidden" name="encoding" value="UTF-8" />
-          <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
-          <button className={styles.portmone} type="submit"></button>
-        </form>
-
-        <p className={styles.total}>
-          Сума до сплати:{" "}
-          <span>
+            />
+            <input
+              type="hidden"
+              name="success_url"
+              value={`http://localhost:3000/#/myTicket/${id}`}
+              // value={`https://gill-soft.github.io/www/#/MyTicket/${id}`}
+            />
+            <input
+              type="hidden"
+              name="failure_url"
+              value={`http://localhost:3000/#/ticket/${id}`}
+              // value={`https://gill-soft.github.io/www/#/ticket/${id}`}
+            />
+            <input type="hidden" name="lang" value={locale.toLowerCase()} />
+            <input type="hidden" name="encoding" value="UTF-8" />
+            <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
+            <button className={styles.portmone} type="submit"></button>
+          </form>
+        </div>
+        <div className={styles.flexItem}>
+          <p>Сума до сплати: </p>
+          <p className={styles.total}>
             {getTotalPrice()}
-            <small>uah</small>
-          </span>{" "}
-        </p>
+            <small> грн</small>
+          </p>{" "}
+        </div>
       </div>
       {/* {!!isModal && <Modal component={<GoHome />} isGohome={true} />} */}
     </IntlProvider>

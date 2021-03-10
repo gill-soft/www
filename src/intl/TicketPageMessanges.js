@@ -7,7 +7,7 @@ export const messages = {
       name: "Name",
       surname: "Surname",
       phone: "Phone",
-      endTime: "To place an order, pay for it before:",
+      endTime: "To place an order, pay for it before: ",
     },
     RU: {
       trip: "Маршрут:",
@@ -17,7 +17,7 @@ export const messages = {
       name: "Имя",
       surname: "Фамилия",
       phone: "Телефон",
-      endTime: "Для оформления заказа оплатите его до:",
+      endTime: "Для оформления заказа оплатите его до: ",
     },
     UK: {
       trip: "Маршрут:",
@@ -27,7 +27,7 @@ export const messages = {
       name: "Ім'я",
       surname: "Прізвище",
       phone: "Телефон",
-      endTime: "Для оформлення замовлення оплатіть його до:",
+      endTime: "Для оформлення замовлення оплатіть його до: ",
     },
     PL: {
       trip: "Trasa:",
@@ -37,7 +37,7 @@ export const messages = {
       name: "Nazwa",
       surname: "Nazwisko",
       phone: "Telefon",
-      endTime: "Aby złożyć zamówienie, opłać je wcześniej:",
+      endTime: "Aby złożyć zamówienie, opłać je wcześniej: ",
     },
   };
   

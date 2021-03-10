@@ -53,7 +53,7 @@ const TicketPage = ({ match }) => {
           />
         </div>
       )}
-      <pre>{JSON.stringify(ticket, null, 4)} </pre>
+      {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
     </div>
   );
 };

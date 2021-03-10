@@ -1,0 +1,18 @@
+.aler-enter {
+    transform: scaleY(0);
+}
+
+.aler-enter-active {
+    transform: scaleY(1);
+    transition: transform 300ms ease-out;
+
+}
+
+.aler-exit {
+    transform: scaleY(1);
+}
+
+.aler-exit-active {
+    transform: scaleY(0);
+    transition: transform 300ms ease-out;
+}

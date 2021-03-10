@@ -21,10 +21,13 @@
     font-weight: 700;
     display: inline-block;
 }
+
 .payment {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    padding-bottom: 20px;
 }
+
 .portmone {
     width: 170px;
     padding: 20px 0;
@@ -41,24 +44,54 @@
 .portmone:hover {
     box-shadow: 0 0 2px 1px #a3a3a3;
 }
-.total {
+
+.flexItem {
     text-transform: uppercase;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
 }
-.total span {
-    display: inline-block;
-    width: 200px;
-    background-color: var(--color-third);
+.flexItem:last-child {
+    margin-bottom: 0;
+}
+
+.total {
+    width: 170px;
+    padding: 6px 0;
+    background-color: #ffffff;
+    display: inline;
+    border: none;
+    box-shadow: 0 0 4px 2px #a3a3a3;
+    font-size: 24px;
     color: var(--color-danger);
-    padding: 10px;
-    text-align: center;
     font-weight: 600;
-    letter-spacing: 2.5px;
-    font-size: 22px;
-    border-radius: 2px;
+    text-align: center;
 }
-.total span > small{
-    letter-spacing: normal;}
+.total > small {
+    font-size: 14px;
+}
 
+@media(min-width: 576px){
+.flexItem{
+    font-size: 16px;
+}
 
+}
+@media(min-width: 992px){
+    .flexItem{
+        font-size: 18px;
+    }
+    .payment {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .flexItem {
+        margin-bottom: 0;
+    }
+    .portmone, .total {
+        margin-left: 10px;
+    }
+    }

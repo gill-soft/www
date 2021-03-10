@@ -59,11 +59,10 @@ class FormForBuy extends Component {
         }));
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
-        console.log("ZAPROS");
 
-        // toBookTicket(requestBody)
-        //   .then(({ data }) => this.setState({ resp: data }))
-        //   .catch((err) => getError(err.message));
+        toBookTicket(requestBody)
+          .then(({ data }) => this.setState({ resp: data }))
+          .catch((err) => getError(err.message));
         // // .finally(stopLoader add....)
       } else {
         return;

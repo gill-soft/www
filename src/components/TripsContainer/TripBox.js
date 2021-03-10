@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import queryString from "query-string";
-import styles from "./TripBox.module.css";
 import { Link } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
+import styles from "./TripBox.module.css";
+import "./TripBoxAnimation.css";
 import { fetchOrderInfo } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
@@ -21,6 +23,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   const parsed = queryString.parse(location.search);
+  const backdropRef= useRef(null)
 
   const handleClick = () => {
     const obj = {
@@ -116,8 +119,16 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
             </button>
           ) : null}
         </div>
-        {isOpen && (
-          <>
+        {/* {isOpen && ( */}
+
+        <CSSTransition
+          in={isOpen}
+          timeout={300}
+          classNames="aler"
+          unmountOnExit
+          nodeRef={backdropRef}
+        >          
+          <div ref={backdropRef}>
             <h5>{trip.route.name.EN}</h5>
             <div className={styles.additionalInfo}>
               <div className={styles.depArr}>
@@ -154,8 +165,9 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
                 </div>
               </div>
             </div>
-          </>
-        )}
+          </div>
+        </CSSTransition>
+        {/* )} */}
       </div>
     </IntlProvider>
   );
