@@ -42,14 +42,6 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
       return acc + el.price.amount;
     }, 0);
 
-  // useEffect(() => {
-  //   fetchPayeeId("PORTMONE")
-  //     .then((data) => console.log(data))
-  //     .catch((err) => console.log(err));
-  // }, []);
-  // const getPayeeID = (val) => {
-
-  // };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.warning}>
@@ -92,8 +84,8 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
             <input
               type="hidden"
               name="failure_url"
-              value={`http://localhost:3000/#/ticket/${id}`}
-              // value={`https://gill-soft.github.io/www/#/ticket/${id}`}
+              value={`http://localhost:3000/#/ticket/${id}/${payeeId}`}
+              // value={`https://gill-soft.github.io/www/#/ticket/${id}/${payeeId}`}
             />
             <input type="hidden" name="lang" value={locale.toLowerCase()} />
             <input type="hidden" name="encoding" value="UTF-8" />

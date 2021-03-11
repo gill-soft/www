@@ -12,8 +12,8 @@ const LanguageSelect = () => {
   const onChangeLanguage = (value) => dispatch(changeLanguage(value));
 
   const handleChange = ({ target }) => {
-    changeInputFrom("");
-    changeInputTo("");
+    changeInputFrom({ text: "", description: "" });
+    changeInputTo({ text: "", description: "" });
     onChangeLanguage(target.value);
   };
   return (

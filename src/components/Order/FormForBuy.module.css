@@ -19,15 +19,10 @@
     position: relative;
     border: 1px solid #ffffff;
     border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin-bottom: 20px;
     background: rgba(194, 227, 255, 0.8);
-    padding: 5px;
+    padding: 8px;
 }
-
-
 
 .svgBox {
     padding: 10px;
@@ -36,7 +31,7 @@
     height: 50px;
     width: 50px;
     position: relative;
-    /* margin: 0 20px 0 0; */
+    margin: 0 auto 10px
 }
 
 .svg {
@@ -62,39 +57,32 @@
 }
 
 .inputBox {
-    width: 90%;
-    padding: 10px 0 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
 }
 
-.input {
+.label {
+    padding-left: 4px;
+    font-style: italic;
+    color: #636363;
+}
+
+.input,
+.inputPhone {
     width: 100%;
-    background: #fff;
+    padding: 8px 10px;
+    margin-bottom: 14px;
     border: 1px solid var(--color-secondary);
     border-radius: 5px;
-    padding: 8px 0 8px 10px;
-    font-size: 16px;
     color: #636363;
     outline: none;
-    margin-bottom: 8px;
 }
 
 .inputPhone {
-    width: 100%;
+    padding: 9px 10px;
     background: #fff;
-    border-radius: 5px;
-    padding: 8px 0 8px 10px;
-    font-size: 16px;
-    color: #636363;
-    outline: none;
-    margin-bottom: 8px;
-    border: 1px solid var(--color-secondary);
-}
 
-.red {
-    border: 1px solid red;
 }
 
 .price {
@@ -143,12 +131,6 @@
     background-color: var(--color-main);
 }
 
-.input[type='email'] {
-    width: 96%;
-    margin-bottom: 20px;
-    border-width: 2px;
-}
-
 .buttonBuy {
     width: 220px;
     margin: 0 auto;
@@ -161,7 +143,6 @@
     border: none;
     color: var(--color-secondary);
     cursor: pointer;
-
 }
 
 .buttonBuy:disabled {
@@ -202,7 +183,15 @@
 }
 
 .red {
-    border: 1px solid red
+    border: 1px solid var(--color-danger)
+}
+
+.redText {
+    color: var(--color-danger);
+    margin-top: -14px;
+    font-size: 12px;
+    font-style: italic;
+    padding-left: 4px;
 }
 
 @media (min-width:768px) {
@@ -227,32 +216,33 @@
     }
 
     .box {
-        flex-direction: row;
-        align-items: flex-start;
+        display: flex;
+        align-items: center;
     }
 
     .svgBox {
-        margin-right: 18px;
+        margin: 0 14px 0 0;
     }
 
-    .inputBox {
-        flex-direction: row;
-        flex-wrap: wrap;
+    .inputsContainer {
+        display: flex;
     }
 
     .input {
         width: 150px;
         margin-right: 8px;
     }
-    .inputPhone{
-        width: 170px;
+
+    .inputPhone {
+        width: 176px;
     }
 
     .buttonRemove {
-        top: 18px;
+        top: 0px;
+        right: -0px;
     }
 
-    .input[type='email'] {
+    .input[name='email'] {
         width: 300px;
     }
 
@@ -260,6 +250,9 @@
         margin-bottom: 18px;
     }
 
+    .redText {
+        font-size: 11px;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -268,17 +261,17 @@
         margin: 0;
     }
 
-    .inputBox {
+    .inputsContainer {
         padding-top: 8px;
         align-items: center;
     }
 
-    .input, .inputPhone {
-        margin-bottom: 0;
+    .input,
+    .inputPhone {
+        width: 190px;
     }
 
     .buttonRemove {
         top: 15px;
     }
-
 }
