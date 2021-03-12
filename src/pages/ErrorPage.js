@@ -6,13 +6,12 @@ import styles from "./ErrorPage.module.css";
 
 const ErrorPage = () => {
   const dispatch = useDispatch();
-  const clearErorr = (val) => dispatch(getError(val));
 
   return (
     <div className="container">
       <p className={styles.smile}>Oops..! something went wrong</p>
-      <Link to="/" className={styles.link} onClick={() => clearErorr("")}>
-        Вернутся на главную страницу
+      <Link to="/" className={styles.link} onClick={() => dispatch(getError(""))}>
+        Повернутися на головну сторінку
       </Link>
     </div>
   );

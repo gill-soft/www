@@ -111,6 +111,8 @@ export const getTicketPrint = (id, lang) => {
     },
   });
 };
+
+// ==== все населенные пункты ==== //
 export const getCities = (val, lang) => {
   return axios({
     method: "get",
@@ -120,4 +122,3 @@ export const getCities = (val, lang) => {
     },
   });
 };
-// /locality/cities/{lang}?prefix={value, min length 2}

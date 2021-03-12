@@ -185,7 +185,7 @@ class FormForBuy extends Component {
     }));
     this.props.changeAmountPassanger(this.props.total - 1);
   };
-
+// ==== добавить к label текст про латинские буквы ==== //
   onlyLatin = () => {
     const { requeredFields } = this.props;
     // const requeredFields = ["NAME", "ONLY_LATIN"];
@@ -204,7 +204,6 @@ class FormForBuy extends Component {
     } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(this.state);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.container}>

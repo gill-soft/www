@@ -15,9 +15,10 @@ const OrderPage = ({ history }) => {
   const [requeredFields, setRequeredFields] = useState([]);
 
   useEffect(() => {
-    getRequaredFields(tripKey)
-      .then(({ data }) => setRequeredFields(data))
-      .catch((err) => console.log(err));
+    if (tripKey)
+      getRequaredFields(tripKey)
+        .then(({ data }) => setRequeredFields(data))
+        .catch((err) => console.log(err));
   }, [tripKey]);
 
   // ==== при перезагрузке страницы попадаем на предыдущую
