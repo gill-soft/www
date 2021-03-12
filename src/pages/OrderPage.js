@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
 import styles from "./OrderPage.module.css";
-import { startLoader } from "../redux/global/globalActions";
 import { getRequaredFields } from "../services/api";
 
-const OrderPage = ({ history, amountPassangers, order, startLoader, tripKey }) => {
+const OrderPage = ({ history }) => {
+  const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
+  const order = useSelector((state) => state.order.order);
+  const tripKey = useSelector((state) => state.order.order.tripKey);
+
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
-  const [requeredFields, setRequeredFields] = useState([])
+  const [requeredFields, setRequeredFields] = useState([]);
 
   useEffect(() => {
-    getRequaredFields(tripKey).then(({data}) => setRequeredFields(data))
-
-  }, [tripKey])
+    getRequaredFields(tripKey)
+      .then(({ data }) => setRequeredFields(data))
+      .catch((err) => console.log(err));
+  }, [tripKey]);
 
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
@@ -23,9 +26,8 @@ const OrderPage = ({ history, amountPassangers, order, startLoader, tripKey }) =
     if (Object.keys(order).length <= 0) {
       const path = JSON.parse(sessionStorage.getItem("path")) || "/";
       history.replace(path);
-      startLoader();
     }
-  }, [order, history, startLoader]);
+  }, [order, history]);
   return (
     <div className="bgnd">
       <div className="container">
@@ -37,20 +39,13 @@ const OrderPage = ({ history, amountPassangers, order, startLoader, tripKey }) =
             changeAmountPassanger={(val) => setTotalPassanger(val)}
             total={totalPassanger}
             history={history}
+            requeredFields={requeredFields}
           />
-          <OrderInfo total={totalPassanger} />{" "}
+          <OrderInfo total={totalPassanger} />
         </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  amountPassangers: state.searchForm.amountPassanger,
-  order: state.order.order,
-  tripKey: state.order.order.tripKey,
-});
-const mapDispatchToProps = (dispatch) => ({
-  startLoader: (obj) => dispatch(startLoader(obj)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(OrderPage);
+export default OrderPage;

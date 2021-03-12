@@ -13,7 +13,9 @@ import "react-phone-number-input/style.css";
 import Offerta from "../../assets/Oferta_1.pdf";
 import Pk from "../../assets/pk_.pdf";
 
-const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
+const regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
+const regexText = /^[а-яА-Яa-ża-ŻёЁA-Za-z\d- ]+$/;
+const regexLatin = /[a-zA-Z]/;
 
 class FormForBuy extends Component {
   state = {
@@ -29,7 +31,7 @@ class FormForBuy extends Component {
   };
 
   componentDidMount() {
-    this.props.stopLoader();
+    // this.props.stopLoader();
 
     const { amountPassangers } = this.props;
     for (let i = 0; i <= amountPassangers - 1; i++) {
@@ -110,12 +112,19 @@ class FormForBuy extends Component {
       isValidPhone: [-1, ""],
       isValidEmail: null,
     });
-
+    // ==== валидация ==== //
     values.forEach((el, idx) => {
+      if (!regexText.test(el.name))
+        this.setState({ isValidName: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
       if (el.name.trim().length < 2)
         this.setState({ isValidName: [idx, "занадто коротке і'мя"] });
       if (!el.name.trim())
         this.setState({ isValidName: [idx, "це поле необхідно заповнити"] });
+      if (!regexLatin.test(el.name))
+        this.setState({ isValidName: [idx, "лише латинськими літерами"] });
+
+      if (!regexText.test(el.surname))
+        this.setState({ isValidSurname: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
 
       if (el.surname.trim().length < 2)
         this.setState({ isValidSurname: [idx, "занадто коротке прізвище"] });
@@ -127,13 +136,11 @@ class FormForBuy extends Component {
       }
     });
 
-    if (!regex.test(email)) this.setState({ isValidEmail: "не коректний email" });
+    if (!regexEmail.test(email)) this.setState({ isValidEmail: "не коректний email" });
     this.setState({ goSearch: !goSearch });
   };
 
   handleChangeInput = (idx, { target }) => {
-    const sim = /^[а-яА-Яa-ża-ŻёЁA-Za-z0-9- ]+$/;
-    if (!sim.test(target.value)) return;
     this.setState((prev) =>
       // eslint-disable-next-line array-callback-return
       prev.values.map((el) => {
@@ -151,6 +158,7 @@ class FormForBuy extends Component {
       })
     );
   };
+
   handleChangePhone = (val, idx) => {
     this.setState((prev) =>
       // eslint-disable-next-line array-callback-return
@@ -178,6 +186,12 @@ class FormForBuy extends Component {
     this.props.changeAmountPassanger(this.props.total - 1);
   };
 
+  onlyLatin = () => {
+    const { requeredFields } = this.props;
+    // const requeredFields = ["NAME", "ONLY_LATIN"];
+    return requeredFields.includes("ONLY_LATIN") ? " латинськими літерами" : null;
+  };
+
   render() {
     const {
       values,
@@ -197,10 +211,9 @@ class FormForBuy extends Component {
           <h3 className={styles.title}>
             <FormattedMessage id="title" />
           </h3>
-
-          <form onSubmit={this.handleSubmit}>
-            {values.length > 0 &&
-              values.map((el, idx) => {
+          {values.length > 0 && (
+            <form onSubmit={this.handleSubmit}>
+              {values.map((el, idx) => {
                 return (
                   <div className={styles.box} key={idx}>
                     <div className={styles.svgBox}>
@@ -217,7 +230,7 @@ class FormForBuy extends Component {
                     <div className={styles.inputsContainer}>
                       <div className={styles.inputBox}>
                         <label className={styles.label} htmlFor="name">
-                          І'мя
+                          І'мя<small>{this.onlyLatin()}</small>
                         </label>
                         <input
                           className={`${styles.input} ${
@@ -257,7 +270,7 @@ class FormForBuy extends Component {
 
                       <div className={styles.inputBox}>
                         <label className={styles.label} htmlFor="phone">
-                          Телефон
+                          Телефон**
                         </label>
                         <PhoneInput
                           id="phone"
@@ -281,54 +294,55 @@ class FormForBuy extends Component {
                 );
               })}
 
-            <button
-              className={styles.buttonAdd}
-              type="button"
-              onClick={this.handleAdd}
-              disabled={values.length >= 10 ? true : false}
-            >
-              <FormattedMessage id="buttonAdd" />
-            </button>
-            <h3 className={styles.customer}>
-              <FormattedMessage id="customer" />
-            </h3>
-            <div className={styles.inputBox}>
-              <label className={styles.label} htmlFor="email">
-                Email:{" "}
-              </label>
-              <input
-                className={`${styles.input} ${styles.inputEmail} ${
-                  isValidEmail ? styles.red : null
-                } `}
-                name="email"
-                id="email"
-                value={email}
-                autoComplete="nope"
-                onChange={this.handleChangeEmail}
-              />
-              {isValidEmail && <p className={styles.redText}>{isValidEmail}</p>}
-            </div>
-            <div className={styles.publicOfferBox}>
-              <input
-                name="publicOffer"
-                type="checkbox"
-                onChange={() => this.setState({ isOffer: !this.state.isOffer })}
-              />
-              <p>
-                <FormattedMessage id="offer" />
-                <a href={Offerta} target="_blanc">
-                  <FormattedMessage id="offerSpan" />
-                </a>
-                <FormattedMessage id="myData" />
-                <a href={Pk} target="_blanc">
-                  <FormattedMessage id="myDataSpan" />
-                </a>
-              </p>
-            </div>
-            <button className={styles.buttonBuy} type="submit" disabled={isOffer}>
-              {isLoading ? <Loader /> : <FormattedMessage id="buy" />}
-            </button>
-          </form>
+              <button
+                className={styles.buttonAdd}
+                type="button"
+                onClick={this.handleAdd}
+                disabled={values.length >= 10 ? true : false}
+              >
+                <FormattedMessage id="buttonAdd" />
+              </button>
+              <h3 className={styles.customer}>
+                <FormattedMessage id="customer" />
+              </h3>
+              <div className={styles.inputBox}>
+                <label className={styles.label} htmlFor="email">
+                  Email:{" "}
+                </label>
+                <input
+                  className={`${styles.input} ${styles.inputEmail} ${
+                    isValidEmail ? styles.red : null
+                  } `}
+                  name="email"
+                  id="email"
+                  value={email}
+                  autoComplete="nope"
+                  onChange={this.handleChangeEmail}
+                />
+                {isValidEmail && <p className={styles.redText}>{isValidEmail}</p>}
+              </div>
+              <div className={styles.publicOfferBox}>
+                <input
+                  name="publicOffer"
+                  type="checkbox"
+                  onChange={() => this.setState({ isOffer: !this.state.isOffer })}
+                />
+                <p>
+                  <FormattedMessage id="offer" />
+                  <a href={Offerta} target="_blanc">
+                    <FormattedMessage id="offerSpan" />
+                  </a>
+                  <FormattedMessage id="myData" />
+                  <a href={Pk} target="_blanc">
+                    <FormattedMessage id="myDataSpan" />
+                  </a>
+                </p>
+              </div>
+              <button className={styles.buttonBuy} type="submit" disabled={isOffer}>
+                {isLoading ? <Loader /> : <FormattedMessage id="buy" />}
+              </button>
+            </form>
+          )}
 
           <p className={styles.text}>
             <FormattedMessage id="requared" />

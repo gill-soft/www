@@ -6,11 +6,11 @@ import { messages } from "../../intl/OrderPageMessanges";
 import { getLocality, getStop } from "../../services/getInfo";
 
 const OrderInfo = ({ total }) => {
+  const to = useSelector((state) => state.order.order.to);
+  const from = useSelector((state) => state.order.order.from);
   const lang = useSelector((state) => state.language);
   const trips = useSelector((state) => state.trips.trips);
-  const to = useSelector((state) => state.order.order.to);
   const stops = useSelector((state) => state.global.stops);
-  const from = useSelector((state) => state.order.order.from);
   const price = useSelector((state) => state.order.order.price);
   const toStop = useSelector((state) => state.order.order.toStop);
   const fromStop = useSelector((state) => state.order.order.fromStop);
