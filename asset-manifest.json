@@ -1,25 +1,27 @@
 {
   "files": {
-    "main.css": "/www/static/css/main.acf9eeb2.chunk.css",
-    "main.js": "/www/static/js/main.099c0cc0.chunk.js",
-    "main.js.map": "/www/static/js/main.099c0cc0.chunk.js.map",
-    "runtime-main.js": "/www/static/js/runtime-main.49811f4f.js",
-    "runtime-main.js.map": "/www/static/js/runtime-main.49811f4f.js.map",
+    "main.css": "/www/static/css/main.e280666a.chunk.css",
+    "main.js": "/www/static/js/main.02bd654b.chunk.js",
+    "main.js.map": "/www/static/js/main.02bd654b.chunk.js.map",
+    "runtime-main.js": "/www/static/js/runtime-main.c2a5f921.js",
+    "runtime-main.js.map": "/www/static/js/runtime-main.c2a5f921.js.map",
     "static/css/2.a32cc507.chunk.css": "/www/static/css/2.a32cc507.chunk.css",
-    "static/js/2.4b5ffa2f.chunk.js": "/www/static/js/2.4b5ffa2f.chunk.js",
-    "static/js/2.4b5ffa2f.chunk.js.map": "/www/static/js/2.4b5ffa2f.chunk.js.map",
-    "static/js/3.b08cd2c7.chunk.js": "/www/static/js/3.b08cd2c7.chunk.js",
-    "static/js/3.b08cd2c7.chunk.js.map": "/www/static/js/3.b08cd2c7.chunk.js.map",
+    "static/js/2.9a9809c5.chunk.js": "/www/static/js/2.9a9809c5.chunk.js",
+    "static/js/2.9a9809c5.chunk.js.map": "/www/static/js/2.9a9809c5.chunk.js.map",
+    "static/js/3.4a3c9e5f.chunk.js": "/www/static/js/3.4a3c9e5f.chunk.js",
+    "static/js/3.4a3c9e5f.chunk.js.map": "/www/static/js/3.4a3c9e5f.chunk.js.map",
     "index.html": "/www/index.html",
     "static/css/2.a32cc507.chunk.css.map": "/www/static/css/2.a32cc507.chunk.css.map",
-    "static/css/main.acf9eeb2.chunk.css.map": "/www/static/css/main.acf9eeb2.chunk.css.map",
-    "static/js/2.4b5ffa2f.chunk.js.LICENSE.txt": "/www/static/js/2.4b5ffa2f.chunk.js.LICENSE.txt",
+    "static/css/main.e280666a.chunk.css.map": "/www/static/css/main.e280666a.chunk.css.map",
+    "static/js/2.9a9809c5.chunk.js.LICENSE.txt": "/www/static/js/2.9a9809c5.chunk.js.LICENSE.txt",
     "static/media/ErrorPage.module.css": "/www/static/media/355-3551959_-emoji-expression-min.eb500ae6.png",
     "static/media/main.css": "/www/static/media/HelveticaNeueCyr-UltraLightItalic.b1b6c88c.eot",
     "static/media/Oferta_1.da6728fd.pdf": "/www/static/media/Oferta_1.da6728fd.pdf",
     "static/media/add-black-18dp.aceff8ea.svg": "/www/static/media/add-black-18dp.aceff8ea.svg",
+    "static/media/appstore.fd05c3d1.png": "/www/static/media/appstore.fd05c3d1.png",
     "static/media/HomePage.module.css": "/www/static/media/bus.af214cc6.jpg",
     "static/media/FormForBuy.module.css": "/www/static/media/person_add_alt_1-24px.f96ed213.svg",
+    "static/media/google-play-300x116.289313d5.png": "/www/static/media/google-play-300x116.289313d5.png",
     "static/media/SearchForm.module.css": "/www/static/media/insert_invitation-black-48dp.3e4a2df9.svg",
     "static/media/menu-black-48dp.6bb38f26.svg": "/www/static/media/menu-black-48dp.6bb38f26.svg",
     "static/media/person-24px.65cae4d9.svg": "/www/static/media/person-24px.65cae4d9.svg",
@@ -30,10 +32,10 @@
     "static/media/sync_alt-white-36dp.c9deb1dc.svg": "/www/static/media/sync_alt-white-36dp.c9deb1dc.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.49811f4f.js",
+    "static/js/runtime-main.c2a5f921.js",
     "static/css/2.a32cc507.chunk.css",
-    "static/js/2.4b5ffa2f.chunk.js",
-    "static/css/main.acf9eeb2.chunk.css",
-    "static/js/main.099c0cc0.chunk.js"
+    "static/js/2.9a9809c5.chunk.js",
+    "static/css/main.e280666a.chunk.css",
+    "static/js/main.02bd654b.chunk.js"
   ]
 }
