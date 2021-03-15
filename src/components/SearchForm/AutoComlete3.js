@@ -127,6 +127,7 @@ const AutoComplete3 = () => {
           autoHighlight
           value={from}
           open={isOpenFrom}
+          blurOnSelect={true}
           filterOptions={filterOptions}
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
@@ -170,13 +171,15 @@ const AutoComplete3 = () => {
           autoHighlight
           value={to}
           open={isOpenTo}
+          blurOnSelect={true}
           filterOptions={filterOptions}
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
           onChange={(event, value) => {
             setTo(value);
-            changeIsOpenTo(false);
-            changeIsOpenDate(true);
+            value !== null ? changeIsOpenTo(false) : changeIsOpenTo(true);
+            setOptions(INITIAL_STATE);
+            if (value !== null) changeIsOpenDate(true);
           }}
           renderOption={(option) => (
             <div>
@@ -189,7 +192,6 @@ const AutoComplete3 = () => {
               {...params}
               label={<FormattedMessage id="to" />}
               variant="outlined"
-              autoFocus={isOpenTo}
               onMouseDown={({ target }) => {
                 getOtpions(target);
                 changeIsOpenTo(true);
@@ -200,7 +202,7 @@ const AutoComplete3 = () => {
                 getOtpions(target);
                 // changeIsOpenTo(true);
                 // changeIsOpenFrom(false);
-                // changeIsOpenDate(false);
+                changeIsOpenDate(false);
               }}
             />
           )}

@@ -14,6 +14,7 @@ const OrderPage = ({ history }) => {
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
   const [requeredFields, setRequeredFields] = useState([]);
 
+  // ==== получаем список обязательніх полей ==== //
   useEffect(() => {
     if (tripKey)
       getRequaredFields(tripKey)
