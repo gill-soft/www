@@ -80,8 +80,6 @@ div>.react-datepicker__day-name {
 
 .container {
     padding: 60px 4px 0;
-    /* padding-top: 60px; */
-
 }
 
 @media (min-width: 576px) {

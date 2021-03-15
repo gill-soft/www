@@ -5,6 +5,11 @@
     background-position: center;
     padding: 70px 0;
 }
+.bgndBottom {
+    background-color: rgb(235, 235, 235);
+    padding: 60px 0;
+
+}
 
 .container {
     text-align: center;

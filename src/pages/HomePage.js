@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/HomePageMessanges";
 import { Redirect, useHistory } from "react-router-dom";
+import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -54,6 +55,11 @@ const HomePage = () => {
                 </p>
               </li>
             </ul>
+          </div>
+        </div>
+        <div className={styles.bgndBottom}>
+          <div className={styles.container}>
+            <FavoriteTrips />
           </div>
         </div>
       </IntlProvider>
