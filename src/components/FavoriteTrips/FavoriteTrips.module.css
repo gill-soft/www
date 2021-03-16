@@ -10,12 +10,13 @@
     padding: 10px;
     border-bottom: 1px solid #636363;
 }
-.item:last-child{
+
+.item:last-child {
     border: none;
 }
 
 .link {
     color: #636363;
-display: flex;
-justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }

@@ -28,7 +28,7 @@ const PassengersData = () => {
                 <p className={styles.price}>
                   <span>
                     <FormattedMessage id="cost" />
-                  </span>
+                  </span>{" "}
                   {el.price.amount} UAH
                 </p>
               </div>

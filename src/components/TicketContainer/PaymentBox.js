@@ -47,7 +47,7 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
       <div className={styles.warning}>
         <p className={styles.warningText}>
           <FormattedMessage id="endTime" />
-          <span>{getExpireTime(ticket.services[0].expire, lang)}</span>
+          <span> {getExpireTime(ticket.services[0].expire, lang)}</span>
         </p>
         <p className={styles.time}>
           {new Date(time).toLocaleString("uk", {

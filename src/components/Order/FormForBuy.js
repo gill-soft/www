@@ -15,7 +15,7 @@ import Pk from "../../assets/pk_.pdf";
 
 const regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
 const regexText = /^[а-яА-Яa-ża-ŻёЁA-Za-z\d- ]+$/;
-const regexLatin = /[a-zA-Z]/;
+const regexLatin = /^[a-zA-Z]+$/;
 
 class FormForBuy extends Component {
   state = {
@@ -32,7 +32,6 @@ class FormForBuy extends Component {
 
   componentDidMount() {
     // this.props.stopLoader();
-
     const { amountPassangers } = this.props;
     for (let i = 0; i <= amountPassangers - 1; i++) {
       this.setState((prev) => ({
@@ -78,7 +77,7 @@ class FormForBuy extends Component {
         toBookTicket(requestBody)
           .then(({ data }) => this.setState({ resp: data }))
           .catch((err) => getError(err.message))
-         .finally(  this.props.stopLoader())
+          .finally(this.props.stopLoader());
       } else {
         this.props.stopLoader();
         return;
@@ -106,6 +105,8 @@ class FormForBuy extends Component {
     e.preventDefault();
     this.props.startLoader();
     const { values, goSearch, email } = this.state;
+    const { requeredFields } = this.props;
+
     this.setState({
       isValidName: [-1, ""],
       isValidSurname: [-1, ""],
@@ -114,28 +115,30 @@ class FormForBuy extends Component {
     });
     // ==== валидация ==== //
     values.forEach((el, idx) => {
+      // ===name===
       if (!regexText.test(el.name))
         this.setState({ isValidName: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
+      if (requeredFields.includes("ONLY_LATIN") && !regexLatin.test(el.name))
+        this.setState({ isValidName: [idx, "лише латинськими літерами"] });
       if (el.name.trim().length < 2)
         this.setState({ isValidName: [idx, "занадто коротке і'мя"] });
       if (!el.name.trim())
         this.setState({ isValidName: [idx, "це поле необхідно заповнити"] });
-      if (!regexLatin.test(el.name))
-        this.setState({ isValidName: [idx, "лише латинськими літерами"] });
-
+      // ==== surname====
       if (!regexText.test(el.surname))
         this.setState({ isValidSurname: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
-
+      if (requeredFields.includes("ONLY_LATIN") && !regexLatin.test(el.surname))
+        this.setState({ isValidSurname: [idx, "лише латинськими літерами"] });
       if (el.surname.trim().length < 2)
         this.setState({ isValidSurname: [idx, "занадто коротке прізвище"] });
       if (!el.surname.trim())
         this.setState({ isValidSurname: [idx, "це поле необхідно заповнити"] });
-
+      // ==== phone====
       if (!el.phone || el.phone.length <= 11) {
         this.setState({ isValidPhone: [idx, "не коректний номер телефону"] });
       }
     });
-
+    // ==== email ====
     if (!regexEmail.test(email)) this.setState({ isValidEmail: "не коректний email" });
     this.setState({ goSearch: !goSearch });
   };
@@ -185,7 +188,7 @@ class FormForBuy extends Component {
     }));
     this.props.changeAmountPassanger(this.props.total - 1);
   };
-// ==== добавить к label текст про латинские буквы ==== //
+  // ==== добавить к label текст про латинские буквы ==== //
   onlyLatin = () => {
     const { requeredFields } = this.props;
     // const requeredFields = ["NAME", "ONLY_LATIN"];

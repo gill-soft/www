@@ -17,7 +17,7 @@
 }
 
 .orderBox div {
-    width: 200px;
+    /* width: 200px; */
     padding-bottom: 24px;
     position: relative;
     margin-right: 38px;
@@ -45,6 +45,9 @@
         padding: 12px;
         flex-direction: row;
     }
+    .orderBox div {
+        width: 200px;
+    }
 
     .subTitle {
         margin: 0 12px 0 0;
@@ -68,7 +71,7 @@
         font-weight: 900;
         font-size: 28px;
         position: absolute;
-        right: -30px;
+        right: 30px;
         top: -8px
     }
 }
@@ -78,5 +81,22 @@
     .subTitle,
     .locality {
         font-size: 24px;
+    }
+    .orderBox div {
+        width: 300px;
+    }
+}
+@media(min-width: 992px){
+    .arrow::after {
+        right: 90px;
+    }
+}
+
+@media(min-width: 1200px){
+    .arrow::after {
+        right: 110px;
+    }
+    .orderBox div {
+        width: 400px;
     }
 }

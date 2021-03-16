@@ -19,13 +19,20 @@ import { Redirect } from "react-router-dom";
 import Scelet from "../components/TripsContainer/Skelet";
 import DateCarousel from "../components/TripsContainer/DateCarousel";
 import NoTrips from "../components/TripsContainer/NoTrips";
+import { getScroll } from "../services/getScroll";
+const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
   state = {
     isTrip: false,
   };
   componentDidMount() {
-    this.props.startLoader()
+    window.scrollTo({
+      top: getScroll(windowWidth),
+      behavior: "smooth",
+    });
+    this.props.startLoader();
+    this.props.getTripsInfo([]);
     const parsed = queryString.parse(this.props.location.search);
     // ==== формируем обьект для запроса ====
     const requestData = {
@@ -196,7 +203,7 @@ const mapDispatchToProps = (dispatch) => ({
   stopLoader: () => dispatch(stopLoader()),
   getError: (error) => dispatch(getError(error)),
   changeSortType: (val) => dispatch(changeSortType(val)),
-  startLoader: () => dispatch(startLoader())
+  startLoader: () => dispatch(startLoader()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);
