@@ -75,10 +75,10 @@ class FormForBuy extends Component {
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
         console.log("zapros");
-        // toBookTicket(requestBody)
-        //   .then(({ data }) => this.setState({ resp: data }))
-        //   .catch((err) => getError(err.message));
-        //  .finally(  this.props.stopLoader())
+        toBookTicket(requestBody)
+          .then(({ data }) => this.setState({ resp: data }))
+          .catch((err) => getError(err.message))
+         .finally(  this.props.stopLoader())
       } else {
         this.props.stopLoader();
         return;

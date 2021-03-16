@@ -28,10 +28,20 @@ export const getLocality = (id, stops, lang) => {
 export const getStop = (key, trips, lang) =>
   Object.keys(trips).length > 0 ? trips.localities[`${key}`]?.name[`${lang}`] : null;
 
+  // ==== получаем adress отправки/прибытия === //
+export const getAddress = (key, trips, lang) =>
+Object.keys(trips).length > 0 ? trips.localities[`${key}`]?.address[`${lang}`] : null;
+
 // ==== получаем промежуточную остановку ==== //
 export const getAllLocalities = (key, trips, lang) => {
   return Object.keys(trips).length > 0
     ? trips.localities[`${key}`].name[`${lang}`] || trips.localities[`${key}`].name[`RU`]
+    : null;
+};
+// ==== получаем адресс промежуточной остановки ==== //
+export const getAllAddress = (key, trips, lang) => {
+  return Object.keys(trips).length > 0
+    ? trips.localities[`${key}`].address[`${lang}`] || trips.localities[`${key}`].address[`RU`]
     : null;
 };
 

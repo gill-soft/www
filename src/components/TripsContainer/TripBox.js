@@ -15,6 +15,8 @@ import {
   getTime,
   getTimeInWay,
   getAllLocalities,
+  getAddress,
+  getAllAddress
 } from "../../services/getInfo";
 
 const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }) => {
@@ -23,7 +25,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   const parsed = queryString.parse(location.search);
-  const backdropRef= useRef(null)
+  const backdropRef = useRef(null);
 
   const handleClick = () => {
     const obj = {
@@ -81,6 +83,9 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
               <p className={styles.localityStop}>
                 {getStop(trip.departure.id, trips, lang)}
               </p>
+              <p className={styles.address}>
+                {getAddress(trip.departure.id, trips, lang)}
+              </p>
             </div>
             <div className={`${styles.info} ${styles.infoLast}`}>
               <div>
@@ -91,6 +96,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
               <p className={styles.localityStop}>
                 {getStop(trip.arrival.id, trips, lang)}
               </p>
+              <p className={styles.address}>{getAddress(trip.arrival.id, trips, lang)}</p>
             </div>
           </div>
 
@@ -127,7 +133,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
           classNames="aler"
           unmountOnExit
           nodeRef={backdropRef}
-        >          
+        >
           <div ref={backdropRef}>
             <h5>{trip.route.name.EN}</h5>
             <div className={styles.additionalInfo}>
@@ -140,6 +146,8 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
                     {getLocality(parsed.from, stops, lang)}
                   </p>
                   <p>{getStop(trip.departure.id, trips, lang)}</p>
+              {/* <p className={styles.address}>{getAddress(trip.departure.id, trips, lang)}</p> */}
+
                 </div>
                 <div>
                   {arrayStops.map((el, idx) => (
@@ -153,8 +161,10 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
                         )}
                       </p>
                       <p>{getAllLocalities(el.locality.id, trips, lang)}</p>
+              <p className={styles.address}>{getAllAddress(el.locality.id, trips, lang)}</p>
+
                     </div>
-                  ))}{" "}
+                  ))}
                 </div>
                 <div className={`${styles.start} ${styles.finish}`}>
                   <p className={styles.timeStop}> {getTime("arrivalDate", trip, lang)}</p>
