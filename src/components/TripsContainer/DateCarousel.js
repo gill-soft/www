@@ -1,14 +1,17 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./DateCarousel.module.css"
+import styles from "./DateCarousel.module.css";
 import { getTodayDate, getTomorrow, getYesterday } from "../../services/getInfo";
 import { format } from "date-fns";
 import { startLoader } from "../../redux/global/globalActions";
 import { inputValueDate, setTime } from "../../redux/searchForm/searchFormAction";
 import { getTripsInfo } from "../../redux/trips/tripsActions";
+import { getUrl } from "../../services/getUrl";
 
 const DateCarousel = ({ parsed, history }) => {
   const lang = useSelector((state) => state.language);
+  const from = useSelector((state) => state.searchForm.from);
+  const to = useSelector((state) => state.searchForm.to);
   const dispatch = useDispatch();
   const loaderStart = () => dispatch(startLoader());
   const changeInputDate = (val) => dispatch(inputValueDate(val));
@@ -32,7 +35,9 @@ const DateCarousel = ({ parsed, history }) => {
     timeSet(new Date().getTime());
     setTripsInfo({});
     history.push(
-      `/trips?from=${parsed.from}&to=${parsed.to}&date=${newDay}&passengers=${parsed.passengers}`
+      `/${getUrl(lang).trim()}/${from.text}/${to.text}?from=${parsed.from}&to=${
+        parsed.to
+      }&date=${newDay}&passengers=${parsed.passengers}`
     );
   };
   // ==== делаем кпопку предыдущей даты неактивной при сегодняшней дате ==== //

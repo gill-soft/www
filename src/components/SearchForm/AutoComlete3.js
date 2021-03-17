@@ -85,6 +85,7 @@ const AutoComplete3 = () => {
   };
 
   const getOtpions = (target) => {
+    setOptions([])
     if (target.value === null || target.value === undefined) return;
     if (target.value.length >= 2) {
       getCities(target.value, lang).then(({ data }) => {

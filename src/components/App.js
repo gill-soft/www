@@ -9,7 +9,7 @@ import TicketPage from "../pages/TicketPage";
 import TripsPage from "../pages/TripsPage";
 import { fetchStops } from "../redux/global/globalOperations";
 import Header from "./Header/Header";
-import Footer from './Footer/Fotter'
+import Footer from './Footer/Footer'
 
 // const MyTicketPage = lazy(() => import("../pages/MyTicketPage"));
 // const OrderPage = lazy(() => import("../pages/OrderPage"));

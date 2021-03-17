@@ -7,11 +7,13 @@
 }
 
 .link {
-    display: inline-block;
+    display: block;
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
     padding: 12px;
     background-color: var(--color-third);
     color: var(--color-secondary);
-    margin-bottom: 6px;
     border-radius: 12px;
 }
 
@@ -19,24 +21,32 @@
     color: red
 }
 
+.title {
+    text-align: center;
+}
+
 .text {
     font-size: 22px;
+    text-align: center;
+    margin-bottom: 12px;
 }
 
-.text a {
-    color: var(--color-secondary)
+.text span {
+    font-weight: 500;
 }
 
-.id {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 25px;
+
+.red {
+    color: var(--color-danger)
+}
+
+.blue {
+    color: var(--color-main)
 }
 
 @media (min-width: 576px) {}
 
 @media (min-width: 768px) {
-
     .main {
         display: flex;
         justify-content: space-between;
@@ -44,8 +54,6 @@
 }
 
 @media (min-width: 992px) {
-
-
     .main {
         padding-top: 30px;
     }

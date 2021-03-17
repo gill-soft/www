@@ -20,6 +20,7 @@ import Scelet from "../components/TripsContainer/Skelet";
 import DateCarousel from "../components/TripsContainer/DateCarousel";
 import NoTrips from "../components/TripsContainer/NoTrips";
 import { getScroll } from "../services/getScroll";
+import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
 const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
@@ -27,6 +28,10 @@ class TripsPage extends Component {
     isTrip: false,
   };
   componentDidMount() {
+    const { from, to, setFrom, setTo } = this.props;
+    if (!from) setFrom({ text: this.props.match.params.from });
+    if (!to) setTo({ text: this.props.match.params.to });
+
     window.scrollTo({
       top: getScroll(windowWidth),
       behavior: "smooth",
@@ -195,6 +200,8 @@ const mapStateToProps = (state) => ({
   tripsInfo: state.trips.tripsInfo,
   time: state.searchForm.time,
   sortType: state.trips.sortType,
+  from: state.searchForm.from.text,
+  to: state.searchForm.to.text,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -204,6 +211,8 @@ const mapDispatchToProps = (dispatch) => ({
   getError: (error) => dispatch(getError(error)),
   changeSortType: (val) => dispatch(changeSortType(val)),
   startLoader: () => dispatch(startLoader()),
+  setFrom: (value) => dispatch(inputValueFrom(value)),
+  setTo: (value) => dispatch(inputValueTo(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

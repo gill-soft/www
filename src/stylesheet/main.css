@@ -79,7 +79,7 @@ div>.react-datepicker__day-name {
 }
 
 .container {
-    padding: 60px 4px 0;
+    padding: 60px 4px 10px;
 }
 
 @media (min-width: 576px) {

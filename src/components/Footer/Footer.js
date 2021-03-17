@@ -4,26 +4,41 @@ import Pk from "../../assets/pk_.pdf";
 import styles from "./Footer.module.css";
 import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
-
+import visa from "../../images/visa-min.png";
+import vuso from "../../images/vuso-min.png";
+import mastercard from "../../images/Mastercard-min.png";
+import maestro from "../../images/maestro-min.png";
 const Fotter = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
+        <div className={styles.imagesBox}>
+          <img className={styles.logoImg} src={vuso} alt="Vuso logo"></img>
+          <img className={styles.logoImg} src={mastercard} alt="Mastercsrd logo"></img>
+          <img className={styles.logoImg} src={maestro} alt="Maestro logo"></img>
+          <img className={styles.logoImg} src={visa} alt="Visa logo"></img>
+        </div>
         <div className={styles.row}>
           <div className={styles.listBox}>
-            <h4 className={styles.title} >Контакти</h4>
+            <h4 className={styles.title}>Контакти</h4>
             <ul>
-              <li  className={styles.listItem}>
+              <li className={styles.listItem}>
                 Зв'язок з оператором:
-                <br /> <a  className={styles.link} href="tel: +1 111 111-11-11">+38 (099) 999-99-99</a>
+                <br />{" "}
+                <a className={styles.link} href="tel: +1 111 111-11-11">
+                  +38 (099) 999-99-99
+                </a>
               </li>
               <li>
-                Email: <a className={styles.link}  href="mailto: test@test.com">test@test.com</a>
+                Email:{" "}
+                <a className={styles.link} href="mailto: test@test.com">
+                  test@test.com
+                </a>
               </li>
             </ul>
           </div>
           <div className={styles.listBox}>
-            <h4 className={styles.title} >Документи</h4>
+            <h4 className={styles.title}>Документи</h4>
             <ul>
               <li className={styles.listItem}>
                 <a className={styles.link} href={Offerta} target="_blanc">
@@ -38,7 +53,7 @@ const Fotter = () => {
             </ul>
           </div>
           <div className={styles.listBox}>
-            <h4 className={styles.title} >Мобільні додатки</h4>
+            <h4 className={styles.title}>Мобільні додатки</h4>
 
             <div className={styles.img}>
               <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
