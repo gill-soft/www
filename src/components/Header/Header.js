@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import styles from "./Header.module.css";
 import { ReactComponent as Menu } from "../../images/menu-black-48dp.svg";
@@ -13,15 +13,30 @@ const Header = () => {
   const dispatch = useDispatch();
   const clearErorr = (val) => dispatch(getError(val));
   const [isMenu, setIsMenu] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
 
   const windowWidth = window.innerWidth;
   const backdropRef = useRef(null);
+  const phoneRef = useRef(null);
 
   const handleBackdropClick = (event) => {
     const { current } = backdropRef;
     if (current && event.target !== current) return;
     setIsMenu(false);
   };
+  const hankok = (e) => {
+    const { current } = phoneRef;
+    console.log(e);
+    console.log(current === e.target);
+    if (current !== e.target) setIsPhone(!isPhone);
+  };
+  useEffect(() => {
+    window.addEventListener("click", hankok);
+    // return () => {
+    //   cleanup
+    // }
+  }, []);
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -48,10 +63,42 @@ const Header = () => {
                 onClick={handleBackdropClick}
               >
                 <div className={styles.menuBox}>
-                  <p className={styles.telS}>
-                    Связь c оператором:{" "}
-                    <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
-                  </p>
+                  <nav className={styles.nav}>
+                    <NavLink
+                      className={styles.navLink}
+                      activeClassName={styles.selected}
+                      to="/"
+                      exact
+                      onClick={() => setIsMenu(false)}
+                    >
+                      Головна
+                    </NavLink>
+                    <NavLink
+                      className={styles.navLink}
+                      activeClassName={styles.selected}
+                      to="/about-us"
+                      onClick={() => setIsMenu(false)}
+                    >
+                      Про нас
+                    </NavLink>
+                    <NavLink
+                      className={styles.navLink}
+                      activeClassName={styles.selected}
+                      to="/info"
+                      onClick={() => setIsMenu(false)}
+                    >
+                      Інформація
+                    </NavLink>
+                    <div className={styles.contactsBox}>
+                      <p className={styles.tel} onClick={() => setIsPhone(!isPhone)}>
+                        Контакти
+                      </p>
+                      <a href="tel: +38 (099) 999-99-99" onClick={() => setIsMenu(false)}>
+                        +38 (099) 999-99-99
+                      </a>
+                    </div>
+                  </nav>
+
                   <button
                     className={styles.btn}
                     type="button"
@@ -66,9 +113,47 @@ const Header = () => {
           </>
         ) : (
           <>
-            <p className={styles.tel}>
-              Связь c оператором: <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
-            </p>
+            <nav className={styles.nav}>
+              <NavLink
+                className={styles.navLink}
+                activeClassName={styles.selected}
+                to="/"
+                exact
+              >
+                Головна
+              </NavLink>
+              <NavLink
+                className={styles.navLink}
+                activeClassName={styles.selected}
+                to="/about-us"
+              >
+                Про нас
+              </NavLink>
+              <NavLink
+                className={styles.navLink}
+                activeClassName={styles.selected}
+                to="/info"
+              >
+                Інформація
+              </NavLink>
+              <div className={styles.contactsBox}>
+                <p className={styles.tel} onClick={() => setIsPhone(!isPhone)}>
+                  Контакти
+                </p>
+                <CSSTransition
+                  in={isPhone}
+                  timeout={300}
+                  classNames="phone"
+                  unmountOnExit
+                  nodeRef={phoneRef}
+                >
+                  <div className={styles.contacts} ref={phoneRef}>
+                    <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
+                  </div>
+                </CSSTransition>
+              </div>
+            </nav>
+
             <LanguageSelect />
           </>
         )}

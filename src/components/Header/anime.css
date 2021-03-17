@@ -16,5 +16,28 @@
 .alert-exit-active {
     margin-right: -80%;
     transition: margin-right 300ms ease-out;
-    color:rgb(43, 43, 83)
+    color: rgb(43, 43, 83)
+}
+
+
+
+
+
+.phone-enter {
+    margin-top: 20px
+}
+
+.phone-enter-active {
+    margin-top: 0px;
+    transition: margin-top 300ms ease-out;
+}
+
+
+.phone-exit {
+    opacity: 1;
+}
+
+.phone-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-out;
 }
