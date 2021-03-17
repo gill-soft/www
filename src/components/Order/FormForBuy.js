@@ -192,7 +192,7 @@ class FormForBuy extends Component {
   onlyLatin = () => {
     const { requeredFields } = this.props;
     // const requeredFields = ["NAME", "ONLY_LATIN"];
-    return requeredFields.includes("ONLY_LATIN") ? " латинськими літерами" : null;
+    return requeredFields.includes("ONLY_LATIN") ? " (латинськими літерами)" : null;
   };
 
   render() {

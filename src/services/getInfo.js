@@ -21,33 +21,34 @@ export const getLang = (lang) => {
 // ==== получаем наcелённый пункт отправки/прибытия ==== //
 export const getLocality = (id, stops, lang) => {
   const result = stops.find((el) => el.id === id);
-  return result ? result.name[`${lang}`] || result.name[`EN`] : null;
+  return result ? result.name[lang] || result.name[`EN`] : null;
 };
 
 // ==== получаем остановку отправки/прибытия === //
 export const getStop = (key, trips, lang) =>
-  Object.keys(trips).length > 0 ? trips.localities[`${key}`]?.name[`${lang}`] : null;
+  Object.keys(trips).length > 0 ? trips.localities[key]?.name[lang] : null;
 
-  // ==== получаем adress отправки/прибытия === //
+// ==== получаем adress отправки/прибытия === //
 export const getAddress = (key, trips, lang) =>
-Object.keys(trips).length > 0 ? trips.localities[`${key}`]?.address[`${lang}`] : null;
+  Object.keys(trips).length > 0 && trips.localities[key]?.address
+    ? trips.localities[key].address[lang]
+    : null;
 
 // ==== получаем промежуточную остановку ==== //
 export const getAllLocalities = (key, trips, lang) => {
   return Object.keys(trips).length > 0
-    ? trips.localities[`${key}`].name[`${lang}`] || trips.localities[`${key}`].name[`RU`]
+    ? trips.localities[key].name[lang] || trips.localities[key].name[`RU`]
     : null;
 };
 // ==== получаем адресс промежуточной остановки ==== //
-export const getAllAddress = (key, trips, lang) => {
-  return Object.keys(trips).length > 0
-    ? trips.localities[`${key}`].address[`${lang}`] || trips.localities[`${key}`].address[`RU`]
+export const getAllAddress = (key, trips, lang) =>
+  Object.keys(trips).length > 0 && trips.localities[key]?.address
+    ? trips.localities[key]?.address[lang] || trips.localities[key].address[`RU`]
     : null;
-};
 
 // ==== получаем дату отправки/прибытия ==== //
 export const getDate = (key, trip, lang) => {
-  return new Date(trip[`${key}`]).toLocaleString(getLang(lang), {
+  return new Date(trip[key]).toLocaleString(getLang(lang), {
     day: "2-digit",
     month: "short",
     year: "2-digit",
@@ -56,7 +57,7 @@ export const getDate = (key, trip, lang) => {
 
 // ==== получаем время отправки/прибытия ==== //
 export const getTime = (key, trip, lang) => {
-  return new Date(trip[`${key}`]).toLocaleString(getLang(lang), {
+  return new Date(trip[key]).toLocaleString(getLang(lang), {
     hour: "2-digit",
     minute: "2-digit",
   });

@@ -22,6 +22,7 @@ import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
 import AmountPassanger from "./AmountPassanger";
 import AutoComplete3 from "./AutoComlete3";
+import { getUrl } from "../../services/getUrl";
 
 const SearchForm = ({ history }) => {
   const lang = useSelector((state) => state.language);
@@ -34,7 +35,7 @@ const SearchForm = ({ history }) => {
   const dispatch = useDispatch();
   const setData = (date) => dispatch(inputValueDate(date));
   const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
-  const setTripsInfo = (trips => dispatch(getTripsInfo(trips)))
+  const setTripsInfo = (trips) => dispatch(getTripsInfo(trips));
   const setError = (err) => dispatch(getError(err));
   const loaderStart = () => dispatch(startLoader());
   const getTime = (time) => dispatch(setTime(time));
@@ -54,9 +55,9 @@ const SearchForm = ({ history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    changeIsOpenFrom(false)
-    changeIsOpenTo(false)
-    changeIsOpenDate(false)
+    changeIsOpenFrom(false);
+    changeIsOpenTo(false);
+    changeIsOpenDate(false);
     if (from === null || !from?.text) {
       changeIsOpenFrom(true);
       return;
@@ -69,14 +70,16 @@ const SearchForm = ({ history }) => {
     // ==== запускаем лоадер, очищаем ошибки и данные предыдущего запроса ==== //
     setError("");
     setTripsSuccess({});
-    setTripsInfo([])
+    setTripsInfo([]);
     loaderStart();
     getTime(new Date().getTime());
     //  ==== переход на страницу поездок ==== //
     history.push(
-      `/trips?from=${from.value}&to=${to.value}&date=${dateQuery}&passengers=${amount}`
+      `/${getUrl(lang).trim()}/${from.text}/${to.text}?from=${from.value}&to=${to.value}&date=${dateQuery}&passengers=${amount}`
     );
   };
+  
+ 
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
@@ -99,8 +102,8 @@ const SearchForm = ({ history }) => {
               onClickOutside={() => changeIsOpenDate(false)}
               onFocus={() => {
                 changeIsOpenDate(true);
-                changeIsOpenFrom(false)
-                changeIsOpenTo(false)
+                changeIsOpenFrom(false);
+                changeIsOpenTo(false);
               }}
               open={isOpenDate}
             />

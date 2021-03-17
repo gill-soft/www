@@ -34,7 +34,10 @@ const App = () => {
         <Header />
         <Switch>
           <Route path="/" exact component={HomePage} />
-          <Route path="/trips" component={TripsPage} />
+          <Route path="/trips/:from/:to" component={TripsPage} />
+          <Route path="/автобуси/:from/:to" component={TripsPage} />
+          <Route path="/автобусы/:from/:to" component={TripsPage} />
+          <Route path="/autobusy/:from/:to" component={TripsPage} />
           <Route path="/order" component={OrderPage} />
           <Route path="/ticket/:id/:pay" component={TicketPage} />
           <Route path="/myTicket/:id" component={MyTicketPage} />

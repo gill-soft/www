@@ -15,37 +15,13 @@ import { messages } from "../../intl/HomePageMessanges";
 import { getCities } from "../../services/api";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 import styles from "./SearchForm.module.css";
+import {OPTIONS} from "../../assets/searchFormOptions"
 
 const filterOptions = createFilterOptions({
   matchFrom: "start",
 });
 
-const INITIAL_STATE = [
-  {
-    lang: "RU",
-    value: "2498204",
-    text: "Харків",
-    description: "Харківська/Україна",
-  },
-  {
-    lang: "RU",
-    value: "2498710",
-    text: "Київ",
-    description: "Україна",
-  },
-  {
-    lang: "RU",
-    value: "2498389",
-    text: "Львів",
-    description: "Львівська/Україна",
-  },
-  {
-    lang: "RU",
-    value: "2498336",
-    text: "Одеса",
-    description: "Одеська/Україна",
-  },
-];
+
 
 const StyledTextField = styled(TextField)`
   label {
@@ -97,7 +73,7 @@ const AutoComplete3 = () => {
   const changeIsOpenTo = (bool) => dispatch(setIsOpenTo(bool));
   const changeIsOpenDate = (bool) => dispatch(setIsOpenDate(bool));
 
-  const [options, setOptions] = useState(INITIAL_STATE);
+  const [options, setOptions] = useState(OPTIONS[lang]);
 
   const locale = lang === "UA" ? "UK" : lang;
 
@@ -115,7 +91,7 @@ const AutoComplete3 = () => {
         setOptions(data);
       });
     } else {
-      setOptions(INITIAL_STATE);
+      setOptions(OPTIONS[lang]);
     }
   };
   return (
@@ -133,7 +109,7 @@ const AutoComplete3 = () => {
           getOptionSelected={(o, v) => o !== v}
           onChange={(event, value) => {
             setFrom(value);
-            setOptions(INITIAL_STATE);
+            setOptions(OPTIONS[lang]);
             changeIsOpenFrom(false);
             changeIsOpenTo(true);
           }}
@@ -178,7 +154,7 @@ const AutoComplete3 = () => {
           onChange={(event, value) => {
             setTo(value);
             value !== null ? changeIsOpenTo(false) : changeIsOpenTo(true);
-            setOptions(INITIAL_STATE);
+            setOptions(OPTIONS[lang]);
             if (value !== null) changeIsOpenDate(true);
           }}
           renderOption={(option) => (
