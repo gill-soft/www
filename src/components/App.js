@@ -9,8 +9,9 @@ import TicketPage from "../pages/TicketPage";
 import TripsPage from "../pages/TripsPage";
 import { fetchStops } from "../redux/global/globalOperations";
 import Header from "./Header/Header";
-import Footer from './Footer/Footer'
+import Footer from "./Footer/Footer";
 import Info from "../pages/Info";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 // const MyTicketPage = lazy(() => import("../pages/MyTicketPage"));
 // const OrderPage = lazy(() => import("../pages/OrderPage"));
@@ -36,7 +37,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route path="/info" component={Info} />
-
+          <Route path="/about-us" component={AboutUs} />
           <Route path="/trips/:from/:to" component={TripsPage} />
           <Route path="/автобуси/:from/:to" component={TripsPage} />
           <Route path="/автобусы/:from/:to" component={TripsPage} />

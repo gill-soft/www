@@ -24,18 +24,11 @@ const Header = () => {
     if (current && event.target !== current) return;
     setIsMenu(false);
   };
-  const hankok = (e) => {
-    const { current } = phoneRef;
-    console.log(e);
-    console.log(current === e.target);
-    if (current !== e.target) setIsPhone(!isPhone);
-  };
   useEffect(() => {
-    window.addEventListener("click", hankok);
-    // return () => {
-    //   cleanup
-    // }
-  }, []);
+    window.addEventListener("click", () => {
+      setIsPhone(false);
+    });
+  });
 
   return (
     <header className={styles.header}>
@@ -90,7 +83,7 @@ const Header = () => {
                       Інформація
                     </NavLink>
                     <div className={styles.contactsBox}>
-                      <p className={styles.tel} onClick={() => setIsPhone(!isPhone)}>
+                      <p className={styles.tel} onClick={() => setIsPhone(true)}>
                         Контакти
                       </p>
                       <a href="tel: +38 (099) 999-99-99" onClick={() => setIsMenu(false)}>
@@ -137,7 +130,13 @@ const Header = () => {
                 Інформація
               </NavLink>
               <div className={styles.contactsBox}>
-                <p className={styles.tel} onClick={() => setIsPhone(!isPhone)}>
+                <p
+                  className={styles.tel}
+                  onClick={() => {
+                    setIsPhone(false);
+                    setTimeout(() => setIsPhone(true), 300);
+                  }}
+                >
                   Контакти
                 </p>
                 <CSSTransition
@@ -148,7 +147,7 @@ const Header = () => {
                   nodeRef={phoneRef}
                 >
                   <div className={styles.contacts} ref={phoneRef}>
-                    <a href="tel: +1 111 111-11-11">+1 111 111-11-11</a>
+                    <a href="tel: +1 111 111-11-11">+38 (099) 999-99-99</a>
                   </div>
                 </CSSTransition>
               </div>
