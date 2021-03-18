@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./HomePage.module.css";
 import SearchForm from "../components/SearchForm/SearchForm";
 import { useSelector } from "react-redux";
@@ -6,16 +6,26 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/HomePageMessanges";
 import { Redirect, useHistory } from "react-router-dom";
 import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
+import Modal from "../components/Modal/Modal";
+import AppLinks from "../components/AppLinks/AppLinks";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
   const error = useSelector((state) => state.global.error);
   const history = useHistory();
+  const [isModal, setIsModal] = useState(true);
+  const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
-
+  // useEffect(() => {
+  //   setTimeout(() => setIsModal(false), 5000);
+  // });
+  const closeModal =()=> {
+    setIsModal(false)
+  }
   return (
     <>
       {error && <Redirect to="/error" />}
+      {windowWidth < 768 && isModal && <Modal onClose={closeModal} component={<AppLinks onClose={closeModal}/>} />}
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.bgnd}>
           <div className={styles.container}>

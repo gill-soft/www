@@ -6,8 +6,8 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getExpireTime, getLocality } from "../../services/getInfo";
 // import { fetchPayeeId } from "../../services/api";
-// import Modal from "../Modal/Modal";
-// import GoHome from "../GoHome/GoHome";
+import Modal from "../Modal/Modal";
+import GoHome from "../GoHome/GoHome";
 
 const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
   const lang = useSelector((state) => state.language);
@@ -15,7 +15,7 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
   const stops = useSelector((state) => state.global.stops);
   const locale = lang === "UA" ? "UK" : lang;
   const [time, setTime] = useState(0);
-  // const [isModal, setIsModal] = useState(false);
+  const [isModal, setIsModal] = useState(true);
 
   // ==== определяем время до конца оплаты ==== //
   useEffect(() => {
@@ -101,7 +101,7 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
           </p>{" "}
         </div>
       </div>
-      {/* {!!isModal && <Modal component={<GoHome />} isGohome={true} />} */}
+      {!!isModal && <Modal component={<GoHome />} isGohome={true} />}
     </IntlProvider>
   );
 };
