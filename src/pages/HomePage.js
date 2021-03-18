@@ -16,9 +16,9 @@ const HomePage = () => {
   const [isModal, setIsModal] = useState(true);
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
-  // useEffect(() => {
-  //   setTimeout(() => setIsModal(false), 5000);
-  // });
+  useEffect(() => {
+    setTimeout(() => setIsModal(false), 8500);
+  });
   const closeModal =()=> {
     setIsModal(false)
   }

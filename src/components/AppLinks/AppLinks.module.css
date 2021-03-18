@@ -28,19 +28,34 @@
 }
 
 .progress {
+    /* position: absolute; */
+    /* margin-top: 10px; */
     height: 6px;
     width: 0px;
-    background-color: aqua;
-    animation: pog 10000ms infinite linear
+    background-color: var(--color-secondary);
+    animation: pog 10000ms 1 linear
 }
+
+.progress2 {
+    position: absolute;
+    top: 0;
+    /* margin: 40px 0 0; */
+    transform: translateX(-30px);
+    height: 6px;
+    width: calc(100% + 60px);
+    background-color: #ffde82;
+}
+
 @keyframes pog {
     0% {
         width: 0px;
     }
+
     100% {
         width: 100%;
     }
 }
+
 @media (min-width: 576px) {
     .text {
         font-size: 24px;
