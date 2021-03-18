@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/www/static/css/main.cf11f2a8.chunk.css",
-    "main.js": "/www/static/js/main.3185d085.chunk.js",
-    "main.js.map": "/www/static/js/main.3185d085.chunk.js.map",
-    "runtime-main.js": "/www/static/js/runtime-main.c2a5f921.js",
-    "runtime-main.js.map": "/www/static/js/runtime-main.c2a5f921.js.map",
+    "main.css": "/www/static/css/main.98de980f.chunk.css",
+    "main.js": "/www/static/js/main.2d7f38a8.chunk.js",
+    "main.js.map": "/www/static/js/main.2d7f38a8.chunk.js.map",
+    "runtime-main.js": "/www/static/js/runtime-main.2d4e77ba.js",
+    "runtime-main.js.map": "/www/static/js/runtime-main.2d4e77ba.js.map",
     "static/css/2.a32cc507.chunk.css": "/www/static/css/2.a32cc507.chunk.css",
-    "static/js/2.99f72bae.chunk.js": "/www/static/js/2.99f72bae.chunk.js",
-    "static/js/2.99f72bae.chunk.js.map": "/www/static/js/2.99f72bae.chunk.js.map",
-    "static/js/3.4a3c9e5f.chunk.js": "/www/static/js/3.4a3c9e5f.chunk.js",
-    "static/js/3.4a3c9e5f.chunk.js.map": "/www/static/js/3.4a3c9e5f.chunk.js.map",
+    "static/js/2.5d5cb8e0.chunk.js": "/www/static/js/2.5d5cb8e0.chunk.js",
+    "static/js/2.5d5cb8e0.chunk.js.map": "/www/static/js/2.5d5cb8e0.chunk.js.map",
+    "static/js/3.d135556f.chunk.js": "/www/static/js/3.d135556f.chunk.js",
+    "static/js/3.d135556f.chunk.js.map": "/www/static/js/3.d135556f.chunk.js.map",
     "index.html": "/www/index.html",
     "static/css/2.a32cc507.chunk.css.map": "/www/static/css/2.a32cc507.chunk.css.map",
-    "static/css/main.cf11f2a8.chunk.css.map": "/www/static/css/main.cf11f2a8.chunk.css.map",
-    "static/js/2.99f72bae.chunk.js.LICENSE.txt": "/www/static/js/2.99f72bae.chunk.js.LICENSE.txt",
+    "static/css/main.98de980f.chunk.css.map": "/www/static/css/main.98de980f.chunk.css.map",
+    "static/js/2.5d5cb8e0.chunk.js.LICENSE.txt": "/www/static/js/2.5d5cb8e0.chunk.js.LICENSE.txt",
     "static/media/ErrorPage.module.css": "/www/static/media/355-3551959_-emoji-expression-min.eb500ae6.png",
     "static/media/main.css": "/www/static/media/HelveticaNeueCyr-UltraLightItalic.b1b6c88c.eot",
     "static/media/Oferta_1.da6728fd.pdf": "/www/static/media/Oferta_1.da6728fd.pdf",
@@ -21,6 +21,7 @@
     "static/media/appstore.fd05c3d1.png": "/www/static/media/appstore.fd05c3d1.png",
     "static/media/HomePage.module.css": "/www/static/media/bus.af214cc6.jpg",
     "static/media/FormForBuy.module.css": "/www/static/media/person_add_alt_1-24px.f96ed213.svg",
+    "static/media/GoHome.module.css": "/www/static/media/fmd_bad-white-48dp.e3b5f265.svg",
     "static/media/google-play-300x116.289313d5.png": "/www/static/media/google-play-300x116.289313d5.png",
     "static/media/SearchForm.module.css": "/www/static/media/insert_invitation-black-48dp.3e4a2df9.svg",
     "static/media/menu-black-48dp.6bb38f26.svg": "/www/static/media/menu-black-48dp.6bb38f26.svg",
@@ -32,10 +33,10 @@
     "static/media/vuso-min.c96e7eca.png": "/www/static/media/vuso-min.c96e7eca.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.c2a5f921.js",
+    "static/js/runtime-main.2d4e77ba.js",
     "static/css/2.a32cc507.chunk.css",
-    "static/js/2.99f72bae.chunk.js",
-    "static/css/main.cf11f2a8.chunk.css",
-    "static/js/main.3185d085.chunk.js"
+    "static/js/2.5d5cb8e0.chunk.js",
+    "static/css/main.98de980f.chunk.css",
+    "static/js/main.2d7f38a8.chunk.js"
   ]
 }
