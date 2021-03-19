@@ -28,17 +28,19 @@ class TripsPage extends Component {
     isTrip: false,
   };
   componentDidMount() {
+    this.props.startLoader();
+    this.props.getTripsInfo([]);
+    const parsed = queryString.parse(this.props.location.search);
+
     const { from, to, setFrom, setTo } = this.props;
-    if (!from) setFrom({ text: this.props.match.params.from });
-    if (!to) setTo({ text: this.props.match.params.to });
+    if (!from) setFrom({ text: this.props.match.params.from, value:parsed.from});
+    if (!to) setTo({ text: this.props.match.params.to, value:parsed.to });
 
     window.scrollTo({
       top: getScroll(windowWidth),
       behavior: "smooth",
     });
-    this.props.startLoader();
-    this.props.getTripsInfo([]);
-    const parsed = queryString.parse(this.props.location.search);
+    
     // ==== формируем обьект для запроса ====
     const requestData = {
       idFrom: parsed.from,

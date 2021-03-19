@@ -18,7 +18,7 @@ const HomePage = () => {
   const locale = lang === "UA" ? "UK" : lang;
   useEffect(() => {
     setTimeout(() => setIsModal(false), 8500);
-  });
+  }, []);
   const closeModal =()=> {
     setIsModal(false)
   }
