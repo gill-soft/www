@@ -15,11 +15,6 @@ import AboutUs from "../pages/AboutUs";
 import Cities from "../pages/Cities";
 import City from "../pages/City";
 
-// const MyTicketPage = lazy(() => import("../pages/MyTicketPage"));
-// const OrderPage = lazy(() => import("../pages/OrderPage"));
-// const TicketPage = lazy(() => import("../pages/TicketPage"));
-// const TripsPage = lazy(() => import("../pages/TripsPage"));
-
 const App = () => {
   // ====redux===//
   const dispatch = useDispatch();
@@ -46,7 +41,6 @@ const App = () => {
           <Route path="/города/" component={Cities} />
           <Route path="/cities/" component={Cities} />
           <Route path="/miasta/" component={Cities} />
-
           <Route path="/info" component={Info} />
           <Route path="/about-us" component={AboutUs} />
           <Route path="/trips/:from/:to" component={TripsPage} />

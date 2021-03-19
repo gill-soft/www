@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import { getUrl } from "../services/getUrl";
 import { format } from "date-fns";
 import { cities } from "../assets/cities";
+import { citiesName } from "../assets/citiesName";
 
 const City = ({ history }) => {
   const lang = useSelector((state) => state.language);
@@ -23,7 +24,8 @@ const City = ({ history }) => {
       el.name.PL === city
     );
   });
-  console.log(sityObj);
+  const citiesFrom = citiesName.filter((el) => el.name[lang] !== city);
+
   useEffect(() => {
     ((value) => dispatch(inputValueTo(value)))({
       text: sityObj.name[lang],
@@ -38,33 +40,18 @@ const City = ({ history }) => {
       </div>
       <h1>Маршрути в місто {sityObj.name[lang]} з міст України </h1>
       <ul>
-        <li>
-          <Link
-            to={`/${getUrl(lang).trim()}/Київ/${city}?from=2498710&to=${
-              to.value
-            }&date=${format(new Date(), "yyyy-MM-dd")}&passengers=1`}
-          >
-            Київ - {city}
-          </Link>{" "}
-        </li>
-        <li>
-          <Link
-            to={`/${getUrl(lang).trim()}/Львів/${city}?from=${from.value}&to=${
-              to.value
-            }&date=${format(new Date(), "yyyy-MM-dd")}&passengers=1`}
-          >
-            Львів - {city}
-          </Link>{" "}
-        </li>
-        <li>
-          <Link
-            to={`/${getUrl(lang).trim()}/Затока/${city}?from=${from.value}&to=${
-              to.value
-            }&date=${format(new Date(), "yyyy-MM-dd")}&passengers=1`}
-          >
-            Затока - {city}
-          </Link>{" "}
-        </li>
+        {citiesFrom.map((el, idx) => (
+          <li key={idx}>
+            <Link
+            className={styles.link}
+              to={`/${getUrl(lang).trim()}/${el.name[lang]}/${city}?from=${el.id}&to=${
+                to.value
+              }&date=${format(new Date(), "yyyy-MM-dd")}&passengers=1`}
+            >
+              {el.name[lang]} - {sityObj.name[lang]}
+            </Link>
+          </li>
+        ))}
       </ul>
       <h2> {sityObj.name[lang]}</h2>
       <p>{sityObj.text[lang]}</p>

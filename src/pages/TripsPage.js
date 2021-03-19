@@ -32,9 +32,9 @@ class TripsPage extends Component {
     this.props.getTripsInfo([]);
     const parsed = queryString.parse(this.props.location.search);
 
-    const { from, to, setFrom, setTo } = this.props;
-    if (!from) setFrom({ text: this.props.match.params.from, value:parsed.from});
-    if (!to) setTo({ text: this.props.match.params.to, value:parsed.to });
+    const {  setFrom, setTo } = this.props;
+     setFrom({ text: this.props.match.params.from, value:parsed.from});
+     setTo({ text: this.props.match.params.to, value:parsed.to });
 
     window.scrollTo({
       top: getScroll(windowWidth),

@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { citiesName } from "../assets/citiesName";
 import { getUrlCities } from "../services/getUrl";
 import styles from "./Cities.module.css";
 
 const Cities = () => {
   const lang = useSelector((state) => state.language);
+  const history = useHistory();
+  useEffect(() => {
+    history.replace(`/${getUrlCities(lang).trim()}`);
+  }, [history, lang]);
   return (
     <div className="bgnd">
       <div className="container">
