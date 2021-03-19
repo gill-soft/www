@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/www/static/css/main.f0c49c45.chunk.css",
-    "main.js": "/www/static/js/main.99dc28c6.chunk.js",
-    "main.js.map": "/www/static/js/main.99dc28c6.chunk.js.map",
-    "runtime-main.js": "/www/static/js/runtime-main.2d4e77ba.js",
-    "runtime-main.js.map": "/www/static/js/runtime-main.2d4e77ba.js.map",
+    "main.css": "/www/static/css/main.600834e4.chunk.css",
+    "main.js": "/www/static/js/main.485e3442.chunk.js",
+    "main.js.map": "/www/static/js/main.485e3442.chunk.js.map",
+    "runtime-main.js": "/www/static/js/runtime-main.d1535ea9.js",
+    "runtime-main.js.map": "/www/static/js/runtime-main.d1535ea9.js.map",
     "static/css/2.a32cc507.chunk.css": "/www/static/css/2.a32cc507.chunk.css",
-    "static/js/2.c26ce7df.chunk.js": "/www/static/js/2.c26ce7df.chunk.js",
-    "static/js/2.c26ce7df.chunk.js.map": "/www/static/js/2.c26ce7df.chunk.js.map",
-    "static/js/3.d135556f.chunk.js": "/www/static/js/3.d135556f.chunk.js",
-    "static/js/3.d135556f.chunk.js.map": "/www/static/js/3.d135556f.chunk.js.map",
+    "static/js/2.39551e2f.chunk.js": "/www/static/js/2.39551e2f.chunk.js",
+    "static/js/2.39551e2f.chunk.js.map": "/www/static/js/2.39551e2f.chunk.js.map",
+    "static/js/3.d8b3384b.chunk.js": "/www/static/js/3.d8b3384b.chunk.js",
+    "static/js/3.d8b3384b.chunk.js.map": "/www/static/js/3.d8b3384b.chunk.js.map",
     "index.html": "/www/index.html",
     "static/css/2.a32cc507.chunk.css.map": "/www/static/css/2.a32cc507.chunk.css.map",
-    "static/css/main.f0c49c45.chunk.css.map": "/www/static/css/main.f0c49c45.chunk.css.map",
-    "static/js/2.c26ce7df.chunk.js.LICENSE.txt": "/www/static/js/2.c26ce7df.chunk.js.LICENSE.txt",
+    "static/css/main.600834e4.chunk.css.map": "/www/static/css/main.600834e4.chunk.css.map",
+    "static/js/2.39551e2f.chunk.js.LICENSE.txt": "/www/static/js/2.39551e2f.chunk.js.LICENSE.txt",
     "static/media/ErrorPage.module.css": "/www/static/media/355-3551959_-emoji-expression-min.eb500ae6.png",
     "static/media/main.css": "/www/static/media/HelveticaNeueCyr-UltraLightItalic.b1b6c88c.eot",
     "static/media/Oferta_1.da6728fd.pdf": "/www/static/media/Oferta_1.da6728fd.pdf",
@@ -33,10 +33,10 @@
     "static/media/vuso-min.c96e7eca.png": "/www/static/media/vuso-min.c96e7eca.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.2d4e77ba.js",
+    "static/js/runtime-main.d1535ea9.js",
     "static/css/2.a32cc507.chunk.css",
-    "static/js/2.c26ce7df.chunk.js",
-    "static/css/main.f0c49c45.chunk.css",
-    "static/js/main.99dc28c6.chunk.js"
+    "static/js/2.39551e2f.chunk.js",
+    "static/css/main.600834e4.chunk.css",
+    "static/js/main.485e3442.chunk.js"
   ]
 }
