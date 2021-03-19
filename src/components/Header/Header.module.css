@@ -15,23 +15,12 @@
     color: #ffffff;
 }
 
-.link {
+.logo {
     display: block;
     width: 100px;
     height: 30px;
     background-image: url('../../images/ibusik-logo-white.png');
     background-size: cover;
-}
-
-.tel {
-    display: none;
-}
-
-.telS,
-.telS>a {
-    margin-bottom: 12px;
-    color: var(--color-secondary);
-    font-size: 14px;
 }
 
 .btnMenu {
@@ -51,55 +40,19 @@
 
 .menuBox {
     width: 80%;
-    /* height: 250px; */
-    padding: 30px 10px;
+    padding: 6px 10px;
     background-color: var(--color-main);
     position: absolute;
     top: 76px;
     right: 0px;
 }
 
-.btn {
+.btnClose {
     background: none;
     border: none;
     position: absolute;
     top: 5px;
     right: 5px;
-}
-
-.contactsBox {
-    position: relative;
-}
-
-.contacts {
-    /* width: 200px; */
-    /* position: absolute; */
-    /* background-color: #ffffff; */
-}
-
-.contacts a {
-    color: #ffffff
-}
-
-.nav {
-    display: flex;
-    flex-direction: column;
-}
-
-.navLink {
-    padding: 2px 5px;
-}
-
-.selected {
-    color: var(--color-secondary)
-}
-
-.tel {
-    display: block;
-    padding: 2px 5px;
-    /* background-image: url('../../images/support_agent-24px.svg'); */
-    background-repeat: no-repeat;
-    background-position: 0px 2px;
 }
 
 @media (min-width: 576px) {
@@ -113,32 +66,9 @@
         max-width: 720px;
     }
 
-    .link {
+    .logo {
         width: 150px;
         height: 45px;
-    }
-
-    .tel {
-        display: block;
-        padding: 2px 5px;
-        /* background-image: url('../../images/support_agent-24px.svg'); */
-        background-repeat: no-repeat;
-        background-position: 0px 2px;
-        cursor: pointer;
-    }
-
-    .nav {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .navLink {
-        width: 120px;
-        padding: 2px 5px;
-    }
-
-    .selected {
-        color: var(--color-secondary)
     }
 }
 
@@ -146,31 +76,10 @@
     .container {
         max-width: 960px;
     }
-
-    .contactsBox {
-        position: relative;
-    }
-
-    .contacts {
-        width: 170px;
-        margin-top: 26px;
-        position: absolute;
-        padding: 5px 10px;
-        left: -50px;
-        border-radius: 5px;
-        background-color: var(--color-main)
-    }
-
-    .contacts a {
-cursor: pointer;
-    }
-
 }
 
 @media (min-width: 1200px) {
     .container {
         max-width: 1140px;
     }
-
-
 }
