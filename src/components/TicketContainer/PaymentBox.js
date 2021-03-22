@@ -15,7 +15,7 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
   const stops = useSelector((state) => state.global.stops);
   const locale = lang === "UA" ? "UK" : lang;
   const [time, setTime] = useState(0);
-  const [isModal, setIsModal] = useState(true);
+  const [isModal, setIsModal] = useState(false);
 
   // ==== определяем время до конца оплаты ==== //
   useEffect(() => {

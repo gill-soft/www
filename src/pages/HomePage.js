@@ -8,6 +8,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
 import Modal from "../components/Modal/Modal";
 import AppLinks from "../components/AppLinks/AppLinks";
+import Advantages from "../components/Advantages/Advantages";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -68,8 +69,9 @@ const HomePage = () => {
           </div>
         </div>
         <div className={styles.bgndBottom}>
-          <div className={styles.container}>
+          <div className={ `${styles.information} ${styles.container}`}>
             <FavoriteTrips />
+            <Advantages />
           </div>
         </div>
       </IntlProvider>

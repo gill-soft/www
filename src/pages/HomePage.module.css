@@ -6,13 +6,15 @@
     padding: 70px 0;
 }
 .bgndBottom {
-    background-color: rgb(235, 235, 235);
-    padding: 60px 0;
-
+    background-color: rgb(245, 245, 245);
 }
 
 .container {
     text-align: center;
+}
+.information {
+    padding: 10px 5px;
+
 }
 
 .title {
@@ -117,7 +119,10 @@
         justify-content: space-between;
         font-size: 14px;
     }
-
+.information {
+    display: flex;
+    text-align: left;
+}
 
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SearchForm from "../components/SearchForm/SearchForm";
 import styles from "./City.module.css";
-import { inputValueTo } from "../redux/searchForm/searchFormAction";
+import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
 import { Link, useParams } from "react-router-dom";
 import { getUrl } from "../services/getUrl";
 import { format } from "date-fns";
@@ -31,6 +31,10 @@ const City = ({ history }) => {
       text: sityObj.name[lang],
       value: sityObj.id,
     });
+    ((value) => dispatch(inputValueFrom(value)))({
+      text: "",
+      value: "",
+    });
   }, [dispatch, lang, sityObj.id, sityObj.name]);
 
   return (
@@ -43,7 +47,7 @@ const City = ({ history }) => {
         {citiesFrom.map((el, idx) => (
           <li key={idx}>
             <Link
-            className={styles.link}
+              className={styles.link}
               to={`/${getUrl(lang).trim()}/${el.name[lang]}/${city}?from=${el.id}&to=${
                 to.value
               }&date=${format(new Date(), "yyyy-MM-dd")}&passengers=1`}

@@ -11,7 +11,7 @@ const FavoriteTrips = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Найпопулярніші маршрути</h2>
+      <h2 className={styles.title}>Найпопулярніші маршрути</h2>
       <ul className={styles.list}>
         {popular.map((el, idx) => (
           <li className={styles.item} key={idx}>

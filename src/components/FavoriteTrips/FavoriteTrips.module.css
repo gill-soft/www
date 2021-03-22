@@ -1,7 +1,15 @@
+.container {
+margin-bottom: 20px;
+}
+.title {
+    margin-bottom: 20px;
+}
+
 .list {
+    width: 300px;
+    margin: 0 auto;
     border: 1px solid var(--color-secondary);
     box-shadow: 0 6px 7px -2px #959595;
-    width: 300px;
     background-color: #fff;
 
 }
@@ -19,4 +27,21 @@
     color: #636363;
     display: flex;
     justify-content: space-between;
+}
+@media(min-width: 768px) {
+    .container {
+        width: 50%;
+    }
+    .list {
+        margin: 0;
+    }
+    .title {
+        font-size: 20px;
+    }
+}
+@media(min-width: 992px) {
+    
+    .title {
+        font-size: 24px;
+    }
 }
