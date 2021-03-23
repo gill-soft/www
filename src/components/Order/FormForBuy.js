@@ -52,7 +52,7 @@ class FormForBuy extends Component {
       isValidSurname,
       isValidEmail,
     } = this.state;
-    const { tripKey, priceId } = this.props;
+    const { tripKey, priceId, getError } = this.props;
 
     // ==== делаем запрос на бронь билета ==== //
     if (prevState.goSearch !== goSearch) {
@@ -76,8 +76,10 @@ class FormForBuy extends Component {
         console.log("zapros");
         toBookTicket(requestBody)
           .then(({ data }) => this.setState({ resp: data }))
-          .catch((err) => getError(err.message))
-          .finally(this.props.stopLoader());
+          .catch((err) => {
+            this.props.stopLoader();
+            getError(err.message);
+          });
       } else {
         this.props.stopLoader();
         return;
@@ -103,9 +105,9 @@ class FormForBuy extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.startLoader();
     const { values, goSearch, email } = this.state;
-    const { requeredFields } = this.props;
+    const { requeredFields, startLoader } = this.props;
+    startLoader();
 
     this.setState({
       isValidName: [-1, ""],
@@ -208,153 +210,156 @@ class FormForBuy extends Component {
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
     return (
-      <IntlProvider locale={locale} messages={messages[locale]}>
-        <div className={styles.container}>
-          <h3 className={styles.title}>
-            <FormattedMessage id="title" />
-          </h3>
-          {values.length > 0 && (
-            <form onSubmit={this.handleSubmit}>
-              {values.map((el, idx) => {
-                return (
-                  <div className={styles.box} key={idx}>
-                    <div className={styles.svgBox}>
-                      <Person className={styles.svg} fill="var(--color-secondary)" />
-                      <span>{idx + 1}</span>
+      <>
+        {isLoading && <Loader />}
+        <IntlProvider locale={locale} messages={messages[locale]}>
+          <div className={styles.container}>
+            <h3 className={styles.title}>
+              <FormattedMessage id="title" />
+            </h3>
+            {values.length > 0 && (
+              <form onSubmit={this.handleSubmit}>
+                {values.map((el, idx) => {
+                  return (
+                    <div className={styles.box} key={idx}>
+                      <div className={styles.svgBox}>
+                        <Person className={styles.svg} fill="var(--color-secondary)" />
+                        <span>{idx + 1}</span>
+                      </div>
+                      <button
+                        className={styles.buttonRemove}
+                        type="button"
+                        name={el.id}
+                        onClick={this.handleRemove}
+                        disabled={values.length <= 1 ? true : false}
+                      ></button>
+                      <div className={styles.inputsContainer}>
+                        <div className={styles.inputBox}>
+                          <label className={styles.label} htmlFor="name">
+                            І'мя<small>{this.onlyLatin()}</small>
+                          </label>
+                          <input
+                            className={`${styles.input} ${
+                              isValidName[0] === idx ? styles.red : null
+                            }`}
+                            name="name"
+                            type="text"
+                            id="name"
+                            value={this.state.values[idx].name}
+                            onChange={(e) => this.handleChangeInput(el.id, e)}
+                            autoComplete="off"
+                          />
+                          {isValidName[0] === idx && (
+                            <p className={styles.redText}>{isValidName[1]}</p>
+                          )}
+                        </div>
+
+                        <div className={styles.inputBox}>
+                          <label className={styles.label} htmlFor="surname">
+                            Прізвище
+                          </label>
+                          <input
+                            className={`${styles.input} ${
+                              isValidSurname[0] === idx ? styles.red : null
+                            }`}
+                            name="surname"
+                            type="text"
+                            id="surname"
+                            value={this.state.values[idx].surname}
+                            onChange={(e) => this.handleChangeInput(el.id, e)}
+                            autoComplete="off"
+                          />
+                          {isValidSurname[0] === idx && (
+                            <p className={styles.redText}>{isValidSurname[1]}</p>
+                          )}
+                        </div>
+
+                        <div className={styles.inputBox}>
+                          <label className={styles.label} htmlFor="phone">
+                            Телефон**
+                          </label>
+                          <PhoneInput
+                            id="phone"
+                            className={`${styles.inputPhone} ${
+                              isValidPhone[0] === idx ? styles.red : null
+                            }`}
+                            international
+                            countryCallingCodeEditable={false}
+                            defaultCountry="UA"
+                            value={this.state.values[idx].phone}
+                            onChange={(val) => this.handleChangePhone(val, el.id)}
+                          />
+                          {isValidPhone[0] === idx && (
+                            <p className={styles.redText}>{isValidPhone[1]}</p>
+                          )}
+                        </div>
+
+                        {/* <p className={styles.price}>{this.props.price} грн</p> */}
+                      </div>
                     </div>
-                    <button
-                      className={styles.buttonRemove}
-                      type="button"
-                      name={el.id}
-                      onClick={this.handleRemove}
-                      disabled={values.length <= 1 ? true : false}
-                    ></button>
-                    <div className={styles.inputsContainer}>
-                      <div className={styles.inputBox}>
-                        <label className={styles.label} htmlFor="name">
-                          І'мя<small>{this.onlyLatin()}</small>
-                        </label>
-                        <input
-                          className={`${styles.input} ${
-                            isValidName[0] === idx ? styles.red : null
-                          }`}
-                          name="name"
-                          type="text"
-                          id="name"
-                          value={this.state.values[idx].name}
-                          onChange={(e) => this.handleChangeInput(el.id, e)}
-                          autoComplete="off"
-                        />
-                        {isValidName[0] === idx && (
-                          <p className={styles.redText}>{isValidName[1]}</p>
-                        )}
-                      </div>
+                  );
+                })}
 
-                      <div className={styles.inputBox}>
-                        <label className={styles.label} htmlFor="surname">
-                          Прізвище
-                        </label>
-                        <input
-                          className={`${styles.input} ${
-                            isValidSurname[0] === idx ? styles.red : null
-                          }`}
-                          name="surname"
-                          type="text"
-                          id="surname"
-                          value={this.state.values[idx].surname}
-                          onChange={(e) => this.handleChangeInput(el.id, e)}
-                          autoComplete="off"
-                        />
-                        {isValidSurname[0] === idx && (
-                          <p className={styles.redText}>{isValidSurname[1]}</p>
-                        )}
-                      </div>
+                <button
+                  className={styles.buttonAdd}
+                  type="button"
+                  onClick={this.handleAdd}
+                  disabled={values.length >= 10 ? true : false}
+                >
+                  <FormattedMessage id="buttonAdd" />
+                </button>
+                <h3 className={styles.customer}>
+                  <FormattedMessage id="customer" />
+                </h3>
+                <div className={styles.inputBox}>
+                  <label className={styles.label} htmlFor="email">
+                    Email:{" "}
+                  </label>
+                  <input
+                    className={`${styles.input} ${styles.inputEmail} ${
+                      isValidEmail ? styles.red : null
+                    } `}
+                    name="email"
+                    id="email"
+                    value={email}
+                    autoComplete="nope"
+                    onChange={this.handleChangeEmail}
+                  />
+                  {isValidEmail && <p className={styles.redText}>{isValidEmail}</p>}
+                </div>
+                <div className={styles.publicOfferBox}>
+                  <input
+                    name="publicOffer"
+                    type="checkbox"
+                    onChange={() => this.setState({ isOffer: !this.state.isOffer })}
+                  />
+                  <p>
+                    <FormattedMessage id="offer" />
+                    <a href={Offerta} target="_blanc">
+                      <FormattedMessage id="offerSpan" />
+                    </a>
+                    <FormattedMessage id="myData" />
+                    <a href={Pk} target="_blanc">
+                      <FormattedMessage id="myDataSpan" />
+                    </a>
+                  </p>
+                </div>
+                <button className={styles.buttonBuy} type="submit" disabled={isOffer}>
+                  <FormattedMessage id="buy" />
+                </button>
+              </form>
+            )}
 
-                      <div className={styles.inputBox}>
-                        <label className={styles.label} htmlFor="phone">
-                          Телефон**
-                        </label>
-                        <PhoneInput
-                          id="phone"
-                          className={`${styles.inputPhone} ${
-                            isValidPhone[0] === idx ? styles.red : null
-                          }`}
-                          international
-                          countryCallingCodeEditable={false}
-                          defaultCountry="UA"
-                          value={this.state.values[idx].phone}
-                          onChange={(val) => this.handleChangePhone(val, el.id)}
-                        />
-                        {isValidPhone[0] === idx && (
-                          <p className={styles.redText}>{isValidPhone[1]}</p>
-                        )}
-                      </div>
-
-                      {/* <p className={styles.price}>{this.props.price} грн</p> */}
-                    </div>
-                  </div>
-                );
-              })}
-
-              <button
-                className={styles.buttonAdd}
-                type="button"
-                onClick={this.handleAdd}
-                disabled={values.length >= 10 ? true : false}
-              >
-                <FormattedMessage id="buttonAdd" />
-              </button>
-              <h3 className={styles.customer}>
-                <FormattedMessage id="customer" />
-              </h3>
-              <div className={styles.inputBox}>
-                <label className={styles.label} htmlFor="email">
-                  Email:{" "}
-                </label>
-                <input
-                  className={`${styles.input} ${styles.inputEmail} ${
-                    isValidEmail ? styles.red : null
-                  } `}
-                  name="email"
-                  id="email"
-                  value={email}
-                  autoComplete="nope"
-                  onChange={this.handleChangeEmail}
-                />
-                {isValidEmail && <p className={styles.redText}>{isValidEmail}</p>}
-              </div>
-              <div className={styles.publicOfferBox}>
-                <input
-                  name="publicOffer"
-                  type="checkbox"
-                  onChange={() => this.setState({ isOffer: !this.state.isOffer })}
-                />
-                <p>
-                  <FormattedMessage id="offer" />
-                  <a href={Offerta} target="_blanc">
-                    <FormattedMessage id="offerSpan" />
-                  </a>
-                  <FormattedMessage id="myData" />
-                  <a href={Pk} target="_blanc">
-                    <FormattedMessage id="myDataSpan" />
-                  </a>
-                </p>
-              </div>
-              <button className={styles.buttonBuy} type="submit" disabled={isOffer}>
-                {isLoading ? <Loader /> : <FormattedMessage id="buy" />}
-              </button>
-            </form>
-          )}
-
-          <p className={styles.text}>
-            <FormattedMessage id="requared" />
-          </p>
-          <p className={styles.text}>
-            <FormattedMessage id="numTel" />
-          </p>
-          {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
-        </div>
-      </IntlProvider>
+            <p className={styles.text}>
+              <FormattedMessage id="requared" />
+            </p>
+            <p className={styles.text}>
+              <FormattedMessage id="numTel" />
+            </p>
+            {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
+          </div>
+        </IntlProvider>
+      </>
     );
   }
 }

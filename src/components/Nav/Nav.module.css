@@ -6,6 +6,8 @@
 .navLink {
     padding: 2px 5px;
     margin-bottom: 6px;
+    color:#ffffff
+
 }
 
 .contacts a {
@@ -30,6 +32,13 @@
 
 .contactsBox {
     position: relative;
+}
+.mobile {
+    width: 120px;
+}
+.mobile  img {
+    display: block;
+    margin-bottom: 6px;
 }
 
 @media (min-width: 576px) {}
@@ -70,6 +79,15 @@
         left: -50px;
         border-radius: 5px;
         background-color: var(--color-main)
+    }
+    .mobile {
+        width: 170px;
+        margin-top: 26px;
+        position: absolute;
+    }
+    .mobile > a:first-child {
+        display: block;
+        margin-bottom: 6px;
     }
 }
 

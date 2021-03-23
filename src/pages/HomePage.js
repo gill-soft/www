@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./HomePage.module.css";
 import SearchForm from "../components/SearchForm/SearchForm";
 import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/HomePageMessanges";
 import { Redirect, useHistory } from "react-router-dom";
@@ -18,15 +19,26 @@ const HomePage = () => {
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   useEffect(() => {
-    setTimeout(() => setIsModal(false), 8500);
+    const timer = setTimeout(() => setIsModal(false), 8500);
+    // console.log(timer)
+    // timer()
+    return () => {
+      clearTimeout(timer)
+    }
   }, []);
-  const closeModal =()=> {
-    setIsModal(false)
-  }
+  const closeModal = () => {
+    setIsModal(false);
+  };
+  
   return (
     <>
+      <Helmet>
+        <title>Купити квитки на автобус онлайн, квитки на автобус, Veze</title>
+      </Helmet>
       {error && <Redirect to="/error" />}
-      {windowWidth < 768 && isModal && <Modal onClose={closeModal} component={<AppLinks onClose={closeModal}/>} />}
+      {windowWidth < 768 && isModal && (
+        <Modal onClose={closeModal} component={<AppLinks onClose={closeModal} />} />
+      )}
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.bgnd}>
           <div className={styles.container}>
@@ -69,7 +81,7 @@ const HomePage = () => {
           </div>
         </div>
         <div className={styles.bgndBottom}>
-          <div className={ `${styles.information} ${styles.container}`}>
+          <div className={`${styles.information} ${styles.container}`}>
             <FavoriteTrips />
             <Advantages />
           </div>

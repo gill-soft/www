@@ -13,6 +13,12 @@ const OrderPage = ({ history }) => {
 
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
   const [requeredFields, setRequeredFields] = useState([]);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   // ==== получаем список обязательніх полей ==== //
   useEffect(() => {

@@ -76,48 +76,50 @@ class MyTicketPage extends Component {
   render() {
     const { status, id, url } = this.state;
     return (
-      <div className="bgnd">
-        <div className="container">
-          <TripInfo
-            ticket={this.props.ticket}
-            fromId={this.getLocalityId("departure")}
-            toId={this.getLocalityId("arrival")}
-            getDate={this.getDate}
-          />
-          <PassengersData />
-          {status === "CONFIRM" && (
-            <>
-              <h1 className={`${styles.title} ${styles.blue}`}>
-                Оплата прошла Успешно!!!
-              </h1>
-              <p className={styles.text}>
-                Hомер вашего заказа: <span className={styles.blue}>{id}</span>
-              </p>
-              <a className={styles.link} href={url} target="_blank" rel="noreferrer">
-                Cкачать билет
+      <>
+      {Object.keys(this.props.ticket).length >0 && (<div className="bgnd">
+      <div className="container">
+        <TripInfo
+          ticket={this.props.ticket}
+          fromId={this.getLocalityId("departure")}
+          toId={this.getLocalityId("arrival")}
+          getDate={this.getDate}
+        />
+        <PassengersData />
+        {status === "CONFIRM" && (
+          <>
+            <h1 className={`${styles.title} ${styles.blue}`}>
+              Оплата прошла Успешно!!!
+            </h1>
+            <p className={styles.text}>
+              Hомер вашего заказа: <span className={styles.blue}>{id}</span>
+            </p>
+            <a className={styles.link} href={url} target="_blank" rel="noreferrer">
+              Cкачать билет
+            </a>
+          </>
+        )}
+        {status === "ERROR" && (
+          <>
+            <h1 className={`${styles.title} ${styles.red}`}>
+              При офрормлении билета произошла ошибка!!!
+            </h1>
+            <p className={styles.text}>
+              Свяжитесь со службой поддержки по телефону:{" "}
+              <a href="tel: +1 111 111-11-11" className={styles.red}>
+                +1 111 111-11-11
               </a>
-            </>
-          )}
-          {status === "ERROR" && (
-            <>
-              <h1 className={`${styles.title} ${styles.red}`}>
-                При офрормлении билета произошла ошибка!!!
-              </h1>
-              <p className={styles.text}>
-                Свяжитесь со службой поддержки по телефону:{" "}
-                <a href="tel: +1 111 111-11-11" className={styles.red}>
-                  +1 111 111-11-11
-                </a>
-              </p>
-              <p className={styles.text}>
-                Hомер вашего заказа <span className={styles.red}>{id}</span>
-              </p>
-            </>
-          )}
-        </div>
-        {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
-        {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
+            </p>
+            <p className={styles.text}>
+              Hомер вашего заказа <span className={styles.red}>{id}</span>
+            </p>
+          </>
+        )}
       </div>
+      {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
+      {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
+    </div>)}
+      </>
     );
   }
 }

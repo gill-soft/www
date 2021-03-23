@@ -48,8 +48,25 @@ div>.react-datepicker__day-name {
     color: #ffffff
 }
 
+/* стили автокомплита */
+.MuiAutocomplete-listbox {
+    scrollbar-color: var(--color-secondary) #ffffff;
+    scrollbar-width: thin;
+}
+
+.MuiAutocomplete-listbox::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #ffffff;
+}
+
+.MuiAutocomplete-listbox::-webkit-scrollbar-thumb {
+    background-color: var(--color-secondary);
+    border-radius: 2px;
+}
+
 .MuiAutocomplete-option {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1;
 }
 
@@ -58,14 +75,19 @@ div>.react-datepicker__day-name {
 }
 
 .MuiAutocomplete-option[data-focus="true"] {
-    background-color: #d4e2ff !important;
+    background-color: #c2e3ff !important;
 }
-
 
 .acMainOption {
     font-weight: 700;
 }
 
+.MuiAutocomplete-paper {
+    border: 2px solid var(--color-secondary);
+    font-family: 'HelveticaNeueCyr', 'BauhausC', sans-serif;
+}
+
+/*  */
 .react-datepicker-wrapper {
     width: 100%;
 }
@@ -107,6 +129,10 @@ div>.react-datepicker__day-name {
     .container {
         max-width: 1140px;
         padding-top: 110px;
+    }
+
+    .MuiAutocomplete-paper {
+        width: 300px;
     }
 }
 

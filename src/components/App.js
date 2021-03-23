@@ -52,7 +52,7 @@ const App = () => {
           <Route path="/myTicket/:id" component={MyTicketPage} />
           <Route path="/error" component={ErrorPage} />
         </Switch>
-        <Footer></Footer>
+        <Footer />
       </div>
     </>
   );

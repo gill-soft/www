@@ -32,15 +32,15 @@ class TripsPage extends Component {
     this.props.getTripsInfo([]);
     const parsed = queryString.parse(this.props.location.search);
 
-    const {  setFrom, setTo } = this.props;
-     setFrom({ text: this.props.match.params.from, value:parsed.from});
-     setTo({ text: this.props.match.params.to, value:parsed.to });
+    const { setFrom, setTo } = this.props;
+    setFrom({ text: this.props.match.params.from, value: parsed.from });
+    setTo({ text: this.props.match.params.to, value: parsed.to });
 
     window.scrollTo({
       top: getScroll(windowWidth),
       behavior: "smooth",
     });
-    
+
     // ==== формируем обьект для запроса ====
     const requestData = {
       idFrom: parsed.from,
@@ -127,7 +127,7 @@ class TripsPage extends Component {
           })
           .catch(({ err }) => this.props.getError(err));
       }, 300);
-    } else if (deltaTime > 3000 && deltaTime < 10000) {
+    } else if (deltaTime > 3000 && deltaTime < 20000) {
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {

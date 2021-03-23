@@ -15,13 +15,11 @@ import { messages } from "../../intl/HomePageMessanges";
 import { getCities } from "../../services/api";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 import styles from "./SearchForm.module.css";
-import {OPTIONS} from "../../assets/searchFormOptions"
+import { OPTIONS } from "../../assets/searchFormOptions";
 
 const filterOptions = createFilterOptions({
   matchFrom: "start",
 });
-
-
 
 const StyledTextField = styled(TextField)`
   label {
@@ -50,7 +48,7 @@ const StyledTextField = styled(TextField)`
   }
   .MuiIconButton-root {
     color: var(--color-secondary);
-    display: none;
+    /* display: none; */
   }
   .MuiAutocomplete-popupIndicator {
     display: none;
@@ -58,6 +56,7 @@ const StyledTextField = styled(TextField)`
   .MuiFormControl-marginNormal {
     margin: 0;
   }
+  
 `;
 
 const AutoComplete3 = () => {
@@ -85,7 +84,7 @@ const AutoComplete3 = () => {
   };
 
   const getOtpions = (target) => {
-    setOptions([])
+    setOptions([]);
     if (target.value === null || target.value === undefined) return;
     if (target.value.length >= 2) {
       getCities(target.value, lang).then(({ data }) => {
@@ -109,7 +108,7 @@ const AutoComplete3 = () => {
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
           onChange={(event, value) => {
-            setFrom(value);
+            value ? setFrom(value) : setFrom({ text: "", value: "" });
             setOptions(OPTIONS[lang]);
             changeIsOpenFrom(false);
             changeIsOpenTo(true);
@@ -153,7 +152,7 @@ const AutoComplete3 = () => {
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
           onChange={(event, value) => {
-            setTo(value);
+            value ? setTo(value) : setTo({ text: "", value: "" });
             value !== null ? changeIsOpenTo(false) : changeIsOpenTo(true);
             setOptions(OPTIONS[lang]);
             if (value !== null) changeIsOpenDate(true);
