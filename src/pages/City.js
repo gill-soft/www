@@ -6,7 +6,7 @@ import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormActi
 import { Link, useParams } from "react-router-dom";
 import { getUrl } from "../services/getUrl";
 import { format } from "date-fns";
-import { cities } from "../assets/cities";
+import { citiesList } from "../assets/cities";
 import { citiesName } from "../assets/citiesName";
 
 const City = ({ history }) => {
@@ -16,7 +16,7 @@ const City = ({ history }) => {
 
   const { city } = useParams();
   const dispatch = useDispatch();
-  const sityObj = cities.find((el) => {
+  const sityObj = citiesList.find((el) => {
     return (
       el.name.EN === city ||
       el.name.RU === city ||

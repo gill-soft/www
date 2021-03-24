@@ -55,6 +55,15 @@ export const getRequaredFields = (key) => {
     },
   });
 };
+export const getRequaredFieldsS = (key) => {
+  return axios({
+    method: "get",
+    url: `${baseURLcontrol}/search/trip/${key}/seats`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+  });
+};
 
 //  ==== запрос на билет ==== //
 // export const toBook = (body) => {

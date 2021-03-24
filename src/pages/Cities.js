@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { citiesName } from "../assets/citiesName";
+import { citiesList } from "../assets/cities";
 import { getUrlCities } from "../services/getUrl";
 import styles from "./Cities.module.css";
 
@@ -20,24 +21,35 @@ const Cities = () => {
     });
   }, [stops]);
 
-// ==== смена url при изменении языка ==== //
+  // ==== смена url при изменении языка ==== //
   useEffect(() => {
     history.replace(`/${getUrlCities(lang).trim()}`);
   }, [history, lang]);
-
+  const getImg = (id) => {
+    return citiesList.find((el) => el.id === id).image;
+  };
   return (
     <div className="bgnd">
       <div className="container">
-        {citiesName.map((el, idx) => (
-          <li key={idx}>
-            <Link
-              className={styles.link}
-              to={`/${getUrlCities(lang).trim()}/${el.name[lang]}`}
-            >
-              {el.name[lang]}
-            </Link>
-          </li>
-        ))}
+        <ul className={styles.list}>
+          {citiesName.map((el, idx) => (
+            <li key={idx} className={styles.listItem}>
+              <Link
+                className={styles.link}
+                to={`/${getUrlCities(lang).trim()}/${el.name[lang]}`}
+              >
+                    
+                <div className={styles.img}>
+                  <img
+                    src={getImg(el.id)}
+                    alt={`квитки онлайн в ${el.name.lang}`}
+                  ></img>
+                </div>
+                <p className={styles.name}>{el.name[lang]}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

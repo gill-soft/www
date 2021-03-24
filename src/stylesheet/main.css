@@ -55,7 +55,7 @@ div>.react-datepicker__day-name {
 }
 
 .MuiAutocomplete-listbox::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
     height: 8px;
     background-color: #ffffff;
 }
@@ -63,6 +63,7 @@ div>.react-datepicker__day-name {
 .MuiAutocomplete-listbox::-webkit-scrollbar-thumb {
     background-color: var(--color-secondary);
     border-radius: 2px;
+    border: 3px solid #ffffff
 }
 
 .MuiAutocomplete-option {
@@ -141,4 +142,8 @@ div>.react-datepicker__day-name {
 .PhoneInputInput {
     border: none;
     font-size: 14px;
+}
+
+.dropdownIndicator {
+    display: none;
 }

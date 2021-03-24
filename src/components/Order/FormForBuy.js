@@ -37,7 +37,14 @@ class FormForBuy extends Component {
       this.setState((prev) => ({
         values: [
           ...prev.values,
-          { name: "M", surname: "surname1", phone: "", id: `${i}`, email: "" },
+          {
+            name: "Mt",
+            surname: "surname1",
+            phone: "",
+            id: `${i}`,
+            email: "",
+            patronymic: "",
+          },
         ],
       }));
     }
@@ -75,7 +82,10 @@ class FormForBuy extends Component {
         requestBody.currency = "UAH";
         console.log("zapros");
         toBookTicket(requestBody)
-          .then(({ data }) => this.setState({ resp: data }))
+          .then(({ data }) => {
+            this.props.stopLoader();
+            this.setState({ resp: data });
+          })
           .catch((err) => {
             this.props.stopLoader();
             getError(err.message);
@@ -209,6 +219,7 @@ class FormForBuy extends Component {
     } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
+    console.log(values);
     return (
       <>
         {isLoading && <Loader />}
@@ -273,7 +284,30 @@ class FormForBuy extends Component {
                             <p className={styles.redText}>{isValidSurname[1]}</p>
                           )}
                         </div>
+                        {/*  */}
+                        {this.props.requeredFields.includes("PATRONYMIC") && (
+                          <div className={styles.inputBox}>
+                            <label className={styles.label} htmlFor="patronymic">
+                              Побатькові
+                            </label>
+                            <input
+                              className={`${styles.input} ${
+                                isValidSurname[0] === idx ? styles.red : null
+                              }`}
+                              name="patronymic"
+                              type="text"
+                              id="patronymic"
+                              value={this.state.values[idx].patronymic}
+                              onChange={(e) => this.handleChangeInput(el.id, e)}
+                              autoComplete="off"
+                            />
+                            {isValidSurname[0] === idx && (
+                              <p className={styles.redText}>{isValidSurname[1]}</p>
+                            )}
+                          </div>
+                        )}
 
+                        {/*  */}
                         <div className={styles.inputBox}>
                           <label className={styles.label} htmlFor="phone">
                             Телефон**

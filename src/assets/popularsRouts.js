@@ -41,4 +41,25 @@ export const popular = [
     },
     price: "280грн",
   },
+  {
+    departure: {
+      name: {
+        UA: "Київ",
+        RU: "Киев",
+        EN: "Kiev",
+        PL: "Kijów",
+      },
+      id: "2498710",
+    },
+    arrival: {
+      name: {
+        UA: "Одеса",
+        RU: "Одесса",
+        EN: "Odessa",
+        PL: "Odessa",
+      },
+      id: "2498336",
+    },
+    price: "333грн",
+  },
 ];

@@ -73,6 +73,7 @@ const AutoComplete3 = () => {
   const changeIsOpenDate = (bool) => dispatch(setIsOpenDate(bool));
 
   const [options, setOptions] = useState(OPTIONS[lang]);
+  const [anime, setAnime] = useState(false)
 
   const locale = lang === "UA" ? "UK" : lang;
 
@@ -81,6 +82,7 @@ const AutoComplete3 = () => {
     const b = to;
     setFrom(b);
     setTo(a);
+setAnime(!anime)
   };
 
   const getOtpions = (target) => {
@@ -139,7 +141,7 @@ const AutoComplete3 = () => {
         />
       </div>
 
-      <Arrow className={styles.arrow} onClick={handleChange} />
+      <Arrow className={` ${anime ? styles.arrowClick : styles.arrow}`} onClick={handleChange} />
       <div className={styles.inputBox}>
         <Autocomplete
           id="to"

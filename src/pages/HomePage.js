@@ -20,16 +20,14 @@ const HomePage = () => {
   const locale = lang === "UA" ? "UK" : lang;
   useEffect(() => {
     const timer = setTimeout(() => setIsModal(false), 8500);
-    // console.log(timer)
-    // timer()
     return () => {
-      clearTimeout(timer)
-    }
+      clearTimeout(timer);
+    };
   }, []);
   const closeModal = () => {
     setIsModal(false);
   };
-  
+
   return (
     <>
       <Helmet>

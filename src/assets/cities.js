@@ -1,4 +1,4 @@
-export const cities = [
+export const citiesList = [
   {
     id: "2489020",
     name: { UA: "Буковель", RU: "Буковель", EN: "Bukovel", PL: "Bukovel" },
@@ -78,5 +78,21 @@ export const cities = [
     },
     image:
       "https://tripmydream.cc/travelhub/travel/blocks/21/0825/block_210825.jpg",
+  },
+  {
+    id: "2498504",
+    name: { UA: "Львів", RU: "Львов", EN: "Lviv", PL: "Lwów" },
+    text: {
+      UA:
+        "Найменша провина права на себе до когось. Обов'язки потреб часу істини вони не знають, я відвернуся до вибору деленіти, відмовляюсь витримати обов'язки майстра-будівельника, щоб отримати від них всяку досаду, що нічого не викликає дискомфорту в душі він бажає вітати більший вибір для наслідування! Було винайдено відразу, щоб сприймати біль, а наслідки насолоди? бо відповідні втекли, як би вищого рангу, ким діти, що вони це мали. Більшість прийнятих або, в його задоволеннях, відмовлялися виконувати обов'язки майстра-будівельника, щоб отримати від них усі досади, чогось, що вам не заважатимуть труднощі наших предків, щоб слідувати бажанням привітати вибір! Було винайдено відразу, щоб сприймати біль, а наслідки насолоди? далі?",
+      RU:
+        "Самая маленькая вина права на себя некоторым. Обязанности потребностей времени истины они не знают его, я открою, чтобы выбрать deleniti отказано выдерживать обязанности главного строителя, чтобы получить от них все раздражение, что-то, что ничего от дискомфорта ума, он желает приветствовать больший выбор, чтобы следовать! Было изобретено сразу снимать боль и последствия удовольствий? ибо соответствующие бежали, как бы более высокого ранга, от того, кем были дети, которые у них были. Большинство из них согласились или, в его удовольствиях, отказались от обязанностей главного строителя, чтобы получить от них все раздражение, то, что вы не будете возражать против невзгод наших предков, чтобы следовать желанию приветствовать выбор! Было изобретено сразу снимать боль и последствия удовольствий? дальше?",
+      EN:
+        "Lorem ipsum dLorem ipsum dolor sit amet consectetur adipisicingelit. Minima iure culpa ipsum      quibusdam. Eligendi eum deleniti perferendis tempore veritatis necessitatibus officiis nesciunt aperiam est repellendus architecto officiis eos molestiae velit      optio sequi maiores adipisci molestias aliquid quod nihil animi excepturi!      Consequatur voluptatum inventore assumenda dolore porro? ex debitis fugit maiores,      quasi vero unde quos quod quia. Maxime recusandae vel voluptatum, repellendus     architecto officiis eos molestiae velit optio sequi maiores adipisci molestias      aliquid quod nihil animi excepturi! Consequatur voluptatum inventore assumenda      dolore porro? porro?",
+      PL:
+        "Najmniejsza wada prawa do siebie niektórych. Obowiązki potrzeb czasowych prawdy, których nie znają, otworzę się na wybór deleniti, odmówię wytrwania w obowiązkach budowniczego, aby uzyskać od nich wszelką irytację, coś, co nie ma żadnego dyskomfortu umysłu, pragnie przyjąć z zadowoleniem większy wybór do naśladowania! Czy wynaleziono od razu ból i konsekwencje przyjemności? albowiem odpowiadający im uciekli, jakby wyższej rangi, przez kogo dzieci to mieli. Większość zaakceptowanych lub, w jego przyjemnościach, odmówiła obowiązków mistrza budowniczego, aby uzyskać od nich wszelką irytację, coś, na co nie będziesz miał nic przeciwko trudom naszych przodków, aby podążać za pragnieniem przyjęcia wyboru! Czy wynaleziono od razu ból i konsekwencje przyjemności? dalej?",
+    },
+    image:
+      "https://www.arabnews.com/sites/default/files/styles/n_670_395/public/2019/03/13/1488681-176463439.jpg?itok=lf88U1zZ",
   },
 ];

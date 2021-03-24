@@ -40,7 +40,23 @@
     cursor: pointer;
     background-color: #747474;
     border-radius: 50%;
-    border: 1px solid var(--color-secondary); 
+    border: 1px solid var(--color-secondary);
+    z-index: 9;
+    transition: transform 200ms linear;
+
+}
+
+.arrowClick {
+    transition: transform 200ms linear;
+    position: absolute;
+    top: 44px;
+    right: 10px;
+    /* transform: rotate(90deg); */
+    transform: rotate(-90deg);
+    cursor: pointer;
+    background-color: #747474;
+    border-radius: 50%;
+    border: 1px solid var(--color-secondary);
     z-index: 9;
 }
 
@@ -63,17 +79,29 @@
     .fromTo {
         display: flex;
     }
+
     .inputBox {
         width: 48%;
     }
 
     .arrow {
         position: static;
-        transform: rotate(180deg);
+        transform: rotate(0deg);
         margin: 10px;
         width: 50px;
         border: none;
         background-color: transparent;
+        transition: transform 200ms;
+    }
+
+    .arrowClick {
+        position: static;
+        transform: rotate(-180deg);
+        margin: 10px;
+        width: 50px;
+        border: none;
+        background-color: transparent;
+        transition: transform 200ms;
     }
 }
 
@@ -83,20 +111,26 @@
         display: flex;
         align-items: flex-start;
     }
+
     .searchBtn {
         width: 100px;
     }
-    .inputBox{
+
+    .inputBox {
         width: 220px;
     }
+
     .flex {
         width: 470px;
         margin-right: 10px;
     }
+
     .fromTo {
         margin-right: 10px;
     }
-    .arrow {
+
+    .arrow, .arrowClick {
         margin: 10px 0;
     }
+    
 }
