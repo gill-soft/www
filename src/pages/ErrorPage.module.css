@@ -1,0 +1,38 @@
+.smile {
+    width: 160px;
+    margin: 0 auto 20px;
+    padding: 220px 0 0;
+    background-image: url('../images/355-3551959_-emoji-expression-min.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center 20px;
+    font-size: 24px;
+    text-align: center;
+    color: #636363;
+    font-weight: 500;
+}
+
+.link {
+    display: block;
+    width: 300px;
+    margin: 0 auto;
+    background-color: var(--color-main);
+    padding: 10px;
+    color: var(--color-secondary);
+    font-weight: 500;
+    /* box-shadow: 1px 1px 2px 2px rgb(98, 137, 160); */
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+}
+
+@media(min-width:768px) {
+    .smile {
+        width: auto;
+        padding-top: 280px;
+        background-position: center -10px;
+        font-size: 34px;
+
+    }
+}

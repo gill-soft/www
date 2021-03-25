@@ -1,0 +1,34 @@
+.selectBox {
+    font-size: 12px;
+    color: var(--color-secondary);
+}
+
+.select {
+    border: 2px solid var(--color-secondary);
+    border-radius: 16px;
+    padding: 6px 4px;
+    background: transparent;
+    outline: none;
+    color: var(--color-secondary)
+}
+
+.option {
+    color: black;
+}
+
+@media (min-width: 576px) {
+    .selectBox {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 768px) {
+    .selectBox {
+        font-size: 16px;
+    }
+
+    .select {
+        padding: 8px 4px;
+    }
+}
+

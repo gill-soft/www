@@ -1,0 +1,48 @@
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #232323;
+    margin-bottom: 8px;
+}
+
+
+@media (min-width: 576px) {
+    .passangersBox {
+        width: 100%;
+    }
+
+    .passangersBox li:last-child {
+        margin-bottom: 0;
+    }
+
+    .header {
+        display: flex;
+    }
+
+    .number {
+        margin: 0 20px 0 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .passangerTitle {
+        margin-bottom: 16px;
+    }
+
+    .passangerData {
+        display: flex;
+    }
+
+    .passangerData div {
+        width: 170px;
+        margin: 0 20px 0 0;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 992px) {}
+
+@media (min-width: 1200px) {}

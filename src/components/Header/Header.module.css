@@ -1,0 +1,85 @@
+.header {
+    position: fixed;
+    width: 100%;
+    background-color: var(--color-main);
+    z-index: 50;
+}
+
+.container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+}
+
+.logo {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background-image: url('../../images/ibusik-logo-white.png');
+    background-size: cover;
+}
+
+.btnMenu {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.backdrop {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    right: 0;
+}
+
+.menuBox {
+    width: 80%;
+    padding: 6px 10px;
+    background-color: var(--color-main);
+    position: absolute;
+    top: 76px;
+    right: 0px;
+}
+
+.btnClose {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+
+    .logo {
+        width: 150px;
+        height: 45px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}

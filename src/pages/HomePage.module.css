@@ -1,0 +1,204 @@
+.bgnd {
+    background-image: url('../images/bus.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 70px 0;
+}
+.bgndBottom {
+    background-color: rgb(245, 245, 245);
+}
+
+.container {
+    text-align: center;
+}
+.information {
+    padding: 10px 5px;
+
+}
+
+.title {
+    margin: 0;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.subtitle {
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.formContainer {
+    width: 96%;
+    margin: 0 auto 30px;
+    padding: 30px 17px;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: left;
+}
+
+.iconsBox {
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.iconItem {
+    width: 100px;
+    padding-top: 85px;
+    background-repeat: no-repeat;
+    background-position: center 0;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.iconItem1 {
+    background-image: url('../images/lowPrice-line-icon.png');
+}
+
+.iconItem2 {
+    background-image: url('../images/safely-line-icon.png');
+}
+
+.iconItem3 {
+    background-image: url('../images/24h-line-icon.png');
+}
+
+.iconItem4 {
+    background-image: url('../images/discount-line-icon.png');
+}
+
+.iconItem5 {
+    background-image: url('../images/sms-line-icon.png');
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+        margin: 0 auto;
+    }
+
+    .formContainer {
+        margin-bottom: 40px;
+    }
+
+    .iconsBox {
+        width: 450px;
+    }
+
+    .iconItem {
+        width: 120px;
+    }
+}
+
+@media (min-width: 768px) {
+    .bgnd {
+        padding: 90px 0;
+    }
+
+    .container {
+        max-width: 720px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .iconsBox {
+        width: 700px;
+        justify-content: space-between;
+        font-size: 14px;
+    }
+.information {
+    display: flex;
+    text-align: left;
+}
+
+}
+
+@media (min-width: 992px) {
+    .bgnd {
+        padding: 110px 0 50px;
+    }
+
+    .formContainer {
+        margin-bottom: 50px;
+    }
+
+    .container {
+        max-width: 960px;
+    }
+
+    .title {
+        font-size: 38px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+
+    .iconsBox {
+        width: 900px;
+        font-size: 16px;
+
+    }
+
+    .iconItem {
+        width: 150px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .bgnd {
+        padding: 140px 0 50px;
+    }
+
+    .container {
+        max-width: 1140px;
+    }
+
+    .subtitle {
+        margin-bottom: 60px;
+    }
+
+    .formContainer {
+        margin-bottom: 60px;
+    }
+}
+
+/* 
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+} */
