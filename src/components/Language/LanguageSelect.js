@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/Language/LanguageAction";
 import { inputValueFrom, inputValueTo } from "../../redux/searchForm/searchFormAction";
 import styles from "./LanguageSelect.module.css";
-import { ReactComponent as UKR } from "../../images/ukraine.svg";
-import { ReactComponent as RUS } from "../../images/russia.svg";
 
 const LanguageSelect = () => {
   const language = useSelector((state) => state.language);

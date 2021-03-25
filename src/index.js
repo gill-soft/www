@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter, Route } from "react-router-dom";
+import { BrowserRouter,  Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import "./stylesheet/main.css";
 import store from "./redux/store";
@@ -9,13 +9,13 @@ import App from "./components/App";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <BrowserRouter> */}
-    <HashRouter>
+    <BrowserRouter>
+    {/* <HashRouter> */}
       <Provider store={store}>
         <Route component={App} />
       </Provider>
-    </HashRouter>
-    {/* </BrowserRouter> */}
+    {/* </HashRouter> */}
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("trips")
 );

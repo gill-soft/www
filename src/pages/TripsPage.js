@@ -125,7 +125,7 @@ class TripsPage extends Component {
               }
             }
           })
-          .catch(({ err }) => this.props.getError(err));
+          .catch((err) => this.props.getError(err));
       }, 300);
     } else if (deltaTime > 3000 && deltaTime < 20000) {
       setTimeout(() => {

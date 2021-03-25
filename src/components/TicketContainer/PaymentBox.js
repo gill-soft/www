@@ -26,7 +26,7 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
 
   useEffect(() => {
     if (time < 0) {
-      // setIsModal(true);
+      setIsModal(true);
       setTime(0);
       return;
     }

@@ -85,7 +85,7 @@ div>.react-datepicker__day-name {
 
 .MuiAutocomplete-paper {
     border: 2px solid var(--color-secondary);
-    font-family: 'HelveticaNeueCyr', 'BauhausC', sans-serif;
+    font-family: 'HelveticaNeueCyr', 'BauhausC', sans-serif !important;
 }
 
 /*  */

@@ -56,6 +56,10 @@ const StyledTextField = styled(TextField)`
   .MuiFormControl-marginNormal {
     margin: 0;
   }
+  .MuiFormLabel-root {
+    font-family: "HelveticaNeueCyr";
+
+  }
   
 `;
 

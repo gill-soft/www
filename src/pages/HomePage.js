@@ -10,6 +10,7 @@ import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
 import Modal from "../components/Modal/Modal";
 import AppLinks from "../components/AppLinks/AppLinks";
 import Advantages from "../components/Advantages/Advantages";
+import { getDescription, getTitle } from "../services/headTags";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -31,7 +32,8 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Купити квитки на автобус онлайн, квитки на автобус, Veze</title>
+      <meta name="description" content={getDescription(lang)} />
+        <title>{getTitle(lang)}</title>
       </Helmet>
       {error && <Redirect to="/error" />}
       {windowWidth < 768 && isModal && (

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SearchForm from "../components/SearchForm/SearchForm";
 import styles from "./City.module.css";
@@ -7,11 +7,9 @@ import { Link, useParams } from "react-router-dom";
 import { getUrl } from "../services/getUrl";
 import { format } from "date-fns";
 import { citiesList } from "../assets/cities";
-import { citiesName } from "../assets/citiesName";
 
 const City = ({ history }) => {
   const lang = useSelector((state) => state.language);
-  const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
 
   const { city } = useParams();
@@ -24,7 +22,7 @@ const City = ({ history }) => {
       el.name.PL === city
     );
   });
-  const citiesFrom = citiesName.filter((el) => el.name[lang] !== city);
+  const citiesFrom = citiesList.filter((el) => el.name[lang] !== city);
 
   useEffect(() => {
     ((value) => dispatch(inputValueTo(value)))({
