@@ -1,0 +1,97 @@
+.time {
+    color: var(--color-secondary);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.warning {
+    display: flex;
+    background-color: aliceblue;
+    justify-content: space-between;
+    padding: 30px 12px;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.warningText {
+    color: #000000;
+}
+
+.warningText span {
+    font-weight: 700;
+    display: inline-block;
+}
+
+.payment {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.portmone {
+    width: 170px;
+    padding: 20px 0;
+    background-image: url('../../images/portmone.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 4px 2px #a3a3a3;
+    cursor: pointer;
+}
+
+.portmone:hover {
+    box-shadow: 0 0 2px 1px #a3a3a3;
+}
+
+.flexItem {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.flexItem:last-child {
+    margin-bottom: 0;
+}
+
+.total {
+    width: 170px;
+    padding: 6px 0;
+    background-color: #ffffff;
+    display: inline;
+    border: none;
+    box-shadow: 0 0 4px 2px #a3a3a3;
+    font-size: 24px;
+    color: var(--color-danger);
+    font-weight: 600;
+    text-align: center;
+}
+.total > small {
+    font-size: 14px;
+}
+
+@media(min-width: 576px){
+.flexItem{
+    font-size: 16px;
+}
+
+}
+@media(min-width: 992px){
+    .flexItem{
+        font-size: 18px;
+    }
+    .payment {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .flexItem {
+        margin-bottom: 0;
+    }
+    .portmone, .total {
+        margin-left: 10px;
+    }
+    }

@@ -1,0 +1,62 @@
+.box {
+    width: 99%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    margin-bottom: 30px;
+    border: 1px solid var(--color-main);
+    border-radius: 4px;
+    box-shadow: 1px 1px 8px 1px #636363;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+
+}
+.box span {
+    margin: 2px 0;
+}
+.departure {
+    margin-bottom: 28px;
+}
+.arrival {
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--color-main);
+}
+
+.price {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+
+@media(min-width: 768px){
+    .box {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .price {
+        flex-direction: column;
+    }
+    .arrival {
+        border: none;
+    }
+}
+@media(min-width: 992px){
+    .arrival {
+        margin-bottom: 0;
+    }
+    .toFrom {
+        display: flex;
+        flex-direction: row;
+    }
+    .departure {
+        margin: 0 70px 0 0;
+    }
+    .box {
+        padding-bottom: 24px ;
+    }
+}
+
+

@@ -1,0 +1,280 @@
+.full {
+    width: 99%;
+    margin: 0 auto 30px;
+    border: 1px solid var(--color-main);
+    border-radius: 4px;
+    box-shadow: 1px 1px 8px 1px #636363;
+    background-color: #ffffff;
+}
+
+.tripBox {
+    position: relative;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.timeInWay {
+    position: absolute;
+    right: 10px
+}
+
+.time {
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.date {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #636363
+}
+
+.locality {
+    font-weight: 600;
+    color: var(--color-main)
+}
+
+.localityStop {
+    color: #636363
+}
+
+.address {
+    margin-bottom: 24px;
+    font-style: italic;
+    color: #636363;
+    font-size: 14px;
+}
+
+
+.fromTo {
+    border-bottom: 1px solid var(--color-main);
+    margin-bottom: 14px;
+}
+
+.additionals {
+    border: none;
+    background: none;
+    color: var(--color-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+}
+
+.price {
+    color: var(--color-secondary);
+    font-size: 25px;
+    font-weight: 700;
+    order: 1;
+}
+
+.priceBox {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 12px;
+
+}
+
+.price span {
+    font-size: 8px;
+}
+
+.choose {
+    display: block;
+    margin: 0;
+    color: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100px;
+    border-radius: 4px;
+    background-color: var(--color-third);
+    order: 1;
+    box-shadow: 0 5px 6px -2px rgb(50, 50, 78);
+
+    transition: box-shadow 200ms linear, transform 200ms linear
+}
+
+.choose:hover,
+.choose:focus {
+    box-shadow: 0 3px 4px -1px rgb(50, 50, 78);
+    transform: translateY(2px);
+}
+
+.additionalInfo {
+    display: flex;
+    padding: 10px;
+
+}
+
+.depArr {
+    position: relative;
+    /* width: 120px; */
+    border-left: 2px dotted #000000;
+    margin: 8px 20px 8px 80px;
+    padding-left: 20px;
+}
+
+.start {
+    position: relative;
+}
+
+.start:first-child {
+    margin-bottom: 10px;
+}
+
+.start:last-child {
+    margin-top: 10px;
+}
+
+.stop {
+    color: #636363;
+    position: relative;
+}
+
+.start::after,
+.stop::before {
+    content: '';
+    display: block;
+    height: 10px;
+    width: 10px;
+    border: 2px solid #000000;
+    border-radius: 50%;
+    background-color: #ffffff;
+    z-index: 9;
+    position: absolute;
+    top: 0px;
+    left: -28px;
+}
+
+.finish::before {
+    content: '';
+    display: block;
+    background-color: #ffffff;
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    top: 10px;
+    left: -31px;
+    padding: 10px;
+}
+
+.timeStop {
+    position: absolute;
+    left: -80px
+}
+
+.stop::before {
+    border: 2px dotted #000000;
+}
+
+
+.start .locality {
+    color: rgb(0, 100, 0)
+}
+
+.finish .locality {
+    color: rgb(100, 0, 0)
+}
+
+.start p,
+.finish p {
+    color: #636363;
+}
+
+h5 {
+    border-top: 1px solid var(--color-main);
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.red {
+    color: var(--color-danger);
+    font-size: 16px;
+    order: 0
+}
+
+.green {
+    color: green;
+    font-size: 16px;
+    order: 0
+}
+
+@media (min-width: 768px) {
+    .tripBox {
+        flex-direction: row;
+    }
+
+    .fromTo {
+        width: 540px;
+        border-bottom: none;
+        border-right: 1px solid var(--color-main);
+    }
+
+    .additionals {
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+    }
+
+    .priceBox {
+        flex-direction: column;
+        padding-left: 30px;
+    }
+
+    .price {
+        padding-top: 50px;
+        order: 0
+    }
+
+    .red,
+    .green {
+        order: 2
+    }
+
+    .timeInWay {
+        right: 180px;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .fromTo {
+        display: flex;
+        width: 760px;
+    }
+
+    .info {
+        padding-right: 10px;
+        width: 50%;
+    }
+
+    .timeInWay {
+        left: 200px;
+    }
+
+    .priceBox {
+        padding-left: 40px;
+    }
+
+    .price {
+        padding-top: 20px;
+        margin-bottom: 14px;
+    }
+
+    .choose {
+        margin-bottom: 14px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .fromTo {
+        width: 920px;
+    }
+
+    .timeInWay {
+        left: 260px;
+    }
+}

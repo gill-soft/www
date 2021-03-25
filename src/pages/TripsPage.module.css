@@ -1,0 +1,16 @@
+.formBox {
+    width: 96%;
+    margin: 0 auto;
+    padding: 30px 17px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.title {
+    width: 300px;
+    margin: 20px auto 20px;
+    font-size: 30px;
+    text-align: center;
+}
+.tripsBox {
+    padding-bottom: 20px;
+}

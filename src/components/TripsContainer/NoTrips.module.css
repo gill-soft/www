@@ -1,0 +1,16 @@
+.box {
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+.title {
+    color: #3d3d3d;
+    font-weight: 400;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.box p {
+    font-size: 18px;
+    color: #3d3d3d;
+
+}
