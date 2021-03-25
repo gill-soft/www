@@ -78,14 +78,14 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
             <input
               type="hidden"
               name="success_url"
-              value={`http://localhost:3000/#/myTicket/${id}`}
-              // value={`https://gill-soft.github.io/www/#/MyTicket/${id}`}
+              // value={`http://localhost:3000/#/myTicket/${id}`}
+              value={`https://site.busis.eu/ticket/MyTicket/${id}`}
             />
             <input
               type="hidden"
               name="failure_url"
-              value={`http://localhost:3000/#/ticket/${id}/${payeeId}`}
-              // value={`https://gill-soft.github.io/www/#/ticket/${id}/${payeeId}`}
+              // value={`http://localhost:3000/#/ticket/${id}/${payeeId}`}
+              value={`https://site.busis.eu/ticket/${id}/${payeeId}`}
             />
             <input type="hidden" name="lang" value={locale.toLowerCase()} />
             <input type="hidden" name="encoding" value="UTF-8" />
