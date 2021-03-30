@@ -36,9 +36,9 @@ const Nav = () => {
         <NavLink
           className={styles.navLink}
           activeClassName={styles.selected}
-          to="/about-us"
+          to="/міста"
         >
-          Про нас
+          Маршрути
         </NavLink>
         <NavLink className={styles.navLink} activeClassName={styles.selected} to="/info">
           Інформація

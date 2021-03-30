@@ -20,9 +20,9 @@ const regexLatin = /^[a-zA-Z]+$/;
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "w@w.com",
+    email: "",
     resp: {},
-    isOffer: false,
+    isOffer: true,
     isValidPhone: [-1, ""],
     isValidName: [-1, ""],
     isValidSurname: [-1, ""],
@@ -38,8 +38,8 @@ class FormForBuy extends Component {
         values: [
           ...prev.values,
           {
-            name: "Mt",
-            surname: "surname1",
+            name: "",
+            surname: "",
             phone: "",
             id: `${i}`,
             email: "",
@@ -80,7 +80,6 @@ class FormForBuy extends Component {
         }));
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
-        console.log("zapros");
         toBookTicket(requestBody)
           .then(({ data }) => {
             this.props.stopLoader();
@@ -116,7 +115,7 @@ class FormForBuy extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { values, goSearch, email } = this.state;
-    const { requeredFields, startLoader } = this.props;
+    const { requeredFields, startLoader, lang } = this.props;
     startLoader();
 
     this.setState({
@@ -146,7 +145,7 @@ class FormForBuy extends Component {
       if (!el.surname.trim())
         this.setState({ isValidSurname: [idx, "це поле необхідно заповнити"] });
       // ==== phone====
-      if (!el.phone || el.phone.length <= 11) {
+      if (!el.phone || el.phone.length < 12 || el.phone.length > 13) {
         this.setState({ isValidPhone: [idx, "не коректний номер телефону"] });
       }
     });
@@ -175,6 +174,7 @@ class FormForBuy extends Component {
   };
 
   handleChangePhone = (val, idx) => {
+    // this.setState((prev) => (prev.values.find((el) => el.id === idx).phone = val));
     this.setState((prev) =>
       // eslint-disable-next-line array-callback-return
       prev.values.map((el) => {
@@ -219,7 +219,7 @@ class FormForBuy extends Component {
     } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(values);
+    // console.log(isValidPhone);
     return (
       <>
         {isLoading && <Loader />}

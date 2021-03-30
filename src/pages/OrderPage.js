@@ -26,9 +26,6 @@ const OrderPage = ({ history }) => {
       getRequaredFields(tripKey)
         .then(({ data }) => setRequeredFields(data))
         .catch((err) => console.log(err));
-        getRequaredFieldsS(tripKey)
-        .then(({ data }) => console.log(data))
-        .catch((err) => console.log(err));
   }, [tripKey]);
 
   // ==== при перезагрузке страницы попадаем на предыдущую

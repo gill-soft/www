@@ -6,5 +6,8 @@ export const fetchStops = () => (dispatch) => {
     .then((res) => {
       dispatch(fetchAllStops(res.data));
     })
-    .catch((error) => dispatch(getError(error.message)));
+    .catch((error) => {
+      console.log(error);
+      dispatch(getError(error.message));
+    });
 };
