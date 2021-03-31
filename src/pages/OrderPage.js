@@ -4,7 +4,7 @@ import OrderInfo from "../components/Order/OrderInfo";
 import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
 import styles from "./OrderPage.module.css";
-import { getRequaredFields, getRequaredFieldsS } from "../services/api";
+import { getRequaredFields } from "../services/api";
 
 const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
@@ -20,14 +20,11 @@ const OrderPage = ({ history }) => {
     });
   }, []);
 
-  // ==== получаем список обязательніх полей ==== //
+  // ==== получаем список обязательных полей ==== //
   useEffect(() => {
     if (tripKey)
       getRequaredFields(tripKey)
         .then(({ data }) => setRequeredFields(data))
-        .catch((err) => console.log(err));
-        getRequaredFieldsS(tripKey)
-        .then(({ data }) => console.log(data))
         .catch((err) => console.log(err));
   }, [tripKey]);
 

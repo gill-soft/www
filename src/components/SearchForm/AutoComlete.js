@@ -63,7 +63,7 @@ const StyledTextField = styled(TextField)`
   
 `;
 
-const AutoComplete3 = () => {
+const AutoComplete = () => {
   const lang = useSelector((state) => state.language);
   const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
@@ -193,4 +193,4 @@ setAnime(!anime)
     </IntlProvider>
   );
 };
-export default AutoComplete3;
+export default AutoComplete;

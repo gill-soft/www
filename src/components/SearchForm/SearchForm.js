@@ -21,7 +21,7 @@ import { fetchTripsSuccess, getTripsInfo } from "../../redux/trips/tripsActions"
 import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
 import AmountPassanger from "./AmountPassanger";
-import AutoComplete3 from "./AutoComlete3";
+import AutoComplete from "./AutoComlete";
 import { getUrl } from "../../services/getUrl";
 
 const SearchForm = ({ history }) => {
@@ -85,7 +85,7 @@ const SearchForm = ({ history }) => {
     <IntlProvider locale={locale} messages={messages[locale]}>
       <form onSubmit={handleSubmit} className={`${styles.form} `}>
         <div className={styles.fromTo}>
-          <AutoComplete3 />
+          <AutoComplete />
         </div>
         <div className={styles.flex}>
           <div className={styles.inputBox}>

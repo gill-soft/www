@@ -10,6 +10,7 @@ export const getAllStops = () => {
   return axios({
     method: "get",
     url: `${baseURLcontrol}/locality/all`,
+    // url: "https://busis.eu/gds-sale/api/v1/locality/all",
     headers: {
       Authorization: AUTH_KEY2,
     },

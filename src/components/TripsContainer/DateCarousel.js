@@ -45,7 +45,9 @@ const DateCarousel = ({ parsed, history }) => {
     const yyyy = new Date().getFullYear();
     const mm = new Date().getMonth();
     const dd = new Date().getDate();
-    if (new Date(date).getTime() - 7200000 <= new Date(yyyy, mm, dd).getTime()) {
+    const today = format(new Date(yyyy, mm, dd), "yyyy-MM-dd");
+
+    if (new Date(date).getTime() <= new Date(today).getTime()) {
       return true;
     } else {
       return false;

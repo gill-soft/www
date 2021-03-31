@@ -8,7 +8,7 @@ import Loader from "../Loader/Loader";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
 import CryptoJS from "crypto-js";
-import PhoneInput from "react-phone-number-input";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import Offerta from "../../assets/Oferta_1.pdf";
 import Pk from "../../assets/pk_.pdf";
@@ -20,9 +20,9 @@ const regexLatin = /^[a-zA-Z]+$/;
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "w@w.com",
+    email: "",
     resp: {},
-    isOffer: false,
+    isOffer: true,
     isValidPhone: [-1, ""],
     isValidName: [-1, ""],
     isValidSurname: [-1, ""],
@@ -38,10 +38,10 @@ class FormForBuy extends Component {
         values: [
           ...prev.values,
           {
-            name: "Mt",
-            surname: "surname1",
+            name: "",
+            surname: "",
             phone: "",
-            id: `${i}`,
+            id: { i },
             email: "",
             patronymic: "",
           },
@@ -80,7 +80,6 @@ class FormForBuy extends Component {
         }));
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
-        console.log("zapros");
         toBookTicket(requestBody)
           .then(({ data }) => {
             this.props.stopLoader();
@@ -97,7 +96,7 @@ class FormForBuy extends Component {
     }
     //  ==== после получения ответа переходим на страницу билета ==== //
     if (prevState.resp !== this.state.resp) {
-      this.state.resp.services.forEach((el) => {
+      resp.services.forEach((el) => {
         // ==== проверяем на ошибки в статусе ==== //
         if (el.status !== "NEW") {
           this.props.getError(el.error.message);
@@ -146,7 +145,7 @@ class FormForBuy extends Component {
       if (!el.surname.trim())
         this.setState({ isValidSurname: [idx, "це поле необхідно заповнити"] });
       // ==== phone====
-      if (!el.phone || el.phone.length <= 11) {
+      if (!isValidPhoneNumber(el.phone)) {
         this.setState({ isValidPhone: [idx, "не коректний номер телефону"] });
       }
     });
@@ -155,34 +154,40 @@ class FormForBuy extends Component {
     this.setState({ goSearch: !goSearch });
   };
 
+  // ==== инпут имя, фамилия, отчество ====//
   handleChangeInput = (idx, { target }) => {
-    this.setState((prev) =>
-      // eslint-disable-next-line array-callback-return
-      prev.values.map((el) => {
-        if (el.id === idx) el[`${target.name}`] = target.value;
-      })
-    );
+    this.setState((prev) => {
+      const values = prev.values.reduce((arr, el) => {
+        arr.push(el.id === idx ? { ...el, [target.name]: target.value } : el);
+        return arr;
+      }, []);
+      return { ...prev, values };
+    });
   };
 
-  handleChangeEmail = ({ target }) => {
-    this.setState({ [target.name]: target.value });
-    this.setState((prev) =>
-      // eslint-disable-next-line array-callback-return
-      prev.values.map((el) => {
-        el[`${target.name}`] = target.value;
-      })
-    );
-  };
-
+  // ==== инпут телефон ====//
   handleChangePhone = (val, idx) => {
-    this.setState((prev) =>
-      // eslint-disable-next-line array-callback-return
-      prev.values.map((el) => {
-        if (el.id === idx) el["phone"] = val;
-      })
-    );
+    this.setState((prev) => {
+      const values = prev.values.reduce((arr, el) => {
+        arr.push(el.id === idx ? { ...el, phone: val } : el);
+        return arr;
+      }, []);
+      return { ...prev, values, isValidPhone: [-1, ""] };
+    });
   };
 
+  // ==== инпут ємайл ====//
+  handleChangeEmail = ({ target }) => {
+    this.setState((prev) => {
+      const values = prev.values.reduce((arr, el) => {
+        arr.push({ ...el, [target.name]: target.value });
+        return arr;
+      }, []);
+      return { ...prev, values, [target.name]: target.value };
+    });
+  };
+
+  // ==== добавить пассажира ====//
   handleAdd = () => {
     const id = +this.state.values.slice(-1)[0].id + 1;
     this.setState((prev) => ({
@@ -194,12 +199,14 @@ class FormForBuy extends Component {
     this.props.changeAmountPassanger(this.props.total + 1);
   };
 
+  // ==== удалить пассажира ==== //
   handleRemove = ({ target }) => {
     this.setState((prev) => ({
       values: prev.values.filter((el) => el.id !== target.name),
     }));
     this.props.changeAmountPassanger(this.props.total - 1);
   };
+
   // ==== добавить к label текст про латинские буквы ==== //
   onlyLatin = () => {
     const { requeredFields } = this.props;
@@ -219,7 +226,6 @@ class FormForBuy extends Component {
     } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(values);
     return (
       <>
         {isLoading && <Loader />}
@@ -255,7 +261,6 @@ class FormForBuy extends Component {
                             }`}
                             name="name"
                             type="text"
-                            id="name"
                             value={this.state.values[idx].name}
                             onChange={(e) => this.handleChangeInput(el.id, e)}
                             autoComplete="off"
@@ -275,7 +280,6 @@ class FormForBuy extends Component {
                             }`}
                             name="surname"
                             type="text"
-                            id="surname"
                             value={this.state.values[idx].surname}
                             onChange={(e) => this.handleChangeInput(el.id, e)}
                             autoComplete="off"
@@ -296,7 +300,6 @@ class FormForBuy extends Component {
                               }`}
                               name="patronymic"
                               type="text"
-                              id="patronymic"
                               value={this.state.values[idx].patronymic}
                               onChange={(e) => this.handleChangeInput(el.id, e)}
                               autoComplete="off"
@@ -306,14 +309,12 @@ class FormForBuy extends Component {
                             )}
                           </div>
                         )}
-
                         {/*  */}
                         <div className={styles.inputBox}>
                           <label className={styles.label} htmlFor="phone">
                             Телефон**
                           </label>
                           <PhoneInput
-                            id="phone"
                             className={`${styles.inputPhone} ${
                               isValidPhone[0] === idx ? styles.red : null
                             }`}
@@ -327,8 +328,6 @@ class FormForBuy extends Component {
                             <p className={styles.redText}>{isValidPhone[1]}</p>
                           )}
                         </div>
-
-                        {/* <p className={styles.price}>{this.props.price} грн</p> */}
                       </div>
                     </div>
                   );
@@ -401,7 +400,6 @@ class FormForBuy extends Component {
 const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
   priceId: state.order.order.priceId,
-  price: state.order.order.price,
   lang: state.language,
   tripKey: state.order.order.tripKey,
   isLoading: state.global.isLoading,
