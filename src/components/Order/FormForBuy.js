@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import CryptoJS from "crypto-js";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import styles from "./FormForBuy.module.css";
 import { ReactComponent as Person } from "../../images/person-24px.svg";
 import { toBookTicket } from "../../services/api";
 import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
 import Loader from "../Loader/Loader";
-import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
-import CryptoJS from "crypto-js";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 import Offerta from "../../assets/Oferta_1.pdf";
 import Pk from "../../assets/pk_.pdf";
 
@@ -41,7 +41,7 @@ class FormForBuy extends Component {
             name: "",
             surname: "",
             phone: "",
-            id: { i },
+            id: `${i}`,
             email: "",
             patronymic: "",
           },
@@ -80,6 +80,7 @@ class FormForBuy extends Component {
         }));
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
+        console.log(requestBody);
         toBookTicket(requestBody)
           .then(({ data }) => {
             this.props.stopLoader();
