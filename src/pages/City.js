@@ -36,6 +36,7 @@ const City = ({ history }) => {
   }, [dispatch, lang, sityObj.id, sityObj.name]);
 
   return (
+    <div className={styles.bgnd}>
     <div className="container">
       <div className={styles.formBox}>
         <SearchForm history={history} />
@@ -55,10 +56,10 @@ const City = ({ history }) => {
           </li>
         ))}
       </ul>
-      <h2> {sityObj.name[lang]}</h2>
-      <p>{sityObj.text[lang]}</p>
+      <h2 className={styles.cityTitle}> {sityObj.name[lang]}</h2>
+      <p className={styles.text}>{sityObj.text[lang]}</p>
       <img src={sityObj.image} alt="pfnjrf"></img>
-    </div>
+    </div></div>
   );
 };
 

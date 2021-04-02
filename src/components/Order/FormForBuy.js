@@ -20,7 +20,7 @@ const regexLatin = /^[a-zA-Z]+$/;
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "",
+    email: "ww",
     resp: {},
     isOffer: true,
     isValidPhone: [-1, ""],
@@ -317,7 +317,7 @@ class FormForBuy extends Component {
                           </label>
                           <PhoneInput
                             className={`${styles.inputPhone} ${
-                              isValidPhone[0] === idx ? styles.red : null
+                              isValidPhone[0] === idx ? styles.red : ''
                             }`}
                             international
                             countryCallingCodeEditable={false}

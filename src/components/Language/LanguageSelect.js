@@ -20,16 +20,16 @@ const LanguageSelect = () => {
     <div className={styles.selectBox}>
       <select className={styles.select} value={language} onChange={handleChange}>
         <option className={styles.option} value="UA">
-          Українська
+        UA
         </option>
         <option className={styles.option} value="RU">
-          Руский
+        RU
         </option>
         <option className={styles.option} value="EN">
-          English
+        EN
         </option>
         <option className={styles.option} value="PL">
-          Polski
+        PL
         </option>
       </select>
     </div>

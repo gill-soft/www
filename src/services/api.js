@@ -10,7 +10,6 @@ export const getAllStops = () => {
   return axios({
     method: "get",
     url: `${baseURLcontrol}/locality/all`,
-    // url: "https://busis.eu/gds-sale/api/v1/locality/all",
     headers: {
       Authorization: AUTH_KEY2,
     },
@@ -22,6 +21,7 @@ export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
   return axios({
     method: "post",
     url: `${baseURLcontrol}/search`,
+    
     headers: {
       Authorization: AUTH_KEY2,
     },
@@ -56,6 +56,8 @@ export const getRequaredFields = (key) => {
     },
   });
 };
+
+// ==== доступные места ==== //
 export const getRequaredFieldsS = (key) => {
   return axios({
     method: "get",
@@ -66,28 +68,6 @@ export const getRequaredFieldsS = (key) => {
   });
 };
 
-//  ==== запрос на билет ==== //
-// export const toBook = (body) => {
-//   return axios({
-//     method: "post",
-//     url: `${baseURLcontrol}/order`,
-//     headers: {
-//       Authorization: AUTH_KEY,
-//     },
-//     data: body,
-//   });
-// };
-
-// ==== информация о билете ==== //
-export const getTicketInfo = (id) => {
-  return axios({
-    method: "get",
-    url: `${baseURLcontrol}/order/${id}`,
-    headers: {
-      Authorization: AUTH_KEY2,
-    },
-  });
-};
 // ==== запрос на билет ==== //
 export const toBookTicket = (body) => {
   return axios({
@@ -100,11 +80,21 @@ export const toBookTicket = (body) => {
   });
 };
 
+// ==== информация о билете ==== //
+export const getTicketInfo = (id) => {
+  return axios({
+    method: "get",
+    url: `${baseURLsale}/order/${id}`,
+    headers: {
+      Authorization: AUTH_KEY2,
+    },
+  });
+};
 // ==== подтверждение покупки билете ==== //
 export const getTicketConfirm = (id) => {
   return axios({
     method: "post",
-    url: `${baseURLcontrol}/order/${id}/confirm/CASH`,
+    url: `${baseURLsale}/order/${id}/confirm/CASH`,
     headers: {
       Authorization: AUTH_KEY2,
     },

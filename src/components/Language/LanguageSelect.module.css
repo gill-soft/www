@@ -1,26 +1,27 @@
 .selectBox {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--color-secondary);
 }
 
 .select {
-    border: 2px solid var(--color-secondary);
-    border-radius: 16px;
-    padding: 6px 4px;
-    background: transparent;
+    padding: 6px 22px 6px 4px;
+    background-color: var(--color-main);
+    background-image: url(../../images/expand_more_black.svg);
+    background-repeat: no-repeat;
+    background-position: right;
     outline: none;
-    color: var(--color-secondary)
+    color: var(--color-secondary);
+    border: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
-.option {
-    color: black;
+.select:focus {
+    transform: scale(1.03);
 }
 
-@media (min-width: 576px) {
-    .selectBox {
-        font-size: 14px;
-    }
-}
 
 @media (min-width: 768px) {
     .selectBox {
@@ -28,7 +29,6 @@
     }
 
     .select {
-        padding: 8px 4px;
+        padding: 8px 22px 8px 4px;
     }
 }
-

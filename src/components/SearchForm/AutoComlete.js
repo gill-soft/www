@@ -58,9 +58,7 @@ const StyledTextField = styled(TextField)`
   }
   .MuiFormLabel-root {
     font-family: "HelveticaNeueCyr";
-
   }
-  
 `;
 
 const AutoComplete = () => {
@@ -77,7 +75,7 @@ const AutoComplete = () => {
   const changeIsOpenDate = (bool) => dispatch(setIsOpenDate(bool));
 
   const [options, setOptions] = useState(OPTIONS[lang]);
-  const [anime, setAnime] = useState(false)
+  const [anime, setAnime] = useState(false);
 
   const locale = lang === "UA" ? "UK" : lang;
 
@@ -86,7 +84,7 @@ const AutoComplete = () => {
     const b = to;
     setFrom(b);
     setTo(a);
-setAnime(!anime)
+    setAnime(!anime);
   };
 
   const getOtpions = (target) => {
@@ -94,6 +92,7 @@ setAnime(!anime)
     if (target.value === null || target.value === undefined) return;
     if (target.value.length >= 2) {
       getCities(target.value, lang).then(({ data }) => {
+        console.log(data);
         setOptions(data);
       });
     } else {
@@ -106,6 +105,7 @@ setAnime(!anime)
         <Autocomplete
           id="from"
           options={options}
+          noOptionsText=""
           autoHighlight
           value={from}
           open={isOpenFrom}
@@ -145,11 +145,15 @@ setAnime(!anime)
         />
       </div>
 
-      <Arrow className={` ${anime ? styles.arrowClick : styles.arrow}`} onClick={handleChange} />
+      <Arrow
+        className={` ${anime ? styles.arrowClick : styles.arrow}`}
+        onClick={handleChange}
+      />
       <div className={styles.inputBox}>
         <Autocomplete
           id="to"
           options={options}
+          noOptionsText=""
           autoHighlight
           value={to}
           open={isOpenTo}
