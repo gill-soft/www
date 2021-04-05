@@ -31,7 +31,7 @@ export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
       localityPairs: [[`${idFrom}`, `${idWhereTo}`]],
       dates: [`${date}`],
       currency: "UAH",
-      // maxConnections: 0,
+      maxConnections: 1,
     },
   });
 };

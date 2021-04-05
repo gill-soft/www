@@ -1,0 +1,22 @@
+.show-enter {
+    top: 100px;
+    opacity: 0;
+}
+
+.show-enter-active {
+    top: 42px;
+    opacity: 1;
+    transition: top 300ms linear, opacity 300ms ease-in-out;
+}
+
+.show-exit {
+    top: 42px;
+    opacity: 1;
+}
+
+.show-exit-active {
+    top: 100px;
+    opacity: 0;
+    transition: top 300ms linear, opacity 300ms ease-in-out;
+    color: rgb(43, 43, 83)
+}

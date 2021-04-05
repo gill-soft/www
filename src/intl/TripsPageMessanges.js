@@ -6,7 +6,7 @@ export const messages = {
     additionals: "More details",
     departure: "Departure",
     arrival: "Arrival",
-    sort: "Sort by:",
+    sort: "Sort by: ",
     
   },
   RU: {
@@ -16,7 +16,7 @@ export const messages = {
     additionals: "Подробнее",
     departure: "Отправление",
     arrival: "Прибытие",
-    sort: "Cортировать по:",
+    sort: "Cортировать по: ",
     
   },
   UK: {
@@ -26,7 +26,7 @@ export const messages = {
     additionals: "Детальніше",
     departure: "Відправлення",
     arrival: "Прибуття",
-    sort: "Сортувати за:",
+    sort: "Сортувати за: ",
     
   },
   PL: {
@@ -36,7 +36,7 @@ export const messages = {
     additionals: "Więcej szczegółów",
     departure: "Wyjazd",
     arrival: "Przyjazd",
-    sort: "Sortuj według:",
+    sort: "Sortuj według: ",
     
   },
 };

@@ -48,7 +48,7 @@ const StyledTextField = styled(TextField)`
   }
   .MuiIconButton-root {
     color: var(--color-secondary);
-    /* display: none; */
+    display: none;
   }
   .MuiAutocomplete-popupIndicator {
     display: none;
@@ -117,7 +117,9 @@ const AutoComplete = () => {
             value ? setFrom(value) : setFrom({ text: "", value: "" });
             setOptions(OPTIONS[lang]);
             changeIsOpenFrom(false);
-            changeIsOpenTo(true);
+            setTimeout(() => {
+              changeIsOpenTo(true);
+            }, 0);
           }}
           renderOption={(option) => (
             <div>

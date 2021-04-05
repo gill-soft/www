@@ -21,6 +21,7 @@ import DateCarousel from "../components/TripsContainer/DateCarousel";
 import NoTrips from "../components/TripsContainer/NoTrips";
 import { getScroll } from "../services/getScroll";
 import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
+import SortTripsMob from '../components/TripsContainer/SortTripsMob'
 const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
@@ -100,6 +101,7 @@ class TripsPage extends Component {
     if (deltaTime <= 100) {
       searchTrips(id)
         .then(({ data }) => {
+          // console.log(data)
           if (data.searchId) {
             this.searchRouts(data.searchId, time, requestData);
           } else {
@@ -115,6 +117,8 @@ class TripsPage extends Component {
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {
+          // console.log(data)
+
             if (data.searchId) {
               this.searchRouts(data.searchId, time, requestData);
             } else {
@@ -131,6 +135,8 @@ class TripsPage extends Component {
       setTimeout(() => {
         searchTrips(id)
           .then(({ data }) => {
+          // console.log(data)
+
             if (data.searchId) {
               this.searchRouts(data.searchId, time, requestData);
             } else {
@@ -162,7 +168,10 @@ class TripsPage extends Component {
               <SearchForm history={history} />
             </div>
             {this.state.isTrip ? (
+              <>
               <NoTrips />
+              <DateCarousel parsed={parsed} history={history} />
+              </>
             ) : (
               <div className={styles.tripsBox}>
                 <h2 className={styles.title}>
@@ -171,7 +180,8 @@ class TripsPage extends Component {
                   {getLocality(parsed.to, stops, lang)}
                 </h2>
                 <DateCarousel parsed={parsed} history={history} />
-                <SortTrips />
+                {windowWidth>=768 ? <SortTrips /> :<SortTripsMob />}
+
                 {isLoading && <Scelet />}
                 {Object.keys(tripsInfo).length > 0 &&
                   tripsInfo.map((el, idx) => (
@@ -187,6 +197,7 @@ class TripsPage extends Component {
               </div>
             )}
           </div>
+          {/* <pre>{JSON.stringify(this.props.trips, null, 4)}</pre> */}
         </div>
       </IntlProvider>
     );

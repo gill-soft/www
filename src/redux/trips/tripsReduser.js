@@ -31,8 +31,19 @@ const getSortType = (state = 'price', { type, payload }) => {
   }
 };
 
+const getIsShowSortBox = (state= false, {type, payload})=> {
+  switch(type) {
+    case Types.GET_SHOW_SORT_BOX:
+      return payload;
+
+      default:
+        return state
+  }
+}
+
 export const tripsReduser = combineReducers({
   trips: getTrips,
   tripsInfo: getTripsInfo,
-  sortType: getSortType
+  sortType: getSortType,
+  isShowSortBox: getIsShowSortBox,
 });

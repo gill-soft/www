@@ -6,14 +6,19 @@ import styles from "./LanguageSelect.module.css";
 
 const LanguageSelect = () => {
   const language = useSelector((state) => state.language);
+  const from = useSelector(state=> state.searchForm.from)
+  const to = useSelector(state=> state.searchForm.to)
+  const stops = useSelector(state=> state.global.stops)
   const dispatch = useDispatch();
   const changeInputFrom = (value) => dispatch(inputValueFrom(value));
   const changeInputTo = (value) => dispatch(inputValueTo(value));
   const onChangeLanguage = (value) => dispatch(changeLanguage(value));
 
   const handleChange = ({ target }) => {
-    changeInputFrom({ text: "", description: "" });
-    changeInputTo({ text: "", description: "" });
+    const fromObj = stops.find(el => el.id === from.value)
+    const toObj = stops.find(el => el.id === to.value)
+    changeInputFrom({ text: fromObj.name[target.value], value: fromObj.id });
+    changeInputTo({ text: toObj.name[target.value], value: toObj.id });
     onChangeLanguage(target.value);
   };
   return (

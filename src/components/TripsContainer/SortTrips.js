@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./SortTrips.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
-import { changeSortType } from "../../redux/trips/tripsActions";
+import { changeSortBoxShow, changeSortType } from "../../redux/trips/tripsActions";
+import { CSSTransition } from "react-transition-group";
+import "./anime.css";
 
 const SortTrips = () => {
   const tripsInfo = useSelector((state) => state.trips.tripsInfo);
   const lang = useSelector((state) => state.language);
   const sortType = useSelector((state) => state.trips.sortType);
+  const isShowSortBox = useSelector((state) => state.trips.isShowSortBox);
 
   const dispatch = useDispatch();
   const setSortType = (val) => dispatch(changeSortType(val));
+  const changeShowSortBox = (bool) => dispatch(changeSortBoxShow(bool));
+
+  const backdropRef = useRef(null);
 
   const locale = lang === "UA" ? "UK" : lang;
 
@@ -40,12 +46,13 @@ const SortTrips = () => {
       return A - B;
     });
   };
-  const handleSort = ({ target }) => {
-    if (target.value === "departure") sortTime("departureDate");
-    if (target.value === "arrival") sortTime("arrivalDate");
-    if (target.value === "timeInWay") sortTimeInWay();
-    if (target.value === "price") sortPrice();
-    setSortType(target.value);
+  const handleSort = ({ target }, value) => {
+    if (value === "departure") sortTime("departureDate");
+    if (value === "arrival") sortTime("arrivalDate");
+    if (value === "timeInWay") sortTimeInWay();
+    if (value === "price") sortPrice();
+    setSortType(value);
+    changeShowSortBox(false);
   };
   const chLang = (name) => {
     let price, arrival, departure, time;
@@ -80,33 +87,36 @@ const SortTrips = () => {
     if (name === "price") return price;
     if (name === "arrival") return arrival;
     if (name === "departure") return departure;
-    if (name === "time") return time;
+    if (name === "timeInWay") return time;
+  };
+
+  const toggleShow = () => {
+    changeShowSortBox(!isShowSortBox);
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.selectBox}>
-        <label>
-          <FormattedMessage id="sort" />{" "}
-          <select
-            className={styles.select}
-            name="sort"
-            value={sortType}
-            onChange={handleSort}
-          >
-            <option className={styles.option} value="price">
-              {chLang("price")}
-            </option>
-            <option className={styles.option} value="departure">
-              {chLang("departure")}
-            </option>
-            <option className={styles.option} value="arrival">
-              {chLang("arrival")}
-            </option>
-            <option className={styles.option} value="timeInWay">
-              {chLang("time")}
-            </option>
-          </select>
-        </label>
+        <p className={styles.flex}>
+          <FormattedMessage id="sort" />
+          <button className={styles.selectValue} onClick={toggleShow}>
+            {chLang(sortType)}
+          </button>
+        </p>
+
+        <CSSTransition
+          in={isShowSortBox}
+          timeout={300}
+          classNames="show"
+          unmountOnExit
+          nodeRef={backdropRef}
+        >
+          <div className={styles.optionsBox} ref={backdropRef}>
+            <p onClick={(e) => handleSort(e, "price")}>{chLang("price")}</p>
+            <p onClick={(e) => handleSort(e, "arrival")}>{chLang("arrival")}</p>
+            <p onClick={(e) => handleSort(e, "departure")}>{chLang("departure")}</p>
+            <p onClick={(e) => handleSort(e, "timeInWay")}>{chLang("timeInWay")}</p>
+          </div>
+        </CSSTransition>
       </div>
     </IntlProvider>
   );

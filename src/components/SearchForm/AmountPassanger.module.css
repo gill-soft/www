@@ -8,10 +8,12 @@
     border: 2px solid var(--color-secondary);
     border-radius: 4px;
 }
-.amountBox > p {
+
+.amountBox>p {
     margin-right: 25px;
 }
-.amountBox > span {
+
+.amountBox>span {
     text-align: center;
     width: 20px;
 }
@@ -24,6 +26,11 @@
     background: transparent;
     cursor: pointer;
 }
+
+.button:focus {
+    transform: scale(1.2);
+}
+
 .flex {
     display: flex;
     align-items: center;

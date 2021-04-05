@@ -14,3 +14,8 @@ export const changeSortType = (val) => ({
   type: Types.GET_SORT_TYPE,
   payload: val,
 });
+
+export const changeSortBoxShow = (bool)=> ({
+  type: Types.GET_SHOW_SORT_BOX,
+  payload: bool
+})

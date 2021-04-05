@@ -163,7 +163,8 @@
 
 .timeStop {
     position: absolute;
-    left: -80px
+    left: -80px;
+    width: 67px;
 }
 
 .stop::before {
