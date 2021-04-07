@@ -17,10 +17,9 @@ import {
   getAddress,
 } from "../../services/getInfo";
 
-const TripsNew = ({ tripKey, location }) => {
+const SingleTrips = ({ tripKey, location }) => {
   const trips = useSelector((state) => state.trips.trips);
   const lang = useSelector((state) => state.language);
-  const stops = useSelector((state) => state.global.stops);
   const dispatch = useDispatch();
   const setOrderInfo = (obj) => dispatch(fetchOrderInfo(obj));
   const [isOpen, setIsOpen] = useState(false);
@@ -153,7 +152,6 @@ const TripsNew = ({ tripKey, location }) => {
             </button>
           ) : null}
         </div>
-        {/* {isOpen && ( */}
 
         <CSSTransition
           in={isOpen}
@@ -202,10 +200,9 @@ const TripsNew = ({ tripKey, location }) => {
             </div>
           </div>
         </CSSTransition>
-        {/* )} */}
       </div>
     </IntlProvider>
   );
 };
 
-export default TripsNew;
+export default SingleTrips;

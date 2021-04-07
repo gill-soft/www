@@ -29,6 +29,15 @@ const getSingleTrips = (state = [], { type, payload }) => {
       return state;
   }
 };
+const getDoubleTrips = (state = [], { type, payload }) => {
+  switch (type) {
+    case Types.GET_DOUBLE_TRIPS:
+      return payload;
+
+    default:
+      return state;
+  }
+};
 
 const getSortType = (state = 'price', { type, payload }) => {
   switch (type) {
@@ -54,6 +63,7 @@ export const tripsReduser = combineReducers({
   trips: getTrips,
   tripsInfo: getTripsInfo,
   singleTrips: getSingleTrips,
+  doubleTrips: getDoubleTrips,
   sortType: getSortType,
   isShowSortBox: getIsShowSortBox,
 });

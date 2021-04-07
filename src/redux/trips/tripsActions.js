@@ -15,12 +15,17 @@ export const setSingleTrips = (trips) => ({
   payload: trips,
 });
 
+export const setDoubleTrips = (trips) => ({
+  type: Types.GET_DOUBLE_TRIPS,
+  payload: trips,
+});
+
 export const changeSortType = (val) => ({
   type: Types.GET_SORT_TYPE,
   payload: val,
 });
 
-export const changeSortBoxShow = (bool)=> ({
+export const changeSortBoxShow = (bool) => ({
   type: Types.GET_SHOW_SORT_BOX,
-  payload: bool
-})
+  payload: bool,
+});

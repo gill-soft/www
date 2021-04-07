@@ -35,8 +35,7 @@ export const getStop = (id, trips, lang) => trips.localities[id]?.name[lang];
 
 // ==== получаем adress отправки/прибытия === //
 export const getAddress = (id, trips, lang) =>
-trips.localities[id].address ? trips.localities[id].address[lang] : ''
-    
+  trips.localities[id].address ? trips.localities[id].address[lang] : "";
 
 // ==== получаем промежуточную остановку ==== //
 export const getAllLocalities = (key, trips, lang) => {
@@ -92,6 +91,7 @@ export const getTimeInWay = (trip, lang) => {
   }
   return `${+trip.timeInWay.split(":")[0]}${h} ${trip.timeInWay.split(":")[1]}${m}`;
 };
+
 export const getYesterday = ({ date }, lang) => {
   return new Date(new Date(date).getTime() - 24 * 60 * 60 * 1000).toLocaleString(
     getLang(lang),
@@ -128,4 +128,44 @@ export const getExpireTime = (date, lang) => {
     hour: "2-digit",
     minute: "2-digit",
   });
+};
+// ==== получаем время в дороге маршрутов с пересадкой ====//
+export const getTimeInWayDouble = (tripKeys, trips, lang) => {
+  let h, m;
+  switch (lang) {
+    case "RU":
+      h = "ч";
+      m = "мин";
+      break;
+    case "UA":
+      h = "г";
+      m = "хв";
+      break;
+    case "EN":
+      h = "h";
+      m = "min";
+      break;
+    case "PL":
+      h = "g";
+      m = "min";
+      break;
+    default:
+      break;
+  }
+  const departureMs = new Date(trips.segments[tripKeys[0]].departureDate).getTime();
+  const arrivalMs = new Date(
+    trips.segments[tripKeys[tripKeys.length - 1]].arrivalDate
+  ).getTime();
+  const deltaMs = arrivalMs - departureMs;
+  const hour = Math.floor(deltaMs / (1000 * 60 * 60));
+  const minutes = Math.floor((deltaMs / (1000 * 60)) % 60);
+  return `${hour}${h} ${minutes}${m}`;
+};
+
+// ==== получаем сумму рейсов с пересадкой ====//
+export const getPrice = (tripKeys, trips) => {
+  return tripKeys.reduce((summ, el) => {
+    summ += Number(trips.segments[el].price.amount);
+    return +summ.toFixed(2);
+  }, 0);
 };

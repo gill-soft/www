@@ -8,6 +8,7 @@ import {
   changeSortType,
   fetchTripsSuccess,
   getTripsInfo,
+  setDoubleTrips,
   setSingleTrips,
 } from "../redux/trips/tripsActions";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
@@ -23,7 +24,9 @@ import NoTrips from "../components/TripsContainer/NoTrips";
 import { getScroll } from "../services/getScroll";
 import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
 import SortTripsMob from "../components/TripsContainer/SortTripsMob";
-import TripsNew from "../components/TripsContainer/TripsNew";
+import SingleTrips from "../components/TripsContainer/SingleTrips";
+import DoubleTrips from "../components/TripsContainer/DoubleTrips";
+
 const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
@@ -57,14 +60,21 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { trips, time, location, changeSortType, setSingleTrips } = this.props;
+    const {
+      trips,
+      time,
+      location,
+      changeSortType,
+      setSingleTrips,
+      setDoubleTrips,
+    } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time || prevProps.location.key !== location.key) {
       this.setState({ isTrip: false, doubleTrips: [] });
-      console.log("object")
-      setSingleTrips([])
+      setSingleTrips([]);
+      setDoubleTrips([]);
       // ==== формируем обьект для запроса ====
       const requestData = {
         idFrom: parsed.from,
@@ -79,8 +89,11 @@ class TripsPage extends Component {
     if (prevProps.trips !== trips) {
       changeSortType("price");
       if (Object.keys(trips).length > 0) {
-        this.props.setSingleTrips(
+        setSingleTrips(
           trips.tripContainers[0].trips.filter((el) => Object.keys(el)[0] === "id")
+        );
+        setDoubleTrips(
+          trips.tripContainers[0].trips.filter((el) => Object.keys(el)[0] === "segments")
         );
 
         // ==== сортируем по цене и записываем в redux ==== //
@@ -157,10 +170,18 @@ class TripsPage extends Component {
     }
   };
   render() {
-    const { error, isLoading, singleTrips, history, stops, lang } = this.props;
+    const {
+      error,
+      isLoading,
+      singleTrips,
+      doubleTrips,
+      history,
+      stops,
+      lang,
+    } = this.props;
     const parsed = queryString.parse(this.props.location.search);
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(singleTrips);
+    // console.log(singleTrips);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {error && <Redirect to="/error" />}
@@ -187,7 +208,19 @@ class TripsPage extends Component {
                 {isLoading && <Scelet />}
                 {singleTrips.length > 0 &&
                   singleTrips.map((el, idx) => (
-                    <TripsNew key={idx} tripKey={el.id} location={this.props.location} />
+                    <SingleTrips
+                      key={idx}
+                      tripKey={el.id}
+                      location={this.props.location}
+                    />
+                  ))}
+                {doubleTrips.length > 0 &&
+                  doubleTrips.map((el, idx) => (
+                    <DoubleTrips
+                      key={idx}
+                      tripKeys={el.segments}
+                      location={this.props.location}
+                    />
                   ))}
                 {/* {Object.keys(tripsInfo).length > 0 &&
                   tripsInfo.map((el, idx) => (
@@ -221,7 +254,8 @@ const mapStateToProps = (state) => ({
   sortType: state.trips.sortType,
   from: state.searchForm.from.text,
   to: state.searchForm.to.text,
-  singleTrips: state.trips.singleTrips
+  singleTrips: state.trips.singleTrips,
+  doubleTrips: state.trips.doubleTrips,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -233,7 +267,8 @@ const mapDispatchToProps = (dispatch) => ({
   startLoader: () => dispatch(startLoader()),
   setFrom: (value) => dispatch(inputValueFrom(value)),
   setTo: (value) => dispatch(inputValueTo(value)),
-  setSingleTrips: (val)=> dispatch(setSingleTrips(val))
+  setSingleTrips: (arr) => dispatch(setSingleTrips(arr)),
+  setDoubleTrips: (arr) => dispatch(setDoubleTrips(arr)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

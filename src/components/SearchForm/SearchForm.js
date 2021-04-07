@@ -17,7 +17,7 @@ import {
   setIsOpenTo,
   setTime,
 } from "../../redux/searchForm/searchFormAction";
-import { fetchTripsSuccess, getTripsInfo, setSingleTrips } from "../../redux/trips/tripsActions";
+import { fetchTripsSuccess, getTripsInfo, setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
 import AmountPassanger from "./AmountPassanger";
@@ -36,6 +36,7 @@ const SearchForm = ({ history }) => {
   const setData = (date) => dispatch(inputValueDate(date));
   const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
   const sendSingleTrips = (trips) => dispatch(setSingleTrips(trips));
+  const sendDoubleTrips = (trips) => dispatch(setDoubleTrips(trips));  
   const setError = (err) => dispatch(getError(err));
   const loaderStart = () => dispatch(startLoader());
   const getTime = (time) => dispatch(setTime(time));
@@ -71,6 +72,7 @@ const SearchForm = ({ history }) => {
     setError("");
     setTripsSuccess({});
     sendSingleTrips([]);
+    sendDoubleTrips([])
     loaderStart();
     getTime(new Date().getTime());
     //  ==== переход на страницу поездок ==== //
