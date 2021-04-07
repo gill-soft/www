@@ -10,6 +10,11 @@ export const getTripsInfo = (trips) => ({
   payload: trips,
 });
 
+export const setSingleTrips = (trips) => ({
+  type: Types.GET_SINGLE_TRIPS,
+  payload: trips,
+});
+
 export const changeSortType = (val) => ({
   type: Types.GET_SORT_TYPE,
   payload: val,

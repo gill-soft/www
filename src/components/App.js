@@ -15,6 +15,7 @@ import AboutUs from "../pages/AboutUs";
 import Cities from "../pages/Cities";
 import City from "../pages/City";
 import { setIsOpenFrom, setIsOpenTo } from "../redux/searchForm/searchFormAction";
+import TripsPageNew from "../pages/TripsPageNew";
 
 const App = () => {
   // ====redux===//
@@ -55,7 +56,7 @@ const App = () => {
           <Route path="/info" component={Info} />
           <Route path="/about-us" component={AboutUs} />
           <Route path="/trips/:from/:to" component={TripsPage} />
-          <Route path="/автобуси/:from/:to" component={TripsPage} />
+          <Route path="/автобуси/:from/:to" component={TripsPageNew} />
           <Route path="/автобусы/:from/:to" component={TripsPage} />
           <Route path="/autobusy/:from/:to" component={TripsPage} />
           <Route path="/order" component={OrderPage} />

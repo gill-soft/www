@@ -4,6 +4,8 @@ import { combineReducers } from "redux";
 const getOrder = (state = {}, { type, payload }) => {
   switch (type) {
     case Types.FETCH_ORDER_INFO:
+  console.log(payload)
+
       return payload;
 
     default:

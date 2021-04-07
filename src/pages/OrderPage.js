@@ -30,12 +30,12 @@ const OrderPage = ({ history }) => {
 
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
-  useEffect(() => {
-    if (Object.keys(order).length <= 0) {
-      const path = JSON.parse(sessionStorage.getItem("path")) || "/";
-      history.replace(path);
-    }
-  }, [order, history]);
+  // useEffect(() => {
+  //   if (Object.keys(order).length <= 0) {
+  //     const path = JSON.parse(sessionStorage.getItem("path")) || "/";
+  //     history.replace(path);
+  //   }
+  // }, [order, history]);
   return (
     <div className="bgnd">
       <div className="container">

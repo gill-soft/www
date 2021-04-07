@@ -8,9 +8,10 @@ import {
   changeSortType,
   fetchTripsSuccess,
   getTripsInfo,
+  setSingleTrips,
 } from "../redux/trips/tripsActions";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
-import TripBox from "../components/TripsContainer/TripBox";
+// import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
 import SortTrips from "../components/TripsContainer/SortTrips";
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -22,11 +23,13 @@ import NoTrips from "../components/TripsContainer/NoTrips";
 import { getScroll } from "../services/getScroll";
 import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
 import SortTripsMob from "../components/TripsContainer/SortTripsMob";
+import TripsNew from "../components/TripsContainer/TripsNew";
 const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
   state = {
     isTrip: false,
+    doubleTrips: [],
   };
   componentDidMount() {
     this.props.startLoader();
@@ -54,12 +57,14 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { trips, getTripsInfo, time, location, changeSortType } = this.props;
+    const { trips, time, location, changeSortType, setSingleTrips } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
-    if (prevProps.time !== time) {
-      this.setState({ isTrip: false });
+    if (prevProps.time !== time || prevProps.location.key !== location.key) {
+      this.setState({ isTrip: false, doubleTrips: [] });
+      console.log("object")
+      setSingleTrips([])
       // ==== формируем обьект для запроса ====
       const requestData = {
         idFrom: parsed.from,
@@ -69,20 +74,22 @@ class TripsPage extends Component {
       const time = Date.now();
       this.startSerch(time, requestData);
     }
-    // ==== сортируем по цене и записываем в redux ==== //
+
+    // ==== работаем с результатом поиска ==== //
     if (prevProps.trips !== trips) {
       changeSortType("price");
       if (Object.keys(trips).length > 0) {
-        const arr = [];
-        for (let [key, values] of Object.entries(trips.segments)) {
-          arr.push({ [key]: values });
-        }
-        getTripsInfo(
-          arr.sort(
-            (a, b) =>
-              a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
-          )
+        this.props.setSingleTrips(
+          trips.tripContainers[0].trips.filter((el) => Object.keys(el)[0] === "id")
         );
+
+        // ==== сортируем по цене и записываем в redux ==== //
+        // getTripsInfo(
+        //   arr.sort(
+        //     (a, b) =>
+        //       a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
+        //   )
+        // );
       }
     }
   }
@@ -149,11 +156,11 @@ class TripsPage extends Component {
       this.setState({ isTrip: true });
     }
   };
-
   render() {
-    const { error, isLoading, tripsInfo, history, stops, lang } = this.props;
+    const { error, isLoading, singleTrips, history, stops, lang } = this.props;
     const parsed = queryString.parse(this.props.location.search);
     const locale = lang === "UA" ? "UK" : lang;
+    console.log(singleTrips);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {error && <Redirect to="/error" />}
@@ -178,7 +185,11 @@ class TripsPage extends Component {
                 {windowWidth >= 768 ? <SortTrips /> : <SortTripsMob />}
 
                 {isLoading && <Scelet />}
-                {Object.keys(tripsInfo).length > 0 &&
+                {singleTrips.length > 0 &&
+                  singleTrips.map((el, idx) => (
+                    <TripsNew key={idx} tripKey={el.id} location={this.props.location} />
+                  ))}
+                {/* {Object.keys(tripsInfo).length > 0 &&
                   tripsInfo.map((el, idx) => (
                     <TripBox
                       key={idx}
@@ -188,7 +199,7 @@ class TripsPage extends Component {
                       to={getLocality(parsed.to, stops, lang)}
                       location={this.props.location}
                     />
-                  ))}
+                  ))} */}
               </div>
             )}
           </div>
@@ -210,6 +221,7 @@ const mapStateToProps = (state) => ({
   sortType: state.trips.sortType,
   from: state.searchForm.from.text,
   to: state.searchForm.to.text,
+  singleTrips: state.trips.singleTrips
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -221,6 +233,7 @@ const mapDispatchToProps = (dispatch) => ({
   startLoader: () => dispatch(startLoader()),
   setFrom: (value) => dispatch(inputValueFrom(value)),
   setTo: (value) => dispatch(inputValueTo(value)),
+  setSingleTrips: (val)=> dispatch(setSingleTrips(val))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

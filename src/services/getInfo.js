@@ -23,16 +23,20 @@ export const getLocality = (id, stops, lang) => {
   const result = stops.find((el) => el.id === id);
   return result ? result.name[lang] || result.name[`EN`] : null;
 };
+// ==== получаем город отправки/прибытия
+export const getCity = (id, trips, lang) => {
+  const parentId = trips.localities[id].parent.id;
+  const city = trips.localities[parentId].name;
+  return city[lang] || city.EN || "";
+};
 
 // ==== получаем остановку отправки/прибытия === //
-export const getStop = (key, trips, lang) =>
-  Object.keys(trips).length > 0 ? trips.localities[key]?.name[lang] : null;
+export const getStop = (id, trips, lang) => trips.localities[id]?.name[lang];
 
 // ==== получаем adress отправки/прибытия === //
-export const getAddress = (key, trips, lang) =>
-  Object.keys(trips).length > 0 && trips.localities[key]?.address
-    ? trips.localities[key].address[lang]
-    : null;
+export const getAddress = (id, trips, lang) =>
+trips.localities[id].address ? trips.localities[id].address[lang] : ''
+    
 
 // ==== получаем промежуточную остановку ==== //
 export const getAllLocalities = (key, trips, lang) => {
@@ -48,7 +52,7 @@ export const getAllAddress = (key, trips, lang) =>
 
 // ==== получаем дату отправки/прибытия ==== //
 export const getDate = (key, trip, lang) => {
-  return new Date(trip[key]).toLocaleString(getLang(lang), {
+  return new Date(trip[key]).toLocaleString(lang, {
     day: "2-digit",
     month: "short",
     year: "2-digit",
@@ -57,7 +61,7 @@ export const getDate = (key, trip, lang) => {
 
 // ==== получаем время отправки/прибытия ==== //
 export const getTime = (key, trip, lang) => {
-  return new Date(trip[key]).toLocaleString(getLang(lang), {
+  return new Date(trip[key]).toLocaleString(lang, {
     hour: "2-digit",
     minute: "2-digit",
   });

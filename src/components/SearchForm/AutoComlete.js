@@ -92,7 +92,6 @@ const AutoComplete = () => {
     if (target.value === null || target.value === undefined) return;
     if (target.value.length >= 2) {
       getCities(target.value, lang).then(({ data }) => {
-        console.log(data);
         setOptions(data);
       });
     } else {
