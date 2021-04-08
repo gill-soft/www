@@ -14,13 +14,13 @@ import Offerta from "../../assets/Oferta_1.pdf";
 import Pk from "../../assets/pk_.pdf";
 
 const regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
-const regexText = /^[а-яА-Яa-ża-ŻёЁA-Za-z\d- ]+$/;
-const regexLatin = /^[a-zA-Z]+$/;
+const regexText = /^[а-яА-ЯіІїєЄЇa-ża-ŻёЁA-Za-z\d-' ]+$/;
+const regexLatin = /^[a-zA-Z\d- ]+$/;
 
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "ww",
+    email: "ww@ww.cop",
     resp: {},
     isOffer: true,
     isValidPhone: [-1, ""],
@@ -38,9 +38,9 @@ class FormForBuy extends Component {
         values: [
           ...prev.values,
           {
-            name: "",
-            surname: "",
-            phone: "",
+            name: "ww",
+            surname: "ww",
+            phone: "+380667123333",
             id: `${i}`,
             email: "",
             patronymic: "",
@@ -59,7 +59,7 @@ class FormForBuy extends Component {
       isValidSurname,
       isValidEmail,
     } = this.state;
-    const { tripKey, priceId, getError } = this.props;
+    const { tripKeys, priceId, getError, trips } = this.props;
 
     // ==== делаем запрос на бронь билета ==== //
     if (prevState.goSearch !== goSearch) {
@@ -72,15 +72,21 @@ class FormForBuy extends Component {
       ) {
         const requestBody = {};
         requestBody.lang = this.props.lang;
-        requestBody.services = values.map((el, idx) => ({
-          customer: { id: idx },
-          segment: { id: tripKey },
-          seat: { id: `0:${idx + 1}` },
-          price: { tariff: { id: priceId } },
-        }));
+        requestBody.services = values
+          .map((el, idx) =>
+            tripKeys.map((key) => ({
+              customer: { id: `${idx}` },
+              segment: { id: key },
+              seat: { id: `0:${idx + 1}` },
+              price: { tariff: { id: `${trips.segments[key].price.tariff.id}` } },
+            }))
+          )
+          .flat();
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
+
         console.log(requestBody);
+
         toBookTicket(requestBody)
           .then(({ data }) => {
             this.props.stopLoader();
@@ -273,7 +279,7 @@ class FormForBuy extends Component {
 
                         <div className={styles.inputBox}>
                           <label className={styles.label} htmlFor="surname">
-                            Прізвище
+                            Прізвище<small>{this.onlyLatin()}</small>
                           </label>
                           <input
                             className={`${styles.input} ${
@@ -293,7 +299,7 @@ class FormForBuy extends Component {
                         {this.props.requeredFields.includes("PATRONYMIC") && (
                           <div className={styles.inputBox}>
                             <label className={styles.label} htmlFor="patronymic">
-                              Побатькові
+                              Побатькові<small>{this.onlyLatin()}</small>
                             </label>
                             <input
                               className={`${styles.input} ${
@@ -317,7 +323,7 @@ class FormForBuy extends Component {
                           </label>
                           <PhoneInput
                             className={`${styles.inputPhone} ${
-                              isValidPhone[0] === idx ? styles.red : ''
+                              isValidPhone[0] === idx ? styles.red : ""
                             }`}
                             international
                             countryCallingCodeEditable={false}
@@ -390,7 +396,7 @@ class FormForBuy extends Component {
             <p className={styles.text}>
               <FormattedMessage id="numTel" />
             </p>
-            {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
+            <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
           </div>
         </IntlProvider>
       </>
@@ -400,10 +406,11 @@ class FormForBuy extends Component {
 
 const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
-  priceId: state.order.order.priceId,
+  // priceId: state.order.order.priceId,
   lang: state.language,
-  tripKey: state.order.order.tripKey,
+  tripKeys: state.order.order.tripKeys,
   isLoading: state.global.isLoading,
+  trips: state.trips.trips,
 });
 const mapDispatchToProps = (dispatch) => ({
   getError: (error) => dispatch(getError(error)),

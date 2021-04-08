@@ -9,7 +9,7 @@ import { getRequaredFields } from "../services/api";
 const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
   const order = useSelector((state) => state.order.order);
-  const tripKey = useSelector((state) => state.order.order.tripKey);
+  const tripKeys = useSelector((state) => state.order.order.tripKeys);
 
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
   const [requeredFields, setRequeredFields] = useState([]);
@@ -22,37 +22,43 @@ const OrderPage = ({ history }) => {
 
   // ==== получаем список обязательных полей ==== //
   useEffect(() => {
-    if (tripKey)
-      getRequaredFields(tripKey)
-        .then(({ data }) => setRequeredFields(data))
-        .catch((err) => console.log(err));
-  }, [tripKey]);
-
+    if (tripKeys)
+      tripKeys.forEach((tripKey) => {
+        getRequaredFields(tripKey)
+          .then(({ data }) => setRequeredFields([...requeredFields, ...data]))
+          .catch((err) => console.log(err));
+      });
+  }, [tripKeys]);
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
-  // useEffect(() => {
-  //   if (Object.keys(order).length <= 0) {
-  //     const path = JSON.parse(sessionStorage.getItem("path")) || "/";
-  //     history.replace(path);
-  //   }
-  // }, [order, history]);
+  useEffect(() => {
+    if (Object.keys(order).length <= 0) {
+      const path = JSON.parse(sessionStorage.getItem("path")) || "/";
+      history.replace(path);
+    }
+  }, [history, order]);
+  console.log(requeredFields);
   return (
-    <div className="bgnd">
-      <div className="container">
-        <div className={styles.formBox}>
-          <SearchForm history={history} />
+    <>
+      {Object.keys(order).length > 0 && (
+        <div className="bgnd">
+          <div className="container">
+            <div className={styles.formBox}>
+              <SearchForm history={history} />
+            </div>
+            <div className={styles.main}>
+              <FormForBuy
+                changeAmountPassanger={(val) => setTotalPassanger(val)}
+                total={totalPassanger}
+                history={history}
+                requeredFields={requeredFields}
+              />
+              <OrderInfo total={totalPassanger} />
+            </div>
+          </div>
         </div>
-        <div className={styles.main}>
-          <FormForBuy
-            changeAmountPassanger={(val) => setTotalPassanger(val)}
-            total={totalPassanger}
-            history={history}
-            requeredFields={requeredFields}
-          />
-          <OrderInfo total={totalPassanger} />
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

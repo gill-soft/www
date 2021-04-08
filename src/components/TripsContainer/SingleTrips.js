@@ -24,22 +24,16 @@ const SingleTrips = ({ tripKey, location }) => {
   const setOrderInfo = (obj) => dispatch(fetchOrderInfo(obj));
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
-  const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
-  const parsed = queryString.parse(location.search);
   const backdropRef = useRef(null);
 
   const handleClick = () => {
     const obj = {
-      from: parsed.from,
-      fromStop: trips.segments[tripKey].departure.id,
-      toStop: trips.segments[tripKey].arrival.id,
-      to: parsed.to,
       departureDate: trips.segments[tripKey].departureDate,
       arrivalDate: trips.segments[tripKey].arrivalDate,
       price: trips.segments[tripKey].price.amount,
       priceId: trips.segments[tripKey].price.tariff.id,
-      tripKey: tripKey,
+      tripKeys: [tripKey],
     };
     setOrderInfo(obj);
     sessionStorage.setItem(
@@ -62,7 +56,6 @@ const SingleTrips = ({ tripKey, location }) => {
         (el) => el.locality.id === trips.segments[tripKey].arrival.id
       )
     );
-
     // ==== обрезаем массив всех остановок ==== //
     const arr = trips.segments[tripKey].route.path.slice(first, last);
     // ==== записываем  в state обрезаный масив ==== //
@@ -146,13 +139,10 @@ const SingleTrips = ({ tripKey, location }) => {
                 : trips.segments[tripKey].freeSeatsCount}
             </p>
           </div>
-          {windowWidth >= 576 ? (
-            <button className={styles.additionals} onClick={handleAdditionals}>
-              <FormattedMessage id="additionals" />
-            </button>
-          ) : null}
+          <button className={styles.additionals} onClick={handleAdditionals}>
+            <FormattedMessage id="additionals" />
+          </button>
         </div>
-
         <CSSTransition
           in={isOpen}
           timeout={300}
@@ -161,7 +151,7 @@ const SingleTrips = ({ tripKey, location }) => {
           nodeRef={backdropRef}
         >
           <div ref={backdropRef}>
-            <h5>{trips.segments[tripKey].route.name.EN}</h5>
+            <h5 className={styles.routeName}>{trips.segments[tripKey].route.name.EN}</h5>
             <div className={styles.additionalInfo}>
               <div className={styles.depArr}>
                 <div className={styles.start}>
@@ -172,7 +162,9 @@ const SingleTrips = ({ tripKey, location }) => {
                     {getCity(trips.segments[tripKey].departure.id, trips, lang)}
                   </p>
                   <p>{getStop(trips.segments[tripKey].departure.id, trips, lang)}</p>
-                  {/* <p className={styles.address}>{getAddress(trip.departure.id, trips, lang)}</p> */}
+                  <p className={styles.address}>
+                    {getAddress(trips.segments[tripKey].departure.id, trips, lang)}
+                  </p>
                 </div>
                 <div>
                   {arrayStops.map((el, idx) => (
@@ -195,6 +187,9 @@ const SingleTrips = ({ tripKey, location }) => {
                     {getCity(trips.segments[tripKey].arrival.id, trips, lang)}
                   </p>
                   <p>{getStop(trips.segments[tripKey].arrival.id, trips, lang)}</p>
+                  <p className={styles.addressMore}>
+                    {getAddress(trips.segments[tripKey].arrival.id, trips, lang)}
+                  </p>
                 </div>
               </div>
             </div>

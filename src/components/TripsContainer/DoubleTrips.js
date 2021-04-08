@@ -13,7 +13,6 @@ import {
   getStop,
   getDate,
   getTime,
-  getTimeInWay,
   getTimeInWayDouble,
   getAddress,
   getPrice,
@@ -22,18 +21,16 @@ import {
 const DoubleTrips = ({ tripKeys, location }) => {
   const trips = useSelector((state) => state.trips.trips);
   const lang = useSelector((state) => state.language);
-  const stops = useSelector((state) => state.global.stops);
   const dispatch = useDispatch();
   const setOrderInfo = (obj) => dispatch(fetchOrderInfo(obj));
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
-  const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   const backdropRef = useRef(null);
   const lastKey = tripKeys[tripKeys.length - 1];
 
   useEffect(() => {
-    const www = tripKeys.map((el) => {
+    const stopsArray = tripKeys.map((el) => {
       // ==== определяем индекс первой остановки ====//
       const first =
         1 +
@@ -52,42 +49,24 @@ const DoubleTrips = ({ tripKeys, location }) => {
       const arr = trips.segments[el].route.path.slice(first, last);
       return arr;
     });
-    setArrayStops(www);
-  }, []);
+    setArrayStops(stopsArray);
+  }, [tripKeys, trips.segments]);
 
   const handleClick = () => {
     const obj = {
-      //   from: parsed.from,
-      //   fromStop: trips.segments[tripKey].departure.id,
-      //   toStop: trips.segments[tripKey].arrival.id,
-      //   to: parsed.to,
-      //   departureDate: trips.segments[tripKey].departureDate,
-      //   arrivalDate: trips.segments[tripKey].arrivalDate,
-      //   price: trips.segments[tripKey].price.amount,
-      //   priceId: trips.segments[tripKey].price.tariff.id,
-      //   tripKey: tripKey,
+      departureDate: trips.segments[tripKeys[0]].departureDate,
+      arrivalDate: trips.segments[tripKeys[tripKeys.length-1]].arrivalDate,
+      price: getPrice(tripKeys, trips),
+    //   priceId: trips.segments[tripKeys[0]].price.tariff.id,
+      tripKeys: tripKeys,
     };
+    setOrderInfo(obj);
+    sessionStorage.setItem(
+      "path",
+      JSON.stringify(`${location.pathname}${location.search}`)
+    );
   };
   const handleAdditionals = () => {
-    // // ==== определяем индекс первой остановки ====//
-    // const first =
-    //   1 +
-    //   trips.segments[tripKeys[0]].route.path.indexOf(
-    //     trips.segments[tripKeys[0]].route.path.find(
-    //       (el) => el.locality.id === trips.segments[tripKeys[0]].departure.id
-    //     )
-    //   );
-    // //  ==== определяем индекс последней остановки ==== //
-    // const last = trips.segments[tripKeys[0]].route.path.indexOf(
-    //   trips.segments[tripKeys[0]].route.path.find(
-    //     (el) => el.locality.id === trips.segments[tripKeys[0]].arrival.id
-    //   )
-    // );
-
-    // // ==== обрезаем массив всех остановок ==== //
-    // const arr = trips.segments[tripKeys[0]].route.path.slice(first, last);
-    // // ==== записываем  в state обрезаный масив ==== //
-    // setArrayStops(arr);
     // ==== переключаем видимость дополнительной информации ==== //
     setIsOpen(!isOpen);
   };
@@ -156,61 +135,60 @@ const DoubleTrips = ({ tripKeys, location }) => {
               <FormattedMessage id="choose" />
             </Link>
           </div>
-          {windowWidth >= 576 ? (
-            <button className={styles.additionals} onClick={handleAdditionals}>
-              <FormattedMessage id="additionals" />
-            </button>
-          ) : null}
+          <button className={styles.additionals} onClick={handleAdditionals}>
+            <FormattedMessage id="additionals" />
+          </button>
         </div>
-
-        {tripKeys.map((el, idx) => (
-          <div ref={backdropRef} key={idx}>
-            <h5>{trips.segments[el].route.name.EN}</h5>
-            <div className={styles.additionalInfo}>
-              <div className={styles.depArr}>
-                <div className={styles.start}>
-                  <p className={styles.timeStop}>
-                    {getTime("departureDate", trips.segments[el], lang)}
-                  </p>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>
-                    {getCity(trips.segments[el].departure.id, trips, lang)}
-                  </p>
-                  <p>{getStop(trips.segments[el].departure.id, trips, lang)}</p>
-                  <p className={styles.address}>
-                    {getAddress(trips.segments[el].departure.id, trips, lang)}
-                  </p>
-                </div>
-                <div>
-                  {arrayStops.length > 0 &&
-                    arrayStops[idx].length > 0 &&
-                    arrayStops[idx].map((s, i) => (
-                      <div className={styles.stop} key={i}>
-                        <p className={styles.timeStop}>{s.departureTime}</p>
-                        <p>{getCity(s.locality.id, trips, lang)}</p>
-                        <p>{getStop(s.locality.id, trips, lang)}</p>
-                        <p className={styles.address}>
-                          {getAddress(s.locality.id, trips, lang)}
-                        </p>
-                      </div>
-                    ))}
-                </div>
-                <div className={`${styles.start} ${styles.finish}`}>
-                  <p className={styles.timeStop}>
-                    {" "}
-                    {getTime("arrivalDate", trips.segments[el], lang)}
-                  </p>
-                  <p className={`${styles.locality} ${styles.addLocality} `}>
-                    {getCity(trips.segments[el].arrival.id, trips, lang)}
-                  </p>
-                  <p>{getStop(trips.segments[el].arrival.id, trips, lang)}</p>
-                  <p className={styles.address}>
-                    {getAddress(trips.segments[el].arrival.id, trips, lang)}
-                  </p>
+        {isOpen && (
+          <>
+            {tripKeys.map((el, idx) => (
+              <div ref={backdropRef} key={idx} className={styles.anim}>
+                <h5 className={styles.routeName}>{trips.segments[el].route.name.EN}</h5>
+                <div className={styles.additionalInfo}>
+                  <div className={styles.depArr}>
+                    <div className={styles.start}>
+                      <p className={styles.timeStop}>
+                        {getTime("departureDate", trips.segments[el], lang)}
+                      </p>
+                      <p className={`${styles.locality} ${styles.addLocality} `}>
+                        {getCity(trips.segments[el].departure.id, trips, lang)}
+                      </p>
+                      <p>{getStop(trips.segments[el].departure.id, trips, lang)}</p>
+                      <p className={styles.address}>
+                        {getAddress(trips.segments[el].departure.id, trips, lang)}
+                      </p>
+                    </div>
+                    {arrayStops.length > 0 &&
+                      arrayStops[idx].length > 0 &&
+                      arrayStops[idx].map((s, i) => (
+                        <div className={styles.stop} key={i}>
+                          <p className={styles.timeStop}>{s.departureTime}</p>
+                          <p>{getCity(s.locality.id, trips, lang)}</p>
+                          <p>{getStop(s.locality.id, trips, lang)}</p>
+                          <p className={styles.address}>
+                            {getAddress(s.locality.id, trips, lang)}
+                          </p>
+                        </div>
+                      ))}
+                    <div className={`${styles.start} ${styles.finish}`}>
+                      <p className={styles.timeStop}>
+                        {" "}
+                        {getTime("arrivalDate", trips.segments[el], lang)}
+                      </p>
+                      <p className={`${styles.locality} ${styles.addLocality} `}>
+                        {getCity(trips.segments[el].arrival.id, trips, lang)}
+                      </p>
+                      <p>{getStop(trips.segments[el].arrival.id, trips, lang)}</p>
+                      <p className={styles.addressMore}>
+                        {getAddress(trips.segments[el].arrival.id, trips, lang)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
+            ))}
+          </>
+        )}
       </div>
     </IntlProvider>
   );

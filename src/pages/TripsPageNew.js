@@ -7,12 +7,10 @@ import { getInitialization, searchTrips } from "../services/api";
 import {
   changeSortType,
   fetchTripsSuccess,
-  getTripsInfo,
   setDoubleTrips,
   setSingleTrips,
 } from "../redux/trips/tripsActions";
 import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
-// import TripBox from "../components/TripsContainer/TripBox";
 import SearchForm from "../components/SearchForm/SearchForm";
 import SortTrips from "../components/TripsContainer/SortTrips";
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -32,11 +30,12 @@ const windowWidth = window.innerWidth;
 class TripsPage extends Component {
   state = {
     isTrip: false,
-    doubleTrips: [],
   };
+
   componentDidMount() {
     this.props.startLoader();
-    this.props.getTripsInfo([]);
+    setSingleTrips([]);
+    setDoubleTrips([]);
     const parsed = queryString.parse(this.props.location.search);
 
     const { setFrom, setTo } = this.props;
@@ -72,7 +71,7 @@ class TripsPage extends Component {
 
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time || prevProps.location.key !== location.key) {
-      this.setState({ isTrip: false, doubleTrips: [] });
+      this.setState({ isTrip: false });
       setSingleTrips([]);
       setDoubleTrips([]);
       // ==== формируем обьект для запроса ====
@@ -181,7 +180,6 @@ class TripsPage extends Component {
     } = this.props;
     const parsed = queryString.parse(this.props.location.search);
     const locale = lang === "UA" ? "UK" : lang;
-    // console.log(singleTrips);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {error && <Redirect to="/error" />}
@@ -203,36 +201,32 @@ class TripsPage extends Component {
                   {getLocality(parsed.to, stops, lang)}
                 </h2>
                 <DateCarousel parsed={parsed} history={history} />
-                {windowWidth >= 768 ? <SortTrips /> : <SortTripsMob />}
 
                 {isLoading && <Scelet />}
-                {singleTrips.length > 0 &&
-                  singleTrips.map((el, idx) => (
-                    <SingleTrips
-                      key={idx}
-                      tripKey={el.id}
-                      location={this.props.location}
-                    />
-                  ))}
-                {doubleTrips.length > 0 &&
-                  doubleTrips.map((el, idx) => (
-                    <DoubleTrips
-                      key={idx}
-                      tripKeys={el.segments}
-                      location={this.props.location}
-                    />
-                  ))}
-                {/* {Object.keys(tripsInfo).length > 0 &&
-                  tripsInfo.map((el, idx) => (
-                    <TripBox
-                      key={idx}
-                      trip={el[`${Object.keys(el)}`]}
-                      tripKey={Object.keys(el)}
-                      from={getLocality(parsed.from, stops, lang)}
-                      to={getLocality(parsed.to, stops, lang)}
-                      location={this.props.location}
-                    />
-                  ))} */}
+                {singleTrips.length > 0 && (
+                  <>
+                    {windowWidth >= 768 ? <SortTrips /> : <SortTripsMob />}
+                    {singleTrips.map((el, idx) => (
+                      <SingleTrips
+                        key={idx}
+                        tripKey={el.id}
+                        location={this.props.location}
+                      />
+                    ))}
+                  </>
+                )}
+                {doubleTrips.length > 0 && (
+                  <>
+                    <h3>Рейси з пересадкою</h3>
+                    {doubleTrips.map((el, idx) => (
+                      <DoubleTrips
+                        key={idx}
+                        tripKeys={el.segments}
+                        location={this.props.location}
+                      />
+                    ))}
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -249,7 +243,6 @@ const mapStateToProps = (state) => ({
   error: state.global.error,
   trips: state.trips.trips,
   lang: state.language,
-  tripsInfo: state.trips.tripsInfo,
   time: state.searchForm.time,
   sortType: state.trips.sortType,
   from: state.searchForm.from.text,
@@ -259,7 +252,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getTripsInfo: (trips) => dispatch(getTripsInfo(trips)),
   fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
   stopLoader: () => dispatch(stopLoader()),
   getError: (error) => dispatch(getError(error)),
