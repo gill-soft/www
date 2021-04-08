@@ -101,7 +101,7 @@ const PaymentBox = ({ id, fromId, toId, getDate, payeeId }) => {
           </p>{" "}
         </div>
       </div>
-      {!!isModal && <Modal component={<GoHome />} isGohome={true} />}
+      {/* {!!isModal && <Modal component={<GoHome />} isGohome={true} />} */}
     </IntlProvider>
   );
 };

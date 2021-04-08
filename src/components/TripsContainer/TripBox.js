@@ -40,7 +40,7 @@ const TripBox = ({ tripKey, trip, trips, fetchOrderInfo, lang, location, stops }
       tripKey: tripKey[0],
     };
     // localStorage.setItem("tripKey", JSON.stringify(tripKey[0]));
-    fetchOrderInfo(obj);
+    // fetchOrderInfo(obj);
     sessionStorage.setItem(
       "path",
       JSON.stringify(`${location.pathname}${location.search}`)
@@ -188,7 +188,7 @@ const mapStateToProps = (state) => ({
   stops: state.global.stops,
 });
 const mapDispatchToProps = (dispatch) => ({
-  fetchOrderInfo: (obj) => dispatch(fetchOrderInfo(obj)),
+  // fetchOrderInfo: (obj) => dispatch(fetchOrderInfo(obj)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripBox);

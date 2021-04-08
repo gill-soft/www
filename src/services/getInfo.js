@@ -31,7 +31,8 @@ export const getCity = (id, trips, lang) => {
 };
 
 // ==== получаем остановку отправки/прибытия === //
-export const getStop = (id, trips, lang) => trips.localities[id]?.name[lang];
+export const getStop = (id, trips, lang) =>
+  trips.localities[id].name ? trips.localities[id].name[lang] : "";
 
 // ==== получаем adress отправки/прибытия === //
 export const getAddress = (id, trips, lang) =>

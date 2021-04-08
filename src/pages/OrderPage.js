@@ -8,8 +8,8 @@ import { getRequaredFields } from "../services/api";
 
 const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
-  const order = useSelector((state) => state.order.order);
-  const tripKeys = useSelector((state) => state.order.order.tripKeys);
+  // const order = useSelector((state) => state.order.tripKeys);
+  const tripKeys = useSelector((state) => state.order.tripKeys);
 
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
   const [requeredFields, setRequeredFields] = useState([]);
@@ -32,15 +32,14 @@ const OrderPage = ({ history }) => {
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
   useEffect(() => {
-    if (Object.keys(order).length <= 0) {
+    if (tripKeys.length <= 0) {
       const path = JSON.parse(sessionStorage.getItem("path")) || "/";
       history.replace(path);
     }
-  }, [history, order]);
-  console.log(requeredFields);
+  }, [history, tripKeys]);
   return (
     <>
-      {Object.keys(order).length > 0 && (
+      {tripKeys.length > 0 && (
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>

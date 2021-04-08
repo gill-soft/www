@@ -3,23 +3,18 @@ import { useSelector } from "react-redux";
 import styles from "./OrderInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
-import { getCity, getStop } from "../../services/getInfo";
+import { getCity, getDate, getPrice, getStop, getTime } from "../../services/getInfo";
 
 const OrderInfo = ({ total }) => {
   const lang = useSelector((state) => state.language);
   const trips = useSelector((state) => state.trips.trips);
-  const price = useSelector((state) => state.order.order.price);
-  const arrivalDate = useSelector((state) => state.order.order.arrivalDate);
-  const departureDate = useSelector((state) => state.order.order.departureDate);
-  const tripKeys = useSelector((state) => state.order.order.tripKeys);
-  const departureKey = useSelector((state) => state.order.order.tripKeys[0]);
-  const arrivalKey = useSelector(
-    (state) => state.order.order.tripKeys[tripKeys.length - 1]
-    );
-    const locale = lang === "UA" ? "UK" : lang;
+  const tripKeys = useSelector((state) => state.order.tripKeys);
+  const departureKey = useSelector((state) => state.order.tripKeys[0]);
+  const arrivalKey = useSelector((state) => state.order.tripKeys[tripKeys.length - 1]);
+  const locale = lang === "UA" ? "UK" : lang;
 
   const getTotalPrice = () => {
-    return (total * price).toFixed(2);
+    return (total * getPrice(tripKeys, trips)).toFixed(2);
   };
 
   return (
@@ -38,7 +33,10 @@ const OrderInfo = ({ total }) => {
           <p className={styles.localityStop}>
             {getStop(trips.segments[departureKey].departure.id, trips, lang)}
           </p>
-          <p className={styles.date}>{departureDate}</p>
+          <p className={styles.date}>
+            {getDate("departureDate", trips.segments[departureKey], locale)}{" "}
+            {getTime("departureDate", trips.segments[departureKey], locale)}
+          </p>
           <h4 className={styles.subTitle}>
             <FormattedMessage id="arrival" />
           </h4>
@@ -48,7 +46,10 @@ const OrderInfo = ({ total }) => {
           <p className={styles.localityStop}>
             {getStop(trips.segments[arrivalKey].arrival.id, trips, lang)}
           </p>
-          <p className={styles.date}>{arrivalDate}</p>
+          <p className={styles.date}>
+            {getDate("arrivalDate", trips.segments[arrivalKey], locale)}{" "}
+            {getTime("arrivalDate", trips.segments[arrivalKey], locale)}
+          </p>
           <p className={styles.total}>
             <FormattedMessage id="pay" />
             {getTotalPrice()} грн

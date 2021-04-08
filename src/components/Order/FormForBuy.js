@@ -20,7 +20,7 @@ const regexLatin = /^[a-zA-Z\d- ]+$/;
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "ww@ww.cop",
+    email: "",
     resp: {},
     isOffer: true,
     isValidPhone: [-1, ""],
@@ -38,9 +38,9 @@ class FormForBuy extends Component {
         values: [
           ...prev.values,
           {
-            name: "ww",
-            surname: "ww",
-            phone: "+380667123333",
+            name: "",
+            surname: "",
+            phone: "",
             id: `${i}`,
             email: "",
             patronymic: "",
@@ -59,7 +59,7 @@ class FormForBuy extends Component {
       isValidSurname,
       isValidEmail,
     } = this.state;
-    const { tripKeys, priceId, getError, trips } = this.props;
+    const { tripKeys, getError, trips, lang} = this.props;
 
     // ==== делаем запрос на бронь билета ==== //
     if (prevState.goSearch !== goSearch) {
@@ -71,7 +71,7 @@ class FormForBuy extends Component {
         isValidEmail === null
       ) {
         const requestBody = {};
-        requestBody.lang = this.props.lang;
+        requestBody.lang = lang;
         requestBody.services = values
           .map((el, idx) =>
             tripKeys.map((key) => ({
@@ -84,8 +84,6 @@ class FormForBuy extends Component {
           .flat();
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
-
-        console.log(requestBody);
 
         toBookTicket(requestBody)
           .then(({ data }) => {
@@ -109,9 +107,9 @@ class FormForBuy extends Component {
           this.props.getError(el.error.message);
           return;
         } else {
-          const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVezu").toString());
+          const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
           const payeeId = btoa(
-            CryptoJS.AES.encrypt(resp.additionals.payeeId, "KeyVezu").toString()
+            CryptoJS.AES.encrypt(resp.additionals.payeeId, "KeyVeze").toString()
           );
           this.props.history.push(`/ticket/${id}/${payeeId}`);
         }
@@ -406,9 +404,8 @@ class FormForBuy extends Component {
 
 const mapStateToProps = (state) => ({
   amountPassangers: state.searchForm.amountPassanger,
-  // priceId: state.order.order.priceId,
   lang: state.language,
-  tripKeys: state.order.order.tripKeys,
+  tripKeys: state.order.tripKeys,
   isLoading: state.global.isLoading,
   trips: state.trips.trips,
 });

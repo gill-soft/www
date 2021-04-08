@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTicket } from "../redux/order/orderOperation";
 // import styles from "./TicketPage.module.css";
@@ -15,7 +15,7 @@ const TicketPage = ({ match }) => {
     // ==== получаем зашифрованый id === //
     const encryptId = atob(match.params.id);
     // ==== расшифровуем id ==== //
-    const id = CryptoJS.AES.decrypt(encryptId, "KeyVezu").toString(CryptoJS.enc.Utf8);
+    const id = CryptoJS.AES.decrypt(encryptId, "KeyVeze").toString(CryptoJS.enc.Utf8);
     // ==== самовызывающяяся функция redux====
     ((id) => dispatch(getTicket(id)))(id);
   }, [dispatch, match.params]);
@@ -32,17 +32,11 @@ const TicketPage = ({ match }) => {
     const tripKey = Object.keys(ticket.segments)[0];
     return ticket.segments[`${tripKey}`][`${type}`];
   };
-
   return (
     <div className="bgnd">
       {Object.keys(ticket).length > 0 && (
         <div className="container">
-          <TripInfo
-            ticket={ticket}
-            fromId={getLocalityId("departure")}
-            toId={getLocalityId("arrival")}
-            getDate={getDate}
-          />
+          <TripInfo />
           <PassengersData />
           <PaymentBox
             fromId={getLocalityId("departure")}

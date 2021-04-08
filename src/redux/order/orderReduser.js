@@ -1,9 +1,9 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-const getOrder = (state = {}, { type, payload }) => {
+const getTripKeys = (state = [], { type, payload }) => {
   switch (type) {
-    case Types.FETCH_ORDER_INFO:
+    case Types.FETCH_TRIP_KEYS:
       return payload;
 
     default:
@@ -22,6 +22,6 @@ const getTicket = (state = {}, { type, payload }) => {
 };
 
 export const orderReduser = combineReducers({
-  order: getOrder,
+  tripKeys: getTripKeys,
   ticket: getTicket,
 });

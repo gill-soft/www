@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import queryString from "query-string";
 import { Link } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
 import styles from "./TripBox.module.css";
 import "./TripBoxAnimation.css";
-import { fetchOrderInfo } from "../../redux/order/orderActions";
+import { fetchOrderInfo, setTripKeys } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import {
@@ -22,7 +20,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
   const trips = useSelector((state) => state.trips.trips);
   const lang = useSelector((state) => state.language);
   const dispatch = useDispatch();
-  const setOrderInfo = (obj) => dispatch(fetchOrderInfo(obj));
+  const sendTripsKey = (arr) => dispatch(setTripKeys(arr));
   const [isOpen, setIsOpen] = useState(false);
   const [arrayStops, setArrayStops] = useState([]);
   const locale = lang === "UA" ? "UK" : lang;
@@ -53,14 +51,8 @@ const DoubleTrips = ({ tripKeys, location }) => {
   }, [tripKeys, trips.segments]);
 
   const handleClick = () => {
-    const obj = {
-      departureDate: trips.segments[tripKeys[0]].departureDate,
-      arrivalDate: trips.segments[tripKeys[tripKeys.length-1]].arrivalDate,
-      price: getPrice(tripKeys, trips),
-    //   priceId: trips.segments[tripKeys[0]].price.tariff.id,
-      tripKeys: tripKeys,
-    };
-    setOrderInfo(obj);
+    
+    sendTripsKey( tripKeys);
     sessionStorage.setItem(
       "path",
       JSON.stringify(`${location.pathname}${location.search}`)

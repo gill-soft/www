@@ -1,8 +1,8 @@
 import { Types } from "../actionsTypes";
 
-export const fetchOrderInfo = (obj) => ({
-  type: Types.FETCH_ORDER_INFO,
-  payload: obj,
+export const setTripKeys = (arr) => ({
+  type: Types.FETCH_TRIP_KEYS,
+  payload: arr,
 });
 
 export const fetchTicket = (ticket) => ({
