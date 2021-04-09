@@ -17,7 +17,7 @@ import {
   setIsOpenTo,
   setTime,
 } from "../../redux/searchForm/searchFormAction";
-import { fetchTripsSuccess, getTripsInfo, setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
+import { fetchTripsSuccess, setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
 import AmountPassanger from "./AmountPassanger";

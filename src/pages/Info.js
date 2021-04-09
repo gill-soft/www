@@ -1,9 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import styles from './Info.module.css'
 
 const Info = () => {
-  const lang = useSelector((state) => state.language);
+  // const lang = useSelector((state) => state.language);
 
   return (
     <div className="container">

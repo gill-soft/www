@@ -87,6 +87,7 @@ class TripsPage extends Component {
     // ==== работаем с результатом поиска ==== //
     if (prevProps.trips !== trips) {
       changeSortType("price");
+
       if (Object.keys(trips).length > 0) {
         setSingleTrips(
           trips.tripContainers[0].trips.filter((el) => Object.keys(el)[0] === "id")
@@ -206,25 +207,29 @@ class TripsPage extends Component {
                 {singleTrips.length > 0 && (
                   <>
                     {windowWidth >= 768 ? <SortTrips /> : <SortTripsMob />}
-                    {singleTrips.map((el, idx) => (
-                      <SingleTrips
-                        key={idx}
-                        tripKey={el.id}
-                        location={this.props.location}
-                      />
-                    ))}
+                    {singleTrips.map((el, idx) =>
+                      Object.keys(this.props.trips.segments).includes(el.id) ? (
+                        <SingleTrips
+                          key={idx}
+                          tripKey={el.id}
+                          location={this.props.location}
+                        />
+                      ) : null
+                    )}
                   </>
                 )}
                 {doubleTrips.length > 0 && (
                   <>
                     <h3>Рейси з пересадкою</h3>
-                    {doubleTrips.map((el, idx) => (
-                      <DoubleTrips
-                        key={idx}
-                        tripKeys={el.segments}
-                        location={this.props.location}
-                      />
-                    ))}
+                    {doubleTrips.map((el, idx) =>
+                      Object.keys(this.props.trips.segments).includes(el.segments[0]) ? (
+                        <DoubleTrips
+                          key={idx}
+                          tripKeys={el.segments}
+                          location={this.props.location}
+                        />
+                      ) : null
+                    )}
                   </>
                 )}
               </div>

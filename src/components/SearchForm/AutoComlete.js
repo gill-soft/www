@@ -113,12 +113,20 @@ const AutoComplete = () => {
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
           onChange={(event, value) => {
-            value ? setFrom(value) : setFrom({ text: "", value: "" });
+            if (value) {
+              setFrom(value);
+              changeIsOpenFrom(false);
+              setTimeout(() => {
+                changeIsOpenTo(true);
+              }, 0);
+            } else {
+              setFrom({ text: "", value: "" });
+              changeIsOpenFrom(true);
+              setTimeout(() => {
+                changeIsOpenTo(false);
+              }, 0);
+            }
             setOptions(OPTIONS[lang]);
-            changeIsOpenFrom(false);
-            setTimeout(() => {
-              changeIsOpenTo(true);
-            }, 0);
           }}
           renderOption={(option) => (
             <div>

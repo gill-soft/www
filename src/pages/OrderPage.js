@@ -28,6 +28,7 @@ const OrderPage = ({ history }) => {
           .then(({ data }) => setRequeredFields([...requeredFields, ...data]))
           .catch((err) => console.log(err));
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripKeys]);
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную

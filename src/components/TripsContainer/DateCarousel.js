@@ -5,8 +5,8 @@ import { getTodayDate, getTomorrow, getYesterday } from "../../services/getInfo"
 import { format } from "date-fns";
 import { startLoader } from "../../redux/global/globalActions";
 import { inputValueDate, setTime } from "../../redux/searchForm/searchFormAction";
-import { getTripsInfo } from "../../redux/trips/tripsActions";
 import { getUrl } from "../../services/getUrl";
+import { setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 
 const DateCarousel = ({ parsed, history }) => {
   const lang = useSelector((state) => state.language);
@@ -16,7 +16,8 @@ const DateCarousel = ({ parsed, history }) => {
   const loaderStart = () => dispatch(startLoader());
   const changeInputDate = (val) => dispatch(inputValueDate(val));
   const timeSet = (time) => dispatch(setTime(time));
-  const setTripsInfo = (obj) => dispatch(getTripsInfo(obj));
+  const sendSingleTrips = (trips) => dispatch(setSingleTrips(trips));
+  const sendDoubleTrips = (trips) => dispatch(setDoubleTrips(trips));
 
   // ==== управление изменением даты на следующюю/предыдущую ==== //
   const changeDate = ({ target }) => {
@@ -33,7 +34,8 @@ const DateCarousel = ({ parsed, history }) => {
     loaderStart();
     changeInputDate(new Date(newDay));
     timeSet(new Date().getTime());
-    setTripsInfo({});
+    sendSingleTrips([]);
+    sendDoubleTrips([]);
     history.push(
       `/${getUrl(lang).trim()}/${from.text}/${to.text}?from=${parsed.from}&to=${
         parsed.to

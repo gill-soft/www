@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import styles from "./TripBox.module.css";
 import "./TripBoxAnimation.css";
-import { fetchOrderInfo, setTripKeys } from "../../redux/order/orderActions";
+import {  setTripKeys } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import {
