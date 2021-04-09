@@ -394,7 +394,7 @@ class FormForBuy extends Component {
             <p className={styles.text}>
               <FormattedMessage id="numTel" />
             </p>
-            <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
+            {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
           </div>
         </IntlProvider>
       </>
