@@ -1,32 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import styles from "./TripInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getStop, getTime } from "../../services/getInfo";
 
-const TripInfo = () => {
+const TripInfo = ({routs}) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
-  const [routs, setRouts] = useState([]);
   const locale = lang === "UA" ? "UK" : lang;
 
-  useEffect(() => {
-    if (Object.keys(ticket).length > 0) {
-      const arr = [];
-      for (let [key, values] of Object.entries(ticket.segments)) {
-        arr.push({ [key]: values });
-
-        setRouts(
-          arr.sort((a, b) => {
-            const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
-            const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
-            return A - B;
-          })
-        );
-      }
-    }
-  }, [ticket]);
+  
 
   return (
     <>

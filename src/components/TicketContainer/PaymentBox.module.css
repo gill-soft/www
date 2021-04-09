@@ -39,10 +39,13 @@
     border: none;
     box-shadow: 0 0 4px 2px #a3a3a3;
     cursor: pointer;
+    transition: box-shadow 200ms linear;
+
 }
 
 .portmone:hover {
     box-shadow: 0 0 2px 1px #a3a3a3;
+    transition: box-shadow 200ms linear;
 }
 
 .flexItem {

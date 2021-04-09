@@ -59,7 +59,7 @@ class FormForBuy extends Component {
       isValidSurname,
       isValidEmail,
     } = this.state;
-    const { tripKeys, getError, trips, lang} = this.props;
+    const { tripKeys, getError, trips, lang } = this.props;
 
     // ==== делаем запрос на бронь билета ==== //
     if (prevState.goSearch !== goSearch) {
@@ -150,7 +150,7 @@ class FormForBuy extends Component {
       if (!el.surname.trim())
         this.setState({ isValidSurname: [idx, "це поле необхідно заповнити"] });
       // ==== phone====
-      if (!isValidPhoneNumber(el.phone)) {
+      if ( !isValidPhoneNumber(el.phone)) {
         this.setState({ isValidPhone: [idx, "не коректний номер телефону"] });
       }
     });
@@ -172,6 +172,7 @@ class FormForBuy extends Component {
 
   // ==== инпут телефон ====//
   handleChangePhone = (val, idx) => {
+   if(val===undefined) return
     this.setState((prev) => {
       const values = prev.values.reduce((arr, el) => {
         arr.push(el.id === idx ? { ...el, phone: val } : el);
@@ -268,7 +269,7 @@ class FormForBuy extends Component {
                             type="text"
                             value={this.state.values[idx].name}
                             onChange={(e) => this.handleChangeInput(el.id, e)}
-                            autoComplete="off"
+                            autoComplete="nope"
                           />
                           {isValidName[0] === idx && (
                             <p className={styles.redText}>{isValidName[1]}</p>
@@ -287,13 +288,12 @@ class FormForBuy extends Component {
                             type="text"
                             value={this.state.values[idx].surname}
                             onChange={(e) => this.handleChangeInput(el.id, e)}
-                            autoComplete="off"
+                            autoComplete="nope"
                           />
                           {isValidSurname[0] === idx && (
                             <p className={styles.redText}>{isValidSurname[1]}</p>
                           )}
                         </div>
-                        {/*  */}
                         {this.props.requeredFields.includes("PATRONYMIC") && (
                           <div className={styles.inputBox}>
                             <label className={styles.label} htmlFor="patronymic">
@@ -307,14 +307,13 @@ class FormForBuy extends Component {
                               type="text"
                               value={this.state.values[idx].patronymic}
                               onChange={(e) => this.handleChangeInput(el.id, e)}
-                              autoComplete="off"
+                              autoComplete="nope"
                             />
                             {isValidSurname[0] === idx && (
                               <p className={styles.redText}>{isValidSurname[1]}</p>
                             )}
                           </div>
                         )}
-                        {/*  */}
                         <div className={styles.inputBox}>
                           <label className={styles.label} htmlFor="phone">
                             Телефон**
@@ -328,6 +327,7 @@ class FormForBuy extends Component {
                             defaultCountry="UA"
                             value={this.state.values[idx].phone}
                             onChange={(val) => this.handleChangePhone(val, el.id)}
+                            autoComplete="nope"
                           />
                           {isValidPhone[0] === idx && (
                             <p className={styles.redText}>{isValidPhone[1]}</p>

@@ -11,6 +11,7 @@ class MyTicketPage extends Component {
     status: "NEW",
     id: "",
     url: [],
+    routs: [],
   };
 
   //  ==== получаем информацию о билете ==== //
@@ -18,17 +19,31 @@ class MyTicketPage extends Component {
     // ==== получаем зашифрованый id === //
     const encryptId = atob(this.props.match.params.id);
     // ==== расшифровуем id ==== //
-    const id = CryptoJS.AES.decrypt(encryptId, "KeyVezu").toString(CryptoJS.enc.Utf8);
+    const id = CryptoJS.AES.decrypt(encryptId, "KeyVeze").toString(CryptoJS.enc.Utf8);
     this.setState({ id: id });
-
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);
   }
 
   componentDidUpdate(prevProps) {
     const { id } = this.state;
+    const { ticket } = this.props;
+    if (prevProps.ticket !== ticket) {
+      if (Object.keys(ticket).length > 0) {
+        const arr = [];
+        for (let [key, values] of Object.entries(ticket.segments)) {
+          arr.push({ [key]: values });
 
-    if (prevProps.ticket !== this.props.ticket) {
+          this.setState({
+            routs: arr.sort((a, b) => {
+              const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
+              const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
+              return A - B;
+            }),
+          });
+        }
+      }
+
       if (this.props.ticket.services[0].status === "NEW") {
         this.props.getConfirm(id);
       }
@@ -61,64 +76,49 @@ class MyTicketPage extends Component {
     const base64 = window.URL.createObjectURL(pdf);
     this.setState({ url: base64 });
   };
-  // ==== получаем id населенного пункта отправки/прибытия ====//
-  getLocalityId = (type) => {
-    const tripKey = Object.keys(this.props.ticket.segments)[0];
-    const stopId = this.props.ticket.segments[tripKey][type].id;
-    return this.props.ticket.localities[stopId].parent.id;
-  };
-
-  // ==== получаем время отправки/прибытия ====//
-  getDate = (type) => {
-    const tripKey = Object.keys(this.props.ticket.segments)[0];
-    return this.props.ticket.segments[`${tripKey}`][`${type}`];
-  };
   render() {
-    const { status, id, url } = this.state;
+    const { status, id, url, routs } = this.state;
     return (
       <>
-      {Object.keys(this.props.ticket).length >0 && (<div className="bgnd">
-      <div className="container">
-        <TripInfo
-          ticket={this.props.ticket}
-          fromId={this.getLocalityId("departure")}
-          toId={this.getLocalityId("arrival")}
-          getDate={this.getDate}
-        />
-        <PassengersData />
-        {status === "CONFIRM" && (
-          <>
-            <h1 className={`${styles.title} ${styles.blue}`}>
-              Оплата прошла Успешно!!!
-            </h1>
-            <p className={styles.text}>
-              Hомер вашего заказа: <span className={styles.blue}>{id}</span>
-            </p>
-            <a className={styles.link} href={url} target="_blank" rel="noreferrer">
-              Cкачать билет
-            </a>
-          </>
+        {Object.keys(this.props.ticket).length > 0 && (
+          <div className="bgnd">
+            <div className="container">
+              <TripInfo routs={routs} />
+              <PassengersData />
+              {status === "CONFIRM" && (
+                <>
+                  <h1 className={`${styles.title} ${styles.blue}`}>
+                    Оплата прошла Успешно!!!
+                  </h1>
+                  <p className={styles.text}>
+                    Hомер вашего заказа: <span className={styles.blue}>{id}</span>
+                  </p>
+                  <a className={styles.link} href={url} target="_blank" rel="noreferrer">
+                    Cкачать билет
+                  </a>
+                </>
+              )}
+              {status === "ERROR" && (
+                <>
+                  <h1 className={`${styles.title} ${styles.red}`}>
+                    При офрормлении билета произошла ошибка!!!
+                  </h1>
+                  <p className={styles.text}>
+                    Свяжитесь со службой поддержки по телефону:{" "}
+                    <a href="tel: +1 111 111-11-11" className={styles.red}>
+                      +1 111 111-11-11
+                    </a>
+                  </p>
+                  <p className={styles.text}>
+                    Hомер вашего заказа <span className={styles.red}>{id}</span>
+                  </p>
+                </>
+              )}
+            </div>
+            {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
+            {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
+          </div>
         )}
-        {status === "ERROR" && (
-          <>
-            <h1 className={`${styles.title} ${styles.red}`}>
-              При офрормлении билета произошла ошибка!!!
-            </h1>
-            <p className={styles.text}>
-              Свяжитесь со службой поддержки по телефону:{" "}
-              <a href="tel: +1 111 111-11-11" className={styles.red}>
-                +1 111 111-11-11
-              </a>
-            </p>
-            <p className={styles.text}>
-              Hомер вашего заказа <span className={styles.red}>{id}</span>
-            </p>
-          </>
-        )}
-      </div>
-      {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
-      {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
-    </div>)}
       </>
     );
   }
@@ -126,7 +126,6 @@ class MyTicketPage extends Component {
 const mapStateToProps = (state) => ({
   ticket: state.order.ticket,
   lang: state.language,
-  price: state.order.order.priceId,
 });
 
 const mapDispatchToProps = (dispatch) => ({

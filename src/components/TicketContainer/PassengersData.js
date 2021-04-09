@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styles from "./PassengersData.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -6,11 +6,24 @@ import { messages } from "../../intl/TicketPageMessanges";
 
 const PassengersData = () => {
   const lang = useSelector((state) => state.language);
-  const ticket = useSelector((state) => state.order.ticket)
+  const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
-  const getPassengersData = (id, type) => {
-    return ticket.customers[`${id}`][`${type}`];
-  };
+  const [passangers, setPassangers] = useState([]);
+
+  useEffect(() => {
+    if (Object.keys(ticket).length > 0) {
+      const arr = [];
+      for (let [key, values] of Object.entries(ticket.customers)) {
+        arr.push({ values });
+        setPassangers(arr);
+      }
+    }
+  }, [ticket]);
+
+  const getTotalPrice = () =>
+    ticket.services.reduce((acc, el) => {
+      return acc + el.price.amount;
+    }, 0);
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.passangersBox}>
@@ -18,7 +31,7 @@ const PassengersData = () => {
           <FormattedMessage id="passangersData" />
         </h4>
         <ul>
-          {ticket.services.map((el, idx) => (
+          {passangers.map((el, idx) => (
             <li key={idx}>
               <div className={styles.header}>
                 <p className={styles.number}>
@@ -29,7 +42,7 @@ const PassengersData = () => {
                   <span>
                     <FormattedMessage id="cost" />
                   </span>{" "}
-                  {el.price.amount} UAH
+                  {(getTotalPrice() / passangers.length).toFixed(2)} <small>UAH</small>
                 </p>
               </div>
               <div className={styles.passangerData}>
@@ -37,25 +50,19 @@ const PassengersData = () => {
                   <p className={styles.passangerTitle}>
                     <FormattedMessage id="name" />
                   </p>
-                  <p className={styles.passangerName}>
-                    {getPassengersData(el.customer.id, "name")}
-                  </p>
+                  <p className={styles.passangerName}>{el.values.name}</p>
                 </div>
                 <div>
                   <p className={styles.passangerTitle}>
                     <FormattedMessage id="surname" />
                   </p>
-                  <p className={styles.passangerName}>
-                    {getPassengersData(el.customer.id, "surname")}
-                  </p>
+                  <p className={styles.passangerName}>{el.values.surname}</p>
                 </div>
                 <div>
                   <p className={styles.passangerTitle}>
                     <FormattedMessage id="phone" />
                   </p>
-                  <p className={styles.passangerName}>
-                    {getPassengersData(el.customer.id, "phone")}
-                  </p>
+                  <p className={styles.passangerName}>{el.values.phone}</p>
                 </div>
               </div>
             </li>

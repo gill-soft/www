@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./TripBox.module.css";
 import "./TripBoxAnimation.css";
-import { fetchOrderInfo, setTripKeys } from "../../redux/order/orderActions";
+import {  setTripKeys } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import {
