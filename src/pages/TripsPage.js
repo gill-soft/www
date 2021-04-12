@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import queryString from "query-string";
 import styles from "./TripsPage.module.css";
 import { Redirect } from "react-router-dom";
-import { getLocality } from "../services/getInfo";
+import { getLocality, getPrice } from "../services/getInfo";
 import { getInitialization, searchTrips } from "../services/api";
 import {
   changeSortType,
@@ -16,14 +16,16 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/TripsPageMessanges";
 import { getScroll } from "../services/getScroll";
 import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
-import SortTrips from "../components/TripsContainer/SortTrips";
 import SearchForm from "../components/SearchForm/SearchForm";
 import Scelet from "../components/TripsContainer/Skelet";
 import DateCarousel from "../components/TripsContainer/DateCarousel";
 import NoTrips from "../components/TripsContainer/NoTrips";
-import SortTripsMob from "../components/TripsContainer/SortTripsMob";
-import SingleTrips from "../components/TripsContainer/SingleTrips";
 import DoubleTrips from "../components/TripsContainer/DoubleTrips";
+import SingleTrips from "../components/TripsContainer/SingleTrips";
+import SortTripsSingle from "../components/TripsContainer/SortTripsSingle";
+import SortTripsSingleMob from "../components/TripsContainer/SortTripsSingleMob";
+import SortTripsDouble from "../components/TripsContainer/SortTripsDouble";
+import SortTripsDoubleMob from '../components/TripsContainer/SotrTripsDoubleMob'
 
 const windowWidth = window.innerWidth;
 
@@ -31,7 +33,6 @@ class TripsPage extends Component {
   state = {
     isTrip: false,
   };
-
   componentDidMount() {
     this.props.startLoader();
     setSingleTrips([]);
@@ -89,11 +90,23 @@ class TripsPage extends Component {
       changeSortType("price");
 
       if (Object.keys(trips).length > 0) {
+        const arrSingle = trips.tripContainers[0].trips.filter(
+          (el) => Object.keys(el)[0] === "id"
+        );
         setSingleTrips(
-          trips.tripContainers[0].trips.filter((el) => Object.keys(el)[0] === "id")
+          arrSingle.sort((a, b) => {
+            return trips.segments[a.id].price.amount - trips.segments[b.id].price.amount;
+          })
+        );
+        const doubleTrips = trips.tripContainers[0].trips.filter(
+          (el) => Object.keys(el)[0] === "segments"
         );
         setDoubleTrips(
-          trips.tripContainers[0].trips.filter((el) => Object.keys(el)[0] === "segments")
+          doubleTrips.sort((a, b) => {
+            const priceA = getPrice(a.segments, trips);
+            const priceB = getPrice(b.segments, trips);
+            return priceA - priceB;
+          })
         );
 
         // ==== сортируем по цене и записываем в redux ==== //
@@ -169,6 +182,7 @@ class TripsPage extends Component {
       this.setState({ isTrip: true });
     }
   };
+
   render() {
     const {
       error,
@@ -206,7 +220,7 @@ class TripsPage extends Component {
                 {isLoading && <Scelet />}
                 {singleTrips.length > 0 && (
                   <>
-                    {windowWidth >= 768 ? <SortTrips /> : <SortTripsMob />}
+                    {windowWidth >= 768 ? <SortTripsSingle /> : <SortTripsSingleMob />}
                     {singleTrips.map((el, idx) =>
                       Object.keys(this.props.trips.segments).includes(el.id) ? (
                         <SingleTrips
@@ -221,6 +235,9 @@ class TripsPage extends Component {
                 {doubleTrips.length > 0 && (
                   <>
                     <h3>Рейси з пересадкою</h3>
+                    {windowWidth >= 768 ? <SortTripsDouble /> : <SortTripsDoubleMob />}
+
+                    
                     {doubleTrips.map((el, idx) =>
                       Object.keys(this.props.trips.segments).includes(el.segments[0]) ? (
                         <DoubleTrips

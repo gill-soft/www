@@ -14,13 +14,10 @@ import Info from "../pages/Info";
 import AboutUs from "../pages/AboutUs";
 import Cities from "../pages/Cities";
 import City from "../pages/City";
-import { setIsOpenFrom, setIsOpenTo } from "../redux/searchForm/searchFormAction";
 
 const App = () => {
-  // ====redux===//
   const dispatch = useDispatch();
-  const changeIsOpenFrom = (bool) => dispatch(setIsOpenFrom(bool));
-  const changeIsOpenTo = (bool) => dispatch(setIsOpenTo(bool));
+  
   const getStops = useCallback(() => {
     dispatch(fetchStops());
   }, [dispatch]);
@@ -29,14 +26,6 @@ const App = () => {
   useEffect(() => {
     getStops();
   }, [getStops]);
-  
-  //  ==== скрываем выпадающий список автокомплита при щелчке вне инпута === //
-  useEffect(() => {
-    window.addEventListener("click", (e) => {
-      if (e.target.id !== "from") changeIsOpenFrom(false);
-      if (e.target.id !== "to") changeIsOpenTo(false);
-    });
-  });
 
   return (
     <>

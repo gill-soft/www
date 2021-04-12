@@ -48,7 +48,7 @@ const StyledTextField = styled(TextField)`
   }
   .MuiIconButton-root {
     color: var(--color-secondary);
-    display: none;
+    /* display: none; */
   }
   .MuiAutocomplete-popupIndicator {
     display: none;
@@ -139,7 +139,7 @@ const AutoComplete = () => {
               {...params}
               label={<FormattedMessage id="from" />}
               variant="outlined"
-              onMouseDown={({ target }) => {
+              onFocus={({ target }) => {
                 getOtpions(target);
                 changeIsOpenFrom(true);
                 changeIsOpenTo(false);
@@ -148,6 +148,9 @@ const AutoComplete = () => {
                 getOtpions(target);
                 changeIsOpenFrom(true);
                 changeIsOpenTo(false);
+              }}
+              onBlur={() => {
+                changeIsOpenFrom(false);
               }}
             />
           )}
@@ -187,16 +190,19 @@ const AutoComplete = () => {
               {...params}
               label={<FormattedMessage id="to" />}
               variant="outlined"
-              onMouseDown={({ target }) => {
+              onChange={({ target }) => {
                 getOtpions(target);
                 changeIsOpenTo(true);
                 changeIsOpenFrom(false);
                 changeIsOpenDate(false);
               }}
-              onChange={({ target }) => {
+              onBlur={() => {
+                changeIsOpenTo(false);
+              }}
+              onFocus={({ target }) => {
                 getOtpions(target);
-                // changeIsOpenTo(true);
-                // changeIsOpenFrom(false);
+                changeIsOpenTo(true);
+                changeIsOpenFrom(false);
                 changeIsOpenDate(false);
               }}
             />

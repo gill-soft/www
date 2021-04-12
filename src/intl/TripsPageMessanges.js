@@ -1,13 +1,16 @@
 export const messages = {
-  EN: {
-    title: "Bus schedule",
-    timeInWay: "on the way",
-    choose: "Choose",
-    additionals: "More details",
-    departure: "Departure",
-    arrival: "Arrival",
-    sort: "Sort by: ",
-    
+  UK: {
+    title: "Розклад автобусів",
+    timeInWay: "в дорозі",
+    choose: "Вибрати",
+    additionals: "Детальніше",
+    departure: "Відправлення",
+    arrival: "Прибуття",
+    sort: "Сортувати за: ",
+    sortArrival: "часом прибуття",
+    sortDeparture: "часом відправлення",
+    sortPrice: "ціною",
+    sortTime: "часом в дорозі",
   },
   RU: {
     title: "Расписание автобусов",
@@ -17,17 +20,23 @@ export const messages = {
     departure: "Отправление",
     arrival: "Прибытие",
     sort: "Cортировать по: ",
-    
+    sortArrival: "времени прибытия",
+    sortDeparture: "времени отправления",
+    sortPrice: "цене",
+    sortTime: "времени в пути",
   },
-  UK: {
-    title: "Розклад автобусів",
-    timeInWay: "в дорозі",
-    choose: "Вибрати",
-    additionals: "Детальніше",
-    departure: "Відправлення",
-    arrival: "Прибуття",
-    sort: "Сортувати за: ",
-    
+  EN: {
+    title: "Bus schedule",
+    timeInWay: "on the way",
+    choose: "Choose",
+    additionals: "More details",
+    departure: "Departure",
+    arrival: "Arrival",
+    sort: "Sort by: ",
+    sortArrival: "arrival time",
+    sortDeparture: "departure time",
+    sortPrice: "price",
+    sortTime: "travel time",
   },
   PL: {
     title: "Rozkład jazdy autobusów",
@@ -37,8 +46,9 @@ export const messages = {
     departure: "Wyjazd",
     arrival: "Przyjazd",
     sort: "Sortuj według: ",
-    
+    sortArrival: "czasu przybycia",
+    sortDeparture: "czasu odjazdu",
+    sortPrice: "ceny",
+    sortTime: "czasu podróży",
   },
 };
-
-   

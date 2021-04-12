@@ -15,25 +15,20 @@ const DateCarousel = ({ parsed, history }) => {
   const dispatch = useDispatch();
   const loaderStart = () => dispatch(startLoader());
   const changeInputDate = (val) => dispatch(inputValueDate(val));
-  const timeSet = (time) => dispatch(setTime(time));
+  const sendTime = (time) => dispatch(setTime(time));
   const sendSingleTrips = (trips) => dispatch(setSingleTrips(trips));
   const sendDoubleTrips = (trips) => dispatch(setDoubleTrips(trips));
 
   // ==== управление изменением даты на следующюю/предыдущую ==== //
   const changeDate = ({ target }) => {
-    const newDay =
+    const date =
       target.name === "prev"
-        ? format(
-            new Date(new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000),
-            "yyyy-MM-dd"
-          )
-        : format(
-            new Date(new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000),
-            "yyyy-MM-dd"
-          );
+        ? new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000
+        : new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000;
+    const newDay = format(new Date(date), "yyyy-MM-dd");
     loaderStart();
     changeInputDate(new Date(newDay));
-    timeSet(new Date().getTime());
+    sendTime(new Date().getTime());
     sendSingleTrips([]);
     sendDoubleTrips([]);
     history.push(

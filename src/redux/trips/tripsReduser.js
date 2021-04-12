@@ -49,6 +49,15 @@ const getIsShowSortBox = (state = false, { type, payload }) => {
       return state;
   }
 };
+const getIsShowSortBoxDouble = (state = false, { type, payload }) => {
+  switch (type) {
+    case Types.GET_SHOW_SORT_BOX_DOUBLE:
+      return payload;
+
+    default:
+      return state;
+  }
+};
 
 export const tripsReduser = combineReducers({
   trips: getTrips,
@@ -56,4 +65,6 @@ export const tripsReduser = combineReducers({
   doubleTrips: getDoubleTrips,
   sortType: getSortType,
   isShowSortBox: getIsShowSortBox,
+  isShowSortBoxDouble: getIsShowSortBoxDouble,
+
 });

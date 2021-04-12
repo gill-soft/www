@@ -29,3 +29,7 @@ export const changeSortBoxShow = (bool) => ({
   type: Types.GET_SHOW_SORT_BOX,
   payload: bool,
 });
+export const changeSortBoxShowDouble = (bool) => ({
+  type: Types.GET_SHOW_SORT_BOX_DOUBLE,
+  payload: bool,
+});

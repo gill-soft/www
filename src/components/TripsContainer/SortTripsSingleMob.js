@@ -5,38 +5,38 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import { changeSortType } from "../../redux/trips/tripsActions";
 
-const SortTrips = () => {
-  const tripsInfo = useSelector((state) => state.trips.tripsInfo);
+const SortTripsSingleMob = () => {
+  const singleTrips = useSelector(({ trips }) => trips.singleTrips);
+  const trips = useSelector(({ trips }) => trips.trips);
   const lang = useSelector((state) => state.language);
   const sortType = useSelector((state) => state.trips.sortType);
-
   const dispatch = useDispatch();
   const setSortType = (val) => dispatch(changeSortType(val));
 
   const locale = lang === "UA" ? "UK" : lang;
 
   const sortTimeInWay = () => {
-    tripsInfo.sort((a, b) => {
-      const time_partsA = a[`${Object.keys(a)}`].timeInWay.split(":");
-      const time_partsB = b[`${Object.keys(b)}`].timeInWay.split(":");
+    singleTrips.sort((a, b) => {
+      const time_partsA = trips.segments[a.id].timeInWay.split(":");
+      const time_partsB = trips.segments[b.id].timeInWay.split(":");
       const A = time_partsA[0] + time_partsA[1];
       const B = time_partsB[0] + time_partsB[1];
       return A - B;
     });
   };
   const sortTime = (key) => {
-    tripsInfo.sort((a, b) => {
-      const time_partsA = a[`${Object.keys(a)}`][`${key}`].split(" ")[1].split(":");
-      const time_partsB = b[`${Object.keys(b)}`][`${key}`].split(" ")[1].split(":");
-      const A = time_partsA[0] + time_partsA[1];
-      const B = time_partsB[0] + time_partsB[1];
+    singleTrips.sort((a, b) => {
+      const time_partsA = trips.segments[a.id][key];
+      const time_partsB = trips.segments[b.id][key];
+      const A = new Date(time_partsA).getTime();
+      const B = new Date(time_partsB).getTime();
       return A - B;
     });
   };
   const sortPrice = () => {
-    tripsInfo.sort((a, b) => {
-      const A = a[`${Object.keys(a)}`].price.amount;
-      const B = b[`${Object.keys(b)}`].price.amount;
+    singleTrips.sort((a, b) => {
+      const A = trips.segments[a.id].price.amount;
+      const B = trips.segments[b.id].price.amount;
       return A - B;
     });
   };
@@ -80,7 +80,7 @@ const SortTrips = () => {
     if (name === "price") return price;
     if (name === "arrival") return arrival;
     if (name === "departure") return departure;
-    if (name === "time") return time;
+    if (name === "timeInWay") return time;
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
@@ -103,7 +103,7 @@ const SortTrips = () => {
               {chLang("arrival")}
             </option>
             <option className={styles.option} value="timeInWay">
-              {chLang("time")}
+              {chLang("timeInWay")}
             </option>
           </select>
         </label>
@@ -112,4 +112,4 @@ const SortTrips = () => {
   );
 };
 
-export default SortTrips;
+export default SortTripsSingleMob;

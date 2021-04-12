@@ -13,7 +13,7 @@ const PassengersData = () => {
   useEffect(() => {
     if (Object.keys(ticket).length > 0) {
       const arr = [];
-      for (let [key, values] of Object.entries(ticket.customers)) {
+      for (let  values of Object.values(ticket.customers)) {
         arr.push({ values });
         setPassangers(arr);
       }

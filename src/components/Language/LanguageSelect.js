@@ -17,15 +17,18 @@ const LanguageSelect = () => {
   const handleChange = ({ target }) => {
     const fromObj = stops.find((el) => el.id === from.value);
     const toObj = stops.find((el) => el.id === to.value);
-    console.log("2", fromObj.name[target.value]);
-    changeInputFrom({
-      text: fromObj.name[target.value] || fromObj.name["EN"],
-      value: fromObj.id,
-    });
-    changeInputTo({
-      text: toObj.name[target.value] || toObj.name["EN"],
-      value: toObj.id,
-    });
+    if (fromObj) {
+      changeInputFrom({
+        text: fromObj.name[target.value] || fromObj.name["EN"],
+        value: fromObj.id,
+      });
+    }
+    if (toObj) {
+      changeInputTo({
+        text: toObj.name[target.value] || toObj.name["EN"],
+        value: toObj.id,
+      });
+    }
     onChangeLanguage(target.value);
   };
   return (
