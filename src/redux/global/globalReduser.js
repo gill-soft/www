@@ -28,7 +28,7 @@ const getLoader = (state = false, { type, payload }) => {
     case Types.FINISH_LOADER:
     case Types.GET_ERROR:
     case Types.FETCH_TRIPS_SUCCESS:
-      //   case Types.FETCH_TRIPS_ERROR:
+        // case Types.GET_IS_TRIPS:
       // case Types.GET_TRIPS_INFO:
       return false;
 

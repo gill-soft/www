@@ -33,3 +33,7 @@ export const changeSortBoxShowDouble = (bool) => ({
   type: Types.GET_SHOW_SORT_BOX_DOUBLE,
   payload: bool,
 });
+export const setIsTrips = (bool) => ({
+  type: Types.GET_IS_TRIPS,
+  payload: bool
+});

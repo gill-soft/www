@@ -1,20 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import queryString from "query-string";
-import styles from "./TripsPage.module.css";
 import { Redirect } from "react-router-dom";
-import { getLocality, getPrice } from "../services/getInfo";
-import { getInitialization, searchTrips } from "../services/api";
-import {
-  changeSortType,
-  fetchTripsSuccess,
-  setDoubleTrips,
-  setSingleTrips,
-} from "../redux/trips/tripsActions";
-import { stopLoader, getError, startLoader } from "../redux/global/globalActions";
+import queryString from "query-string";
 import { IntlProvider, FormattedMessage } from "react-intl";
+import styles from "./TripsPage.module.css";
 import { messages } from "../intl/TripsPageMessanges";
+import { getLocality } from "../services/getInfo";
+import { getInitialization } from "../services/api";
 import { getScroll } from "../services/getScroll";
+import { setDoubleTrips, setIsTrips, setSingleTrips } from "../redux/trips/tripsActions";
+import { getError, startLoader } from "../redux/global/globalActions";
+import { searchRouts } from "../redux/trips/tripsOperations";
 import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
 import SearchForm from "../components/SearchForm/SearchForm";
 import Scelet from "../components/TripsContainer/Skelet";
@@ -25,162 +21,61 @@ import SingleTrips from "../components/TripsContainer/SingleTrips";
 import SortTripsSingle from "../components/TripsContainer/SortTripsSingle";
 import SortTripsSingleMob from "../components/TripsContainer/SortTripsSingleMob";
 import SortTripsDouble from "../components/TripsContainer/SortTripsDouble";
-import SortTripsDoubleMob from '../components/TripsContainer/SotrTripsDoubleMob'
+import SortTripsDoubleMob from "../components/TripsContainer/SotrTripsDoubleMob";
 
 const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
-  state = {
-    isTrip: false,
-  };
   componentDidMount() {
-    this.props.startLoader();
+    const { startLoader, location, setFrom, setTo, match } = this.props;
+    const parsed = queryString.parse(location.search);
+    startLoader();
     setSingleTrips([]);
     setDoubleTrips([]);
-    const parsed = queryString.parse(this.props.location.search);
-
-    const { setFrom, setTo } = this.props;
-    setFrom({ text: this.props.match.params.from, value: parsed.from });
-    setTo({ text: this.props.match.params.to, value: parsed.to });
+    setFrom({ text: match.params.from, value: parsed.from });
+    setTo({ text: match.params.to, value: parsed.to });
 
     window.scrollTo({
       top: getScroll(windowWidth),
       behavior: "smooth",
     });
 
-    // ==== формируем обьект для запроса ====
-    const requestData = {
-      idFrom: parsed.from,
-      idWhereTo: parsed.to,
-      date: parsed.date,
-    };
     //  ====  начинаем поиск ==== //
-    const time = Date.now();
-    this.startSerch(time, requestData);
+    this.startSerch(Date.now(), this.getRequestData(parsed));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      trips,
-      time,
-      location,
-      changeSortType,
-      setSingleTrips,
-      setDoubleTrips,
-    } = this.props;
+    const { time, location, setSingleTrips, setDoubleTrips, setIsTrips } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time || prevProps.location.key !== location.key) {
-      this.setState({ isTrip: false });
+      setIsTrips(true);
       setSingleTrips([]);
       setDoubleTrips([]);
-      // ==== формируем обьект для запроса ====
-      const requestData = {
-        idFrom: parsed.from,
-        idWhereTo: parsed.to,
-        date: parsed.date,
-      };
-      const time = Date.now();
-      this.startSerch(time, requestData);
-    }
 
-    // ==== работаем с результатом поиска ==== //
-    if (prevProps.trips !== trips) {
-      changeSortType("price");
-
-      if (Object.keys(trips).length > 0) {
-        const arrSingle = trips.tripContainers[0].trips.filter(
-          (el) => Object.keys(el)[0] === "id"
-        );
-        setSingleTrips(
-          arrSingle.sort((a, b) => {
-            return trips.segments[a.id].price.amount - trips.segments[b.id].price.amount;
-          })
-        );
-        const doubleTrips = trips.tripContainers[0].trips.filter(
-          (el) => Object.keys(el)[0] === "segments"
-        );
-        setDoubleTrips(
-          doubleTrips.sort((a, b) => {
-            const priceA = getPrice(a.segments, trips);
-            const priceB = getPrice(b.segments, trips);
-            return priceA - priceB;
-          })
-        );
-
-        // ==== сортируем по цене и записываем в redux ==== //
-        // getTripsInfo(
-        //   arr.sort(
-        //     (a, b) =>
-        //       a[`${Object.keys(a)}`].price.amount - b[`${Object.keys(b)}`].price.amount
-        //   )
-        // );
-      }
+      //  ====  начинаем поиск ==== //
+      this.startSerch(Date.now(), this.getRequestData(parsed));
     }
   }
 
   //  ==== инициализация поиска ==== //
   startSerch = (time, requestData) => {
-    getInitialization(requestData, this.props.lang)
-      .then(({ data }) => this.searchRouts(data.searchId, time, requestData))
+    const { lang, getError } = this.props;
+    getInitialization(requestData, lang)
+      .then(({ data }) => this.props.searchRouts(data.searchId, time, requestData))
       .catch((err) => {
-        this.props.getError(err.message);
+        getError(err.message);
       });
   };
-  // ==== цикл поиска результатов поездки ==== //
-  searchRouts = (id, time, requestData) => {
-    let deltaTime = Date.now() - time;
-    if (deltaTime <= 500) {
-      searchTrips(id)
-        .then(({ data }) => {
-          if (data.searchId) {
-            this.searchRouts(data.searchId, time, requestData);
-          } else {
-            if (data.segments) {
-              this.props.fetchTripsSuccess(data);
-            } else {
-              this.startSerch(time, requestData);
-            }
-          }
-        })
-        .catch((err) => this.props.getError(err.message));
-    } else if (deltaTime <= 3000) {
-      setTimeout(() => {
-        searchTrips(id)
-          .then(({ data }) => {
-            if (data.searchId) {
-              this.searchRouts(data.searchId, time, requestData);
-            } else {
-              if (data.segments) {
-                this.props.fetchTripsSuccess(data);
-              } else {
-                this.startSerch(time, requestData);
-              }
-            }
-          })
-          .catch((err) => this.props.getError(err));
-      }, 300);
-    } else if (deltaTime > 3000 && deltaTime < 20000) {
-      setTimeout(() => {
-        searchTrips(id)
-          .then(({ data }) => {
-            if (data.searchId) {
-              this.searchRouts(data.searchId, time, requestData);
-            } else {
-              if (data.segments) {
-                this.props.fetchTripsSuccess(data);
-              } else {
-                this.startSerch(time, requestData);
-              }
-            }
-          })
-          .catch(({ err }) => this.props.getError(err));
-      }, 2000);
-    } else {
-      this.props.stopLoader();
-      this.setState({ isTrip: true });
-    }
+
+  // ==== формируем обьект для запроса ==== //
+  getRequestData = (parsed) => {
+    return {
+      idFrom: parsed.from,
+      idWhereTo: parsed.to,
+      date: parsed.date,
+    };
   };
 
   render() {
@@ -189,11 +84,13 @@ class TripsPage extends Component {
       isLoading,
       singleTrips,
       doubleTrips,
+      isTrips,
       history,
       stops,
       lang,
+      location,
     } = this.props;
-    const parsed = queryString.parse(this.props.location.search);
+    const parsed = queryString.parse(location.search);
     const locale = lang === "UA" ? "UK" : lang;
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
@@ -203,12 +100,7 @@ class TripsPage extends Component {
             <div className={styles.formBox}>
               <SearchForm history={history} />
             </div>
-            {this.state.isTrip ? (
-              <>
-                <NoTrips />
-                <DateCarousel parsed={parsed} history={history} />
-              </>
-            ) : (
+            {isTrips ? (
               <div className={styles.tripsBox}>
                 <h2 className={styles.title}>
                   <FormattedMessage id="title" />
@@ -216,43 +108,32 @@ class TripsPage extends Component {
                   {getLocality(parsed.to, stops, lang)}
                 </h2>
                 <DateCarousel parsed={parsed} history={history} />
-
                 {isLoading && <Scelet />}
                 {singleTrips.length > 0 && (
                   <>
                     {windowWidth >= 768 ? <SortTripsSingle /> : <SortTripsSingleMob />}
-                    {singleTrips.map((el, idx) =>
-                      Object.keys(this.props.trips.segments).includes(el.id) ? (
-                        <SingleTrips
-                          key={idx}
-                          tripKey={el.id}
-                          location={this.props.location}
-                        />
-                      ) : null
-                    )}
+                    {singleTrips.map((el, idx) => (
+                      <SingleTrips key={idx} tripKey={el.id} location={location} />
+                    ))}
                   </>
                 )}
                 {doubleTrips.length > 0 && (
                   <>
                     <h3>Рейси з пересадкою</h3>
                     {windowWidth >= 768 ? <SortTripsDouble /> : <SortTripsDoubleMob />}
-
-                    
-                    {doubleTrips.map((el, idx) =>
-                      Object.keys(this.props.trips.segments).includes(el.segments[0]) ? (
-                        <DoubleTrips
-                          key={idx}
-                          tripKeys={el.segments}
-                          location={this.props.location}
-                        />
-                      ) : null
-                    )}
+                    {doubleTrips.map((el, idx) => (
+                      <DoubleTrips key={idx} tripKeys={el.segments} location={location} />
+                    ))}
                   </>
                 )}
               </div>
+            ) : (
+              <>
+                <NoTrips />
+                <DateCarousel parsed={parsed} history={history} />
+              </>
             )}
           </div>
-          {/* <pre>{JSON.stringify(this.props.trips, null, 4)}</pre> */}
         </div>
       </IntlProvider>
     );
@@ -263,26 +144,24 @@ const mapStateToProps = (state) => ({
   stops: state.global.stops,
   isLoading: state.global.isLoading,
   error: state.global.error,
-  trips: state.trips.trips,
   lang: state.language,
   time: state.searchForm.time,
-  sortType: state.trips.sortType,
   from: state.searchForm.from.text,
   to: state.searchForm.to.text,
   singleTrips: state.trips.singleTrips,
   doubleTrips: state.trips.doubleTrips,
+  isTrips: state.trips.isTrips,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchTripsSuccess: (trips) => dispatch(fetchTripsSuccess(trips)),
-  stopLoader: () => dispatch(stopLoader()),
   getError: (error) => dispatch(getError(error)),
-  changeSortType: (val) => dispatch(changeSortType(val)),
   startLoader: () => dispatch(startLoader()),
   setFrom: (value) => dispatch(inputValueFrom(value)),
   setTo: (value) => dispatch(inputValueTo(value)),
   setSingleTrips: (arr) => dispatch(setSingleTrips(arr)),
   setDoubleTrips: (arr) => dispatch(setDoubleTrips(arr)),
+  setIsTrips: (bool) => dispatch(setIsTrips(bool)),
+  searchRouts: (id, time, requestData) => dispatch(searchRouts(id, time, requestData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

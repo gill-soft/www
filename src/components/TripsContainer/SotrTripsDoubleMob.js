@@ -1,10 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import styles from "./SortTrips.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
-import { changeSortBoxShow, changeSortType } from "../../redux/trips/tripsActions";
-import { CSSTransition } from "react-transition-group";
+import { changeSortType } from "../../redux/trips/tripsActions";
 import "./anime.css";
 import { getPrice } from "../../services/getInfo";
 
@@ -13,11 +12,8 @@ const SortTripsDouble = () => {
   const trips = useSelector(({ trips }) => trips.trips);
   const lang = useSelector((state) => state.language);
   const sortType = useSelector((state) => state.trips.sortType);
-  const isShowSortBox = useSelector((state) => state.trips.isShowSortBox);
   const dispatch = useDispatch();
   const setSortType = (val) => dispatch(changeSortType(val));
-  const changeShowSortBox = (bool) => dispatch(changeSortBoxShow(bool));
-  const backdropRef = useRef(null);
 
   const locale = lang === "UA" ? "UK" : lang;
 
