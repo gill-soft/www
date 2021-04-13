@@ -4,10 +4,11 @@ import CryptoJS from "crypto-js";
 import styles from "./PaymentBox.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
-import { getCity, getDate, getExpireTime} from "../../services/getInfo";
+import { getCity, getDate, getExpireTime } from "../../services/getInfo";
 // import { fetchPayeeId } from "../../services/api";
 import Modal from "../Modal/Modal";
 import GoHome from "../GoHome/GoHome";
+import Loader from "../Loader/Loader";
 
 const PaymentBox = ({ id, routs, payeeId }) => {
   const lang = useSelector((state) => state.language);
@@ -15,6 +16,7 @@ const PaymentBox = ({ id, routs, payeeId }) => {
   const locale = lang === "UA" ? "UK" : lang;
   const [time, setTime] = useState(0);
   const [isModal, setIsModal] = useState(false);
+  const [isLoader, setIsLoader] = useState(false);
 
   // ==== определяем время до конца оплаты ==== //
   useEffect(() => {
@@ -38,8 +40,11 @@ const PaymentBox = ({ id, routs, payeeId }) => {
 
   const getTotalPrice = () =>
     ticket.services.reduce((acc, el) => {
-      return acc + el.price.amount
+      return acc + el.price.amount;
     }, 0);
+  const handleClick = () => {
+    setIsLoader(true);
+  };
   return (
     <>
       {routs.length > 0 && (
@@ -47,7 +52,7 @@ const PaymentBox = ({ id, routs, payeeId }) => {
           <div className={styles.warning}>
             <p className={styles.warningText}>
               <FormattedMessage id="endTime" />
-              <span> {getExpireTime(ticket.services[0].expire, lang)}</span>
+              <span> {getExpireTime(ticket.services[0].expire, locale)}</span>
             </p>
             <p className={styles.time}>
               {new Date(time).toLocaleString("uk", {
@@ -69,7 +74,11 @@ const PaymentBox = ({ id, routs, payeeId }) => {
                 />
 
                 <input type="hidden" name="shop_order_number" value={ticket.orderId} />
-                <input type="hidden" name="bill_amount" value={getTotalPrice().toFixed(2)} />
+                <input
+                  type="hidden"
+                  name="bill_amount"
+                  value={getTotalPrice().toFixed(2)}
+                />
                 <input
                   type="hidden"
                   name="description"
@@ -100,7 +109,11 @@ const PaymentBox = ({ id, routs, payeeId }) => {
                 <input type="hidden" name="lang" value={locale.toLowerCase()} />
                 <input type="hidden" name="encoding" value="UTF-8" />
                 <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
-                <button className={styles.portmone} type="submit"></button>
+                <button
+                  className={styles.portmone}
+                  type="submit"
+                  onClick={handleClick}
+                ></button>
               </form>
             </div>
             <div className={styles.flexItem}>
@@ -114,6 +127,7 @@ const PaymentBox = ({ id, routs, payeeId }) => {
           {!!isModal && <Modal component={<GoHome />} isGohome={true} />}
         </IntlProvider>
       )}
+      {isLoader && <Loader />}
     </>
   );
 };

@@ -15,7 +15,7 @@ const DateCarousel = ({ parsed, history }) => {
   const loaderStart = () => dispatch(startLoader());
   const changeInputDate = (val) => dispatch(inputValueDate(val));
   const sendTime = (time) => dispatch(setTime(time));
-
+  const locale = lang === "UA" ? "UK" : lang;
 
   // ==== управление изменением даты на следующюю/предыдущую ==== //
   const changeDate = ({ target }) => {
@@ -27,7 +27,7 @@ const DateCarousel = ({ parsed, history }) => {
     loaderStart();
     changeInputDate(new Date(newDay));
     sendTime(new Date().getTime());
-    
+
     history.push(
       `/${getUrl(lang).trim()}/${from.text}/${to.text}?from=${parsed.from}&to=${
         parsed.to
@@ -55,11 +55,11 @@ const DateCarousel = ({ parsed, history }) => {
         onClick={changeDate}
         disabled={getDisabled(parsed)}
       >
-        {getYesterday(parsed, lang)}
+        {getYesterday(parsed, locale)}
       </button>
-      <p className={styles.today}>{getTodayDate(parsed, lang)}</p>
+      <p className={styles.today}>{getTodayDate(parsed, locale)}</p>
       <button className={styles.dateButton} name="next" onClick={changeDate}>
-        {getTomorrow(parsed, lang)}
+        {getTomorrow(parsed, locale)}
       </button>
     </div>
   );

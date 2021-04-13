@@ -3,7 +3,7 @@ import styles from "./SortTrips.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
-import { changeSortType } from "../../redux/trips/tripsActions";
+import { changeSortTypeSingle } from "../../redux/trips/tripsActions";
 import "./anime.css";
 import { getPrice } from "../../services/getInfo";
 
@@ -11,9 +11,9 @@ const SortTripsDouble = () => {
   const doubleTrips = useSelector(({ trips }) => trips.doubleTrips);
   const trips = useSelector(({ trips }) => trips.trips);
   const lang = useSelector((state) => state.language);
-  const sortType = useSelector((state) => state.trips.sortType);
+  const sortType = useSelector((state) => state.trips.sortTypeDouble);
   const dispatch = useDispatch();
-  const setSortType = (val) => dispatch(changeSortType(val));
+  const setSortType = (val) => dispatch(changeSortTypeSingle(val));
 
   const locale = lang === "UA" ? "UK" : lang;
 

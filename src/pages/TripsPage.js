@@ -64,9 +64,7 @@ class TripsPage extends Component {
     const { lang, getError } = this.props;
     getInitialization(requestData, lang)
       .then(({ data }) => this.props.searchRouts(data.searchId, time, requestData))
-      .catch((err) => {
-        getError(err.message);
-      });
+      .catch((err) => getError(err.message));
   };
 
   // ==== формируем обьект для запроса ==== //
@@ -89,6 +87,8 @@ class TripsPage extends Component {
       stops,
       lang,
       location,
+      sortTypeDouble,
+      sortTypeSingle,
     } = this.props;
     const parsed = queryString.parse(location.search);
     const locale = lang === "UA" ? "UK" : lang;
@@ -100,7 +100,7 @@ class TripsPage extends Component {
             <div className={styles.formBox}>
               <SearchForm history={history} />
             </div>
-            {isTrips ? (
+            {isTrips && !sortTypeDouble && !sortTypeSingle ? (
               <div className={styles.tripsBox}>
                 <h2 className={styles.title}>
                   <FormattedMessage id="title" />
@@ -151,6 +151,8 @@ const mapStateToProps = (state) => ({
   singleTrips: state.trips.singleTrips,
   doubleTrips: state.trips.doubleTrips,
   isTrips: state.trips.isTrips,
+  sertTypeSingle: state.trips.sortTypeSingle,
+  sertTypeDouble: state.trips.sortTypeDouble,
 });
 
 const mapDispatchToProps = (dispatch) => ({

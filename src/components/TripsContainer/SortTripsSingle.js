@@ -3,7 +3,7 @@ import styles from "./SortTrips.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
-import { changeSortBoxShow, changeSortType } from "../../redux/trips/tripsActions";
+import { changeSortBoxShow, changeSortTypeSingle } from "../../redux/trips/tripsActions";
 import { CSSTransition } from "react-transition-group";
 import "./anime.css";
 
@@ -11,10 +11,10 @@ const SortTripsSingle = () => {
   const singleTrips = useSelector(({ trips }) => trips.singleTrips);
   const trips = useSelector(({ trips }) => trips.trips);
   const lang = useSelector((state) => state.language);
-  const sortType = useSelector((state) => state.trips.sortType);
+  const sortType = useSelector((state) => state.trips.sortTypeSingle);
   const isShowSortBox = useSelector((state) => state.trips.isShowSortBox);
   const dispatch = useDispatch();
-  const setSortType = (val) => dispatch(changeSortType(val));
+  const setSortType = (val) => dispatch(changeSortTypeSingle(val));
   const changeShowSortBox = (bool) => dispatch(changeSortBoxShow(bool));
   const backdropRef = useRef(null);
 

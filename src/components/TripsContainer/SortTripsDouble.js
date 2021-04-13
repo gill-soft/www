@@ -3,7 +3,7 @@ import styles from "./SortTrips.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
-import {  changeSortBoxShowDouble, changeSortType } from "../../redux/trips/tripsActions";
+import { changeSortBoxShowDouble, changeSortTypeDouble } from "../../redux/trips/tripsActions";
 import { CSSTransition } from "react-transition-group";
 import "./anime.css";
 import { getPrice } from "../../services/getInfo";
@@ -12,10 +12,10 @@ const SortTripsDouble = () => {
   const doubleTrips = useSelector(({ trips }) => trips.doubleTrips);
   const trips = useSelector(({ trips }) => trips.trips);
   const lang = useSelector((state) => state.language);
-  const sortType = useSelector((state) => state.trips.sortType);
+  const sortType = useSelector((state) => state.trips.sortTypeDouble);
   const isShowSortBoxDouble = useSelector((state) => state.trips.isShowSortBoxDouble);
   const dispatch = useDispatch();
-  const setSortType = (val) => dispatch(changeSortType(val));
+  const setSortType = (val) => dispatch(changeSortTypeDouble(val));
   const changeShowSortBoxDouble = (bool) => dispatch(changeSortBoxShowDouble(bool));
   const backdropRef = useRef(null);
 
@@ -52,6 +52,8 @@ const SortTripsDouble = () => {
     });
   };
   const sortArrivalTime = () => {
+    console.log("value")
+
     doubleTrips.sort((a, b) => {
       const time_partsA = trips.segments[a.segments[doubleTrips.length - 1]].arrivalDate;
       const time_partsB = trips.segments[b.segments[doubleTrips.length - 1]].arrivalDate;
@@ -90,7 +92,7 @@ const SortTripsDouble = () => {
       <div className={styles.selectBox}>
         <p className={styles.flex}>
           <FormattedMessage id="sort" />
-          <button className={styles.selectValue} onClick={toggleShow}>
+          <button type="button" className={styles.selectValue} onClick={toggleShow} >
             {buttonTitle(sortType)}
           </button>
         </p>

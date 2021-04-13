@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./TripBox.module.css";
 import "./TripBoxAnimation.css";
-import {  setTripKeys } from "../../redux/order/orderActions";
+import { setTripKeys } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import {
@@ -51,8 +51,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
   }, [tripKeys, trips.segments]);
 
   const handleClick = () => {
-    
-    sendTripsKey( tripKeys);
+    sendTripsKey(tripKeys);
     sessionStorage.setItem(
       "path",
       JSON.stringify(`${location.pathname}${location.search}`)
@@ -140,6 +139,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
                   <div className={styles.depArr}>
                     <div className={styles.start}>
                       <p className={styles.timeStop}>
+                        {getDate("departureDate", trips.segments[el], locale)}{" "}
                         {getTime("departureDate", trips.segments[el], lang)}
                       </p>
                       <p className={`${styles.locality} ${styles.addLocality} `}>
@@ -164,7 +164,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
                       ))}
                     <div className={`${styles.start} ${styles.finish}`}>
                       <p className={styles.timeStop}>
-                        {" "}
+                        {getDate("arrivalDate", trips.segments[el], locale)}{" "}
                         {getTime("arrivalDate", trips.segments[el], lang)}
                       </p>
                       <p className={`${styles.locality} ${styles.addLocality} `}>

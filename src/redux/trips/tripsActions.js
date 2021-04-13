@@ -20,8 +20,12 @@ export const setDoubleTrips = (trips) => ({
   payload: trips,
 });
 
-export const changeSortType = (val) => ({
-  type: Types.GET_SORT_TYPE,
+export const changeSortTypeSingle = (val) => ({
+  type: Types.GET_SORT_TYPE_SINGLE,
+  payload: val,
+});
+export const changeSortTypeDouble = (val) => ({
+  type: Types.GET_SORT_TYPE_DOUBLE,
   payload: val,
 });
 
