@@ -1,3 +1,4 @@
+import { set } from "date-fns";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/Language/LanguageAction";
@@ -29,6 +30,7 @@ const LanguageSelect = () => {
         value: toObj.id,
       });
     }
+    localStorage.setItem("language", JSON.stringify(target.value))
     onChangeLanguage(target.value);
   };
   return (

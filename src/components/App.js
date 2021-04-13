@@ -14,18 +14,30 @@ import Info from "../pages/Info";
 import AboutUs from "../pages/AboutUs";
 import Cities from "../pages/Cities";
 import City from "../pages/City";
+import { changeLanguage } from "../redux/Language/LanguageAction";
 
 const App = () => {
   const dispatch = useDispatch();
-  
+
   const getStops = useCallback(() => {
     dispatch(fetchStops());
   }, [dispatch]);
+  const setLanguege = useCallback(
+    (lang) => {
+      dispatch(changeLanguage(lang));
+    },
+    [dispatch]
+  );
 
   //  ==== очищаем ошибки и получаем все остановки через redux ==== //
   useEffect(() => {
     getStops();
   }, [getStops]);
+
+  useEffect(() => {
+    const lang = JSON.parse(localStorage.getItem("language")) || "UA"
+    setLanguege(lang);
+  }, [setLanguege]);
 
   return (
     <>
