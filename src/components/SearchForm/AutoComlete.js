@@ -48,7 +48,7 @@ const StyledTextField = styled(TextField)`
   }
   .MuiIconButton-root {
     color: var(--color-secondary);
-    /* display: none; */
+    display: none;
   }
   .MuiAutocomplete-popupIndicator {
     display: none;

@@ -36,6 +36,8 @@ const SingleTrips = ({ tripKey, location }) => {
   };
 
   const handleAdditionals = () => {
+    if(!trips.segments[tripKey].route)
+    return
     // ==== определяем индекс первой остановки ====//
     const first =
       1 +
@@ -145,7 +147,7 @@ const SingleTrips = ({ tripKey, location }) => {
           nodeRef={backdropRef}
         >
           <div ref={backdropRef}>
-            <h5 className={styles.routeName}>{trips.segments[tripKey].route.name.EN}</h5>
+            {/* <h5 className={styles.routeName}>{trips.segments[tripKey].route.name.EN}</h5> */}
             <div className={styles.additionalInfo}>
               <div className={styles.depArr}>
                 <div className={styles.start}>

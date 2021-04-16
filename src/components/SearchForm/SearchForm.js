@@ -93,7 +93,7 @@ const SearchForm = ({ history }) => {
           <div className={styles.inputBox}>
             <DatePicker
               className={styles.datePicker}
-              dateFormat="dd MMMM yyyy"
+              dateFormat="dd MMMM"
               selected={date}
               minDate={new Date()}
               locale={dateLocale()}

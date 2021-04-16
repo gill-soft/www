@@ -13,7 +13,7 @@ import { messages } from "../../intl/OrderPageMessanges";
 import Offerta from "../../assets/Oferta_1.pdf";
 import Pk from "../../assets/pk_.pdf";
 
-const regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
+const regexEmail = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
 const regexText = /^[а-яА-ЯіІїєЄЇa-ża-ŻёЁA-Za-z\d-' ]+$/;
 const regexLatin = /^[a-zA-Z\d- ]+$/;
 

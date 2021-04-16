@@ -1,14 +1,22 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import styles from "./FavoriteTrips.module.css";
 import { getUrl } from "../../services/getUrl";
 import { popular } from "../../assets/popularsRouts";
+import { setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 
 const FavoriteTrips = () => {
   const lang = useSelector((state) => state.language);
+  const dispatch = useDispatch()
+  const sendSingleTrips =(val)=> dispatch(setSingleTrips(val))
+  const sendDoubleTrips =(val)=> dispatch(setDoubleTrips(val))
 
+const handleClick = () => {
+  sendSingleTrips([])
+  sendDoubleTrips([])
+}
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Популярні маршрути</h2>
@@ -23,6 +31,7 @@ const FavoriteTrips = () => {
                 new Date(),
                 "yyyy-MM-dd"
               )}&passengers=1`}
+              onClick={handleClick}
             >
               <div>
                 <span>{el.departure.name[lang]}</span>

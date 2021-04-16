@@ -6,17 +6,22 @@ export const getLocality = (id, stops, lang) => {
 // ==== получаем город отправки/прибытия
 export const getCity = (id, trips, lang) => {
   const parentId = trips.localities[id].parent.id;
-  const city = trips.localities[parentId].name;
-  return city[lang] || city.EN || "";
+  const city = trips.localities[parentId] ? trips.localities[parentId].name : "";
+  return city ? city[lang] || city.EN || city.UA || city.RU || city.PL : "";
 };
 
 // ==== получаем остановку отправки/прибытия === //
-export const getStop = (id, trips, lang) =>
-  trips.localities[id].name ? trips.localities[id].name[lang] : "";
+export const getStop = (id, trips, lang) => {
+  const stop = trips.localities[id].name ? trips.localities[id].name : "";
+  return stop ? stop[lang] || stop.EN || stop.UA || stop.RU || stop.PL : "";
+};
 
 // ==== получаем adress отправки/прибытия === //
-export const getAddress = (id, trips, lang) =>
-  trips.localities[id].address ? trips.localities[id].address[lang] : "";
+export const getAddress = (id, trips, lang) =>{
+  const address = trips.localities[id].address ? trips.localities[id].address : ""
+  return address ? address[lang]|| address.EN || address.UA || address.RU || address.PL : ""
+}
+  ;
 
 // ==== получаем адресс промежуточной остановки ==== //
 export const getAllAddress = (key, trips, lang) =>

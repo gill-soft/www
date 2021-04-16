@@ -59,13 +59,14 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
         .catch(({ err }) => getError(err));
     }, 2000);
   } else {
-    console.log("object");
     dispatch(stopLoader());
     dispatch(setIsTrips(false));
   }
 };
 
 const TripsSuccess = (data) => (dispatch) => {
+  dispatch(setSingleTrips([]));
+  dispatch(setDoubleTrips([]));
   const singleTrips = data.tripContainers[0].trips
     .filter((el) => Object.keys(el)[0] === "id")
     .sort((a, b) => data.segments[a.id].price.amount - data.segments[b.id].price.amount);

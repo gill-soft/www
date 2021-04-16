@@ -8,7 +8,12 @@ import { messages } from "../intl/TripsPageMessanges";
 import { getLocality } from "../services/getInfo";
 import { getInitialization } from "../services/api";
 import { getScroll } from "../services/getScroll";
-import { setDoubleTrips, setIsTrips, setSingleTrips } from "../redux/trips/tripsActions";
+import {
+  fetchTripsSuccess,
+  setDoubleTrips,
+  setIsTrips,
+  setSingleTrips,
+} from "../redux/trips/tripsActions";
 import { getError, startLoader } from "../redux/global/globalActions";
 import { searchRouts } from "../redux/trips/tripsOperations";
 import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
@@ -51,8 +56,6 @@ class TripsPage extends Component {
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time || prevProps.location.key !== location.key) {
       setIsTrips(true);
-      setSingleTrips([]);
-      setDoubleTrips([]);
 
       //  ====  начинаем поиск ==== //
       this.startSerch(Date.now(), this.getRequestData(parsed));
@@ -61,9 +64,9 @@ class TripsPage extends Component {
 
   //  ==== инициализация поиска ==== //
   startSerch = (time, requestData) => {
-    const { lang, getError } = this.props;
+    const { lang, getError, searchRouts } = this.props;
     getInitialization(requestData, lang)
-      .then(({ data }) => this.props.searchRouts(data.searchId, time, requestData))
+      .then(({ data }) => searchRouts(data.searchId, time, requestData))
       .catch((err) => getError(err.message));
   };
 
@@ -89,6 +92,7 @@ class TripsPage extends Component {
       location,
       sortTypeDouble,
       sortTypeSingle,
+      trips,
     } = this.props;
     const parsed = queryString.parse(location.search);
     const locale = lang === "UA" ? "UK" : lang;
@@ -135,6 +139,7 @@ class TripsPage extends Component {
             )}
           </div>
         </div>
+        <pre>{JSON.stringify(trips, null, 4)}</pre>
       </IntlProvider>
     );
   }
@@ -153,6 +158,7 @@ const mapStateToProps = (state) => ({
   isTrips: state.trips.isTrips,
   sertTypeSingle: state.trips.sortTypeSingle,
   sertTypeDouble: state.trips.sortTypeDouble,
+  trips: state.trips.trips,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -164,6 +170,7 @@ const mapDispatchToProps = (dispatch) => ({
   setDoubleTrips: (arr) => dispatch(setDoubleTrips(arr)),
   setIsTrips: (bool) => dispatch(setIsTrips(bool)),
   searchRouts: (id, time, requestData) => dispatch(searchRouts(id, time, requestData)),
+  fetchTripsSuccess: (obj) => dispatch(fetchTripsSuccess(obj)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripsPage);

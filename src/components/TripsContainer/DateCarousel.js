@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { startLoader } from "../../redux/global/globalActions";
 import { inputValueDate, setTime } from "../../redux/searchForm/searchFormAction";
 import { getUrl } from "../../services/getUrl";
+import { fetchTripsSuccess, setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 
 const DateCarousel = ({ parsed, history }) => {
   const lang = useSelector((state) => state.language);
@@ -15,6 +16,10 @@ const DateCarousel = ({ parsed, history }) => {
   const loaderStart = () => dispatch(startLoader());
   const changeInputDate = (val) => dispatch(inputValueDate(val));
   const sendTime = (time) => dispatch(setTime(time));
+  const sendSingleTrips = (val) => dispatch(setSingleTrips(val));
+  const sendDoubleTrips = (val) => dispatch(setDoubleTrips(val));
+  const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
+
   const locale = lang === "UA" ? "UK" : lang;
 
   // ==== управление изменением даты на следующюю/предыдущую ==== //
@@ -24,6 +29,9 @@ const DateCarousel = ({ parsed, history }) => {
         ? new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000
         : new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000;
     const newDay = format(new Date(date), "yyyy-MM-dd");
+    setTripsSuccess({})
+    sendSingleTrips([]);
+    sendDoubleTrips([]);
     loaderStart();
     changeInputDate(new Date(newDay));
     sendTime(new Date().getTime());

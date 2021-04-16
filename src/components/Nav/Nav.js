@@ -18,7 +18,7 @@ const Nav = () => {
   useEffect(() => {
     window.addEventListener("click", () => {
       setIsPhone(false);
-      setIsMobile(false)
+      setIsMobile(false);
     });
   });
 
@@ -33,11 +33,7 @@ const Nav = () => {
         >
           Головна
         </NavLink>
-        <NavLink
-          className={styles.navLink}
-          activeClassName={styles.selected}
-          to="/міста"
-        >
+        <NavLink className={styles.navLink} activeClassName={styles.selected} to="/міста">
           Маршрути
         </NavLink>
         <NavLink className={styles.navLink} activeClassName={styles.selected} to="/info">
@@ -50,8 +46,7 @@ const Nav = () => {
               setIsPhone(false);
               setTimeout(() => setIsPhone(true), 300);
             }}
-          >
-            Контакти
+          >Контакти
           </p>
 
           {windowWidth < 768 ? (
@@ -67,7 +62,8 @@ const Nav = () => {
               nodeRef={phoneRef}
             >
               <div className={styles.contacts} ref={phoneRef}>
-                <a href="tel: +1 111 111-11-11">+38 (099) 999-99-99</a>
+                <a href="tel: +1 111 111-11-11">+38 (099) 999-99-99</a><br/>
+                <a href="viber://chat?number=111 111-11-11">viber bot</a>
               </div>
             </CSSTransition>
           )}
@@ -84,10 +80,12 @@ const Nav = () => {
           </p>
 
           {windowWidth < 768 ? (
-            <div className={styles.mobile}><a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
-            <img src={play} alt="playMarket"></img>
-          </a>
-          <img src={app} alt="appStore"></img></ div>
+            <div className={styles.mobile}>
+              <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
+                <img src={play} alt="playMarket"></img>
+              </a>
+              <img src={app} alt="appStore"></img>
+            </div>
           ) : (
             <CSSTransition
               in={isMobile}
@@ -97,10 +95,10 @@ const Nav = () => {
               nodeRef={mobileRef}
             >
               <div className={styles.mobile} ref={mobileRef}>
-                  <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
-                    <img src={play} alt="playMarket"></img>
-                  </a>
-                  <img src={app} alt="appStore"></img>
+                <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
+                  <img src={play} alt="playMarket"></img>
+                </a>
+                <img src={app} alt="appStore"></img>
               </div>
             </CSSTransition>
           )}
