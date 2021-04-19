@@ -27,10 +27,14 @@ import SortTripsSingle from "../components/TripsContainer/SortTripsSingle";
 import SortTripsSingleMob from "../components/TripsContainer/SortTripsSingleMob";
 import SortTripsDouble from "../components/TripsContainer/SortTripsDouble";
 import SortTripsDoubleMob from "../components/TripsContainer/SotrTripsDoubleMob";
+import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
 
 const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
+  state = {
+    scroll: 0,
+  };
   componentDidMount() {
     const { startLoader, location, setFrom, setTo, match } = this.props;
     const parsed = queryString.parse(location.search);
@@ -39,6 +43,8 @@ class TripsPage extends Component {
     setDoubleTrips([]);
     setFrom({ text: match.params.from, value: parsed.from });
     setTo({ text: match.params.to, value: parsed.to });
+
+    window.addEventListener("scroll", this.handleScroll);
 
     window.scrollTo({
       top: getScroll(windowWidth),
@@ -50,7 +56,7 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { time, location, setSingleTrips, setDoubleTrips, setIsTrips } = this.props;
+    const { time, location, setIsTrips } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
@@ -68,6 +74,11 @@ class TripsPage extends Component {
     getInitialization(requestData, lang)
       .then(({ data }) => searchRouts(data.searchId, time, requestData))
       .catch((err) => getError(err.message));
+  };
+
+  handleScroll = () => {
+    console.log(window.scrollY);
+    this.setState({ scroll: window.scrollY });
   };
 
   // ==== формируем обьект для запроса ==== //
@@ -96,13 +107,18 @@ class TripsPage extends Component {
     } = this.props;
     const parsed = queryString.parse(location.search);
     const locale = lang === "UA" ? "UK" : lang;
+    console.log(this.state.scroll);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {error && <Redirect to="/error" />}
+        {windowWidth >= 768 && (
+          <SearchFormBaner history={history} scroll={this.state.scroll} />
+        )}
+
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>
-              <SearchForm history={history} />
+              {this.state.scroll < 350 && <SearchForm history={history} />}
             </div>
             {isTrips && !sortTypeDouble && !sortTypeSingle ? (
               <div className={styles.tripsBox}>
@@ -139,7 +155,6 @@ class TripsPage extends Component {
             )}
           </div>
         </div>
-        <pre>{JSON.stringify(trips, null, 4)}</pre>
       </IntlProvider>
     );
   }

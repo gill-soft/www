@@ -1,0 +1,18 @@
+.search-enter {
+    margin-top: -200px;
+}
+
+.search-enter-active {
+    margin-top: 0;
+    transition: margin-top 300ms ease-out
+}
+
+
+.search-exit {
+    margin-top: 0;
+}
+
+.search-exit-active {
+    margin-top: -200px;
+    transition: margin-top 300ms ease-out;
+}

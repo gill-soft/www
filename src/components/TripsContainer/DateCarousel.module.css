@@ -5,6 +5,7 @@
     justify-content: center;
     margin-bottom: 24px;
 }
+
 .dateButton {
     width: 200px;
     padding: 8px;
@@ -14,6 +15,14 @@
     text-align: center;
     border: none;
     cursor: pointer;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+    transition: background-color 200ms linear;
+
+}
+
+.dateButton:hover {
+    background-color: #3044b6;
+    transition: background-color 200ms linear;
 }
 
 .dateButton:disabled {
@@ -23,15 +32,17 @@
 
 .today {
     width: 240px;
+    margin: 0 5px;
     padding: 8px;
     background-color: var(--color-secondary);
     color: var(--color-third);
     font-size: 16px;
     text-align: center;
     border: none;
-    cursor: pointer;
-    box-shadow: 0 0 2px 2px #525528;
+    cursor: default;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
     font-weight: 700;
+
 }
 
 .dateButton:first-child {

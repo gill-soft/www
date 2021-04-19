@@ -17,12 +17,16 @@ export const getStop = (id, trips, lang) => {
 };
 
 // ==== получаем adress отправки/прибытия === //
-export const getAddress = (id, trips, lang) =>{
-  const address = trips.localities[id].address ? trips.localities[id].address : ""
-  return address ? address[lang]|| address.EN || address.UA || address.RU || address.PL : ""
-}
-  ;
-
+export const getAddress = (id, trips, lang) => {
+  const address = trips.localities[id].address ? trips.localities[id].address : "";
+  return address
+    ? address[lang] || address.EN || address.UA || address.RU || address.PL
+    : "";
+};
+export const getRouteName = (id, trips) => {
+  const routeName = trips.segments[id].route ? trips.segments[id].route.name : "";
+  return routeName ? routeName.EN || routeName.UA || routeName.RU || routeName.PL : "";
+};
 // ==== получаем адресс промежуточной остановки ==== //
 export const getAllAddress = (key, trips, lang) =>
   Object.keys(trips).length > 0 && trips.localities[key]?.address

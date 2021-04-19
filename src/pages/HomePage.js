@@ -11,12 +11,15 @@ import Modal from "../components/Modal/Modal";
 import AppLinks from "../components/AppLinks/AppLinks";
 import Advantages from "../components/Advantages/Advantages";
 import { getDescription, getTitle } from "../services/headTags";
+import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
   const error = useSelector((state) => state.global.error);
   const history = useHistory();
   const [isModal, setIsModal] = useState(true);
+  const [scroll, setScroll] = useState(0);
+
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   useEffect(() => {
@@ -25,6 +28,15 @@ const HomePage = () => {
       clearTimeout(timer);
     };
   }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScroll = () => {
+    setScroll(window.scrollY);
+  };
+
   const closeModal = () => {
     setIsModal(false);
   };
@@ -32,7 +44,7 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-      <meta name="description" content={getDescription(lang)} />
+        <meta name="description" content={getDescription(lang)} />
         <title>{getTitle(lang)}</title>
       </Helmet>
       {error && <Redirect to="/error" />}
@@ -40,6 +52,7 @@ const HomePage = () => {
         <Modal onClose={closeModal} component={<AppLinks onClose={closeModal} />} />
       )}
       <IntlProvider locale={locale} messages={messages[locale]}>
+        {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
         <div className={styles.bgnd}>
           <div className={styles.container}>
             <h1 className={styles.title}>
@@ -49,8 +62,9 @@ const HomePage = () => {
               <FormattedMessage id="subtitle" />
             </p>
             <div className={styles.formContainer}>
-              <SearchForm history={history} />
+              {scroll < 350 && <SearchForm history={history} />}
             </div>
+
             <ul className={styles.iconsBox}>
               <li className={`${styles.iconItem} ${styles.iconItem1}`}>
                 <p>

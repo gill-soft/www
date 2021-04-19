@@ -1,8 +1,6 @@
 .header {
-    position: fixed;
     width: 100%;
     background-color: var(--color-main);
-    z-index: 50;
 }
 
 .container {

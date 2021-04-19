@@ -3,8 +3,9 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    padding: 70px 0;
+    padding: 20px 0;
 }
+
 .bgndBottom {
     background-color: rgb(245, 245, 245);
 }
@@ -12,6 +13,7 @@
 .container {
     text-align: center;
 }
+
 .information {
     padding: 10px 5px;
 
@@ -32,15 +34,13 @@
 
 .formContainer {
     width: 96%;
-    width: 100wv;
     margin: 0 auto 30px;
     padding: 30px 17px;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: left;
-    position: sticky;
-    top: 50px;
-    bottom: 0;
 }
+
+
 
 .iconsBox {
     width: 300px;
@@ -101,9 +101,10 @@
 }
 
 @media (min-width: 768px) {
-    .bgnd {
-        padding: 90px 0;
-    }
+.formContainer {
+    height: 255px;
+
+}
 
     .container {
         max-width: 720px;
@@ -123,20 +124,20 @@
         justify-content: space-between;
         font-size: 14px;
     }
-.information {
-    display: flex;
-    text-align: left;
-}
+
+    .information {
+        display: flex;
+        text-align: left;
+    }
 
 }
 
 @media (min-width: 992px) {
-    .bgnd {
-        padding: 110px 0 50px;
-    }
+
 
     .formContainer {
         margin-bottom: 50px;
+        height: 128px;
     }
 
     .container {
@@ -164,9 +165,7 @@
 }
 
 @media (min-width: 1200px) {
-    .bgnd {
-        padding: 140px 0 50px;
-    }
+
 
     .container {
         max-width: 1140px;

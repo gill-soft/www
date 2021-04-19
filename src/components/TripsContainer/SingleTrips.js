@@ -14,6 +14,7 @@ import {
   getTime,
   getTimeInWay,
   getAddress,
+  getRouteName,
 } from "../../services/getInfo";
 
 const SingleTrips = ({ tripKey, location }) => {
@@ -147,7 +148,7 @@ const SingleTrips = ({ tripKey, location }) => {
           nodeRef={backdropRef}
         >
           <div ref={backdropRef}>
-            {/* <h5 className={styles.routeName}>{trips.segments[tripKey].route.name.EN}</h5> */}
+            <h5 className={styles.routeName}>{getRouteName(tripKey, trips)}</h5>
             <div className={styles.additionalInfo}>
               <div className={styles.depArr}>
                 <div className={styles.start}>

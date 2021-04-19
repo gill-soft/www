@@ -1,0 +1,90 @@
+.form {
+    display: flex;
+    justify-content: space-between;
+    width: 760px;
+    margin: 0 auto;
+}
+
+.form>.MuiAutocomplete-paper {
+    width: 400px !important
+}
+
+.datePicker {
+    width: 100%;
+    height: 56px;
+    padding: 1px 10px;
+    border: 2px solid var(--color-secondary);
+    border-radius: 4px;
+    background: transparent;
+    background-image: url('../../images/insert_invitation-black-48dp.svg');
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: 50%;
+    outline: none;
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.inputBox {
+    width: 19.5%;
+    position: relative;
+}
+
+.searchBtn {
+    width: 19.5%;
+    color: var(--color-main) !important;
+    background-color: var(--color-secondary) !important;
+    font-family: inherit;
+
+}
+
+.arrow,
+.arrowClick {
+    position: absolute;
+    top: 20px;
+    right: -12px;
+    width: 22px;
+    height: 20px;
+    border-radius: 50%;
+    z-index: 1;
+    background-color: var(--color-main);
+}
+
+.dataLabel {
+    position: absolute;
+    color: var(--color-secondary);
+    padding: 0 4px;
+    font-size: 12px;
+    top: 0;
+    left: 12px;
+    transform: translateY(-50%);
+    background-color: var(--color-main);
+    z-index: 1;
+}
+
+.formContainer {
+    padding: 10px 2px;
+    border-radius: 5px;
+    background-color: var(--color-main);
+    position: fixed;
+    top: 00px;
+    width: 100vw;
+    box-shadow: 0 2px 6px 3px #505050;
+    z-index: 100;
+}
+
+
+
+@media(min-width: 992px) {
+    .form {
+        width: 960px;
+    }
+}
+
+@media(min-width: 1200px) {
+    .form {
+        width: 1140px;
+    }
+}

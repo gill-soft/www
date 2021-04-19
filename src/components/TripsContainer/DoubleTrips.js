@@ -14,6 +14,7 @@ import {
   getTimeInWayDouble,
   getAddress,
   getPrice,
+  getRouteName,
 } from "../../services/getInfo";
 
 const DoubleTrips = ({ tripKeys, location }) => {
@@ -134,7 +135,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
           <>
             {tripKeys.map((el, idx) => (
               <div ref={backdropRef} key={idx} className={styles.anim}>
-                <h5 className={styles.routeName}>{trips.segments[el].route.name.EN}</h5>
+                <h5 className={styles.routeName}>{getRouteName(el, trips) }</h5>
                 <div className={styles.additionalInfo}>
                   <div className={styles.depArr}>
                     <div className={styles.start}>

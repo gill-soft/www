@@ -11,6 +11,21 @@
     font-size: 30px;
     text-align: center;
 }
+
 .tripsBox {
     padding-bottom: 20px;
+}
+
+@media(min-width: 768px) {
+    .formBox {
+        height: 255px;
+
+    }
+}
+
+@media(min-width: 1200px) {
+    .formBox {
+        height: 128px;
+
+    }
 }
