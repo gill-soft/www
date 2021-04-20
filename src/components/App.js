@@ -35,7 +35,7 @@ const App = () => {
   }, [getStops]);
 
   useEffect(() => {
-    const lang = JSON.parse(localStorage.getItem("language")) || "UA"
+    const lang = JSON.parse(localStorage.getItem("language")) || "UA";
     setLanguege(lang);
   }, [setLanguege]);
 
@@ -45,20 +45,20 @@ const App = () => {
         <Header />
         <Switch>
           <Route path="/" exact component={HomePage} />
-          <Route path="/міста/:city" component={City} />
-          <Route path="/города/:city" component={City} />
-          <Route path="/cities/:city" component={City} />
-          <Route path="/miasta/:city" component={City} />
-          <Route path="/міста/" component={Cities} />
-          <Route path="/города/" component={Cities} />
-          <Route path="/cities/" component={Cities} />
-          <Route path="/miasta/" component={Cities} />
-          <Route path="/info" component={Info} />
-          <Route path="/about-us" component={AboutUs} />
           <Route path="/автобуси/:from/:to" component={TripsPage} />
           <Route path="/автобусы/:from/:to" component={TripsPage} />
           <Route path="/trips/:from/:to" component={TripsPage} />
           <Route path="/autobusy/:from/:to" component={TripsPage} />
+          <Route path="/автобуси/:city" component={City} />
+          <Route path="/автобусы/:city" component={City} />
+          <Route path="/trips/:city" component={City} />
+          <Route path="/autobusy/:city" component={City} />
+          <Route path="/автобуси/" component={Cities} />
+          <Route path="/автобусы/" component={Cities} />
+          <Route path="/trips/" component={Cities} />
+          <Route path="/autobusy/" component={Cities} />
+          <Route path="/info" component={Info} />
+          <Route path="/about-us" component={AboutUs} />
           <Route path="/order" component={OrderPage} />
           <Route path="/ticket/:id/:pay" component={TicketPage} />
           <Route path="/myTicket/:id" component={MyTicketPage} />

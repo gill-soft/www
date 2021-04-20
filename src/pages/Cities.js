@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { citiesList } from "../assets/cities";
-import { getUrlCities } from "../services/getUrl";
+import { getUrl, getUrlCities } from "../services/getUrl";
+import ukraineMap from "../images/ukraine-map-coloring-page-min.jpg";
 import styles from "./Cities.module.css";
 
 const Cities = () => {
@@ -11,30 +12,31 @@ const Cities = () => {
 
   // ==== смена url при изменении языка ==== //
   useEffect(() => {
-    console.log("object")
-    history.replace(`/${getUrlCities(lang).trim()}`);
+    history.replace(`/${getUrl(lang).trim()}`);
   }, [history, lang]);
 
   return (
-    <div className="bgnd">
-      <div className="container">
-        <ul className={styles.list}>
-          {citiesList.map((el, idx) => (
-            <li key={idx} className={styles.listItem}>
-              <Link
-                className={styles.link}
-                to={`/${getUrlCities(lang).trim()}/${el.name[lang]}`}
-              >
-                <div className={styles.img}>
-                  <img src={el.image} alt={`квитки онлайн в ${el.name.lang}`}></img>
-                </div>
-                <p className={styles.name}>{el.name[lang]}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
+    // <div className="bgnd">
+    <div className="container">
+      <div className={styles.map}>
+      
+        <img src={ukraineMap} alt="карта україни" />
+        <Link className={styles.city} to={`/${getUrl(lang).trim()}/Одеса`}>Одеса</Link>
       </div>
+      <ul className={styles.list}>
+        {citiesList.map((el, idx) => (
+          <li key={idx} className={styles.listItem}>
+            <Link className={styles.link} to={`/${getUrl(lang).trim()}/${el.name[lang]}`}>
+              <div className={styles.img}>
+                <img src={el.image} alt={`квитки онлайн в ${el.name.lang}`}></img>
+              </div>
+              <p className={styles.name}>{el.name[lang]}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
+    // </div>
   );
 };
 

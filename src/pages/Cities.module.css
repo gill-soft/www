@@ -43,3 +43,13 @@
     color: var(--color-main);
 
 }
+.map {
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+.city {
+    position: absolute;
+    bottom: 20px;
+    left: 500px;
+}

@@ -34,10 +34,10 @@ const City = ({ history }) => {
       value: "",
     });
   }, [dispatch, lang, sityObj.id, sityObj.name]);
-  
+
   // ==== смена url при изменении языка ==== //
   useEffect(() => {
-    history.replace(`/${getUrlCities(lang).trim()}/${sityObj.name[lang]}`);
+    history.replace(`/${getUrl(lang).trim()}/${sityObj.name[lang]}`);
   }, [history, lang, sityObj.name]);
 
   return (

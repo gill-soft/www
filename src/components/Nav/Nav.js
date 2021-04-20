@@ -8,7 +8,7 @@ import "./anime.css";
 
 import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
-import { getUrlCities } from "../../services/getUrl";
+import { getUrl, getUrlCities } from "../../services/getUrl";
 
 const Nav = () => {
   const windowWidth = window.innerWidth;
@@ -36,7 +36,7 @@ const Nav = () => {
         <NavLink
           className={styles.navLink}
           activeClassName={styles.selected}
-          to={`/${getUrlCities(lang)}`}
+          to={`/${getUrl(lang)}`}
         >
           Маршрути
         </NavLink>
