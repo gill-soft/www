@@ -23,16 +23,16 @@ const Fotter = () => {
             <h4 className={styles.title}>Контакти</h4>
             <ul>
               <li className={styles.listItem}>
-                Зв'язок з оператором:
-                <br />{" "}
+                
+                
                 <a className={styles.link} href="tel: +1 111 111-11-11">
-                  +38 (099) 999-99-99
+                Зв'язок з оператором:<br />  +38 (099) 999-99-99
                 </a>
               </li>
               <li>
-                Email:{" "}
+                
                 <a className={styles.link} href="mailto: test@test.com">
-                  test@test.com
+                 Email: test@test.com
                 </a>
               </li>
             </ul>
@@ -54,14 +54,15 @@ const Fotter = () => {
           </div>
           <div className={styles.listBox}>
             <h4 className={styles.title}>Мобільні додатки</h4>
-
-            <div className={styles.img}>
-              <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
-                <img src={play} alt="playMarket"></img>
-              </a>
-            </div>
-            <div className={styles.img}>
-              <img src={app} alt="appStore"></img>
+            <div className={styles.flexImgs}>
+              <div className={styles.img}>
+                <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
+                  <img src={play} alt="playMarket"></img>
+                </a>
+              </div>
+              <div className={styles.img}>
+                <img src={app} alt="appStore"></img>
+              </div>
             </div>
           </div>
         </div>

@@ -16,7 +16,6 @@
 
 .information {
     padding: 10px 5px;
-
 }
 
 .title {
@@ -39,8 +38,6 @@
     background-color: rgba(0, 0, 0, 0.5);
     text-align: left;
 }
-
-
 
 .iconsBox {
     width: 300px;
@@ -101,13 +98,16 @@
 }
 
 @media (min-width: 768px) {
-.formContainer {
-    height: 255px;
-
-}
+    .formContainer {
+        height: 255px;
+    }
 
     .container {
         max-width: 720px;
+    }
+
+    .bgndBottom {
+        padding-top: 90px;
     }
 
     .title {
@@ -129,15 +129,12 @@
         display: flex;
         text-align: left;
     }
-
 }
 
 @media (min-width: 992px) {
-
-
     .formContainer {
         margin-bottom: 50px;
-        height: 128px;
+        height: 255px;
     }
 
     .container {
@@ -156,7 +153,6 @@
     .iconsBox {
         width: 900px;
         font-size: 16px;
-
     }
 
     .iconItem {
@@ -165,7 +161,9 @@
 }
 
 @media (min-width: 1200px) {
-
+    .bgndBottom {
+        padding-top: 120px;
+    }
 
     .container {
         max-width: 1140px;
@@ -177,31 +175,6 @@
 
     .formContainer {
         margin-bottom: 60px;
+        height: 128px;
     }
 }
-
-/* 
-@media (min-width: 576px) {
-    .container {
-        max-width: 540px;
-        margin: 0 auto;
-    }
-}
-
-@media (min-width: 768px) {
-    .container {
-        max-width: 720px;
-    }
-}
-
-@media (min-width: 992px) {
-    .container {
-        max-width: 960px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .container {
-        max-width: 1140px;
-    }
-} */

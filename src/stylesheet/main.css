@@ -88,9 +88,10 @@ div>.react-datepicker__day-name {
     font-family: 'HelveticaNeueCyr', 'BauhausC', sans-serif !important;
 }
 
-/* .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
     padding-right: 0px !important;
-} */
+}
+
 /* .MuiAutocomplete-paper {
     width: 280px;
 }

@@ -22,12 +22,15 @@
 .time {
     font-size: 26px;
     font-weight: 500;
+    color: var(--text-color-title);
+
 }
 
 .date {
     font-size: 14px;
     margin-bottom: 5px;
-    color: #636363
+    color: var(--text-color-title);
+
 }
 
 .locality {

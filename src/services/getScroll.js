@@ -8,6 +8,6 @@ export const getScroll = (w) => {
   } else if (w >= 992 && w < 1200) {
     return 300;
   } else if (w > 1200) {
-    return 200;
+    return 214;
   }
 };

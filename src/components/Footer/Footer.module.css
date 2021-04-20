@@ -1,5 +1,5 @@
 .footer {
-    background-color: #c2e3ff;
+    background-color: #fdfdfd;
 }
 
 .container {
@@ -8,8 +8,9 @@
 
 .title {
     margin-bottom: 6px;
-    font-size: 20px;
-    color: black;
+    font-size: 14px;
+    color:var(--text-color-title);
+
 }
 
 .row {
@@ -24,11 +25,7 @@
     margin-bottom: 0;
 }
 
-.img {
-    width: 160px;
-    height: auto;
-    margin-bottom: 6px;
-}
+
 
 .listItem {
     margin-bottom: 6px;
@@ -49,7 +46,14 @@
     width: 70px;
     height: auto;
 }
-
+.flexImgs {
+    display: flex;
+}
+.img {
+    width: 50%;
+    height: auto;
+    margin-bottom: 6px;
+}
 @media (min-width: 576px) {
     .container {
         width: 540px;
@@ -72,6 +76,7 @@
 
     .listBox:last-child {
         text-align: center;
+        width: 300px;
     }
 
     .img {
@@ -90,12 +95,18 @@
 
     .listBox:last-child {
         text-align: start;
+        width: 30%;
+
     }
 
     .img {
         margin: 0 0 6px;
-
+        width: 70%;
     }
+    .flexImgs {
+        flex-direction: column;
+    }
+      
 
     .row {
         flex-wrap: nowrap;
@@ -107,11 +118,20 @@
     .container {
         width: 960px;
     }
-
+    .img {
+        margin: 0 0 6px;
+        width: 50%;
+    }
+    .flexImgs {
+        flex-direction: row;
+    }
 }
 
 @media (min-width: 1200px) {
     .container {
         width: 1140px;
+    }
+    .listBox:last-child {
+       text-align: center;
     }
 }

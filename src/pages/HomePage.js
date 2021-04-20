@@ -12,6 +12,7 @@ import AppLinks from "../components/AppLinks/AppLinks";
 import Advantages from "../components/Advantages/Advantages";
 import { getDescription, getTitle } from "../services/headTags";
 import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
+import MobileBaner from "../components/MobileBaner/MobileBaner";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -31,10 +32,11 @@ const HomePage = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleScroll = () => {
-    setScroll(window.scrollY);
+    if (windowWidth >= 768) setScroll(window.scrollY);
   };
 
   const closeModal = () => {
@@ -51,8 +53,9 @@ const HomePage = () => {
       {windowWidth < 768 && isModal && (
         <Modal onClose={closeModal} component={<AppLinks onClose={closeModal} />} />
       )}
+      {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
+      {windowWidth >= 768 && <MobileBaner />}
       <IntlProvider locale={locale} messages={messages[locale]}>
-        {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
         <div className={styles.bgnd}>
           <div className={styles.container}>
             <h1 className={styles.title}>

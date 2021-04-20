@@ -54,6 +54,10 @@ class TripsPage extends Component {
     //  ====  начинаем поиск ==== //
     this.startSerch(Date.now(), this.getRequestData(parsed));
   }
+  componentWillUnmount(){
+    window.removeEventListener("scroll", this.handleScroll);
+
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { time, location, setIsTrips } = this.props;
@@ -77,7 +81,6 @@ class TripsPage extends Component {
   };
 
   handleScroll = () => {
-    console.log(window.scrollY);
     this.setState({ scroll: window.scrollY });
   };
 
@@ -107,7 +110,6 @@ class TripsPage extends Component {
     } = this.props;
     const parsed = queryString.parse(location.search);
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(this.state.scroll);
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {error && <Redirect to="/error" />}
@@ -139,7 +141,7 @@ class TripsPage extends Component {
                 )}
                 {doubleTrips.length > 0 && (
                   <>
-                    <h3>Рейси з пересадкою</h3>
+                    <h3 className={styles.titleDouble}>Рейси з пересадкою</h3>
                     {windowWidth >= 768 ? <SortTripsDouble /> : <SortTripsDoubleMob />}
                     {doubleTrips.map((el, idx) => (
                       <DoubleTrips key={idx} tripKeys={el.segments} location={location} />

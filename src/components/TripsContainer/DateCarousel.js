@@ -6,7 +6,13 @@ import { format } from "date-fns";
 import { startLoader } from "../../redux/global/globalActions";
 import { inputValueDate, setTime } from "../../redux/searchForm/searchFormAction";
 import { getUrl } from "../../services/getUrl";
-import { fetchTripsSuccess, setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
+import {
+  fetchTripsSuccess,
+  setDoubleTrips,
+  setSingleTrips,
+} from "../../redux/trips/tripsActions";
+import { ReactComponent as ArrowForward } from "../../images/arrow_forward_ios_white_24dp (1).svg";
+import { ReactComponent as ArrowBack } from "../../images/arrow_back_ios_white_24dp (1).svg";
 
 const DateCarousel = ({ parsed, history }) => {
   const lang = useSelector((state) => state.language);
@@ -23,13 +29,13 @@ const DateCarousel = ({ parsed, history }) => {
   const locale = lang === "UA" ? "UK" : lang;
 
   // ==== управление изменением даты на следующюю/предыдущую ==== //
-  const changeDate = ({ target }) => {
+  const changeDate = (name, { target }) => {
     const date =
-      target.name === "prev"
+      name === "prev"
         ? new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000
         : new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000;
     const newDay = format(new Date(date), "yyyy-MM-dd");
-    setTripsSuccess({})
+    setTripsSuccess({});
     sendSingleTrips([]);
     sendDoubleTrips([]);
     loaderStart();
@@ -57,16 +63,25 @@ const DateCarousel = ({ parsed, history }) => {
   };
   return (
     <div className={styles.dateBox}>
+      <ArrowBack
+        className={styles.arrowBack}
+        fill="var(--color-main)"
+        onClick={(e) => changeDate("prev", e)}
+      />
       <button
-        className={styles.dateButton}
-        name="prev"
-        onClick={changeDate}
+        className={styles.dateButtonBack}
+        onClick={(e) => changeDate("prev", e)}
         disabled={getDisabled(parsed)}
       >
         {getYesterday(parsed, locale)}
       </button>
       <p className={styles.today}>{getTodayDate(parsed, locale)}</p>
-      <button className={styles.dateButton} name="next" onClick={changeDate}>
+      <ArrowForward
+        className={styles.arrowForward}
+        fill="var(--color-main)"
+        onClick={(e) => changeDate("next", e)}
+      />
+      <button className={styles.dateButtonForward} onClick={(e) => changeDate("next", e)}>
         {getTomorrow(parsed, locale)}
       </button>
     </div>
