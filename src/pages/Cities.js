@@ -11,6 +11,7 @@ const Cities = () => {
 
   // ==== смена url при изменении языка ==== //
   useEffect(() => {
+    console.log("object")
     history.replace(`/${getUrlCities(lang).trim()}`);
   }, [history, lang]);
 

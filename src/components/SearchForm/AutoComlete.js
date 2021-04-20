@@ -173,6 +173,8 @@ const AutoComplete = () => {
           filterOptions={filterOptions}
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
+          autoFocus={true}
+
           onChange={(event, value) => {
             value ? setTo(value) : setTo({ text: "", value: "" });
             value !== null ? changeIsOpenTo(false) : changeIsOpenTo(true);

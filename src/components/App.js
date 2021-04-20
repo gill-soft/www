@@ -55,9 +55,9 @@ const App = () => {
           <Route path="/miasta/" component={Cities} />
           <Route path="/info" component={Info} />
           <Route path="/about-us" component={AboutUs} />
-          <Route path="/trips/:from/:to" component={TripsPage} />
           <Route path="/автобуси/:from/:to" component={TripsPage} />
           <Route path="/автобусы/:from/:to" component={TripsPage} />
+          <Route path="/trips/:from/:to" component={TripsPage} />
           <Route path="/autobusy/:from/:to" component={TripsPage} />
           <Route path="/order" component={OrderPage} />
           <Route path="/ticket/:id/:pay" component={TicketPage} />
