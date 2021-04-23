@@ -5,6 +5,7 @@ import { citiesList } from "../assets/cities";
 import { getUrl, getUrlCities } from "../services/getUrl";
 import ukraineMap from "../images/ukraine-map-coloring-page-min.jpg";
 import styles from "./Cities.module.css";
+import Leaflet from "../components/Map/Leaflet";
 
 const Cities = () => {
   const lang = useSelector((state) => state.language);
@@ -15,14 +16,10 @@ const Cities = () => {
     history.replace(`/${getUrl(lang).trim()}`);
   }, [history, lang]);
 
-  return (
-    // <div className="bgnd">
+  return (<>
+     {/* <div className="bgnd"> */}
+      <Leaflet history={history} />
     <div className="container">
-      <div className={styles.map}>
-      
-        <img src={ukraineMap} alt="карта україни" />
-        <Link className={styles.city} to={`/${getUrl(lang).trim()}/Одеса`}>Одеса</Link>
-      </div>
       <ul className={styles.list}>
         {citiesList.map((el, idx) => (
           <li key={idx} className={styles.listItem}>
@@ -36,7 +33,8 @@ const Cities = () => {
         ))}
       </ul>
     </div>
-    // </div>
+    {/* </div>  */}
+    </>
   );
 };
 

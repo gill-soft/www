@@ -1,0 +1,41 @@
+.formBox {
+    width: 100px;
+    height: 100px;
+    background-color: aqua;
+    z-index: 999;
+    position: absolute;
+    right: 0;
+}
+
+.markup {
+    z-index: 1000;
+}
+
+
+.tooltip, .tooltipYellow {
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 0;
+    border: none;
+
+}
+
+.tooltiper:hover.tooltiper::before {
+    border-right-color: var(--color-secondary)
+}
+
+.tooltiper:hover {
+    background-color: var(--color-secondary)
+}
+
+.text {
+    padding: 4px 10px;
+}
+
+.tooltipYellow {
+    background-color: var(--color-secondary);
+}
+
+.tooltipYellow::before {
+    border-right-color: var(--color-secondary)
+}

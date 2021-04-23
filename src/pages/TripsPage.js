@@ -156,6 +156,7 @@ class TripsPage extends Component {
               </>
             )}
           </div>
+          <pre>{JSON.stringify(trips, null, 4)}</pre>
         </div>
       </IntlProvider>
     );
