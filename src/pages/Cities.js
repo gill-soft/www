@@ -26,6 +26,7 @@ const Cities = () => {
                 className={styles.link}
                 to={`/${getUrl(lang).trim()}/${el.name[lang]}`}
               >
+                <div className={styles.overlay}></div>
                 <div className={styles.img}>
                   <img src={el.image} alt={`квитки онлайн в ${el.name.lang}`}></img>
                 </div>

@@ -1,32 +1,115 @@
-.bgnd {
-    background-color: #eeeeee;
-}
+
+
 .formBox {
     width: 96%;
     margin: 0 auto;
     padding: 30px 17px;
     background-color: rgba(0, 0, 0, 0.5);
 }
+.title {
+    color: var(--text-color-title)
+}
 
 .link {
     display: block;
-    width: 320px;
-    padding: 4px 8px;
-    font-size: 18px;
-    margin-bottom: 12px;
-    border: 1px solid var(--color-main);
-    box-shadow: 0px 6px 7px -4px #636363;
-    border-radius: 4px;
-    color: var(--color-secondary);
+    position: relative;
+    text-align: center;
 }
+
+.link:hover {
+    background-color: aqua;
+}
+.link:hover .name {
+    color: var(--color-secondary);
+    transition: color 200ms linear;     
+}
+
 .cityTitle {
     text-align: center;
     margin-bottom: 30px;
 }
-.text{
+
+.text {
     color: var(--text-color-main);
     text-indent: 20px;
     width: 96%;
     line-height: 1.2;
     margin-bottom: 30px;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.listItem {
+    width: 310px;
+    margin-bottom: 40px;
+    transition: box-shadow 200ms linear;
+    box-shadow: 0 2px 3px 1px #636363;
+}
+
+.listItem:hover {
+    box-shadow: 0 5px 6px 2px #636363;
+}
+
+.img {
+    height: 200px;
+    overflow: hidden;
+}
+
+.img>img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover
+}
+
+.name {
+    width: 100%;
+    position: absolute;
+    top: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    transform: translateX(-50%);
+    left: 155px;
+    /* text-transform: uppercase; */
+}
+
+.overlay {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-main);
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    transition: opacity 200ms linear;
+}
+
+.link:hover .overlay {
+    opacity: 0.99;
+    transition: opacity 200ms linear;
+}
+
+.price {
+    position: absolute;    
+    top: 90px;
+    padding: 6px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    left: 155px;
+    text-transform: uppercase;
+    transform: translateX(-50%) scale(0);
+}
+
+.link:hover .price {
+    transform: translateX(-50%) scale(1); 
+     transition: transform 200ms linear;
+    
+
+
 }

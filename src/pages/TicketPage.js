@@ -14,6 +14,7 @@ const TicketPage = ({ match }) => {
 
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
+    
     // ==== получаем зашифрованый id === //
     const encryptId = atob(match.params.id);
     // ==== расшифровуем id ==== //

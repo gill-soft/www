@@ -106,7 +106,7 @@
     }
 
     .bgndBottom {
-        padding-top: 90px;
+        padding-top: 10px;
     }
 
     .title {
@@ -161,9 +161,9 @@
 }
 
 @media (min-width: 1200px) {
-    .bgndBottom {
-        padding-top: 120px;
-    }
+    /* .bgndBottom {
+        padding-top: 50px;
+    } */
 
     .container {
         max-width: 1140px;

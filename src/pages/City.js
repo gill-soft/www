@@ -46,22 +46,29 @@ const City = ({ history }) => {
         <div className={styles.formBox}>
           <SearchForm history={history} />
         </div>
-        <h1>Маршрути в місто {sityObj.name[lang]} з міст України </h1>
-        <ul>
+        <h1 className={styles.title}>Маршрути в місто {sityObj.name[lang]} з міст України </h1>
+        <ul className={styles.list}>
           {citiesFrom.map((el, idx) => (
-            <li key={idx}>
+            <li key={idx} className={styles.listItem}>
               <Link
                 className={styles.link}
                 to={`/${getUrl(lang).trim()}/${el.name[lang]}/${city}?from=${el.id}&to=${
                   to.value
                 }&date=${format(new Date(), "yyyy-MM-dd")}&passengers=1`}
               >
-                {el.name[lang]} - {sityObj.name[lang]}
+                <div className={styles.overlay}></div>
+                <div className={styles.img}>
+                  <img src={el.image} alt={`квитки онлайн в ${el.name.lang}`}></img>
+                </div>
+                <p className={styles.name}>
+                  {el.name[lang]} - {sityObj.name[lang]}
+                </p>
+                <p className={styles.price}>255 <small>uah</small></p>
               </Link>
             </li>
           ))}
         </ul>
-        <h2 className={styles.cityTitle}> {sityObj.name[lang]}</h2>
+        <h2 className={styles.cityTitle}>{sityObj.name[lang]}</h2>
         <p className={styles.text}>{sityObj.text[lang]}</p>
         <img src={sityObj.image} alt="pfnjrf"></img>
       </div>

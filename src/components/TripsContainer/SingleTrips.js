@@ -37,8 +37,7 @@ const SingleTrips = ({ tripKey, location }) => {
   };
 
   const handleAdditionals = () => {
-    if(!trips.segments[tripKey].route)
-    return
+    
     // ==== определяем индекс первой остановки ====//
     const first =
       1 +
@@ -136,9 +135,11 @@ const SingleTrips = ({ tripKey, location }) => {
                 : trips.segments[tripKey].freeSeatsCount}
             </p>
           </div>
-          <button className={styles.additionals} onClick={handleAdditionals}>
-            <FormattedMessage id="additionals" />
-          </button>
+          {!!trips.segments[tripKey].route && (
+            <button className={styles.additionals} onClick={handleAdditionals}>
+              <FormattedMessage id="additionals" />
+            </button>
+          )}
         </div>
         <CSSTransition
           in={isOpen}

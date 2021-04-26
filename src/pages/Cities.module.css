@@ -1,6 +1,10 @@
 .link {
-    color: black;
     display: block;
+    position: relative;
+}
+
+.link:hover {
+    background-color: aqua;
 }
 
 .list {
@@ -11,7 +15,6 @@
 
 .listItem {
     width: 310px;
-    /* max-height: 200px; */
     margin-bottom: 40px;
     transition: box-shadow 200ms linear;
     box-shadow: 0 2px 3px 1px #636363;
@@ -22,7 +25,6 @@
 }
 
 .img {
-    /* width: 100%; */
     height: 200px;
     overflow: hidden;
 }
@@ -34,20 +36,45 @@
 }
 
 .name {
-    background-color: #fff;
+    position: absolute;
+    top: 30px;
     text-align: center;
     padding: 6px 0;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--text-color-main);
-    color: var(--color-main);
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    transform: translateX(-50%);
+    left: 155px;
+    text-transform: uppercase;
+    transition: color 200ms linear;
 
 }
+
+.overlay {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-main);
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    transition: opacity 200ms linear;
+}
+
+.link:hover .overlay {
+    opacity: 0.9;
+    transition: opacity 200ms linear;
+}
+ .link:hover .name {
+     color: var(--color-secondary);
+     transition: color 200ms linear;     
+ }
+
 .map {
     width: 1000px;
     margin: 0 auto;
     position: relative;
 }
+
 .city {
     position: absolute;
     bottom: 20px;
