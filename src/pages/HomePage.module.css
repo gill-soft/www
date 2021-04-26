@@ -3,7 +3,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    padding: 20px 0;
+    padding: 40px 0;
 }
 
 .bgndBottom {
@@ -19,7 +19,7 @@
 }
 
 .title {
-    margin: 0;
+    margin: -20px auto 20px;
     color: #ffffff;
     font-size: 28px;
     font-weight: 500;
@@ -28,7 +28,6 @@
 .subtitle {
     color: #ffffff;
     font-size: 14px;
-    margin-bottom: 20px;
 }
 
 .formContainer {
@@ -112,6 +111,7 @@
 
     .title {
         font-size: 32px;
+        margin: 40px auto 40px;
     }
 
     .subtitle {

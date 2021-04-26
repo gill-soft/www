@@ -8,7 +8,7 @@ import "./anime.css";
 
 import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
-import { getUrl, getUrlCities } from "../../services/getUrl";
+import { getUrl } from "../../services/getUrl";
 
 const Nav = () => {
   const windowWidth = window.innerWidth;

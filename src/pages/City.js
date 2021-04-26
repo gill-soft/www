@@ -4,7 +4,7 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import styles from "./City.module.css";
 import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormAction";
 import { Link, useParams } from "react-router-dom";
-import { getUrl, getUrlCities } from "../services/getUrl";
+import { getUrl } from "../services/getUrl";
 import { format } from "date-fns";
 import { citiesList } from "../assets/cities";
 

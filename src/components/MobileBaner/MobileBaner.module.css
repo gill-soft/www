@@ -1,6 +1,6 @@
 .bgnd {
     background-color: rgb(175, 212, 255);
-    position: absolute;
+    /* position: absolute; */
     top: 610px;
     left: 0;
     width: 100vw;

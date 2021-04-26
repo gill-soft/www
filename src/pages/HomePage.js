@@ -54,19 +54,19 @@ const HomePage = () => {
         <Modal onClose={closeModal} component={<AppLinks onClose={closeModal} />} />
       )}
       {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
-      {windowWidth >= 768 && <MobileBaner />}
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.bgnd}>
           <div className={styles.container}>
             <h1 className={styles.title}>
               <FormattedMessage id="title" />
             </h1>
-            <p className={styles.subtitle}>
+            {/* <p className={styles.subtitle}>
               <FormattedMessage id="subtitle" />
-            </p>
+            </p> */}
             <div className={styles.formContainer}>
               {scroll < 350 && <SearchForm history={history} />}
             </div>
+
 
             <ul className={styles.iconsBox}>
               <li className={`${styles.iconItem} ${styles.iconItem1}`}>
@@ -97,6 +97,8 @@ const HomePage = () => {
             </ul>
           </div>
         </div>
+      {windowWidth >= 768 && <MobileBaner />}
+
         <div className={styles.bgndBottom}>
           <div className={`${styles.information} ${styles.container}`}>
             <FavoriteTrips />

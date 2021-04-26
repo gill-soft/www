@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Map, TileLayer, Marker, Tooltip, Polyline } from "react-leaflet";
 import L from "leaflet";
 import styles from "./Leaflet.module.css";
-import iconBlue from "../../images/adjust_blue.svg";
-import iconYellow from "../../images/adjust_yellow.svg";
 import iconCircle from "../../images/circle.svg";
 import { citiesList } from "../../assets/cities";
 import Form from "./Form";
@@ -20,7 +18,8 @@ const Leaflet = ({ history }) => {
   const [polyline, setPolyline] = useState([
     [undefined, undefined],
     [undefined, undefined],
-  ]); 
+  ]);
+  const windowWidth = window.innerWidth;
 
   useEffect(() => {
     const fromLatlgt = [from.latitude, from.longitude];
@@ -29,8 +28,8 @@ const Leaflet = ({ history }) => {
     setPolyline(latlgt);
   }, [from, to]);
 
-  const iconY = new L.Icon({
-    iconUrl: iconYellow,
+  const iconC = new L.Icon({
+    iconUrl: iconCircle,
     iconSize: new L.Point(20, 20),
     className: "location-icon",
   });
@@ -61,48 +60,58 @@ const Leaflet = ({ history }) => {
 
   return (
     <>
+      {/* <div className={styles.container}> */}
       <Form from={from} to={to} />
-
-      <Map center={[48.0139, 29.2858]} zoom={7} scrollWheelZoom={true}>
+      <Map
+        center={[49.0139, 29.2858]}
+        zoom={windowWidth < 768 ? 6 : 7}
+        scrollWheelZoom={true}
+      >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
         />
         {Object.keys(from).length > 0 && (
-          <Marker
-            position={[from.latitude, from.longitude]}
-            onclick={handleClickFrom}
-            icon={iconY}
-          >
-            <Tooltip
-              permanent={true}
-              direction="right"
-              offset={[10, 0]}
-              className={styles.tooltipYellow}
+          <div onClick={handleClickFrom}>
+            <Marker
+              position={[from.latitude, from.longitude]}
+              onclick={handleClickFrom}
+              icon={iconC}
+              
+              className={styles.marker}
             >
-              <p className={styles.text}>{from.name[lang]}</p>
-            </Tooltip>
-          </Marker>
+              <Tooltip
+                permanent={true}
+                direction="right"
+                offset={[10, 0]}
+                className={styles.tooltipYellow}
+              >
+                <p className={styles.text}>{from.name[lang]}</p>
+              </Tooltip>
+            </Marker>
+          </div>
         )}
         {Object.keys(to).length > 0 && (
-          <Marker
-            position={[to.latitude, to.longitude]}
-            onclick={handleClickTo}
-            icon={iconY}
-          >
-            <Tooltip
-              permanent={true}
-              direction="right"
-              offset={[10, 0]}
-              className={styles.tooltipYellow}
+          <div onClick={handleClickTo}>
+            <Marker
+              position={[to.latitude, to.longitude]}
+              onclick={handleClickTo}
+              icon={iconC}
             >
-              <p className={styles.text}>{to.name[lang]}</p>
-            </Tooltip>
-          </Marker>
+              <Tooltip
+                permanent={true}
+                direction="right"
+                offset={[10, 0]}
+                className={styles.tooltipYellow}
+              >
+                <p className={styles.text}>{to.name[lang]}</p>
+              </Tooltip>
+            </Marker>
+          </div>
         )}
         {listCities.map((el) => (
           <Markers
-          key={el.id}
+            key={el.id}
             city={el}
             history={history}
             changeFrom={changeFrom}
@@ -114,6 +123,7 @@ const Leaflet = ({ history }) => {
           <Polyline color={"#febb02"} pathOptions={limeOptions} positions={polyline} />
         )}
       </Map>
+      {/* </ div> */}
     </>
   );
 };

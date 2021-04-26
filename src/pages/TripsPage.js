@@ -28,6 +28,7 @@ import SortTripsSingleMob from "../components/TripsContainer/SortTripsSingleMob"
 import SortTripsDouble from "../components/TripsContainer/SortTripsDouble";
 import SortTripsDoubleMob from "../components/TripsContainer/SotrTripsDoubleMob";
 import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
+import { getUrl } from "../services/getUrl";
 
 const windowWidth = window.innerWidth;
 
@@ -54,13 +55,12 @@ class TripsPage extends Component {
     //  ====  начинаем поиск ==== //
     this.startSerch(Date.now(), this.getRequestData(parsed));
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { time, location, setIsTrips } = this.props;
+    const { time, location, setIsTrips, lang, history, from, to } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
@@ -69,6 +69,11 @@ class TripsPage extends Component {
 
       //  ====  начинаем поиск ==== //
       this.startSerch(Date.now(), this.getRequestData(parsed));
+    }
+
+    // ==== смена url при изменении языка ==== //
+    if (prevProps.lang !== lang) {
+      history.replace(`/${getUrl(lang).trim()}/${from}/${to}${location.search}`);
     }
   }
 

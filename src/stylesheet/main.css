@@ -92,15 +92,6 @@ div>.react-datepicker__day-name {
     padding-right: 0px !important;
 }
 
-/* .MuiAutocomplete-paper {
-    width: 280px;
-}
-.MuiAutocomplete-popper {
-    padding: 10px 0;
-
-} */
-
-
 /*  */
 .react-datepicker-wrapper {
     width: 100%;
@@ -119,10 +110,57 @@ div>.react-datepicker__day-name {
     padding: 10px 4px;
 }
 
+
+
+
+.PhoneInputInput {
+    border: none;
+    font-size: 14px;
+}
+
+/* LEAFLET */
+.leaflet-container {
+    width: 100vw;
+    height: calc(100vh - 100px);
+    margin: 0 auto;
+}
+
+.leaflet-popup-pane {
+    z-index: 700;
+}
+
+.leaflet-tooltip.leaflet-clickable {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.leaflet-tooltip {
+    pointer-events: auto;
+}
+
+.leaflet-top .leaflet-control {
+    margin-top: 105px;
+}
+
+.location-icon {
+    padding-right: 10px;
+    display: block;
+    min-width: 30px;
+}
+
 @media (min-width: 576px) {
     .container {
         max-width: 540px;
         margin: 0 auto;
+    }
+
+    .leaflet-top .leaflet-control {
+        margin-top: 10px;
+    }
+
+    .leaflet-container {
+        width: calc(100vw - 20px);
+
     }
 }
 
@@ -143,29 +181,4 @@ div>.react-datepicker__day-name {
     .container {
         max-width: 1140px;
     }
-
-}
-
-
-
-.PhoneInputInput {
-    border: none;
-    font-size: 14px;
-}
-
-.leaflet-container {
-    width: 100vw;
-    height: 800px;
-}
-.leaflet-popup-pane {
-    z-index: 700;
-}
-
-.leaflet-tooltip.leaflet-clickable {
-    cursor: pointer;
-    pointer-events: auto;
-}
-.leaflet-tooltip {
-    pointer-events: auto;
-
 }
