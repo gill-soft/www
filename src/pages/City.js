@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SearchForm from "../components/SearchForm/SearchForm";
 import styles from "./City.module.css";
@@ -11,6 +11,17 @@ import { citiesList } from "../assets/cities";
 const City = ({ history }) => {
   const lang = useSelector((state) => state.language);
   const to = useSelector((state) => state.searchForm.to);
+  const [scroll, setScroll] = useState(0);
+  const windowWidth = window.innerWidth;
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const handleScroll = () => {
+    if (windowWidth >= 768) setScroll(window.scrollY);
+  };
 
   const { city } = useParams();
   const dispatch = useDispatch();
@@ -44,9 +55,11 @@ const City = ({ history }) => {
     <div className={styles.bgnd}>
       <div className="container">
         <div className={styles.formBox}>
-          <SearchForm history={history} />
+          <SearchForm history={history} scroll={scroll} />
         </div>
-        <h1 className={styles.title}>Маршрути в місто {sityObj.name[lang]} з міст України </h1>
+        <h1 className={styles.title}>
+          Маршрути в місто {sityObj.name[lang]} з міст України{" "}
+        </h1>
         <ul className={styles.list}>
           {citiesFrom.map((el, idx) => (
             <li key={idx} className={styles.listItem}>
@@ -63,7 +76,9 @@ const City = ({ history }) => {
                 <p className={styles.name}>
                   {el.name[lang]} - {sityObj.name[lang]}
                 </p>
-                <p className={styles.price}>255 <small>uah</small></p>
+                <p className={styles.price}>
+                  255 <small>uah</small>
+                </p>
               </Link>
             </li>
           ))}

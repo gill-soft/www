@@ -13,6 +13,18 @@ const OrderPage = ({ history }) => {
 
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
   const [requeredFields, setRequeredFields] = useState([]);
+  const [scroll, setScroll] = useState(0);
+  const windowWidth = window.innerWidth;
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleScroll = () => {
+    if (windowWidth >= 768) setScroll(window.scrollY);
+  };
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -44,7 +56,7 @@ const OrderPage = ({ history }) => {
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>
-              <SearchForm history={history} />
+              <SearchForm history={history} scroll={scroll}/>
             </div>
             <div className={styles.main}>
               <FormForBuy

@@ -1,9 +1,9 @@
 .bgnd {
     background-color: rgb(175, 212, 255);
     /* position: absolute; */
-    top: 610px;
-    left: 0;
-    width: 100vw;
+    /* top: 610px; */
+    /* left: 0; */
+    /* width: 100vw; */
 }
 .box {
     display: flex;
@@ -26,9 +26,9 @@
     width: 160px;
 }
 @media(min-width: 992px){
-    .bgnd{
+    /* .bgnd{
         top: 645px;
-    }
+    } */
     .title {
         font-size: 28px;
     }
@@ -40,9 +40,9 @@
     }
 }
 @media(min-width: 1200px){
-    .bgnd{
+    /* .bgnd{
         top: 546px;
-    }
+    } */
     .title {
         font-size: 36px;
     }

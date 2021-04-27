@@ -49,7 +49,7 @@ const TicketPage = ({ match }) => {
           <PaymentBox routs={routs} id={match.params.id} payeeId={match.params.pay} />
         </div>
       )}
-      {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
+      <pre>{JSON.stringify(ticket, null, 4)} </pre>
     </div>
   );
 };

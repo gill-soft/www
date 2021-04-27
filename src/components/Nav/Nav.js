@@ -5,11 +5,13 @@ import { CSSTransition } from "react-transition-group";
 import LanguageSelect from "../Language/LanguageSelect";
 import styles from "./Nav.module.css";
 import "./anime.css";
+import { IntlProvider, FormattedMessage } from "react-intl";
 
 import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
+import { messanges } from "../../intl/NavMessanges";
 
 const Nav = ({ handleClick }) => {
   const windowWidth = window.innerWidth;
@@ -18,6 +20,7 @@ const Nav = ({ handleClick }) => {
   const lang = useSelector((state) => state.language);
   const dispatch = useDispatch();
   const clearError = (val) => dispatch(getError(val));
+  const locale = lang === "UA" ? "UK" : lang;
 
   useEffect(() => {
     window.addEventListener("click", () => {
@@ -30,7 +33,7 @@ const Nav = ({ handleClick }) => {
   };
 
   return (
-    <>
+    <IntlProvider locale={locale} messages={messanges[locale]}>
       <nav className={styles.nav}>
         <NavLink
           className={styles.navLink}
@@ -39,7 +42,7 @@ const Nav = ({ handleClick }) => {
           exact
           onClick={closeMenu}
         >
-          Головна
+          <FormattedMessage id="main" />
         </NavLink>
         <NavLink
           className={styles.navLink}
@@ -47,7 +50,7 @@ const Nav = ({ handleClick }) => {
           to={`/${getUrl(lang)}`}
           onClick={closeMenu}
         >
-          Маршрути
+          <FormattedMessage id="routs" />
         </NavLink>
         <NavLink
           className={styles.navLink}
@@ -55,7 +58,7 @@ const Nav = ({ handleClick }) => {
           to="/info"
           onClick={closeMenu}
         >
-          Інформація
+          <FormattedMessage id="info" />
         </NavLink>
         <div className={styles.contactsBox}>
           <p
@@ -65,7 +68,8 @@ const Nav = ({ handleClick }) => {
               setTimeout(() => setIsPhone(true), 300);
             }}
           >
-            Контакти
+                      <FormattedMessage id="contacts" />
+
           </p>
 
           {windowWidth < 768 ? (
@@ -103,7 +107,7 @@ const Nav = ({ handleClick }) => {
         </div>
       </nav>
       <LanguageSelect />
-    </>
+    </IntlProvider>
   );
 };
 
