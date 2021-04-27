@@ -110,9 +110,6 @@ div>.react-datepicker__day-name {
     padding: 10px 4px;
 }
 
-
-
-
 .PhoneInputInput {
     border: none;
     font-size: 14px;
@@ -121,7 +118,7 @@ div>.react-datepicker__day-name {
 /* LEAFLET */
 .leaflet-container {
     width: 100vw;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 110px);
     margin: 0 auto;
 }
 
