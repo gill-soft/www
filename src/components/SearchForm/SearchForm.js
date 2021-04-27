@@ -24,7 +24,7 @@ import AmountPassanger from "./AmountPassanger";
 import AutoComplete from "./AutoComlete";
 import { getUrl } from "../../services/getUrl";
 
-const SearchForm = ({ history }) => {
+const SearchForm = ({ history, scroll }) => {
   const lang = useSelector((state) => state.language);
   const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
@@ -91,7 +91,7 @@ const SearchForm = ({ history }) => {
         </div>
         <div className={styles.flex}>
           <div className={styles.inputBox}>
-            <DatePicker
+            {scroll < 450 && <DatePicker
               className={styles.datePicker}
               dateFormat="dd MMMM"
               selected={date}
@@ -108,7 +108,8 @@ const SearchForm = ({ history }) => {
                 changeIsOpenTo(false);
               }}
               open={isOpenDate}
-            />
+            />}
+            
           </div>
           <div className={styles.inputBox}>
             <AmountPassanger />

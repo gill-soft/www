@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import LanguageSelect from "../Language/LanguageSelect";
@@ -9,18 +9,25 @@ import "./anime.css";
 import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
+import { getError } from "../../redux/global/globalActions";
 
-const Nav = () => {
+const Nav = ({ handleClick }) => {
   const windowWidth = window.innerWidth;
   const [isPhone, setIsPhone] = useState(false);
   const phoneRef = useRef(null);
   const lang = useSelector((state) => state.language);
+  const dispatch = useDispatch();
+  const clearError = (val) => dispatch(getError(val));
 
   useEffect(() => {
     window.addEventListener("click", () => {
       setIsPhone(false);
     });
   });
+  const closeMenu = () => {
+    handleClick();
+    clearError("");
+  };
 
   return (
     <>
@@ -30,6 +37,7 @@ const Nav = () => {
           activeClassName={styles.selected}
           to="/"
           exact
+          onClick={closeMenu}
         >
           Головна
         </NavLink>
@@ -37,10 +45,16 @@ const Nav = () => {
           className={styles.navLink}
           activeClassName={styles.selected}
           to={`/${getUrl(lang)}`}
+          onClick={closeMenu}
         >
           Маршрути
         </NavLink>
-        <NavLink className={styles.navLink} activeClassName={styles.selected} to="/info">
+        <NavLink
+          className={styles.navLink}
+          activeClassName={styles.selected}
+          to="/info"
+          onClick={closeMenu}
+        >
           Інформація
         </NavLink>
         <div className={styles.contactsBox}>

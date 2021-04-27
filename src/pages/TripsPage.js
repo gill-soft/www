@@ -125,7 +125,7 @@ class TripsPage extends Component {
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>
-              {this.state.scroll < 350 && <SearchForm history={history} />}
+              <SearchForm history={history} scroll={this.state.scroll}/>
             </div>
             {isTrips && !sortTypeDouble && !sortTypeSingle ? (
               <div className={styles.tripsBox}>
@@ -161,7 +161,7 @@ class TripsPage extends Component {
               </>
             )}
           </div>
-          <pre>{JSON.stringify(trips, null, 4)}</pre>
+          {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
         </div>
       </IntlProvider>
     );

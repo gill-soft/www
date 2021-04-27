@@ -76,14 +76,15 @@ const DateCarousel = ({ parsed, history }) => {
         {getYesterday(parsed, locale)}
       </button>
       <p className={styles.today}>{getTodayDate(parsed, locale)}</p>
+
+      <button className={styles.dateButtonForward} onClick={(e) => changeDate("next", e)}>
+        {getTomorrow(parsed, locale)}
+      </button>
       <ArrowForward
         className={styles.arrowForward}
         fill="var(--color-main)"
         onClick={(e) => changeDate("next", e)}
       />
-      <button className={styles.dateButtonForward} onClick={(e) => changeDate("next", e)}>
-        {getTomorrow(parsed, locale)}
-      </button>
     </div>
   );
 };

@@ -22,6 +22,9 @@ const Header = () => {
     if (current && event.target !== current) return;
     setIsMenu(false);
   };
+  const handleClick =()=> {
+    setIsMenu(false)
+  }
 
   return (
     <header className={styles.header}>
@@ -49,7 +52,7 @@ const Header = () => {
                 onClick={handleBackdropClick}
               >
                 <div className={styles.menuBox}>
-                  <Nav />
+                  <Nav handleClick={handleClick}/>
                   <button
                     className={styles.btnClose}
                     type="button"
@@ -62,7 +65,7 @@ const Header = () => {
             </CSSTransition>
           </>
         ) : (
-          <Nav />
+          <Nav handleClick={handleClick} />
         )}
       </div>
     </header>

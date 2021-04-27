@@ -89,6 +89,7 @@ const SearchFormBaner = ({ history, scroll }) => {
       }&date=${dateQuery}&passengers=${amount}`
     );
   };
+ 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <CSSTransition
@@ -104,23 +105,23 @@ const SearchFormBaner = ({ history, scroll }) => {
             <div className={styles.inputBox}>
               <span className={styles.dataLabel}>дата</span>
               <DatePicker
-                className={styles.datePicker}
-                dateFormat="dd MMMM"
-                selected={date}
-                minDate={new Date()}
-                locale={dateLocale()}
-                onChange={(date) => {
-                  setData(date);
-                  changeIsOpenDate(false);
-                }}
-                onClickOutside={() => changeIsOpenDate(false)}
-                onFocus={() => {
-                  changeIsOpenDate(true);
-                  changeIsOpenFrom(false);
-                  changeIsOpenTo(false);
-                }}
-                open={isOpenDate}
-              />
+              className={styles.datePicker}
+              dateFormat="dd MMMM"
+              selected={date}
+              minDate={new Date()}
+              locale={dateLocale()}
+              onChange={(date) => {
+                setData(date);
+                changeIsOpenDate(false);
+              }}
+              onClickOutside={() => changeIsOpenDate(false)}
+              onFocus={() => {
+                changeIsOpenDate(true);
+                changeIsOpenFrom(false);
+                changeIsOpenTo(false);
+              }}
+              open={isOpenDate}
+            />
             </div>
             <div className={styles.inputBox}>
               <AmountPassanger />

@@ -32,7 +32,7 @@ const HomePage = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleScroll = () => {
@@ -64,9 +64,8 @@ const HomePage = () => {
               <FormattedMessage id="subtitle" />
             </p> */}
             <div className={styles.formContainer}>
-              {scroll < 350 && <SearchForm history={history} />}
+              <SearchForm history={history} scroll={scroll} />
             </div>
-
 
             <ul className={styles.iconsBox}>
               <li className={`${styles.iconItem} ${styles.iconItem1}`}>
@@ -97,7 +96,7 @@ const HomePage = () => {
             </ul>
           </div>
         </div>
-      {windowWidth >= 768 && <MobileBaner />}
+        {windowWidth >= 768 && <MobileBaner />}
 
         <div className={styles.bgndBottom}>
           <div className={`${styles.information} ${styles.container}`}>

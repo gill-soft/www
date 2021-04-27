@@ -116,7 +116,7 @@ const AutoComplete = () => {
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.inputBox}>
         <StyledAutoComplete
-          id="from"
+          // id="from"
           options={options}
           noOptionsText=""
           autoHighlight
@@ -177,7 +177,7 @@ const AutoComplete = () => {
 
       <div className={styles.inputBox}>
         <StyledAutoComplete
-          id="to"
+          // id="to"
           options={options}
           noOptionsText=""
           autoHighlight
