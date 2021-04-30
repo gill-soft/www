@@ -1,14 +1,16 @@
 import { getError } from "../global/globalActions";
 import { fetchTicket } from "./orderActions";
-import { getTicketConfirm, getTicketInfo } from "../../services/api";
+import { getTicketInfo, ticketComfirm } from "../../services/api";
 
-export const getTicket = (id) => (dispatch) => {
-  getTicketInfo(id)
+export const getTicket = (orderId) => (dispatch) => {
+  getTicketInfo(orderId)
     .then(({ data }) => dispatch(fetchTicket(data)))
     .catch((error) => dispatch(getError(error.message)));
 };
-export const getConfirm = (id) => (dispatch) => {
-  getTicketConfirm(id)
+
+export const getTicketConfirm = (orderId, paymentId) => (dispatch) => {
+  console.log(paymentId)
+  ticketComfirm(orderId, paymentId)
     .then(({ data }) => dispatch(fetchTicket(data)))
     .catch((error) => dispatch(getError(error.message)));
 };

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CryptoJS from "crypto-js";
-import { getConfirm, getTicket } from "../redux/order/orderOperation";
+import { getTicket, getTicketConfirm } from "../redux/order/orderOperation";
 import { getTicketPrint } from "../services/api";
 import styles from "./MyTicketPage.module.css";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import TripInfo from "../components/TicketContainer/TripInfo";
+
 class MyTicketPage extends Component {
   state = {
     status: "NEW",
@@ -17,19 +18,19 @@ class MyTicketPage extends Component {
   //  ==== получаем информацию о билете ==== //
   componentDidMount() {
     // ==== получаем зашифрованый id === //
-    const encryptId = atob(this.props.match.params.id);
+    const encryptId = atob(this.props.match.params.orderId);
     // ==== расшифровуем id ==== //
     const id = CryptoJS.AES.decrypt(encryptId, "KeyVeze").toString(CryptoJS.enc.Utf8);
+
     this.setState({ id: id });
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);
   }
-
   componentDidUpdate(prevProps) {
     const { id } = this.state;
-    const { ticket } = this.props;
+    const { ticket, match } = this.props;
     if (prevProps.ticket !== ticket) {
-      if (Object.keys(ticket).length > 0) {
+      if (!Object.keys(ticket).includes("error")) {
         const arr = [];
         for (let [key, values] of Object.entries(ticket.segments)) {
           arr.push({ [key]: values });
@@ -42,30 +43,30 @@ class MyTicketPage extends Component {
             }),
           });
         }
-      }
-
-      if (this.props.ticket.services[0].status === "NEW") {
-        this.props.getConfirm(id);
-      }
-      if (this.props.ticket.services[0].status === "CONFIRM") {
-        this.setState({ status: "CONFIRM" });
-        // ==== получаем билеты для печати ==== //
-        getTicketPrint(id, this.props.lang)
-          .then(({ data }) => {
-            this.getURL(data.documents[0].base64);
-          })
-          .catch((err) => console.log(err));
-      }
-      if (
-        this.props.ticket.services[0].status !== "CONFIRM" &&
-        this.props.ticket.services[0].status !== "NEW"
-      ) {
-        this.setState({ status: "ERROR" });
+        if (this.props.ticket.services[0].status === "NEW") {
+          this.props.getTicketConfirm(id, match.params.payedId);
+        }
+        if (this.props.ticket.services[0].status === "CONFIRM") {
+          this.setState({ status: "CONFIRM" });
+          // ==== получаем билеты для печати ==== //
+          getTicketPrint(id, this.props.lang)
+            .then(({ data }) => {
+              this.getURL(data.documents[0].base64);
+            })
+            .catch((err) => console.log(err));
+        }
+        if (
+          this.props.ticket.services[0].status !== "CONFIRM" &&
+          this.props.ticket.services[0].status !== "NEW"
+        ) {
+          this.setState({ status: "ERROR" });
+        }
       }
     }
   }
   // ==== получаем ссылку на билет ==== //
   getURL = (data) => {
+    console.log(data)
     const byteCharacters = atob(data);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -78,9 +79,10 @@ class MyTicketPage extends Component {
   };
   render() {
     const { status, id, url, routs } = this.state;
+
     return (
       <>
-        {Object.keys(this.props.ticket).length > 0 && (
+        {!Object.keys(this.props.ticket).includes("error") && (
           <div className="bgnd">
             <div className="container">
               <TripInfo routs={routs} />
@@ -129,8 +131,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  getTicketConfirm: (id, paramsId) => dispatch(getTicketConfirm(id, paramsId)),
   getTicket: (id) => dispatch(getTicket(id)),
-  getConfirm: (id) => dispatch(getConfirm(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyTicketPage);

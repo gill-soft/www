@@ -60,8 +60,8 @@ const App = () => {
           <Route path="/info" component={Info} />
           <Route path="/about-us" component={AboutUs} />
           <Route path="/order" component={OrderPage} />
-          <Route path="/ticket/:id/:pay" component={TicketPage} />
-          <Route path="/myTicket/:id" component={MyTicketPage} />
+          <Route path="/ticket/:orderId/:primary/:secondary" component={TicketPage} />
+          <Route path="/myTicket/:orderId/:payedId" component={MyTicketPage} />
           <Route path="/error" component={ErrorPage} />
         </Switch>
         <Footer />

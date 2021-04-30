@@ -20,7 +20,7 @@ const regexLatin = /^[a-zA-Z\d- ]+$/;
 class FormForBuy extends Component {
   state = {
     values: [],
-    email: "",
+    email: "w@w.cop",
     resp: {},
     isOffer: true,
     isValidPhone: [-1, ""],
@@ -38,9 +38,9 @@ class FormForBuy extends Component {
         values: [
           ...prev.values,
           {
-            name: "",
-            surname: "",
-            phone: "",
+            name: "ww",
+            surname: "ww",
+            phone: "+380992222603",
             id: `${i}`,
             email: "",
             patronymic: "",
@@ -85,6 +85,7 @@ class FormForBuy extends Component {
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
 
+        // ==== бронируем билет ==== //
         toBookTicket(requestBody)
           .then(({ data }) => {
             this.props.stopLoader();
@@ -108,10 +109,24 @@ class FormForBuy extends Component {
           return;
         } else {
           const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
-          const payeeId = btoa(
-            CryptoJS.AES.encrypt(resp.additionals.payeeId, "KeyVeze").toString()
+          const primaryPaymentParams = JSON.stringify(resp.primaryPaymentParams, resp.secondaryPaymentParams)
+          const secondaryPaymentParams = JSON.stringify(resp.primaryPaymentParams, resp.secondaryPaymentParams)
+
+          const primary = btoa(
+            CryptoJS.AES.encrypt(
+              primaryPaymentParams,
+              "KeyVeze"
+            ).toString()
           );
-          this.props.history.push(`/ticket/${id}/${payeeId}`);
+          const secondary = btoa(
+            CryptoJS.AES.encrypt(
+              secondaryPaymentParams,
+              "KeyVeze"
+            ).toString()
+          );
+          // const payeeId = btoa(resp.primaryPaymentParams)
+          // console.log(resp);
+          this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
         }
       });
     }
@@ -131,7 +146,7 @@ class FormForBuy extends Component {
     });
     // ==== валидация ==== //
     values.forEach((el, idx) => {
-      // ===name===
+      // === name ===
       if (!regexText.test(el.name))
         this.setState({ isValidName: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
       if (requeredFields.includes("ONLY_LATIN") && !regexLatin.test(el.name))
@@ -140,7 +155,7 @@ class FormForBuy extends Component {
         this.setState({ isValidName: [idx, "занадто коротке і'мя"] });
       if (!el.name.trim())
         this.setState({ isValidName: [idx, "це поле необхідно заповнити"] });
-      // ==== surname====
+      // ==== surname ====
       if (!regexText.test(el.surname))
         this.setState({ isValidSurname: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
       if (requeredFields.includes("ONLY_LATIN") && !regexLatin.test(el.surname))
@@ -149,8 +164,8 @@ class FormForBuy extends Component {
         this.setState({ isValidSurname: [idx, "занадто коротке прізвище"] });
       if (!el.surname.trim())
         this.setState({ isValidSurname: [idx, "це поле необхідно заповнити"] });
-      // ==== phone====
-      if ( !isValidPhoneNumber(el.phone)) {
+      // ==== phone ====
+      if (!isValidPhoneNumber(el.phone)) {
         this.setState({ isValidPhone: [idx, "не коректний номер телефону"] });
       }
     });
@@ -172,7 +187,7 @@ class FormForBuy extends Component {
 
   // ==== инпут телефон ====//
   handleChangePhone = (val, idx) => {
-   if(val===undefined) return
+    if (val === undefined) return;
     this.setState((prev) => {
       const values = prev.values.reduce((arr, el) => {
         arr.push(el.id === idx ? { ...el, phone: val } : el);

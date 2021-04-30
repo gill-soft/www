@@ -6,23 +6,23 @@ import PaymentBox from "../components/TicketContainer/PaymentBox";
 import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import CryptoJS from "crypto-js";
+import { useParams, useHistory } from "react-router-dom";
 
-const TicketPage = ({ match }) => {
+const TicketPage = () => {
   const dispatch = useDispatch();
   const ticket = useSelector((state) => state.order.ticket);
   const [routs, setRouts] = useState([]);
-
+  const { orderId, primary, secondary } = useParams();
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
-    
     // ==== получаем зашифрованый id === //
-    const encryptId = atob(match.params.id);
+    const encryptId = atob(orderId);
     // ==== расшифровуем id ==== //
     const id = CryptoJS.AES.decrypt(encryptId, "KeyVeze").toString(CryptoJS.enc.Utf8);
     // ==== самовызывающяяся функция redux====
-    ((id) => dispatch(getTicket(id)))(id);
-  }, [dispatch, match.params]);
-  
+    ((orderId) => dispatch(getTicket(orderId)))(id);
+  }, [dispatch, orderId]);
+
   useEffect(() => {
     if (Object.keys(ticket).length > 0) {
       const arr = [];
@@ -46,7 +46,13 @@ const TicketPage = ({ match }) => {
         <div className="container">
           <TripInfo routs={routs} />
           <PassengersData />
-          <PaymentBox routs={routs} id={match.params.id} payeeId={match.params.pay} />
+          <PaymentBox
+            routs={routs}
+            orderId={orderId}
+            primary={primary}
+            secondary={secondary}
+            
+          />
         </div>
       )}
       <pre>{JSON.stringify(ticket, null, 4)} </pre>

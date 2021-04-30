@@ -15,13 +15,22 @@ export const getAllStops = () => {
     },
   });
 };
+// ==== поиск городов для автокомплита ==== //
+export const getCities = (val, lang) => {
+  return axios({
+    method: "get",
+    url: `${baseURLsale}/locality/cities/${lang}?prefix=${val}`,
+    headers: {
+      Authorization: AUTH_KEY2,
+    },
+  });
+};
 
 // ==== инициализация поиска ==== //
 export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
   return axios({
     method: "post",
     url: `${baseURLcontrol}/search`,
-    
     headers: {
       Authorization: AUTH_KEY2,
     },
@@ -46,6 +55,7 @@ export const searchTrips = (id) => {
     },
   });
 };
+
 // ==== список обезательных полей ==== //
 export const getRequaredFields = (key) => {
   return axios({
@@ -90,33 +100,38 @@ export const getTicketInfo = (id) => {
     },
   });
 };
-// ==== подтверждение покупки билете ==== //
-export const getTicketConfirm = (id) => {
+
+//  ==== googlePay confirm ==== //
+export const isGooglePayComfirm = (body, orderId, paymentParamsId) => {
   return axios({
     method: "post",
-    url: `${baseURLsale}/order/${id}/confirm/CASH`,
+    url: `${baseURLsale}/transaction/gPay/${orderId}/${paymentParamsId}`,
     headers: {
       Authorization: AUTH_KEY2,
+      "Content-Type": "application/json",
+    },
+    data: body,
+  });
+};
+
+// ==== подтвердждение оплаты ==== //
+export const ticketComfirm = (orderId, paymentParamsId) => {
+  return axios({
+    method: "post",
+    url: `${baseURLsale}/order/${orderId}/confirm/AQUIRING/${paymentParamsId}`,
+    headers: {
+      Authorization: AUTH_KEY2,
+      "Content-Type": "application/json",
     },
   });
 };
 
 // ==== получение билета для печати ==== //
 export const getTicketPrint = (id, lang) => {
+  console.log(id);
   return axios({
     method: "get",
     url: `${baseURLsale}/order/${id}/document/${lang}`,
-    headers: {
-      Authorization: AUTH_KEY2,
-    },
-  });
-};
-
-// ==== все населенные пункты ==== //
-export const getCities = (val, lang) => {
-  return axios({
-    method: "get",
-    url: `${baseURLsale}/locality/cities/${lang}?prefix=${val}`,
     headers: {
       Authorization: AUTH_KEY2,
     },
