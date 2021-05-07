@@ -5,26 +5,14 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
 import styles from "./OrderPage.module.css";
 import { getRequaredFields } from "../services/api";
+import AdditionalsServices from "../components/Order/AdditionalsServices";
 
 const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
-  // const order = useSelector((state) => state.order.tripKeys);
   const tripKeys = useSelector((state) => state.order.tripKeys);
-
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
   const [requeredFields, setRequeredFields] = useState([]);
-  const [scroll, setScroll] = useState(0);
-  const windowWidth = window.innerWidth;
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleScroll = () => {
-    if (windowWidth >= 768) setScroll(window.scrollY);
-  };
+  
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -56,15 +44,18 @@ const OrderPage = ({ history }) => {
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>
-              <SearchForm history={history} scroll={scroll}/>
+              <SearchForm history={history} />
             </div>
             <div className={styles.main}>
+              <div>
               <FormForBuy
                 changeAmountPassanger={(val) => setTotalPassanger(val)}
                 total={totalPassanger}
                 history={history}
                 requeredFields={requeredFields}
               />
+              </div>
+              
               <OrderInfo total={totalPassanger} />
             </div>
           </div>

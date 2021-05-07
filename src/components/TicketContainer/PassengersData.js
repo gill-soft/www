@@ -42,6 +42,7 @@ const PassengersData = () => {
                   <span>
                     <FormattedMessage id="cost" />
                   </span>{" "}
+                  
                   {(getTotalPrice() / passangers.length).toFixed(2)} <small>UAH</small>
                 </p>
               </div>

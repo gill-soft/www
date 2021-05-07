@@ -9,7 +9,6 @@ export const getTicket = (orderId) => (dispatch) => {
 };
 
 export const getTicketConfirm = (orderId, paymentId) => (dispatch) => {
-  console.log(paymentId)
   ticketComfirm(orderId, paymentId)
     .then(({ data }) => dispatch(fetchTicket(data)))
     .catch((error) => dispatch(getError(error.message)));

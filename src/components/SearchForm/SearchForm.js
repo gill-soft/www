@@ -28,7 +28,7 @@ import AmountPassanger from "./AmountPassanger";
 import AutoComplete from "./AutoComlete";
 import { getUrl } from "../../services/getUrl";
 
-const SearchForm = ({ history, scroll }) => {
+const SearchForm = ({ history, scroll=false }) => {
   const lang = useSelector((state) => state.language);
   const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
@@ -92,11 +92,11 @@ const SearchForm = ({ history, scroll }) => {
     <IntlProvider locale={locale} messages={messages[locale]}>
       <form onSubmit={handleSubmit} className={`${styles.form} `}>
         <div className={styles.fromTo}>
-          <AutoComplete />
+        {(!scroll || windowWidth < 768) &&<AutoComplete /> }
         </div>
         <div className={styles.flex}>
           <div className={styles.inputBox}>
-            {(scroll < 450 || windowWidth < 768) && (
+            {(!scroll || windowWidth < 768) && (
               <DatePicker
                 className={styles.datePicker}
                 dateFormat="dd MMMM"

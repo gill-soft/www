@@ -36,7 +36,7 @@ export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
     },
     data: {
       id: "string",
-      // lang: `${lang}`,
+      lang: `${lang}`,
       localityPairs: [[`${idFrom}`, `${idWhereTo}`]],
       dates: [`${date}`],
       currency: "UAH",
@@ -128,7 +128,6 @@ export const ticketComfirm = (orderId, paymentParamsId) => {
 
 // ==== получение билета для печати ==== //
 export const getTicketPrint = (id, lang) => {
-  console.log(id);
   return axios({
     method: "get",
     url: `${baseURLsale}/order/${id}/document/${lang}`,
@@ -137,3 +136,4 @@ export const getTicketPrint = (id, lang) => {
     },
   });
 };
+

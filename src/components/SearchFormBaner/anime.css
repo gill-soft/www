@@ -9,10 +9,10 @@
 
 
 .search-exit {
-    margin-top: 0;
+    opacity: 1;
 }
 
 .search-exit-active {
-    margin-top: -200px;
-    transition: margin-top 300ms ease-out;
+    opacity: 0;
+    transition: opacity 300ms ease-out;
 }

@@ -89,11 +89,10 @@ const SearchFormBaner = ({ history, scroll }) => {
       }&date=${dateQuery}&passengers=${amount}`
     );
   };
- 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <CSSTransition
-        in={scroll > 450}
+        in={scroll}
         timeout={300}
         classNames="search"
         unmountOnExit

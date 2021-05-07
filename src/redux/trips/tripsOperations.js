@@ -11,10 +11,12 @@ import {
 } from "./tripsActions";
 
 export const searchRouts = (id, time, requestData) => (dispatch) => {
+  console.log("search");
   let deltaTime = Date.now() - time;
   if (deltaTime <= 500) {
     searchTrips(id)
       .then(({ data }) => {
+        console.log("1", data);
         if (data.searchId) {
           dispatch(searchRouts(data.searchId, time, requestData));
         } else {
@@ -30,6 +32,8 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
     setTimeout(() => {
       searchTrips(id)
         .then(({ data }) => {
+          console.log("2", data);
+
           if (data.searchId) {
             dispatch(searchRouts(data.searchId, time, requestData));
           } else {
@@ -46,6 +50,8 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
     setTimeout(() => {
       searchTrips(id)
         .then(({ data }) => {
+          console.log("3");
+
           if (data.searchId) {
             dispatch(searchRouts(data.searchId, time, requestData));
           } else {
@@ -67,10 +73,16 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
 const TripsSuccess = (data) => (dispatch) => {
   dispatch(setSingleTrips([]));
   dispatch(setDoubleTrips([]));
-  const singleTrips = data.tripContainers[0].trips
+  const allTrips = data.tripContainers
+    .reduce((arr, el) => {
+      arr.push(el.trips);
+      return arr;
+    }, [])
+    .flat();
+  const singleTrips = allTrips
     .filter((el) => Object.keys(el)[0] === "id")
     .sort((a, b) => data.segments[a.id].price.amount - data.segments[b.id].price.amount);
-  const doubleTrips = data.tripContainers[0].trips
+  const doubleTrips = allTrips
     .filter((el) => Object.keys(el)[0] === "segments")
     .sort((a, b) => getPrice(a.segments, data) - getPrice(b.segments, data));
   dispatch(changeSortTypeSingle("price"));

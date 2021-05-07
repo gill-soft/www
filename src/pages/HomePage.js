@@ -19,7 +19,7 @@ const HomePage = () => {
   const error = useSelector((state) => state.global.error);
   const history = useHistory();
   const [isModal, setIsModal] = useState(true);
-  const [scroll, setScroll] = useState(0);
+  const [scroll, setScroll] = useState(false);
 
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
@@ -36,7 +36,9 @@ const HomePage = () => {
   }, []);
 
   const handleScroll = () => {
-    if (windowWidth >= 768) setScroll(window.scrollY);
+    if (windowWidth >= 768 && window.scrollY >= 450) setScroll(true);
+    if (windowWidth >= 768 && window.scrollY < 450) setScroll(false);
+
   };
 
   const closeModal = () => {

@@ -1,15 +1,6 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-const getStops = (state = [], { type, payload }) => {
-  switch (type) {
-    case Types.FETCH_ALL_STOPS_SUCCESS:
-      return payload;
-
-    default:
-      return state;
-  }
-};
 
 const getError = (state = "", { type, payload }) => {
   switch (type) {
@@ -36,7 +27,6 @@ const getLoader = (state = false, { type, payload }) => {
 };
 
 export const globalReduser = combineReducers({
-  stops: getStops,
   error: getError,
   isLoading: getLoader,
 });

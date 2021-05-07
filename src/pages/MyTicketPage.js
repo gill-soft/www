@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import CryptoJS from "crypto-js";
 import { getTicket, getTicketConfirm } from "../redux/order/orderOperation";
-import { getTicketPrint } from "../services/api";
+import { getTicketPrint, ttt, ttt1, ttt2, ttt3, ttt4, ttt5 } from "../services/api";
 import styles from "./MyTicketPage.module.css";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import TripInfo from "../components/TicketContainer/TripInfo";
@@ -17,6 +17,18 @@ class MyTicketPage extends Component {
 
   //  ==== получаем информацию о билете ==== //
   componentDidMount() {
+    // const oid = this.props.match.params.orderId
+    // ttt(oid).then(data =>console.log(data));
+    // ttt1(oid).then(data =>console.log(data));
+    // ttt2().then(data =>console.log(data));
+    // ttt3().then(data =>console.log(data));
+    // ttt4().then(data =>console.log(data));
+    // ttt5().then(data =>console.log(data));
+
+
+    // fetch("")
+    //   .then((response) => response.text())
+    //   .then((text) => console.log(text));
     // ==== получаем зашифрованый id === //
     const encryptId = atob(this.props.match.params.orderId);
     // ==== расшифровуем id ==== //
@@ -66,7 +78,6 @@ class MyTicketPage extends Component {
   }
   // ==== получаем ссылку на билет ==== //
   getURL = (data) => {
-    console.log(data)
     const byteCharacters = atob(data);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {

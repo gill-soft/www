@@ -12,6 +12,7 @@ import Loader from "../Loader/Loader";
 import { messages } from "../../intl/OrderPageMessanges";
 import Offerta from "../../assets/Oferta_1.pdf";
 import Pk from "../../assets/pk_.pdf";
+import AdditionalsServices from "./AdditionalsServices";
 
 const regexEmail = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
 const regexText = /^[а-яА-ЯіІїєЄЇa-ża-ŻёЁA-Za-z\d-' ]+$/;
@@ -361,6 +362,7 @@ class FormForBuy extends Component {
                 >
                   <FormattedMessage id="buttonAdd" />
                 </button>
+                <AdditionalsServices/>
                 <h3 className={styles.customer}>
                   <FormattedMessage id="customer" />
                 </h3>
@@ -409,7 +411,7 @@ class FormForBuy extends Component {
             <p className={styles.text}>
               <FormattedMessage id="numTel" />
             </p>
-            {/* <pre>{JSON.stringify(this.state.resp, null, 4)}</pre> */}
+            <pre>{JSON.stringify(this.state.resp, null, 4)}</pre>
           </div>
         </IntlProvider>
       </>

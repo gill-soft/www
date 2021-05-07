@@ -5,7 +5,6 @@ import queryString from "query-string";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import styles from "./TripsPage.module.css";
 import { messages } from "../intl/TripsPageMessanges";
-import { getLocality } from "../services/getInfo";
 import { getInitialization } from "../services/api";
 import { getScroll } from "../services/getScroll";
 import {
@@ -28,22 +27,22 @@ import SortTripsSingleMob from "../components/TripsContainer/SortTripsSingleMob"
 import SortTripsDouble from "../components/TripsContainer/SortTripsDouble";
 import SortTripsDoubleMob from "../components/TripsContainer/SotrTripsDoubleMob";
 import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
-import { getUrl } from "../services/getUrl";
+import { newUrl } from "../services/getUrl";
 
 const windowWidth = window.innerWidth;
 
 class TripsPage extends Component {
   state = {
-    scroll: 0,
+    scroll: false,
   };
   componentDidMount() {
-    const { startLoader, location, setFrom, setTo, match } = this.props;
+    const { startLoader, location, setFrom, setTo, match, lang } = this.props;
     const parsed = queryString.parse(location.search);
     startLoader();
     setSingleTrips([]);
     setDoubleTrips([]);
-    setFrom({ text: match.params.from, value: parsed.from });
-    setTo({ text: match.params.to, value: parsed.to });
+    setFrom({ text: match.params.from, value: parsed.from, lang: lang });
+    setTo({ text: match.params.to, value: parsed.to, lang: lang });
 
     window.addEventListener("scroll", this.handleScroll);
 
@@ -60,20 +59,21 @@ class TripsPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { time, location, setIsTrips, lang, history, from, to } = this.props;
+    const { time, location, setIsTrips, lang, history, match } = this.props;
     const parsed = queryString.parse(location.search);
 
     // ==== если меняеться время или строка запроса  ====//
-    if (prevProps.time !== time || prevProps.location.key !== location.key) {
+    if (prevProps.time !== time || prevProps.location.pathname !== location.pathname) {
       setIsTrips(true);
-
       //  ====  начинаем поиск ==== //
       this.startSerch(Date.now(), this.getRequestData(parsed));
     }
 
     // ==== смена url при изменении языка ==== //
     if (prevProps.lang !== lang) {
-      history.replace(`/${getUrl(lang).trim()}/${from}/${to}${location.search}`);
+      newUrl(match.params, lang, parsed.from, parsed.to).then((data) => {
+        history.replace(`${data}${location.search}`);
+      });
     }
   }
 
@@ -86,7 +86,10 @@ class TripsPage extends Component {
   };
 
   handleScroll = () => {
-    this.setState({ scroll: window.scrollY });
+    if (window.scrollY >= 450 && this.state.scroll) return;
+    if (window.scrollY < 450 && !this.state.scroll) return;
+    if (window.scrollY >= 450) this.setState({ scroll: true });
+    if (window.scrollY < 450) this.setState({ scroll: false });
   };
 
   // ==== формируем обьект для запроса ==== //
@@ -106,7 +109,7 @@ class TripsPage extends Component {
       doubleTrips,
       isTrips,
       history,
-      stops,
+      match,
       lang,
       location,
       sortTypeDouble,
@@ -125,14 +128,13 @@ class TripsPage extends Component {
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>
-              <SearchForm history={history} scroll={this.state.scroll}/>
+              <SearchForm history={history} scroll={this.state.scroll} />
             </div>
             {isTrips && !sortTypeDouble && !sortTypeSingle ? (
               <div className={styles.tripsBox}>
                 <h2 className={styles.title}>
                   <FormattedMessage id="title" />
-                  <br /> {getLocality(parsed.from, stops, lang)} -{" "}
-                  {getLocality(parsed.to, stops, lang)}
+                  <br /> {match.params.from} - {match.params.to}
                 </h2>
                 <DateCarousel parsed={parsed} history={history} />
                 {isLoading && <Scelet />}
@@ -161,7 +163,7 @@ class TripsPage extends Component {
               </>
             )}
           </div>
-          {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
+          <pre>{JSON.stringify(trips, null, 4)}</pre>
         </div>
       </IntlProvider>
     );
@@ -169,13 +171,12 @@ class TripsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  stops: state.global.stops,
   isLoading: state.global.isLoading,
   error: state.global.error,
   lang: state.language,
   time: state.searchForm.time,
-  from: state.searchForm.from.text,
-  to: state.searchForm.to.text,
+  from: state.searchForm.from,
+  to: state.searchForm.to,
   singleTrips: state.trips.singleTrips,
   doubleTrips: state.trips.doubleTrips,
   isTrips: state.trips.isTrips,

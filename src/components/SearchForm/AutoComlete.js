@@ -120,7 +120,7 @@ const AutoComplete = () => {
                 changeIsOpenTo(true);
               }, 0);
             } else {
-              setFrom({ text: "", value: "" });
+              setFrom({ text: "", value: "", lang: "" });
               changeIsOpenFrom(true);
               setTimeout(() => {
                 changeIsOpenTo(false);
@@ -174,9 +174,8 @@ const AutoComplete = () => {
           getOptionLabel={(option) => option.text}
           getOptionSelected={(o, v) => o !== v}
           autoFocus={true}
-
           onChange={(event, value) => {
-            value ? setTo(value) : setTo({ text: "", value: "" });
+            value ? setTo(value) : setTo({ text: "", value: "", lang:'' });
             value !== null ? changeIsOpenTo(false) : changeIsOpenTo(true);
             setOptions(OPTIONS[lang]);
             if (value !== null) changeIsOpenDate(true);

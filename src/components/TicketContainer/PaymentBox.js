@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import CryptoJS from "crypto-js";
 import styles from "./PaymentBox.module.css";
@@ -41,13 +41,16 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
     );
   }, []);
 
+  
+
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {
+      console.log(googleRes)
       if (googleRes.need3ds) {
         setGo3ds(true);
       }
-      if (!googleRes.payed) {
+      if (googleRes.payed) {
         history.push(`/myTicket/${orderId}/${primaryData.paymentParamsId}`);
       }
     }
@@ -100,7 +103,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
           </div>
 
           <div className={styles.payment}>
-          <div className={styles.flexItem}>
+            <div className={styles.flexItem}>
               <p>Сума до сплати: </p>
               <p className={styles.total}>
                 {getTotalPrice().toFixed(2)}
@@ -109,7 +112,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
             </div>
             <div className={styles.flexItem}>
               <p>сплатити за допомогою:</p>
-              {primaryData.sellerToken ==="sellerToken" && (
+              {primaryData.sellerToken === "sellerToken" && (
                 <GooglePayButton
                   environment="TEST"
                   paymentRequest={{
@@ -179,8 +182,8 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 <input
                   type="hidden"
                   name="success_url"
-                  value={`http://localhost:3000/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
-                  // value={`https://site.busis.eu/myTicket/${orderId}/${secondary.paymentParamsId}`}
+                  // value={`http://localhost:3000/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
+                  value={`https://site.busis.eu/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
                 />
                 <input
                   type="hidden"
@@ -200,8 +203,28 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 ></button>
               </form>
             </div>
-            
           </div>
+          {go3ds && (
+            <div className={styles.box3ds}>
+              <p className={styles.text3ds}>нужно подтверждение</p>
+            <form
+              id="TheForm"
+              action={googleRes.params3ds.action}
+              method="POST"
+              name="TheForm"
+            >
+              <input type="hidden" name="PaReq" value={googleRes.params3ds.PaReq} />
+              <input type="hidden" name="MD" value={googleRes.params3ds.MD} />
+              <input
+                type="hidden"
+                name="TermUrl"
+                value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
+                // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
+              />
+              <button type="submit" className={styles.btn3ds}> поттвердить оплату</button>
+            </form>
+            </div>
+          )}
 
           {/* {!!isModal && <Modal component={<GoHome />} isGohome={true} />} */}
         </IntlProvider>

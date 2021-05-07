@@ -76,6 +76,28 @@
 .total > small {
     font-size: 14px;
 }
+.box3ds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(48, 46, 46, 0.9);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.btn3ds {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: var(--color-secondary);
+    border-radius: 6px;
+    padding: 10px 5px;
+    text-align: center;
+    cursor: pointer;
+}
 
 @media(min-width: 576px){
 .flexItem{

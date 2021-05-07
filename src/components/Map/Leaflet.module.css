@@ -90,9 +90,14 @@
     text-align: center;
     text-transform: uppercase;
     color: var(--color-main);
+    background-color: none;
+    cursor: pointer;
 }
 .link:hover{
     font-weight: 700;
+}
+.link:disabled{
+    cursor: not-allowed
 }
 @media(min-width: 576px){
     .formBox {

@@ -11,7 +11,7 @@ import { citiesList } from "../assets/cities";
 const City = ({ history }) => {
   const lang = useSelector((state) => state.language);
   const to = useSelector((state) => state.searchForm.to);
-  const [scroll, setScroll] = useState(0);
+  const [scroll, setScroll] = useState(false);
   const windowWidth = window.innerWidth;
 
   useEffect(() => {
@@ -20,7 +20,8 @@ const City = ({ history }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleScroll = () => {
-    if (windowWidth >= 768) setScroll(window.scrollY);
+    if (windowWidth >= 768 && window.scrollY >= 450) setScroll(true);
+    if (windowWidth >= 768 && window.scrollY < 450) setScroll(false);
   };
 
   const { city } = useParams();
@@ -39,12 +40,14 @@ const City = ({ history }) => {
     ((value) => dispatch(inputValueTo(value)))({
       text: sityObj.name[lang],
       value: sityObj.id,
+      lang: sityObj.lang,
     });
     ((value) => dispatch(inputValueFrom(value)))({
       text: "",
       value: "",
+      lang: "",
     });
-  }, [dispatch, lang, sityObj.id, sityObj.name]);
+  }, [dispatch, lang, sityObj.id, sityObj.lang, sityObj.name]);
 
   // ==== смена url при изменении языка ==== //
   useEffect(() => {

@@ -6,7 +6,7 @@ import PaymentBox from "../components/TicketContainer/PaymentBox";
 import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import CryptoJS from "crypto-js";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const TicketPage = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const TicketPage = () => {
       }
     }
   }, [ticket]);
-
+  console.log(routs);
   return (
     <div className="bgnd">
       {Object.keys(ticket).length > 0 && (
@@ -51,7 +51,6 @@ const TicketPage = () => {
             orderId={orderId}
             primary={primary}
             secondary={secondary}
-            
           />
         </div>
       )}
