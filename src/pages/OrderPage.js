@@ -12,7 +12,7 @@ const OrderPage = ({ history }) => {
   const tripKeys = useSelector((state) => state.order.tripKeys);
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
   const [requeredFields, setRequeredFields] = useState([]);
-  
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -28,7 +28,7 @@ const OrderPage = ({ history }) => {
           .then(({ data }) => setRequeredFields([...requeredFields, ...data]))
           .catch((err) => console.log(err));
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripKeys]);
   // ==== при перезагрузке страницы попадаем на предыдущую
   // ==== при переходе по ссылке перенаправление на главную
@@ -43,19 +43,18 @@ const OrderPage = ({ history }) => {
       {tripKeys.length > 0 && (
         <div className="bgnd">
           <div className="container">
-            <div className={styles.formBox}>
+            {/* <div className={styles.formBox}>
               <SearchForm history={history} />
-            </div>
+            </div> */}
             <div className={styles.main}>
               <div>
-              <FormForBuy
-                changeAmountPassanger={(val) => setTotalPassanger(val)}
-                total={totalPassanger}
-                history={history}
-                requeredFields={requeredFields}
-              />
+                <FormForBuy
+                  changeAmountPassanger={(val) => setTotalPassanger(val)}
+                  total={totalPassanger}
+                  history={history}
+                  requeredFields={requeredFields}
+                />
               </div>
-              
               <OrderInfo total={totalPassanger} />
             </div>
           </div>

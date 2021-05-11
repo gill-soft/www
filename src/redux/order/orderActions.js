@@ -9,3 +9,8 @@ export const fetchTicket = (ticket) => ({
   type: Types.FETCH_TICKET,
   payload: ticket,
 });
+
+export const setAdditionalServices = (arr) => ({
+  type: Types.ADDITIONAL_SERVICES,
+  payload: arr,
+});

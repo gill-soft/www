@@ -73,7 +73,7 @@ class FormForBuy extends Component {
       ) {
         const requestBody = {};
         requestBody.lang = lang;
-        requestBody.services = values
+        const services = values
           .map((el, idx) =>
             tripKeys.map((key) => ({
               customer: { id: `${idx}` },
@@ -83,10 +83,20 @@ class FormForBuy extends Component {
             }))
           )
           .flat();
+        const additionalServices = this.props.additionalServicesKeys.map((key) => ({
+          additionalService: {
+            id: key,
+          },
+          customer: {
+            id: "0",
+          },
+        }));
+        requestBody.services = [...services, ...additionalServices];
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
 
         // ==== бронируем билет ==== //
+        console.log(requestBody);
         toBookTicket(requestBody)
           .then(({ data }) => {
             this.props.stopLoader();
@@ -103,6 +113,7 @@ class FormForBuy extends Component {
     }
     //  ==== после получения ответа переходим на страницу билета ==== //
     if (prevState.resp !== this.state.resp) {
+      // console.log(resp)
       resp.services.forEach((el) => {
         // ==== проверяем на ошибки в статусе ==== //
         if (el.status !== "NEW") {
@@ -110,24 +121,23 @@ class FormForBuy extends Component {
           return;
         } else {
           const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
-          const primaryPaymentParams = JSON.stringify(resp.primaryPaymentParams, resp.secondaryPaymentParams)
-          const secondaryPaymentParams = JSON.stringify(resp.primaryPaymentParams, resp.secondaryPaymentParams)
+          const primaryPaymentParams = JSON.stringify(
+            resp.primaryPaymentParams,
+            resp.secondaryPaymentParams
+          );
+          const secondaryPaymentParams = JSON.stringify(
+            resp.primaryPaymentParams,
+            resp.secondaryPaymentParams
+          );
 
           const primary = btoa(
-            CryptoJS.AES.encrypt(
-              primaryPaymentParams,
-              "KeyVeze"
-            ).toString()
+            CryptoJS.AES.encrypt(primaryPaymentParams, "KeyVeze").toString()
           );
           const secondary = btoa(
-            CryptoJS.AES.encrypt(
-              secondaryPaymentParams,
-              "KeyVeze"
-            ).toString()
+            CryptoJS.AES.encrypt(secondaryPaymentParams, "KeyVeze").toString()
           );
-          // const payeeId = btoa(resp.primaryPaymentParams)
-          // console.log(resp);
-          this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
+
+          // this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
         }
       });
     }
@@ -235,6 +245,7 @@ class FormForBuy extends Component {
     // const requeredFields = ["NAME", "ONLY_LATIN"];
     return requeredFields.includes("ONLY_LATIN") ? " (латинськими літерами)" : null;
   };
+  getTotalPrice = () => {};
 
   render() {
     const {
@@ -362,7 +373,7 @@ class FormForBuy extends Component {
                 >
                   <FormattedMessage id="buttonAdd" />
                 </button>
-                <AdditionalsServices/>
+                <AdditionalsServices />
                 <h3 className={styles.customer}>
                   <FormattedMessage id="customer" />
                 </h3>
@@ -383,6 +394,7 @@ class FormForBuy extends Component {
                   {isValidEmail && <p className={styles.redText}>{isValidEmail}</p>}
                 </div>
                 <div className={styles.publicOfferBox}>
+                  <p>Всього: {this.getTotalPrice}</p>
                   <input
                     name="publicOffer"
                     type="checkbox"
@@ -425,6 +437,7 @@ const mapStateToProps = (state) => ({
   tripKeys: state.order.tripKeys,
   isLoading: state.global.isLoading,
   trips: state.trips.trips,
+  additionalServicesKeys: state.order.additionalServicesKeys,
 });
 const mapDispatchToProps = (dispatch) => ({
   getError: (error) => dispatch(getError(error)),
