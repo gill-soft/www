@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTicket } from "../redux/order/orderOperation";
-// import styles from "./TicketPage.module.css";
+import styles from "./TicketPage.module.css";
 import PaymentBox from "../components/TicketContainer/PaymentBox";
 import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import CryptoJS from "crypto-js";
 import { useParams } from "react-router-dom";
+import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
 
 const TicketPage = () => {
   const dispatch = useDispatch();
   const ticket = useSelector((state) => state.order.ticket);
   const [routs, setRouts] = useState([]);
+  const [additionalServices, setAdditionalServices] = useState([]);
   const { orderId, primary, secondary } = useParams();
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
@@ -37,21 +39,41 @@ const TicketPage = () => {
           })
         );
       }
+
+      // ==== определяем масив всех уникальных ключей дополнительных сервисов ==== //
+      setAdditionalServices(
+        Array.from(
+          new Set(
+            ticket.services
+              .filter((el) => el.hasOwnProperty("additionalService"))
+              .reduce((arr, el) => {
+                arr.push(el.additionalService.id);
+                return arr;
+              }, [])
+          )
+        )
+      );
     }
   }, [ticket]);
-  console.log(routs);
   return (
     <div className="bgnd">
       {Object.keys(ticket).length > 0 && (
         <div className="container">
-          <TripInfo routs={routs} />
-          <PassengersData />
-          <PaymentBox
-            routs={routs}
-            orderId={orderId}
-            primary={primary}
-            secondary={secondary}
-          />
+          <div className={styles.data}>
+            <TripInfo routs={routs} />
+            <PassengersData />
+            {additionalServices.length > 0 && (
+              <AdditionalServicesData addServ={additionalServices} />
+            )}
+          </div>
+          <div className={styles.data}>
+            <PaymentBox
+              routs={routs}
+              orderId={orderId}
+              primary={primary}
+              secondary={secondary}
+            />
+          </div>
         </div>
       )}
       <pre>{JSON.stringify(ticket, null, 4)} </pre>

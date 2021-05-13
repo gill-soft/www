@@ -4,6 +4,21 @@
     text-align: center;
 }
 
+.passangersData {
+    background-color: rgba(194, 227, 255, 0.8);
+    padding: 18px 8px;
+    margin-bottom: 20px;
+    /* border-radius: 4px; */
+}
+.passangersData:first-child {
+border-radius: 10px 10px 0 0;
+}
+
+.passangersData:last-child {
+    border-radius: 0 0 10px 10px ;
+    }
+
+
 .title,
 .customer {
     color: var(--color-main);
@@ -17,11 +32,8 @@
 
 .box {
     position: relative;
-    border: 1px solid #ffffff;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    background: rgba(194, 227, 255, 0.8);
-    padding: 8px;
+    border-top: 1px solid #ffffff;
+    padding: 8px 0;
 }
 
 .svgBox {
@@ -62,8 +74,13 @@
     align-items: flex-start;
 }
 
+.emailBox {
+    border-top: 1px solid #fff;
+    padding-top: 4px;
+}
+
 .label {
-    padding-left: 4px;
+    padding-left: 12px;
     font-style: italic;
     color: #636363;
 }
@@ -77,12 +94,13 @@
     border-radius: 5px;
     color: #636363;
     outline: none;
-    
+
 }
 
 .inputPhone {
     padding: 9px 10px;
     background: #fff;
+    margin-bottom: 15px;
 
 }
 
@@ -115,41 +133,46 @@
     padding: 15px 5px 15px 40px;
     display: block;
     background-image: url('../../images/person_add_alt_1-24px.svg');
-    background-color: var(--color-third);
+    background-color: transparent;
+    /* border: 1px solid var(--color-secondary); */
+    border: none;
     background-repeat: no-repeat;
     background-position: 10px 10px;
-    border-radius: 20px;
-    border: none;
-    color: var(--color-secondary);
+    border-radius: 10px;
+    color: var(--color-main);
     cursor: pointer;
-    margin-bottom: 30px;
+    box-shadow: 0 0 3px 2px rgb(152, 206, 253);
+    
 }
 
 .buttonAdd:hover,
-.buttonAdd:focus,
-.buttonBuy:hover,
-.buttonBuy:focus {
-    background-color: var(--color-main);
+.buttonAdd:focus {
+    box-shadow: 0 0 4px 3px rgb(148, 204, 253);
+    ;
+
 }
 
 .buttonBuy {
     width: 220px;
-    margin: 0 auto;
-    margin-bottom: 12px;
-    padding: 15px 0;
-    text-align: center;
+    padding: 15px 5px ;
     display: block;
-    background-color: var(--color-third);
-    border-radius: 20px;
-    border: none;
-    color: var(--color-secondary);
+    background-color: rgb(143, 202, 253);
+    border: 1px solid rgb(99, 179, 250);
+    border-radius: 10px;
+    color: var(--color-main);
     cursor: pointer;
+    box-shadow: 0 0 3px 1px rgb(128, 195, 253);
+}
+
+.buttonBuy:hover:enabled,
+.buttonBuy:focus {
+    box-shadow: 0 0 3px 2px rgb(99, 179, 250);
 }
 
 .buttonBuy:disabled {
-    color: #444444;
-    background-color: #636363;
+    color: #353535;
     cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .text {
@@ -195,15 +218,42 @@
     padding-left: 4px;
 }
 
+.summBox {
+    text-align: right;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid var(--color-main);
+
+    padding: 8px 0;
+}
+
+.summa {
+    display: inline-block;
+    width: 96px;
+}
+
+.total {
+    text-align: right;
+    padding: 8px 0;
+    font-weight: 700;
+    font-size: 20px;
+    border-bottom: 1px solid var(--color-main);
+    margin-bottom: 10px;
+    color: var(--color-main)
+}
+.total .summa {
+    width: 160px;
+    letter-spacing: 1.5px;
+}
+
 @media (min-width:768px) {
     .container {
         width: 400px;
     }
 
-    .buttonAdd,
+    /* .buttonAdd,
     .buttonBuy {
         margin: 0 0 12px 0;
-    }
+    } */
 }
 
 @media (min-width:992px) {
@@ -239,7 +289,7 @@
     }
 
     .buttonRemove {
-        top: 0px;
+        top: 30px;
         right: -0px;
     }
 
@@ -270,9 +320,11 @@
     .input,
     .inputPhone {
         width: 190px;
+        margin-bottom: 15px;
     }
 
     .buttonRemove {
-        top: 15px;
+        top: 38px;
     }
+
 }

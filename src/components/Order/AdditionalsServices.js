@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Plus } from "../../images/add-black-18dp.svg";
 import { ReactComponent as Minus } from "../../images/remove-black-18dp.svg";
 import { setAdditionalServices } from "../../redux/order/orderActions";
+import styles from "./AdditionalsServices.module.css";
 
 const AdditionalsServices = () => {
   const trips = useSelector((state) => state.trips.trips);
   const tripKeys = useSelector((state) => state.order.tripKeys);
-  const addServicesKeys = useSelector((state) => state.order.additionalServicesKeys);
 
   const dispatch = useDispatch();
   const sendAdditionalServices = useCallback(
@@ -41,25 +41,16 @@ const AdditionalsServices = () => {
     setAddServicesArray(arrKeys);
     sendAdditionalServices(arrKeys);
   }, [sendAdditionalServices, tripKeys, trips.segments]);
-
-  
-  // ==== подсчитываем общую сумму дополнительных услуг ==== //
-  const getTotal = () => {
-    return addServicesKeys.reduce((acc, key) => {
-      acc += trips.additionalServices[key].price.amount;
-      return acc;
-    }, 0);
-  };
-
   return (
-    <div>
-      <h3>DopUslugi</h3>
-      {addServicesArray.length > 0 &&
-        addServicesArray.map((key) => <AddServ key={key} addKey={key} />)}
-      <p>
-        Вартість додаткових послуг: {getTotal()} <small>uah</small>
-      </p>
-    </div>
+    <>
+      {addServicesArray.length > 0 && (
+        <div className={styles.passangersData}>
+          <h3 className={styles.title}>Додаткові послуги:</h3>
+          {addServicesArray.length > 0 &&
+            addServicesArray.map((key) => <AddServ key={key} addKey={key} />)}
+        </div>
+      )}
+    </>
   );
 };
 
@@ -129,37 +120,60 @@ const AddServ = ({ addKey }) => {
     ]);
   };
   return (
-    <div>
-      <p>
-        {trips.additionalServices[addKey].name[lang]}:{" "}
-        {trips.additionalServices[addKey].price.amount}
-        <small>{trips.additionalServices[addKey].price.currency}</small>
-      </p>
-      <p>{trips.additionalServices[addKey].description[lang]}</p>
-      <div style={{ width: "50px", height: "50px" }}>
-        <img
-          src={`https://busis.eu/gds-sale/api/v1/additional/icon/${trips.additionalServices[addKey].additionals.iconId}`}
-          alt="icon"
+    <div className={styles.box}>
+      <div className={styles.flex}>
+        <div className={styles.flex}>
+          <div className={styles.img}>
+            <img
+              src={`https://busis.eu/gds-sale/api/v1/additional/icon/${trips.additionalServices[addKey].additionals.iconId}`}
+              alt="icon"
+            />
+          </div>
+          <div>
+            <b className={styles.nameAddServ}>
+              {trips.additionalServices[addKey].name[lang]}:{" "}
+              {trips.additionalServices[addKey].price.amount}
+              <small> {trips.additionalServices[addKey].price.currency}</small>
+            </b>
+
+            <p>{trips.additionalServices[addKey].description[lang]}</p>
+            {!trips.additionalServices[addKey].enableReturn && (
+              <i>(поверненню не підлягає)</i>
+            )}
+          </div>
+        </div>
+
+        <input
+          type="checkbox"
+          className={styles.checkbox}
+          onChange={handleChange}
+          checked={isChecked}
         />
       </div>
-      <input type="checkbox" onChange={handleChange} checked={isChecked} />
-      {/* <p>{price}</p> */}
+
       {isChecked && trips.additionalServices[addKey].enableCount && (
-        <>
-          <div>
-            <button type="button" onClick={onDecrement} disabled={count <= 1}>
+        <div className={styles.total}>
+          <p>
+            <strong>
+              Всього: {price} <small>uah</small>
+            </strong>
+          </p>
+          
+            <button
+              type="button"
+              onClick={onDecrement}
+              disabled={count <= 1}
+              className={styles.btn}
+            >
               <Minus />
             </button>
             <span>{count}</span>
-            <button type="button" onClick={onIncrement}>
+            <button type="button" onClick={onIncrement} className={styles.btn}>
               <Plus />
             </button>
-            <p>Всього: {price}</p>
           </div>
-        </>
+        
       )}
-      {!trips.additionalServices[addKey].enableReturn && <p>поверненню не підлягає</p>}
-      <hr />
     </div>
   );
 };

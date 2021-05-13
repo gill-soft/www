@@ -113,7 +113,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
 
           <div className={styles.priceBox}>
             <p className={styles.price}>
-              {getPrice(tripKeys, trips)}
+              {getPrice(tripKeys, trips).toFixed(2)}
               <span>{trips.segments[tripKeys[0]].price.currency}</span>
             </p>
             <Link

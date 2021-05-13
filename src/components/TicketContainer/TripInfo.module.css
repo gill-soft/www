@@ -1,15 +1,18 @@
 .orderBox {
     display: flex;
     flex-direction: column;
-    width: 96%;
-    margin: 0 auto;
-    padding: 30px 12px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0px -1px 3px 1px #7a7a7a;
+    /* border-bottom: 1px solid var(--color-main); */
+
 }
 
-.subTitle,
 .locality {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-color-title);
+    margin-bottom: 2px;
+}
+
+.subTitle {
     font-size: 18px;
     font-weight: 700;
     color: #232323;
@@ -17,14 +20,13 @@
 }
 
 .orderBox div {
-    /* width: 200px; */
-    padding-bottom: 24px;
+    padding-bottom: 28px;
     position: relative;
-    margin-right: 38px;
 }
 
 .arrow {
     margin-bottom: 20px;
+
 }
 
 .localityStop,
@@ -36,15 +38,17 @@
 
 .date {
     position: absolute;
-    bottom: 0;
+    bottom: 8px;
+    left: -1px;
 }
 
 @media (min-width: 576px) {
     .orderBox {
         width: 100%;
-        padding: 12px;
+        padding-bottom: 12px;
         flex-direction: row;
     }
+
     .orderBox div {
         width: 200px;
     }
@@ -65,37 +69,32 @@
         margin-bottom: 0;
     }
 
-    .arrow::after {
-        display: block;
-        content: " \21FE";
-        font-weight: 900;
-        font-size: 28px;
-        position: absolute;
-        right: 30px;
-        top: -8px
-    }
+   
 }
 
 @media (min-width: 768px) {
 
     .subTitle,
     .locality {
-        font-size: 24px;
+        font-size: 20px;
     }
+    .locality {
+        font-size: 18px;
+        padding-top: 2px;
+    }
+
     .orderBox div {
         width: 300px;
     }
 }
-@media(min-width: 992px){
-    .arrow::after {
-        right: 90px;
-    }
+
+@media(min-width: 992px) {
+    
 }
 
-@media(min-width: 1200px){
-    .arrow::after {
-        right: 110px;
-    }
+@media(min-width: 1200px) {
+    
+
     .orderBox div {
         width: 400px;
     }

@@ -1,0 +1,31 @@
+.box {
+    padding: 12px 0 0;
+    border-top: 1px solid var(--color-main);
+
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #232323;
+    margin-bottom: 8px;
+}
+
+.item {
+    background-color: #c2e3ffcc;
+    margin-bottom: 6px;
+    display: flex;
+    font-weight: 500;
+    padding: 12px ;
+    border-radius: 4px;
+}
+
+@media (min-width: 576px) {
+    .item {
+        margin: 0 8px 0 0;
+    } 
+    .flex {
+        display: flex;
+
+    }
+}

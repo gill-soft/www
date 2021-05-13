@@ -20,7 +20,7 @@ const TripInfo = ({routs}) => {
             <h4 className={styles.subTitle}>
               <FormattedMessage id="trip" />
             </h4>
-            <div className={styles.arrow}>
+            <div>
               <p className={styles.locality}>
                 {getCity(
                   ticket.segments[Object.keys(routs[0])[0]].departure.id,

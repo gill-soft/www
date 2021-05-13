@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import OrderInfo from "../components/Order/OrderInfo";
-import SearchForm from "../components/SearchForm/SearchForm";
 import FormForBuy from "../components/Order/FormForBuy";
 import styles from "./OrderPage.module.css";
 import { getRequaredFields } from "../services/api";
-import AdditionalsServices from "../components/Order/AdditionalsServices";
 
 const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
@@ -43,9 +41,6 @@ const OrderPage = ({ history }) => {
       {tripKeys.length > 0 && (
         <div className="bgnd">
           <div className="container">
-            {/* <div className={styles.formBox}>
-              <SearchForm history={history} />
-            </div> */}
             <div className={styles.main}>
               <div>
                 <FormForBuy

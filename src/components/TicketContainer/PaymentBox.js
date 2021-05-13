@@ -41,12 +41,10 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
     );
   }, []);
 
-  
-
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {
-      console.log(googleRes)
+      console.log(googleRes);
       if (googleRes.need3ds) {
         setGo3ds(true);
       }
@@ -112,117 +110,128 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
             </div>
             <div className={styles.flexItem}>
               <p>сплатити за допомогою:</p>
-              {primaryData.sellerToken === "sellerToken" && (
-                <GooglePayButton
-                  environment="TEST"
-                  paymentRequest={{
-                    apiVersion: 2,
-                    apiVersionMinor: 0,
-                    allowedPaymentMethods: [
-                      {
-                        type: "CARD",
-                        parameters: {
-                          allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                          allowedCardNetworks: ["MASTERCARD", "VISA"],
-                        },
-                        tokenizationSpecification: {
-                          type: "PAYMENT_GATEWAY",
+              <div className={styles.payType}>
+                {primaryData.sellerToken === "sellerToken" && (
+                  <GooglePayButton
+                  className={styles.google}
+                    environment="TEST"
+                    buttonType="short"
+                    paymentRequest={{
+                      apiVersion: 2,
+                      apiVersionMinor: 0,
+                      allowedPaymentMethods: [
+                        {
+                          type: "CARD",
                           parameters: {
-                            gateway: primaryData.gpayGateway,
-                            gatewayMerchantId: primaryData.gpayMerchantId,
+                            allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                            allowedCardNetworks: ["MASTERCARD", "VISA"],
+                          },
+                          tokenizationSpecification: {
+                            type: "PAYMENT_GATEWAY",
+                            parameters: {
+                              gateway: primaryData.gpayGateway,
+                              gatewayMerchantId: primaryData.gpayMerchantId,
+                            },
                           },
                         },
+                      ],
+                      merchantInfo: {
+                        merchantId: primaryData.gpayMerchantId,
+                        merchantName: "Demo Merchant",
                       },
-                    ],
-                    merchantInfo: {
-                      merchantId: primaryData.gpayMerchantId,
-                      merchantName: "Demo Merchant",
-                    },
-                    transactionInfo: {
-                      totalPriceStatus: "FINAL",
-                      totalPriceLabel: "Total",
-                      totalPrice: "4.00",
-                      currencyCode: "UAH",
-                      countryCode: "UA",
-                    },
-                  }}
-                  onLoadPaymentData={(paymentRequest) => {
-                    isGooglePayComfirm(paymentRequest, order, primaryData.paymentParamsId)
-                      .then(({ data }) => setGoogleRes(data))
-                      .catch((err) => console.log(err));
-                  }}
-                />
-              )}
+                      transactionInfo: {
+                        totalPriceStatus: "FINAL",
+                        totalPriceLabel: "Total",
+                        totalPrice: "4.00",
+                        currencyCode: "UAH",
+                        countryCode: "UA",
+                      },
+                    }}
+                    onLoadPaymentData={(paymentRequest) => {
+                      isGooglePayComfirm(
+                        paymentRequest,
+                        order,
+                        primaryData.paymentParamsId
+                      )
+                        .then(({ data }) => setGoogleRes(data))
+                        .catch((err) => console.log(err));
+                    }}
+                  />
+                )}
 
-              {/* Portmone */}
-              <form action="https://www.portmone.com.ua/gateway/" method="post">
-                <input type="hidden" name="payee_id" value={secondaryData.payeeId} />
+                {/* Portmone */}
+                <form action="https://www.portmone.com.ua/gateway/" method="post">
+                  <input type="hidden" name="payee_id" value={secondaryData.payeeId} />
 
-                <input type="hidden" name="shop_order_number" value={ticket.orderId} />
-                <input
-                  type="hidden"
-                  name="bill_amount"
-                  value={getTotalPrice().toFixed(2)}
-                />
-                <input
-                  type="hidden"
-                  name="description"
-                  value={`${getCity(
-                    ticket.segments[Object.keys(routs[0])[0]].departure.id,
-                    ticket,
-                    lang
-                  )} - ${getCity(
-                    ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival.id,
-                    ticket,
-                    lang
-                  )} 
+                  <input type="hidden" name="shop_order_number" value={ticket.orderId} />
+                  <input
+                    type="hidden"
+                    name="bill_amount"
+                    value={getTotalPrice().toFixed(2)}
+                  />
+                  <input
+                    type="hidden"
+                    name="description"
+                    value={`${getCity(
+                      ticket.segments[Object.keys(routs[0])[0]].departure.id,
+                      ticket,
+                      lang
+                    )} - ${getCity(
+                      ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival.id,
+                      ticket,
+                      lang
+                    )} 
               ${getDate("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}
               `}
-                />
-                <input
-                  type="hidden"
-                  name="success_url"
-                  // value={`http://localhost:3000/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
-                  value={`https://site.busis.eu/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
-                />
-                <input
-                  type="hidden"
-                  name="failure_url"
-                  value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                  // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
-                />
-                <input type="hidden" name="lang" value={locale.toLowerCase()} />
-                <input type="hidden" name="encoding" value="UTF-8" />
-                {/* <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} /> */}
-                <input type="hidden" name="exp_time" value={"1000"} />
+                  />
+                  <input
+                    type="hidden"
+                    name="success_url"
+                    // value={`http://localhost:3000/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
+                    value={`https://site.busis.eu/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
+                  />
+                  <input
+                    type="hidden"
+                    name="failure_url"
+                    value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
+                    // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
+                  />
+                  <input type="hidden" name="lang" value={locale.toLowerCase()} />
+                  <input type="hidden" name="encoding" value="UTF-8" />
+                  {/* <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} /> */}
+                  <input type="hidden" name="exp_time" value={"1000"} />
 
-                <button
-                  className={styles.portmone}
-                  type="submit"
-                  onClick={handleClick}
-                ></button>
-              </form>
+                  <button
+                    className={styles.portmone}
+                    type="submit"
+                    onClick={handleClick}
+                  ></button>
+                </form>
+              </div>
             </div>
           </div>
           {go3ds && (
             <div className={styles.box3ds}>
               <p className={styles.text3ds}>нужно подтверждение</p>
-            <form
-              id="TheForm"
-              action={googleRes.params3ds.action}
-              method="POST"
-              name="TheForm"
-            >
-              <input type="hidden" name="PaReq" value={googleRes.params3ds.PaReq} />
-              <input type="hidden" name="MD" value={googleRes.params3ds.MD} />
-              <input
-                type="hidden"
-                name="TermUrl"
-                value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
-              />
-              <button type="submit" className={styles.btn3ds}> поттвердить оплату</button>
-            </form>
+              <form
+                id="TheForm"
+                action={googleRes.params3ds.action}
+                method="POST"
+                name="TheForm"
+              >
+                <input type="hidden" name="PaReq" value={googleRes.params3ds.PaReq} />
+                <input type="hidden" name="MD" value={googleRes.params3ds.MD} />
+                <input
+                  type="hidden"
+                  name="TermUrl"
+                  value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
+                  // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
+                />
+                <button type="submit" className={styles.btn3ds}>
+                  {" "}
+                  поттвердить оплату
+                </button>
+              </form>
             </div>
           )}
 

@@ -10,7 +10,7 @@
     margin: 0 auto;
     padding: 30px 20px;
     border: 2px solid var(--color-main);
-    border-radius: 20px;
+    border-radius: 10px;
     color: var(--color-main);
     background-color: rgb(255, 255, 255, 0.75);
 }
@@ -46,11 +46,14 @@
     margin-bottom: 14px;
 }
 
-.date {
+.date, .date2 {
     position: relative;
     color: #424242;
     font-weight: 700;
     margin-bottom: 40px;
+}
+.date2 {
+    margin: 0;
 }
 
 .date::after {
@@ -73,6 +76,10 @@
 @media (min-width:768px) {
     .orderBox {
         width: 300px;
+    }
+    .sticky {
+        position: sticky;
+        top: 10px;
     }
 }
 @media (min-width:992px) {

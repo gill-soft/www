@@ -20,40 +20,42 @@ const OrderInfo = ({ total }) => {
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div>
-        <h3 className={styles.title}>
-          <FormattedMessage id="details" />
-        </h3>
-        <div className={styles.orderBox}>
-          <h4 className={styles.subTitle}>
-            <FormattedMessage id="departure" />
-          </h4>
-          <p className={styles.locality}>
-            {getCity(trips.segments[departureKey].departure.id, trips, lang)}
-          </p>
-          <p className={styles.localityStop}>
-            {getStop(trips.segments[departureKey].departure.id, trips, lang)}
-          </p>
-          <p className={styles.date}>
-            {getDate("departureDate", trips.segments[departureKey], locale)}{" "}
-            {getTime("departureDate", trips.segments[departureKey], locale)}
-          </p>
-          <h4 className={styles.subTitle}>
-            <FormattedMessage id="arrival" />
-          </h4>
-          <p className={styles.locality}>
-            {getCity(trips.segments[arrivalKey].arrival.id, trips, lang)}
-          </p>
-          <p className={styles.localityStop}>
-            {getStop(trips.segments[arrivalKey].arrival.id, trips, lang)}
-          </p>
-          <p className={styles.date}>
-            {getDate("arrivalDate", trips.segments[arrivalKey], locale)}{" "}
-            {getTime("arrivalDate", trips.segments[arrivalKey], locale)}
-          </p>
-          <p className={styles.total}>
-            <FormattedMessage id="pay" />
-            {getTotalPrice()} грн
-          </p>
+        <div className={styles.sticky}>
+          <h3 className={styles.title}>
+            <FormattedMessage id="details" />
+          </h3>
+          <div className={styles.orderBox}>
+            <h4 className={styles.subTitle}>
+              <FormattedMessage id="departure" />
+            </h4>
+            <p className={styles.locality}>
+              {getCity(trips.segments[departureKey].departure.id, trips, lang)}
+            </p>
+            <p className={styles.localityStop}>
+              {getStop(trips.segments[departureKey].departure.id, trips, lang)}
+            </p>
+            <p className={styles.date}>
+              {getDate("departureDate", trips.segments[departureKey], locale)}{" "}
+              {getTime("departureDate", trips.segments[departureKey], locale)}
+            </p>
+            <h4 className={styles.subTitle}>
+              <FormattedMessage id="arrival" />
+            </h4>
+            <p className={styles.locality}>
+              {getCity(trips.segments[arrivalKey].arrival.id, trips, lang)}
+            </p>
+            <p className={styles.localityStop}>
+              {getStop(trips.segments[arrivalKey].arrival.id, trips, lang)}
+            </p>
+            <p className={styles.date2}>
+              {getDate("arrivalDate", trips.segments[arrivalKey], locale)}{" "}
+              {getTime("arrivalDate", trips.segments[arrivalKey], locale)}
+            </p>
+            {/* <p className={styles.total}>
+              <FormattedMessage id="pay" />
+              {getTotalPrice()} грн
+            </p> */}
+          </div>
         </div>
       </div>
     </IntlProvider>

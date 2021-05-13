@@ -111,10 +111,9 @@ export const getTimeInWayDouble = (tripKeys, trips, lang) => {
 
 // ==== получаем сумму рейсов с пересадкой ====//
 export const getPrice = (tripKeys, trips) => {
-  // console.log(tripKeys)
   return tripKeys.reduce((summ, el) => {
     summ += Number(trips.segments[el].price.amount);
-    return +summ.toFixed(2);
+    return summ;
   }, 0);
 };
 // ==== вчерашняя дата ==== //

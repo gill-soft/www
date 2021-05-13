@@ -13,7 +13,7 @@ const PassengersData = () => {
   useEffect(() => {
     if (Object.keys(ticket).length > 0) {
       const arr = [];
-      for (let  values of Object.values(ticket.customers)) {
+      for (let values of Object.values(ticket.customers)) {
         arr.push({ values });
         setPassangers(arr);
       }
@@ -21,9 +21,11 @@ const PassengersData = () => {
   }, [ticket]);
 
   const getTotalPrice = () =>
-    ticket.services.reduce((acc, el) => {
-      return acc + el.price.amount;
-    }, 0);
+    ticket.services
+      .filter((el) => el.hasOwnProperty("segment"))
+      .reduce((acc, el) => {
+        return acc + el.price.amount;
+      }, 0);
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.passangersBox}>
@@ -42,7 +44,6 @@ const PassengersData = () => {
                   <span>
                     <FormattedMessage id="cost" />
                   </span>{" "}
-                  
                   {(getTotalPrice() / passangers.length).toFixed(2)} <small>UAH</small>
                 </p>
               </div>
