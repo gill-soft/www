@@ -24,8 +24,17 @@
     justify-content: space-between;
 }
 
+.item {
+    display: flex;
+}
+
+.description {
+    width: 230px;
+}
+
 .img {
-    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
     margin-right: 8px;
 }
 
@@ -49,7 +58,7 @@
     font-weight: 500;
     font-size: 18px;
     color: var(--color-main);
-    margin: 0 10px ;
+    margin: 0 10px;
 }
 
 .checkbox {
@@ -63,26 +72,34 @@
     font-size: 16px;
 }
 
-@media (min-width: 576px) {
-    .checkbox {
-        height: 18px;
-        width: 18px;
-        margin: 10px 5px 0 0;
-    }
-}
+
 
 @media (min-width: 576px) {
     .title {
         font-size: 24px;
     }
+
     .total {
         margin-top: 6px;
         font-size: 16px;
     }
+
     .nameAddServ {
         font-size: 18px;
     }
-    .total  span {
+
+    .total span {
         font-size: 18px;
+    }
+
+    .flex,
+    .item {
+        align-items: center;
+    }
+
+    .checkbox {
+        height: 18px;
+        width: 18px;
+        margin-right: 5px;
     }
 }

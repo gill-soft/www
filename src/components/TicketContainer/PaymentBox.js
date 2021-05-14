@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import CryptoJS from "crypto-js";
 import styles from "./PaymentBox.module.css";
@@ -11,6 +11,9 @@ import GoHome from "../GoHome/GoHome";
 import Loader from "../Loader/Loader";
 import GooglePayButton from "@google-pay/button-react";
 import { useHistory } from "react-router-dom";
+import visa from "../../images/visa-min.png";
+import mastercard from "../../images/Mastercard-min.png";
+import maestro from "../../images/maestro-min.png";
 
 const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const lang = useSelector((state) => state.language);
@@ -44,11 +47,11 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {
-      console.log(googleRes);
+      console.log(googleRes)
       if (googleRes.need3ds) {
         setGo3ds(true);
       }
-      if (googleRes.payed) {
+      if (!googleRes.payed) {
         history.push(`/myTicket/${orderId}/${primaryData.paymentParamsId}`);
       }
     }
@@ -74,15 +77,15 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
     return () => clearInterval(intervalId);
   }, [time]);
 
-  const getTotalPrice = () =>
-    ticket.services.reduce((acc, el) => {
+  const getTotalPrice = () => {
+    return ticket.services.reduce((acc, el) => {
       return acc + el.price.amount;
     }, 0);
+  };
 
   const handleClick = () => {
     setIsLoader(true);
   };
-
   return (
     <>
       {routs.length > 0 && (
@@ -101,6 +104,22 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
           </div>
 
           <div className={styles.payment}>
+            <div className={styles.infoblock}>
+              <p>
+                Ваші платіжні та особисті дані надійно захищені відповідно до міжнародних
+                стандартів безпеки.
+              </p>
+              <div className={styles.images} >
+              <div className={styles.img}>
+                <img src={visa} alt="visa" />
+              </div>
+              <div className={styles.img}>
+                <img src={maestro} alt="visa" />
+              </div>
+              <div className={styles.img}>
+                <img src={mastercard} alt="visa" />
+              </div></div>
+            </div>
             <div className={styles.flexItem}>
               <p>Сума до сплати: </p>
               <p className={styles.total}>
@@ -113,7 +132,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
               <div className={styles.payType}>
                 {primaryData.sellerToken === "sellerToken" && (
                   <GooglePayButton
-                  className={styles.google}
+                    className={styles.google}
                     environment="TEST"
                     buttonType="short"
                     paymentRequest={{

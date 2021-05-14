@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import CryptoJS from "crypto-js";
 import { getTicket, getTicketConfirm } from "../redux/order/orderOperation";
-import { getTicketPrint, ttt, ttt1, ttt2, ttt3, ttt4, ttt5 } from "../services/api";
+import { getTicketPrint } from "../services/api";
 import styles from "./MyTicketPage.module.css";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import TripInfo from "../components/TicketContainer/TripInfo";
+import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
 
 class MyTicketPage extends Component {
   state = {
@@ -13,23 +14,11 @@ class MyTicketPage extends Component {
     id: "",
     url: [],
     routs: [],
+    additionalServices: [],
   };
 
   //  ==== получаем информацию о билете ==== //
   componentDidMount() {
-    // const oid = this.props.match.params.orderId
-    // ttt(oid).then(data =>console.log(data));
-    // ttt1(oid).then(data =>console.log(data));
-    // ttt2().then(data =>console.log(data));
-    // ttt3().then(data =>console.log(data));
-    // ttt4().then(data =>console.log(data));
-    // ttt5().then(data =>console.log(data));
-
-
-    // fetch("")
-    //   .then((response) => response.text())
-    //   .then((text) => console.log(text));
-    // ==== получаем зашифрованый id === //
     const encryptId = atob(this.props.match.params.orderId);
     // ==== расшифровуем id ==== //
     const id = CryptoJS.AES.decrypt(encryptId, "KeyVeze").toString(CryptoJS.enc.Utf8);
@@ -46,15 +35,24 @@ class MyTicketPage extends Component {
         const arr = [];
         for (let [key, values] of Object.entries(ticket.segments)) {
           arr.push({ [key]: values });
-
-          this.setState({
-            routs: arr.sort((a, b) => {
-              const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
-              const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
-              return A - B;
-            }),
-          });
         }
+        this.setState({
+          routs: arr.sort((a, b) => {
+            const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
+            const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
+            return A - B;
+          }),
+          additionalServices: Array.from(
+            new Set(
+              ticket.services
+                .filter((el) => el.hasOwnProperty("additionalService"))
+                .reduce((arr, el) => {
+                  arr.push(el.additionalService.id);
+                  return arr;
+                }, [])
+            )
+          ),
+        });
         if (this.props.ticket.services[0].status === "NEW") {
           this.props.getTicketConfirm(id, match.params.payedId);
         }
@@ -89,15 +87,20 @@ class MyTicketPage extends Component {
     this.setState({ url: base64 });
   };
   render() {
-    const { status, id, url, routs } = this.state;
+    const { status, id, url, routs, additionalServices } = this.state;
 
     return (
       <>
         {!Object.keys(this.props.ticket).includes("error") && (
           <div className="bgnd">
             <div className="container">
-              <TripInfo routs={routs} />
-              <PassengersData />
+              <div className={styles.data}>
+                <TripInfo routs={routs} />
+                <PassengersData />
+                {additionalServices.length > 0 && (
+                  <AdditionalServicesData addServ={additionalServices} />
+                )}
+              </div>
               {status === "CONFIRM" && (
                 <>
                   <h1 className={`${styles.title} ${styles.blue}`}>

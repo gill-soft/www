@@ -5,12 +5,10 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getStop, getTime } from "../../services/getInfo";
 
-const TripInfo = ({routs}) => {
+const TripInfo = ({ routs }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
-
-  
 
   return (
     <>

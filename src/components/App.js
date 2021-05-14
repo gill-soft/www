@@ -14,6 +14,7 @@ import AboutUs from "../pages/AboutUs";
 import Cities from "../pages/Cities";
 import City from "../pages/City";
 import { changeLanguage } from "../redux/Language/LanguageAction";
+import ReactGA from "react-ga";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,11 @@ const App = () => {
     },
     [dispatch]
   );
+  // ====Google analitics ==== //
+  useEffect(() => {
+    ReactGA.initialize("UA-197040914");
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     const lang = JSON.parse(localStorage.getItem("language")) || "UA";

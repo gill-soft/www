@@ -113,33 +113,30 @@ class FormForBuy extends Component {
     }
     //  ==== после получения ответа переходим на страницу билета ==== //
     if (prevState.resp !== this.state.resp) {
-      // console.log(resp)
-      resp.services.forEach((el) => {
-        // ==== проверяем на ошибки в статусе ==== //
-        if (el.status !== "NEW") {
-          this.props.getError(el.error.message);
-          return;
-        } else {
-          const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
-          const primaryPaymentParams = JSON.stringify(
-            resp.primaryPaymentParams,
-            resp.secondaryPaymentParams
-          );
-          const secondaryPaymentParams = JSON.stringify(
-            resp.primaryPaymentParams,
-            resp.secondaryPaymentParams
-          );
-
-          const primary = btoa(
-            CryptoJS.AES.encrypt(primaryPaymentParams, "KeyVeze").toString()
-          );
-          const secondary = btoa(
-            CryptoJS.AES.encrypt(secondaryPaymentParams, "KeyVeze").toString()
-          );
-
-          this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
-        }
-      });
+      // ==== проверяем на ошибки в статусе ==== //
+      const status = resp.services.reduce((arr, el) => {
+        if (el.status !== "NEW") arr.push(el.status);
+        return arr;
+      }, []);
+      if (status.length > 0) {
+        this.props.getError("el.error.message");
+        return;
+      } else {
+        const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
+        const primaryPaymentParams = JSON.stringify(
+          resp.primaryPaymentParams,
+        );
+        const secondaryPaymentParams = JSON.stringify(
+          resp.secondaryPaymentParams
+        );
+        const primary = btoa(
+          CryptoJS.AES.encrypt(primaryPaymentParams, "KeyVeze").toString()
+        );
+        const secondary = btoa(
+          CryptoJS.AES.encrypt(secondaryPaymentParams, "KeyVeze").toString()
+        );
+        this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
+      }
     }
   }
 
@@ -395,7 +392,6 @@ class FormForBuy extends Component {
                     <FormattedMessage id="buttonAdd" />
                   </button>
                 </div>
-
                 <AdditionalsServices />
                 <div className={styles.passangersData}>
                   <h3 className={styles.title}>

@@ -122,14 +122,14 @@ const AddServ = ({ addKey }) => {
   return (
     <div className={styles.box}>
       <div className={styles.flex}>
-        <div className={styles.flex}>
+        <div className={styles.item}>
           <div className={styles.img}>
-            <img
+            <img 
               src={`https://busis.eu/gds-sale/api/v1/additional/icon/${trips.additionalServices[addKey].additionals.iconId}`}
               alt="icon"
             />
           </div>
-          <div>
+          <div className={styles.description}>
             <b className={styles.nameAddServ}>
               {trips.additionalServices[addKey].name[lang]}:{" "}
               {trips.additionalServices[addKey].price.amount}

@@ -134,7 +134,6 @@ border-radius: 10px 10px 0 0;
     display: block;
     background-image: url('../../images/person_add_alt_1-24px.svg');
     background-color: transparent;
-    /* border: 1px solid var(--color-secondary); */
     border: none;
     background-repeat: no-repeat;
     background-position: 10px 10px;
@@ -190,9 +189,9 @@ border-radius: 10px 10px 0 0;
 }
 
 .publicOfferBox input {
-    height: 22px;
-    width: 22px;
-    margin-right: 6px;
+    min-width: 20px;
+    height: 20px;
+    margin: 6px 6px 0 0;
 }
 
 .publicOfferBox p {
@@ -304,6 +303,11 @@ border-radius: 10px 10px 0 0;
     .redText {
         font-size: 11px;
     }
+    .publicOfferBox input {
+        
+        margin: 0px 6px 0 0;
+    }
+    
 }
 
 @media (min-width: 1200px) {
