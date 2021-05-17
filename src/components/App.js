@@ -27,9 +27,10 @@ const App = () => {
   );
   // ====Google analitics ==== //
   useEffect(() => {
-    ReactGA.initialize("UA-197040914");
+    ReactGA.initialize("G-3Q2PJ52QMM");
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
+  console.log(ReactGA)
 
   useEffect(() => {
     const lang = JSON.parse(localStorage.getItem("language")) || "UA";
