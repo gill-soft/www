@@ -14,6 +14,7 @@ import Offerta from "../../assets/Oferta_1.pdf";
 import Pk from "../../assets/pk_.pdf";
 import AdditionalsServices from "./AdditionalsServices";
 import { getPrice } from "../../services/getInfo";
+import { fetchTicket } from "../../redux/order/orderActions";
 
 const regexEmail = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
 const regexText = /^[а-яА-ЯіІїєЄЇa-ża-ŻёЁA-Za-z\d-' ]+$/;
@@ -135,6 +136,8 @@ class FormForBuy extends Component {
         const secondary = btoa(
           CryptoJS.AES.encrypt(secondaryPaymentParams, "KeyVeze").toString()
         );
+    this.props.fetchTicket({})
+
         this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
       }
     }
@@ -494,6 +497,8 @@ const mapDispatchToProps = (dispatch) => ({
   getError: (error) => dispatch(getError(error)),
   startLoader: () => dispatch(startLoader()),
   stopLoader: () => dispatch(stopLoader()),
+  fetchTicket:(obj)=>dispatch(fetchTicket(obj))
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormForBuy);

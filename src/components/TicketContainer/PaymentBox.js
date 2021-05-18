@@ -6,7 +6,6 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getExpireTime } from "../../services/getInfo";
 import { isGooglePayComfirm } from "../../services/api";
-import Modal from "../Modal/Modal";
 import GoHome from "../GoHome/GoHome";
 import Loader from "../Loader/Loader";
 import GooglePayButton from "@google-pay/button-react";
@@ -14,19 +13,22 @@ import { useHistory } from "react-router-dom";
 import visa from "../../images/visa-min.png";
 import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
+import ReturnConditions from "./ReturnConditions";
+import Modal from "@material-ui/core/Modal";
 
 const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
   const [time, setTime] = useState(0);
-  const [isModal, setIsModal] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
+  const [order, setOrder] = useState("");
   const [primaryData, setPrimaryData] = useState(null);
   const [secondaryData, setSecondaryData] = useState(null);
   const [go3ds, setGo3ds] = useState(false);
-  const [order, setOrder] = useState("");
+  const [isModal, setIsModal] = useState(false);
+  const [segments, setSegments] = useState([]);
   const history = useHistory();
 
   // ==== расшифровуем данные ==== //
@@ -43,13 +45,12 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
       )
     );
   }, []);
-
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {
-      console.log(googleRes)
       if (googleRes.need3ds) {
         setGo3ds(true);
+        return;
       }
       if (!googleRes.payed) {
         history.push(`/myTicket/${orderId}/${primaryData.paymentParamsId}`);
@@ -86,9 +87,33 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const handleClick = () => {
     setIsLoader(true);
   };
+  const handleClickReturn = () => {
+    segments.length > 0
+      ? setSegments([])
+      : setSegments(
+          ticket.services
+            .reduce((arr, el) => {
+              if (el.hasOwnProperty("segment")) arr.push(el);
+              return arr;
+            }, [])
+            .reduce(
+              (acc, el) => {
+                if (acc.map[el.segment.id]) return acc;
+
+                acc.map[el.segment.id] = true;
+                acc.item.push(el);
+                return acc;
+              },
+              { map: {}, item: [] }
+            ).item
+        );
+  };
+  const closeReturnConditions = () => {
+    setSegments([]);
+  };
   return (
     <>
-      {routs.length > 0 && (
+      {primaryData && secondaryData && (
         <IntlProvider locale={locale} messages={messages[locale]}>
           <div className={styles.warning}>
             <p className={styles.warningText}>
@@ -109,16 +134,17 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 Ваші платіжні та особисті дані надійно захищені відповідно до міжнародних
                 стандартів безпеки.
               </p>
-              <div className={styles.images} >
-              <div className={styles.img}>
-                <img src={visa} alt="visa" />
+              <div className={styles.images}>
+                <div className={styles.img}>
+                  <img src={visa} alt="visa" />
+                </div>
+                <div className={styles.img}>
+                  <img src={maestro} alt="visa" />
+                </div>
+                <div className={styles.img}>
+                  <img src={mastercard} alt="visa" />
+                </div>
               </div>
-              <div className={styles.img}>
-                <img src={maestro} alt="visa" />
-              </div>
-              <div className={styles.img}>
-                <img src={mastercard} alt="visa" />
-              </div></div>
             </div>
             <div className={styles.flexItem}>
               <p>Сума до сплати: </p>
@@ -228,9 +254,21 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 </form>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={handleClickReturn}
+              className={styles.returnConditions}
+            >
+              Умови повернення
+            </button>
           </div>
-          {go3ds && (
+          <Modal open={segments.length > 0} onClose={closeReturnConditions}>
+            <ReturnConditions segments={segments} close={closeReturnConditions} />
+          </Modal>
+          {/* <Modal open={go3ds} disableBackdropClick={true}>
+
             <div className={styles.box3ds}>
+              {console.log(go3ds)}
               <p className={styles.text3ds}>нужно подтверждение</p>
               <form
                 id="TheForm"
@@ -248,15 +286,16 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 />
                 <button type="submit" className={styles.btn3ds}>
                   {" "}
-                  поттвердить оплату
+                  подтвердить оплату
                 </button>
               </form>
             </div>
-          )}
-
-          {/* {!!isModal && <Modal component={<GoHome />} isGohome={true} />} */}
+          </Modal> */}
         </IntlProvider>
       )}
+      {/* <Modal open={isModal} disableBackdropClick={true}>
+        <GoHome />
+      </Modal> */}
       {isLoader && <Loader />}
     </>
   );

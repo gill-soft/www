@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import styles from "./OrderInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
-import { getCity, getDate, getPrice, getStop, getTime } from "../../services/getInfo";
+import { getCity, getDate, getStop, getTime } from "../../services/getInfo";
 
-const OrderInfo = ({ total }) => {
+const OrderInfo = () => {
   const lang = useSelector((state) => state.language);
   const trips = useSelector((state) => state.trips.trips);
   const tripKeys = useSelector((state) => state.order.tripKeys);
@@ -13,9 +13,7 @@ const OrderInfo = ({ total }) => {
   const arrivalKey = useSelector((state) => state.order.tripKeys[tripKeys.length - 1]);
   const locale = lang === "UA" ? "UK" : lang;
 
-  const getTotalPrice = () => {
-    return (total * getPrice(tripKeys, trips)).toFixed(2);
-  };
+ 
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
@@ -51,10 +49,7 @@ const OrderInfo = ({ total }) => {
               {getDate("arrivalDate", trips.segments[arrivalKey], locale)}{" "}
               {getTime("arrivalDate", trips.segments[arrivalKey], locale)}
             </p>
-            {/* <p className={styles.total}>
-              <FormattedMessage id="pay" />
-              {getTotalPrice()} грн
-            </p> */}
+            
           </div>
         </div>
       </div>

@@ -1,0 +1,33 @@
+.box {
+    width: 90%;
+    margin: 100px auto;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 12px;
+    position: relative;
+}
+
+
+.title {
+    color: var(--text-color-title);
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.close {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+
+.text {
+    color: var(--text-color-main);
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+@media(min-width:768px ){
+    .box {
+        width: 600px;
+    }
+}

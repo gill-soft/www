@@ -125,6 +125,16 @@
 .img {
     width: 50px;
 }
+.returnConditions {
+    border: none;
+    background: none;
+    color: var(--color-main);
+    /* font-size: 18px; */
+    font-weight: 500;
+    cursor: pointer;
+    display: inline;
+    text-align: left;
+}
 
 @media(min-width: 576px) {
     .flexItem {

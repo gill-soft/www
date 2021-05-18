@@ -14,7 +14,7 @@ import AboutUs from "../pages/AboutUs";
 import Cities from "../pages/Cities";
 import City from "../pages/City";
 import { changeLanguage } from "../redux/Language/LanguageAction";
-import ReactGA from "react-ga";
+// import ReactGA from "react-ga";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -26,11 +26,10 @@ const App = () => {
     [dispatch]
   );
   // ====Google analitics ==== //
-  useEffect(() => {
-    ReactGA.initialize("G-3Q2PJ52QMM");
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, []);
-  console.log(ReactGA)
+  // useEffect(() => {
+  //   ReactGA.initialize("G-3Q2PJ52QMM");
+  //   ReactGA.pageview(window.location.pathname + window.location.search);
+  // }, []);
 
   useEffect(() => {
     const lang = JSON.parse(localStorage.getItem("language")) || "UA";

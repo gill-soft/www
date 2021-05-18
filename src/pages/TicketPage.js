@@ -30,15 +30,14 @@ const TicketPage = () => {
       const arr = [];
       for (let [key, values] of Object.entries(ticket.segments)) {
         arr.push({ [key]: values });
-
-        setRouts(
-          arr.sort((a, b) => {
-            const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
-            const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
-            return A - B;
-          })
-        );
       }
+      setRouts(
+        arr.sort((a, b) => {
+          const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
+          const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
+          return A - B;
+        })
+      );
 
       // ==== определяем масив всех уникальных ключей дополнительных сервисов ==== //
       setAdditionalServices(
@@ -57,7 +56,7 @@ const TicketPage = () => {
   }, [ticket]);
   return (
     <div className="bgnd">
-      {Object.keys(ticket).length > 0 && (
+      {routs.length > 0 && (
         <div className="container">
           <div className={styles.data}>
             <TripInfo routs={routs} />
@@ -76,7 +75,7 @@ const TicketPage = () => {
           </div>
         </div>
       )}
-      <pre>{JSON.stringify(ticket, null, 4)} </pre>
+      {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
     </div>
   );
 };

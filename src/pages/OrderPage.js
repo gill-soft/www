@@ -50,7 +50,7 @@ const OrderPage = ({ history }) => {
                   requeredFields={requeredFields}
                 />
               </div>
-              <OrderInfo total={totalPassanger} />
+              <OrderInfo />
             </div>
           </div>
         </div>
