@@ -7,12 +7,12 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/HomePageMessanges";
 import { Redirect, useHistory } from "react-router-dom";
 import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
-import Modal from "../components/Modal/Modal";
 import AppLinks from "../components/AppLinks/AppLinks";
 import Advantages from "../components/Advantages/Advantages";
 import { getDescription, getTitle } from "../services/headTags";
 import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
 import MobileBaner from "../components/MobileBaner/MobileBaner";
+import Modal from "@material-ui/core/Modal";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -38,7 +38,6 @@ const HomePage = () => {
   const handleScroll = () => {
     if (windowWidth >= 768 && window.scrollY >= 450) setScroll(true);
     if (windowWidth >= 768 && window.scrollY < 450) setScroll(false);
-
   };
 
   const closeModal = () => {
@@ -53,7 +52,9 @@ const HomePage = () => {
       </Helmet>
       {error && <Redirect to="/error" />}
       {windowWidth < 768 && isModal && (
-        <Modal onClose={closeModal} component={<AppLinks onClose={closeModal} />} />
+        <Modal open={isModal} onClose={closeModal} className={styles.modal}>
+          <AppLinks onClose={closeModal} />
+        </Modal>
       )}
       {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
       <IntlProvider locale={locale} messages={messages[locale]}>
@@ -62,13 +63,9 @@ const HomePage = () => {
             <h1 className={styles.title}>
               <FormattedMessage id="title" />
             </h1>
-            {/* <p className={styles.subtitle}>
-              <FormattedMessage id="subtitle" />
-            </p> */}
             <div className={styles.formContainer}>
               <SearchForm history={history} scroll={scroll} />
             </div>
-
             <ul className={styles.iconsBox}>
               <li className={`${styles.iconItem} ${styles.iconItem1}`}>
                 <p>

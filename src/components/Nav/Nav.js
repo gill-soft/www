@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import LanguageSelect from "../Language/LanguageSelect";
 import styles from "./Nav.module.css";
-import "./anime.css";
+import "../../stylesheet/animation.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 
 import play from "../../images/google-play-300x116.png";

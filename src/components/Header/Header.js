@@ -7,7 +7,7 @@ import { ReactComponent as Menu } from "../../images/menu-black-48dp.svg";
 import { ReactComponent as Close } from "../../images/clear-black-36dp.svg";
 import { getError } from "../../redux/global/globalActions";
 import Nav from "../Nav/Nav";
-import "./anime.css";
+import "../../stylesheet/animation.css";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const Header = () => {
             <CSSTransition
               in={isMenu}
               timeout={300}
-              classNames="alert"
+              classNames="menu"
               unmountOnExit
               nodeRef={backdropRef}
             >

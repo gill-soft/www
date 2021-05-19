@@ -1,0 +1,59 @@
+/* контакты */
+.phone-enter {
+    margin-top: -10px;
+}
+
+.phone-enter-active {
+    margin-top: 26px;
+    transition: margin-top 300ms ease-out, opacity 300ms ease-out
+}
+
+.phone-exit {
+    transform: scale(1);
+}
+
+.phone-exit-active {
+    transform: scale(0.1);
+    transition: transform 300ms ease-out;
+}
+
+/* меню */
+
+.menu-enter {
+    margin-right: -80%;
+}
+
+.menu-enter-active {
+    margin-right: 0;
+    transition: margin-right 300ms ease-out;
+}
+
+.menu-exit {
+    margin-right: 0;
+}
+
+.menu-exit-active {
+    margin-right: -80%;
+    transition: margin-right 300ms ease-out;
+    /* color: rgb(43, 43, 83) */
+}
+
+/*  детали маршрута */
+.single-enter {
+    transform: translateY(-50%) scaleY(0);
+}
+
+.single-enter-active {
+    transform: translateY(-0%) scaleY(1);
+
+    transition: transform 300ms ease-out;
+}
+
+.single-exit {
+    transform: scale(1);
+}
+
+.single-exit-active {
+    transform: scale(0);
+    transition: transform 300ms ease-out;
+}

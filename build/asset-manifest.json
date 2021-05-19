@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.4e9de7d9.chunk.css",
-    "main.js": "/static/js/main.6d2d2961.chunk.js",
-    "main.js.map": "/static/js/main.6d2d2961.chunk.js.map",
+    "main.css": "/static/css/main.9f86cfa5.chunk.css",
+    "main.js": "/static/js/main.5e4b5738.chunk.js",
+    "main.js.map": "/static/js/main.5e4b5738.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.02c13a59.js",
     "runtime-main.js.map": "/static/js/runtime-main.02c13a59.js.map",
     "static/css/2.7fa8b913.chunk.css": "/static/css/2.7fa8b913.chunk.css",
-    "static/js/2.22a6f9db.chunk.js": "/static/js/2.22a6f9db.chunk.js",
-    "static/js/2.22a6f9db.chunk.js.map": "/static/js/2.22a6f9db.chunk.js.map",
+    "static/js/2.bc1792f3.chunk.js": "/static/js/2.bc1792f3.chunk.js",
+    "static/js/2.bc1792f3.chunk.js.map": "/static/js/2.bc1792f3.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.7fa8b913.chunk.css.map": "/static/css/2.7fa8b913.chunk.css.map",
-    "static/css/main.4e9de7d9.chunk.css.map": "/static/css/main.4e9de7d9.chunk.css.map",
-    "static/js/2.22a6f9db.chunk.js.LICENSE.txt": "/static/js/2.22a6f9db.chunk.js.LICENSE.txt",
+    "static/css/main.9f86cfa5.chunk.css.map": "/static/css/main.9f86cfa5.chunk.css.map",
+    "static/js/2.bc1792f3.chunk.js.LICENSE.txt": "/static/js/2.bc1792f3.chunk.js.LICENSE.txt",
     "static/media/ErrorPage.module.css": "/static/media/355-3551959_-emoji-expression-min.eb500ae6.png",
     "static/media/main.css": "/static/media/HelveticaNeueCyr-UltraLightItalic.b1b6c88c.eot",
     "static/media/Oferta_1.da6728fd.pdf": "/static/media/Oferta_1.da6728fd.pdf",
@@ -25,7 +25,6 @@
     "static/media/FormForBuy.module.css": "/static/media/person_add_alt_1-24px.095ce52e.svg",
     "static/media/LanguageSelect.module.css": "/static/media/expand_more_black.d4403f58.svg",
     "static/media/SortTrips.module.css": "/static/media/expand_more_blue.0538806f.svg",
-    "static/media/GoHome.module.css": "/static/media/fmd_bad-white-48dp.ee703f2f.svg",
     "static/media/SearchFormBaner.module.css": "/static/media/insert_invitation-black-48dp.56993315.svg",
     "static/media/menu-black-48dp.7847f29e.svg": "/static/media/menu-black-48dp.7847f29e.svg",
     "static/media/person-24px.65cae4d9.svg": "/static/media/person-24px.65cae4d9.svg",
@@ -38,8 +37,8 @@
   "entrypoints": [
     "static/js/runtime-main.02c13a59.js",
     "static/css/2.7fa8b913.chunk.css",
-    "static/js/2.22a6f9db.chunk.js",
-    "static/css/main.4e9de7d9.chunk.css",
-    "static/js/main.6d2d2961.chunk.js"
+    "static/js/2.bc1792f3.chunk.js",
+    "static/css/main.9f86cfa5.chunk.css",
+    "static/js/main.5e4b5738.chunk.js"
   ]
 }

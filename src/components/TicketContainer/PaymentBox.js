@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CryptoJS from "crypto-js";
-import styles from "./PaymentBox.module.css";
+import Modal from "@material-ui/core/Modal";
 import { IntlProvider, FormattedMessage } from "react-intl";
+import GooglePayButton from "@google-pay/button-react";
+import styles from "./PaymentBox.module.css";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getExpireTime } from "../../services/getInfo";
 import { isGooglePayComfirm } from "../../services/api";
 import GoHome from "../GoHome/GoHome";
 import Loader from "../Loader/Loader";
-import GooglePayButton from "@google-pay/button-react";
-import { useHistory } from "react-router-dom";
 import visa from "../../images/visa-min.png";
 import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
 import ReturnConditions from "./ReturnConditions";
-import Modal from "@material-ui/core/Modal";
 
 const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const lang = useSelector((state) => state.language);

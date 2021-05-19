@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./TripBox.module.css";
-import "./TripBoxAnimation.css";
+// import "./TripBoxAnimation.css";
 import { setTripKeys } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
