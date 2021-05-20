@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./TripBox.module.css";
 // import "./TripBoxAnimation.css";
+import { CSSTransition } from "react-transition-group";
+import "../../stylesheet/animation.css";
+
 import { setTripKeys } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
@@ -23,12 +26,30 @@ const DoubleTrips = ({ tripKeys, location }) => {
   const dispatch = useDispatch();
   const sendTripsKey = (arr) => dispatch(setTripKeys(arr));
   const [isOpen, setIsOpen] = useState(false);
+  const [isDetails, setIsDetails] = useState(false);
+
   const [arrayStops, setArrayStops] = useState([]);
   const locale = lang === "UA" ? "UK" : lang;
   const backdropRef = useRef(null);
   const lastKey = tripKeys[tripKeys.length - 1];
 
   useEffect(() => {
+    // ==== проверям есть ли остановки в поездке ==== //
+    const array = tripKeys.reduce((arr, el) => {
+      trips.segments[el].route ? arr.push(true) : arr.push(false);
+      return arr;
+    }, []);
+    setIsDetails(array.includes(false) ? false : true);
+  }, [tripKeys, trips.segments]);
+
+  const handleClick = () => {
+    sendTripsKey(tripKeys);
+    sessionStorage.setItem(
+      "path",
+      JSON.stringify(`${location.pathname}${location.search}`)
+    );
+  };
+  const handleAdditionals = () => {
     const stopsArray = tripKeys.map((el) => {
       // ==== определяем индекс первой остановки ====//
       const first =
@@ -49,22 +70,13 @@ const DoubleTrips = ({ tripKeys, location }) => {
       return arr;
     });
     setArrayStops(stopsArray);
-  }, [tripKeys, trips.segments]);
 
-  const handleClick = () => {
-    sendTripsKey(tripKeys);
-    sessionStorage.setItem(
-      "path",
-      JSON.stringify(`${location.pathname}${location.search}`)
-    );
-  };
-  const handleAdditionals = () => {
     // ==== переключаем видимость дополнительной информации ==== //
     setIsOpen(!isOpen);
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <div className={styles.full}>
+      <div className={!isOpen ? styles.full : styles.fullOpen}>
         <div className={styles.tripBox}>
           <p className={styles.timeInWay}>
             {getTimeInWayDouble(tripKeys, trips, lang)}{" "}
@@ -127,62 +139,70 @@ const DoubleTrips = ({ tripKeys, location }) => {
               <FormattedMessage id="choose" />
             </Link>
           </div>
-          <button className={styles.additionals} onClick={handleAdditionals}>
-            <FormattedMessage id="additionals" />
-          </button>
+          {isDetails && (
+            <button className={styles.additionals} onClick={handleAdditionals}>
+              <FormattedMessage id="additionals" />
+            </button>
+          )}
         </div>
-        {isOpen && (
-          <>
-            {tripKeys.map((el, idx) => (
-              <div ref={backdropRef} key={idx} className={styles.anim}>
-                <h5 className={styles.routeName}>{getRouteName(el, trips) }</h5>
-                <div className={styles.additionalInfo}>
-                  <div className={styles.depArr}>
-                    <div className={styles.start}>
-                      <p className={styles.timeStop}>
-                        {getDate("departureDate", trips.segments[el], locale)}{" "}
-                        {getTime("departureDate", trips.segments[el], lang)}
-                      </p>
-                      <p className={`${styles.locality} ${styles.addLocality} `}>
-                        {getCity(trips.segments[el].departure.id, trips, lang)}
-                      </p>
-                      <p>{getStop(trips.segments[el].departure.id, trips, lang)}</p>
-                      <p className={styles.address}>
-                        {getAddress(trips.segments[el].departure.id, trips, lang)}
-                      </p>
-                    </div>
-                    {arrayStops.length > 0 &&
-                      arrayStops[idx].length > 0 &&
-                      arrayStops[idx].map((s, i) => (
-                        <div className={styles.stop} key={i}>
-                          <p className={styles.timeStop}>{s.departureTime}</p>
-                          <p>{getCity(s.locality.id, trips, lang)}</p>
-                          <p>{getStop(s.locality.id, trips, lang)}</p>
-                          <p className={styles.address}>
-                            {getAddress(s.locality.id, trips, lang)}
-                          </p>
-                        </div>
-                      ))}
-                    <div className={`${styles.start} ${styles.finish}`}>
-                      <p className={styles.timeStop}>
-                        {getDate("arrivalDate", trips.segments[el], locale)}{" "}
-                        {getTime("arrivalDate", trips.segments[el], lang)}
-                      </p>
-                      <p className={`${styles.locality} ${styles.addLocality} `}>
-                        {getCity(trips.segments[el].arrival.id, trips, lang)}
-                      </p>
-                      <p>{getStop(trips.segments[el].arrival.id, trips, lang)}</p>
-                      <p className={styles.addressMore}>
-                        {getAddress(trips.segments[el].arrival.id, trips, lang)}
-                      </p>
-                    </div>
+      </div>
+      <CSSTransition
+        in={isOpen}
+        timeout={300}
+        classNames="single"
+        unmountOnExit
+        nodeRef={backdropRef}
+      >
+        <div ref={backdropRef} className={styles.details}>
+          {tripKeys.map((el, idx) => (
+            <div key={idx}>
+              <h5 className={styles.routeName}>{getRouteName(el, trips)}</h5>
+              <div className={styles.additionalInfo}>
+                <div className={styles.depArr}>
+                  <div className={styles.start}>
+                    <p className={styles.timeStop}>
+                      {getDate("departureDate", trips.segments[el], locale)}{" "}
+                      {getTime("departureDate", trips.segments[el], lang)}
+                    </p>
+                    <p className={`${styles.locality} ${styles.addLocality} `}>
+                      {getCity(trips.segments[el].departure.id, trips, lang)}
+                    </p>
+                    <p>{getStop(trips.segments[el].departure.id, trips, lang)}</p>
+                    <p className={styles.address}>
+                      {getAddress(trips.segments[el].departure.id, trips, lang)}
+                    </p>
+                  </div>
+                  {arrayStops.length > 0 &&
+                    arrayStops[idx].length > 0 &&
+                    arrayStops[idx].map((s, i) => (
+                      <div className={styles.stop} key={i}>
+                        <p className={styles.timeStop}>{s.departureTime}</p>
+                        <p>{getCity(s.locality.id, trips, lang)}</p>
+                        <p>{getStop(s.locality.id, trips, lang)}</p>
+                        <p className={styles.address}>
+                          {getAddress(s.locality.id, trips, lang)}
+                        </p>
+                      </div>
+                    ))}
+                  <div className={`${styles.start} ${styles.finish}`}>
+                    <p className={styles.timeStop}>
+                      {getDate("arrivalDate", trips.segments[el], locale)}{" "}
+                      {getTime("arrivalDate", trips.segments[el], lang)}
+                    </p>
+                    <p className={`${styles.locality} ${styles.addLocality} `}>
+                      {getCity(trips.segments[el].arrival.id, trips, lang)}
+                    </p>
+                    <p>{getStop(trips.segments[el].arrival.id, trips, lang)}</p>
+                    <p className={styles.addressMore}>
+                      {getAddress(trips.segments[el].arrival.id, trips, lang)}
+                    </p>
                   </div>
                 </div>
               </div>
-            ))}
-          </>
-        )}
-      </div>
+            </div>
+          ))}
+        </div>
+      </CSSTransition>
     </IntlProvider>
   );
 };

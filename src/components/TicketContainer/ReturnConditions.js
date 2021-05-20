@@ -4,12 +4,12 @@ import styles from "./ReturnConditions.module.css";
 import { ReactComponent as Close } from "../../images/clear-black-36dp.svg";
 import { getCity } from "../../services/getInfo";
 
-const ReturnConditions = ({ segments, close }) => {
+const ReturnConditions = React.forwardRef(({ segments, close }, ref) => {
   const ticket = useSelector((state) => state.order.ticket);
   const lang = useSelector((state) => state.language);
 
   return (
-    <div className={styles.box}>
+    <div className={styles.box} ref={ref}>
       <Close fill="var(--color-main)" onClick={close} className={styles.close} />
       {segments.map((el, idx) => (
         <div key={idx}>
@@ -26,6 +26,6 @@ const ReturnConditions = ({ segments, close }) => {
       ))}
     </div>
   );
-};
+});
 
 export default ReturnConditions;

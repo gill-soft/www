@@ -20,11 +20,10 @@ const HomePage = () => {
   const history = useHistory();
   const [isModal, setIsModal] = useState(true);
   const [scroll, setScroll] = useState(false);
-
   const windowWidth = window.innerWidth;
   const locale = lang === "UA" ? "UK" : lang;
   useEffect(() => {
-    const timer = setTimeout(() => setIsModal(false), 8500);
+    const timer = setTimeout(() => setIsModal(false), 10000);
     return () => {
       clearTimeout(timer);
     };

@@ -75,7 +75,8 @@ const TripsSuccess = (data) => (dispatch) => {
     .flat();
   const singleTrips = allTrips
     .filter((el) => Object.keys(el)[0] === "id")
-    .sort((a, b) => data.segments[a.id].price.amount - data.segments[b.id].price.amount);
+    .sort((a, b) => data.segments[a.id].price.amount - data.segments[b.id].price.amount)
+    .map((el) => ({ id: [el.id] }));
   const doubleTrips = allTrips
     .filter((el) => Object.keys(el)[0] === "segments")
     .sort((a, b) => getPrice(a.segments, data) - getPrice(b.segments, data));

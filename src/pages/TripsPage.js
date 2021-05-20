@@ -21,7 +21,7 @@ import Scelet from "../components/TripsContainer/Skelet";
 import DateCarousel from "../components/TripsContainer/DateCarousel";
 import NoTrips from "../components/TripsContainer/NoTrips";
 import DoubleTrips from "../components/TripsContainer/DoubleTrips";
-import SingleTrips from "../components/TripsContainer/SingleTrips";
+// import SingleTrips from "../components/TripsContainer/SingleTrips";
 import SortTripsSingle from "../components/TripsContainer/SortTripsSingle";
 import SortTripsSingleMob from "../components/TripsContainer/SortTripsSingleMob";
 import SortTripsDouble from "../components/TripsContainer/SortTripsDouble";
@@ -142,7 +142,7 @@ class TripsPage extends Component {
                   <>
                     {windowWidth >= 768 ? <SortTripsSingle /> : <SortTripsSingleMob />}
                     {singleTrips.map((el, idx) => (
-                      <SingleTrips key={idx} tripKey={el.id} location={location} />
+                      <DoubleTrips key={idx} tripKeys={el.id} location={location} />
                     ))}
                   </>
                 )}

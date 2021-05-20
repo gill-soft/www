@@ -109,7 +109,6 @@
     background-color: var(--color-third);
     order: 1;
     box-shadow: 0 5px 6px -2px rgb(50, 50, 78);
-
     transition: box-shadow 200ms linear, transform 200ms linear
 }
 
@@ -122,7 +121,6 @@
 .additionalInfo {
     display: flex;
     padding: 10px;
-
 }
 
 .depArr {
@@ -199,7 +197,7 @@
 
 .start p,
 .finish p {
-    color: #636363;
+    color: var(--text-color-main);
 }
 
 .routeName {

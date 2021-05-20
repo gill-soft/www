@@ -113,7 +113,7 @@ class FormForBuy extends Component {
       }
     }
     //  ==== после получения ответа переходим на страницу билета ==== //
-    if (prevState.resp !== this.state.resp) {
+    if (prevState.resp !== resp) {
       // ==== проверяем на ошибки в статусе ==== //
       const status = resp.services.reduce((arr, el) => {
         if (el.status !== "NEW") arr.push(el.status);

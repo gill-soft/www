@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CryptoJS from "crypto-js";
@@ -26,11 +26,11 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const [order, setOrder] = useState("");
   const [primaryData, setPrimaryData] = useState(null);
   const [secondaryData, setSecondaryData] = useState(null);
-  const [go3ds, setGo3ds] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [segments, setSegments] = useState([]);
   const history = useHistory();
 
+  const ref = useRef();
   // ==== расшифровуем данные ==== //
   useEffect(() => {
     setOrder(CryptoJS.AES.decrypt(atob(orderId), "KeyVeze").toString(CryptoJS.enc.Utf8));
@@ -45,19 +45,21 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
       )
     );
   }, []);
+
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {
+      // ==== если нужно подтверждение 3ds ==== //
       if (googleRes.need3ds) {
-        setGo3ds(true);
+        ref.current.submit();
         return;
       }
-      if (!googleRes.payed) {
+      //  ==== если оплата тодтверждена ==== //
+      if (googleRes.payed) {
         history.push(`/myTicket/${orderId}/${primaryData.paymentParamsId}`);
       }
     }
   }, [googleRes]);
-
   // ==== определяем время до конца оплаты ==== //
   useEffect(() => {
     const timeEnd = new Date(ticket.services[0].expire).getTime();
@@ -156,7 +158,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
             <div className={styles.flexItem}>
               <p>сплатити за допомогою:</p>
               <div className={styles.payType}>
-                {primaryData.sellerToken === "sellerToken" && (
+                {primaryData.sellerToken !== "" && (
                   <GooglePayButton
                     className={styles.google}
                     environment="TEST"
@@ -265,37 +267,29 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
           <Modal open={segments.length > 0} onClose={closeReturnConditions}>
             <ReturnConditions segments={segments} close={closeReturnConditions} />
           </Modal>
-          {/* <Modal open={go3ds} disableBackdropClick={true}>
-
-            <div className={styles.box3ds}>
-              {console.log(go3ds)}
-              <p className={styles.text3ds}>нужно подтверждение</p>
-              <form
-                id="TheForm"
-                action={googleRes.params3ds.action}
-                method="POST"
-                name="TheForm"
-              >
-                <input type="hidden" name="PaReq" value={googleRes.params3ds.PaReq} />
-                <input type="hidden" name="MD" value={googleRes.params3ds.MD} />
-                <input
-                  type="hidden"
-                  name="TermUrl"
-                  value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                  // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
-                />
-                <button type="submit" className={styles.btn3ds}>
-                  {" "}
-                  подтвердить оплату
-                </button>
-              </form>
-            </div>
-          </Modal> */}
+          <Modal open={isModal} disableBackdropClick={true}>
+        <GoHome />
+      </Modal>
+          {googleRes && (
+            <form
+              ref={ref}
+              id="TheForm"
+              action={googleRes.params3ds.action}
+              method="POST"
+              name="TheForm"
+            >
+              <input type="hidden" name="PaReq" value={googleRes.params3ds.PaReq} />
+              <input type="hidden" name="MD" value={googleRes.params3ds.MD} />
+              <input
+                type="hidden"
+                name="TermUrl"
+                value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
+                // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
+              />
+            </form>
+          )}
         </IntlProvider>
       )}
-      {/* <Modal open={isModal} disableBackdropClick={true}>
-        <GoHome />
-      </Modal> */}
       {isLoader && <Loader />}
     </>
   );

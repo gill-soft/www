@@ -13,8 +13,9 @@
 }
 
 .container {
+    width: 320px;
+    margin: 100px auto;    
     text-align: center;
-    height: 300px;
 }
 
 .btn {
@@ -28,10 +29,8 @@
 }
 
 .progress {
-    /* position: absolute; */
-    /* margin-top: 10px; */
     height: 6px;
-    width: 0px;
+    /* width: 100%; */
     background-color: var(--color-secondary);
     animation: pog 10000ms 1 linear
 }
@@ -39,10 +38,8 @@
 .progress2 {
     position: absolute;
     top: 0;
-    /* margin: 40px 0 0; */
-    transform: translateX(-30px);
     height: 6px;
-    width: calc(100% + 60px);
+    width: 100%;
     background-color: #ffde82;
 }
 
