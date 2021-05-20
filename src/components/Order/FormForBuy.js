@@ -15,8 +15,11 @@ import Pk from "../../assets/pk_.pdf";
 import AdditionalsServices from "./AdditionalsServices";
 import { getPrice } from "../../services/getInfo";
 import { fetchTicket } from "../../redux/order/orderActions";
+import GenderInput from "./GenderInput";
+import TextInput from "./TextInput";
 
-const regexEmail = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
+const regexEmail =
+  /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
 const regexText = /^[а-яА-ЯіІїєЄЇa-ża-ŻёЁA-Za-z\d-' ]+$/;
 const regexLatin = /^[a-zA-Z\d- ]+$/;
 
@@ -96,7 +99,6 @@ class FormForBuy extends Component {
         requestBody.services = [...services, ...additionalServices];
         requestBody.customers = { ...values };
         requestBody.currency = "UAH";
-
         // ==== бронируем билет ==== //
         toBookTicket(requestBody)
           .then(({ data }) => {
@@ -124,19 +126,15 @@ class FormForBuy extends Component {
         return;
       } else {
         const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
-        const primaryPaymentParams = JSON.stringify(
-          resp.primaryPaymentParams,
-        );
-        const secondaryPaymentParams = JSON.stringify(
-          resp.secondaryPaymentParams
-        );
+        const primaryPaymentParams = JSON.stringify(resp.primaryPaymentParams);
+        const secondaryPaymentParams = JSON.stringify(resp.secondaryPaymentParams);
         const primary = btoa(
           CryptoJS.AES.encrypt(primaryPaymentParams, "KeyVeze").toString()
         );
         const secondary = btoa(
           CryptoJS.AES.encrypt(secondaryPaymentParams, "KeyVeze").toString()
         );
-    this.props.fetchTicket({})
+        this.props.fetchTicket({});
 
         this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
       }
@@ -185,7 +183,7 @@ class FormForBuy extends Component {
     this.setState({ goSearch: !goSearch });
   };
 
-  // ==== инпут имя, фамилия, отчество ====//
+  // ==== инпут имя, фамилия, отчество, пол ====//
   handleChangeInput = (idx, { target }) => {
     this.setState((prev) => {
       const values = prev.values.reduce((arr, el) => {
@@ -225,7 +223,14 @@ class FormForBuy extends Component {
     this.setState((prev) => ({
       values: [
         ...prev.values,
-        { name: "", surname: "", phone: "", id: `${id}`, email: this.state.email },
+        {
+          name: "",
+          surname: "",
+          phone: "",
+          id: `${id}`,
+          patronymic: "",
+          email: this.state.email,
+        },
       ],
     }));
     this.props.changeAmountPassanger(this.props.total + 1);
@@ -275,6 +280,7 @@ class FormForBuy extends Component {
     } = this.state;
     const { isLoading, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
+    console.log(values);
     return (
       <>
         {isLoading && <Loader />}
@@ -286,7 +292,7 @@ class FormForBuy extends Component {
                   <h3 className={styles.title}>
                     <FormattedMessage id="title" />
                   </h3>
-                  <form>
+                  <div>
                     {values.map((el, idx) => {
                       return (
                         <div className={styles.box} key={idx}>
@@ -305,62 +311,38 @@ class FormForBuy extends Component {
                             disabled={values.length <= 1 ? true : false}
                           ></button>
                           <div className={styles.inputsContainer}>
-                            <div className={styles.inputBox}>
-                              <label className={styles.label} htmlFor="name">
-                                І'мя<small>{this.onlyLatin()}</small>
-                              </label>
-                              <input
-                                className={`${styles.input} ${
-                                  isValidName[0] === idx ? styles.red : null
-                                }`}
-                                name="name"
-                                type="text"
-                                value={this.state.values[idx].name}
-                                onChange={(e) => this.handleChangeInput(el.id, e)}
-                                autoComplete="nope"
-                              />
-                              {isValidName[0] === idx && (
-                                <p className={styles.redText}>{isValidName[1]}</p>
-                              )}
-                            </div>
+                            <TextInput
+                              handleChangeInput={this.handleChangeInput}
+                              id={el.id}
+                              values={values}
+                              name="name"
+                              idx={idx}
+                              isValidName={isValidName}
+                              label="Ім'я"
+                              onlyLatin={this.onlyLatin}
+                            />
+                            <TextInput
+                              handleChangeInput={this.handleChangeInput}
+                              id={el.id}
+                              values={values}
+                              name="surname"
+                              idx={idx}
+                              isValidName={isValidSurname}
+                              label="Прізвище"
+                              onlyLatin={this.onlyLatin}
+                            />
 
-                            <div className={styles.inputBox}>
-                              <label className={styles.label} htmlFor="surname">
-                                Прізвище<small>{this.onlyLatin()}</small>
-                              </label>
-                              <input
-                                className={`${styles.input} ${
-                                  isValidSurname[0] === idx ? styles.red : null
-                                }`}
-                                name="surname"
-                                type="text"
-                                value={this.state.values[idx].surname}
-                                onChange={(e) => this.handleChangeInput(el.id, e)}
-                                autoComplete="nope"
-                              />
-                              {isValidSurname[0] === idx && (
-                                <p className={styles.redText}>{isValidSurname[1]}</p>
-                              )}
-                            </div>
                             {this.props.requeredFields.includes("PATRONYMIC") && (
-                              <div className={styles.inputBox}>
-                                <label className={styles.label} htmlFor="patronymic">
-                                  Побатькові<small>{this.onlyLatin()}</small>
-                                </label>
-                                <input
-                                  className={`${styles.input} ${
-                                    isValidSurname[0] === idx ? styles.red : null
-                                  }`}
-                                  name="patronymic"
-                                  type="text"
-                                  value={this.state.values[idx].patronymic}
-                                  onChange={(e) => this.handleChangeInput(el.id, e)}
-                                  autoComplete="nope"
-                                />
-                                {isValidSurname[0] === idx && (
-                                  <p className={styles.redText}>{isValidSurname[1]}</p>
-                                )}
-                              </div>
+                              <TextInput
+                                handleChangeInput={this.handleChangeInput}
+                                id={el.id}
+                                values={values}
+                                name="patronymic"
+                                idx={idx}
+                                isValidName={isValidSurname}
+                                label="Побатькові"
+                                onlyLatin={this.onlyLatin}
+                              />
                             )}
                             <div className={styles.inputBox}>
                               <label className={styles.label} htmlFor="phone">
@@ -381,11 +363,18 @@ class FormForBuy extends Component {
                                 <p className={styles.redText}>{isValidPhone[1]}</p>
                               )}
                             </div>
+                            {this.props.requeredFields.includes("GENDER") && (
+                              <GenderInput
+                                id={el.id}
+                                values={values[idx]}
+                                changeGender={this.handleChangeInput}
+                              />
+                            )}
                           </div>
                         </div>
                       );
                     })}
-                  </form>
+                  </div>
                   <button
                     className={styles.buttonAdd}
                     type="button"
@@ -497,8 +486,7 @@ const mapDispatchToProps = (dispatch) => ({
   getError: (error) => dispatch(getError(error)),
   startLoader: () => dispatch(startLoader()),
   stopLoader: () => dispatch(stopLoader()),
-  fetchTicket:(obj)=>dispatch(fetchTicket(obj))
-
+  fetchTicket: (obj) => dispatch(fetchTicket(obj)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormForBuy);
