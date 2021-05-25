@@ -19,12 +19,7 @@ import { changeLanguage } from "../redux/Language/LanguageAction";
 const App = () => {
   const dispatch = useDispatch();
 
-  const setLanguege = useCallback(
-    (lang) => {
-      dispatch(changeLanguage(lang));
-    },
-    [dispatch]
-  );
+  const setLanguege = useCallback((lang) => dispatch(changeLanguage(lang)), [dispatch]);
   // ====Google analitics ==== //
   // useEffect(() => {
   //   ReactGA.initialize("G-3Q2PJ52QMM");

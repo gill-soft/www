@@ -16,7 +16,7 @@ export const messages = {
     pay: "Payable: ",
   },
   RU: {
-    title: "Данные о пассажирах*:",
+    title: "Данные о пассажирах",
     departure: "Отправление",
     arrival: "Прибытие",
     buttonAdd: "Добавить пассажира",
@@ -32,7 +32,7 @@ export const messages = {
     pay: "К оплате: ",
   },
   UK: {
-    title: "Відомості про пасажирів*:",
+    title: "Відомості про пасажирів",
     departure: "Відправлення",
     arrival: "Прибуття",
     buttonAdd: "Додати пасажира",
@@ -48,7 +48,7 @@ export const messages = {
     pay: "До сплати: ",
   },
   PL: {
-    title: "Dane pasażera*:",
+    title: "Dane pasażera",
     departure: "Wyjazd",
     arrival: "Przyjazd",
     buttonAdd: "Dodaj pasażera",

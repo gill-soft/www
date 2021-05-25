@@ -4,6 +4,9 @@ import CryptoJS from "crypto-js";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import DatePicker from "react-datepicker";
+import { format } from "date-fns";
+
 import styles from "./FormForBuy.module.css";
 import { ReactComponent as Person } from "../../images/person-24px.svg";
 import { toBookTicket } from "../../services/api";
@@ -17,10 +20,12 @@ import { getPrice } from "../../services/getInfo";
 import { fetchTicket } from "../../redux/order/orderActions";
 import GenderInput from "./GenderInput";
 import TextInput from "./TextInput";
+import { citizenship, documentTypes, documentTypesRU } from "../../assets/documentType";
+import { dateLocale } from "../../services/dateFormat";
 
 const regexEmail =
   /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
-const regexText = /^[а-яА-ЯіІїєЄЇa-ża-ŻёЁA-Za-z\d-' ]+$/;
+const regexText = /^[а-яА-ЯіІїЇєЄa-ża-ŻёЁA-Za-z\d-' ]+$/;
 const regexLatin = /^[a-zA-Z\d- ]+$/;
 
 class FormForBuy extends Component {
@@ -29,53 +34,52 @@ class FormForBuy extends Component {
     email: "w@w.cop",
     resp: {},
     isOffer: true,
-    isValidPhone: [-1, ""],
-    isValidName: [-1, ""],
-    isValidSurname: [-1, ""],
     isValidEmail: null,
     goSearch: false,
+    validName: [],
+    validSurname: [],
+    validPatronymic: [],
+    validPhoneNumber: [],
+    isValid: false,
   };
 
   componentDidMount() {
     // this.props.stopLoader();
-    const { amountPassangers } = this.props;
+    const { amountPassangers, requeredFields } = this.props;
     for (let i = 0; i <= amountPassangers - 1; i++) {
+      const value = {
+        name: "ww",
+        surname: "rr",
+        phone: "+380992222603",
+        id: `${i}`,
+        email: "",
+      };
+      if (requeredFields.includes("PATRONYMIC")) value.patronymic = "rr";
+      if (requeredFields.includes("GENDER")) value.gender = "";
+      if (requeredFields.includes("CITIZENSHIP")) value.citizenship = "UA";
+      if (requeredFields.includes("DOCUMENT_TYPE")) value.documentType = "PASSPORT";
+      if (requeredFields.includes("DOCUMENT_NUMBER")) value.documentNumber = "";
+      if (requeredFields.includes("DOCUMENT_SERIES")) value.documentSeries = "";
+      if (requeredFields.includes("BIRTHDAY")) value.birthday = null;
+
       this.setState((prev) => ({
-        values: [
-          ...prev.values,
-          {
-            name: "ww",
-            surname: "ww",
-            phone: "+380992222603",
-            id: `${i}`,
-            email: "",
-            patronymic: "",
-          },
-        ],
+        values: [...prev.values, value],
       }));
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    const {
-      resp,
-      isValidPhone,
-      values,
-      goSearch,
-      isValidName,
-      isValidSurname,
-      isValidEmail,
-    } = this.state;
+    const { resp, values, goSearch } = this.state;
     const { tripKeys, getError, trips, lang } = this.props;
 
     // ==== делаем запрос на бронь билета ==== //
     if (prevState.goSearch !== goSearch) {
       //  ==== если все поля валиддные ==== //
-      if (
-        isValidPhone[0] === -1 &&
-        isValidName[0] === -1 &&
-        isValidSurname[0] === -1 &&
-        isValidEmail === null
-      ) {
+      let valid = false;
+      if (!valid) valid = this.isValid(this.state.validName);
+      if (!valid) valid = this.isValid(this.state.validSurname);
+      if (!valid) valid = this.isValid(this.state.validPhoneNumber);
+      if (!valid) valid = this.isValid(this.state.validPatronymic);
+      if (!valid && !this.state.isValidEmail) {
         const requestBody = {};
         requestBody.lang = lang;
         const services = values
@@ -111,7 +115,6 @@ class FormForBuy extends Component {
           });
       } else {
         this.props.stopLoader();
-        return;
       }
     }
     //  ==== после получения ответа переходим на страницу билета ==== //
@@ -136,55 +139,82 @@ class FormForBuy extends Component {
         );
         this.props.fetchTicket({});
 
-        this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
+        // this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
       }
     }
   }
 
-  sendOrder = (e) => {
-    e.preventDefault();
-    const { values, goSearch, email } = this.state;
-    const { requeredFields, startLoader } = this.props;
-    startLoader();
-
+  // ==== запускаем лоадер и записываем в стейт валидные поля ==== //
+  sendOrder = () => {
+    const { goSearch } = this.state;
+    this.props.startLoader();
     this.setState({
-      isValidName: [-1, ""],
-      isValidSurname: [-1, ""],
-      isValidPhone: [-1, ""],
-      isValidEmail: null,
+      validName: this.getValidText("name"),
+      validSurname: this.getValidText("surname"),
+      validPhoneNumber: this.getValidPhone(),
+      goSearch: !goSearch,
     });
-    // ==== валидация ==== //
-    values.forEach((el, idx) => {
-      // === name ===
-      if (!regexText.test(el.name))
-        this.setState({ isValidName: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
-      if (requeredFields.includes("ONLY_LATIN") && !regexLatin.test(el.name))
-        this.setState({ isValidName: [idx, "лише латинськими літерами"] });
-      if (el.name.trim().length < 2)
-        this.setState({ isValidName: [idx, "занадто коротке і'мя"] });
-      if (!el.name.trim())
-        this.setState({ isValidName: [idx, "це поле необхідно заповнити"] });
-      // ==== surname ====
-      if (!regexText.test(el.surname))
-        this.setState({ isValidSurname: [idx, 'поле не може містити !"№%:?*/{|}<>'] });
-      if (requeredFields.includes("ONLY_LATIN") && !regexLatin.test(el.surname))
-        this.setState({ isValidSurname: [idx, "лише латинськими літерами"] });
-      if (el.surname.trim().length < 2)
-        this.setState({ isValidSurname: [idx, "занадто коротке прізвище"] });
-      if (!el.surname.trim())
-        this.setState({ isValidSurname: [idx, "це поле необхідно заповнити"] });
-      // ==== phone ====
-      if (!isValidPhoneNumber(el.phone)) {
-        this.setState({ isValidPhone: [idx, "не коректний номер телефону"] });
-      }
-    });
-    // ==== email ====
-    if (!regexEmail.test(email)) this.setState({ isValidEmail: "не коректний email" });
-    this.setState({ goSearch: !goSearch });
+    if (this.props.requeredFields.includes("PATRONYMIC")) {
+      this.setState({ validPatronymic: this.getValidText("patronymic") });
+    }
+    this.getValidEmail();
   };
 
+  isValid = (arr) => {
+    return arr.reduce((bool, el) => {
+      if (bool) {
+        bool = true;
+      } else if (el === "") {
+        bool = false;
+      } else {
+        bool = true;
+      }
+      return bool;
+    }, false);
+  };
+  // ==== валидация емейла ==== //
+  getValidEmail = () => {
+    if (!regexEmail.test(this.state.email)) {
+      this.setState({ isValid: true, isValidEmail: "не коректний email" });
+    } else {
+      this.setState({ isValid: false, isValidEmail: null });
+    }
+  };
+  //  ==== валидация телефона ==== //
+  getValidPhone = () => {
+    return this.state.values.reduce((arr, el, idx) => {
+      !isValidPhoneNumber(el.phone)
+        ? (arr[idx] = "не коректний номер телефону")
+        : (arr[idx] = "");
+      return arr;
+    }, []);
+  };
+
+  // ====валидация имени фамилии отчества=== ||
+  getValidText = (type) => {
+    return this.state.values.reduce((arr, el, idx) => {
+      !el[type].trim() ? (arr[idx] = "це поле необхідно заповнити") : (arr[idx] = "");
+      if (!arr[idx]) {
+        if (el[type].trim().length < 2) arr[idx] = "не менше двох символів";
+        if (
+          this.props.requeredFields.includes("ONLY_LATIN") &&
+          !regexLatin.test(el[type])
+        )
+          arr[idx] = "лише латинськими літерами";
+        if (!regexText.test(el[type])) arr[idx] = 'поле не може містити #!"№%:?*/{|}<>';
+      }
+      return arr;
+    }, []);
+  };
   // ==== инпут имя, фамилия, отчество, пол ====//
   handleChangeInput = (idx, { target }) => {
+    // ==== убираем предупреждение про невалидный инпут ==== //
+    this.setState((prev) => {
+      if (target.name === "name") prev.validName[idx] = "";
+      if (target.name === "surname") prev.validSurname[idx] = "";
+      if (target.name === "patronymic") prev.validPatronymic[idx] = "";
+    });
+    // ==== записываем значение инпута в информацию о пассажирах ==== //
     this.setState((prev) => {
       const values = prev.values.reduce((arr, el) => {
         arr.push(el.id === idx ? { ...el, [target.name]: target.value } : el);
@@ -197,12 +227,17 @@ class FormForBuy extends Component {
   // ==== инпут телефон ====//
   handleChangePhone = (val, idx) => {
     if (val === undefined) return;
+    // ==== убираем предупреждение про невалидный инпут ==== //
+    this.setState((prev) => {
+      prev.validPhoneNumber[idx] = "";
+    });
     this.setState((prev) => {
       const values = prev.values.reduce((arr, el) => {
         arr.push(el.id === idx ? { ...el, phone: val } : el);
         return arr;
       }, []);
-      return { ...prev, values, isValidPhone: [-1, ""] };
+
+      return { ...prev, values };
     });
   };
 
@@ -216,22 +251,42 @@ class FormForBuy extends Component {
       return { ...prev, values, [target.name]: target.value };
     });
   };
+  // ==== инпут гражданство ==== //
+  handleChangeDate = (date, e, idx) => {
+    // console.log(idx);
+    // console.log(date);
+    const formatDate = format(new Date(date), "yyyy-MM-dd");
+    this.setState((prev) => {
+      const values = prev.values.reduce((arr, el) => {
+        arr.push(el.id === idx ? { ...el, birthday: formatDate } : el);
+        return arr;
+      }, []);
+
+      return { ...prev, values };
+    });
+  };
 
   // ==== добавить пассажира ====//
   handleAdd = () => {
+    const { requeredFields } = this.props;
     const id = +this.state.values.slice(-1)[0].id + 1;
+    const value = {
+      name: "",
+      surname: "",
+      phone: "",
+      id: `${id}`,
+      email: this.state.email,
+    };
+    if (requeredFields.includes("PATRONYMIC")) value.patronymic = "";
+    if (requeredFields.includes("GENDER")) value.gender = "";
+    if (requeredFields.includes("CITIZENSHIP")) value.citizenship = "UA";
+    if (requeredFields.includes("DOCUMENT_TYPE")) value.documentType = "PASSPORT";
+    if (requeredFields.includes("DOCUMENT_NUMBER")) value.documentNumber = "";
+    if (requeredFields.includes("DOCUMENT_SERIES")) value.documentSeries = "";
+    if (requeredFields.includes("BIRTHDAY")) value.birthday = null;
+
     this.setState((prev) => ({
-      values: [
-        ...prev.values,
-        {
-          name: "",
-          surname: "",
-          phone: "",
-          id: `${id}`,
-          patronymic: "",
-          email: this.state.email,
-        },
-      ],
+      values: [...prev.values, value],
     }));
     this.props.changeAmountPassanger(this.props.total + 1);
   };
@@ -269,18 +324,10 @@ class FormForBuy extends Component {
   };
 
   render() {
-    const {
-      values,
-      email,
-      isOffer,
-      isValidPhone,
-      isValidName,
-      isValidSurname,
-      isValidEmail,
-    } = this.state;
-    const { isLoading, lang } = this.props;
+    const { values, email, isOffer, isValidEmail } = this.state;
+    const { isLoading, lang, requeredFields } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(values);
+    console.log(this.state);
     return (
       <>
         {isLoading && <Loader />}
@@ -291,6 +338,7 @@ class FormForBuy extends Component {
                 <div className={styles.passangersData}>
                   <h3 className={styles.title}>
                     <FormattedMessage id="title" />
+                    <small>{this.onlyLatin()}</small>*:
                   </h3>
                   <div>
                     {values.map((el, idx) => {
@@ -317,9 +365,8 @@ class FormForBuy extends Component {
                               values={values}
                               name="name"
                               idx={idx}
-                              isValidName={isValidName}
+                              isValid={this.state.validName}
                               label="Ім'я"
-                              onlyLatin={this.onlyLatin}
                             />
                             <TextInput
                               handleChangeInput={this.handleChangeInput}
@@ -327,9 +374,8 @@ class FormForBuy extends Component {
                               values={values}
                               name="surname"
                               idx={idx}
-                              isValidName={isValidSurname}
+                              isValid={this.state.validSurname}
                               label="Прізвище"
-                              onlyLatin={this.onlyLatin}
                             />
 
                             {this.props.requeredFields.includes("PATRONYMIC") && (
@@ -339,9 +385,8 @@ class FormForBuy extends Component {
                                 values={values}
                                 name="patronymic"
                                 idx={idx}
-                                isValidName={isValidSurname}
+                                isValid={this.state.validPatronymic}
                                 label="Побатькові"
-                                onlyLatin={this.onlyLatin}
                               />
                             )}
                             <div className={styles.inputBox}>
@@ -350,7 +395,7 @@ class FormForBuy extends Component {
                               </label>
                               <PhoneInput
                                 className={`${styles.inputPhone} ${
-                                  isValidPhone[0] === idx ? styles.red : ""
+                                  this.state.validPhoneNumber[idx] ? styles.red : ""
                                 }`}
                                 international
                                 countryCallingCodeEditable={false}
@@ -359,14 +404,124 @@ class FormForBuy extends Component {
                                 onChange={(val) => this.handleChangePhone(val, el.id)}
                                 autoComplete="nope"
                               />
-                              {isValidPhone[0] === idx && (
-                                <p className={styles.redText}>{isValidPhone[1]}</p>
+                              {this.state.validPhoneNumber[idx] && (
+                                <p className={styles.redText}>
+                                  {this.state.validPhoneNumber[idx]}
+                                </p>
                               )}
                             </div>
+
+                            {this.props.requeredFields.includes("CITIZENSHIP") && (
+                              <>
+                                <label className={styles.label} htmlFor="citizenship">
+                                  громадянство
+                                </label>
+                                <select
+                                  className={styles.input}
+                                  value={values[idx].citizenship}
+                                  name="citizenship"
+                                  onChange={(e) => this.handleChangeInput(el.id, e)}
+                                >
+                                  {citizenship.map((el) => (
+                                    <option
+                                      key={el.value}
+                                      className={styles.option}
+                                      value={el.value}
+                                    >
+                                      {el.name.UA}
+                                    </option>
+                                  ))}
+                                </select>
+                              </>
+                            )}
+                            {this.props.requeredFields.includes("DOCUMENT_TYPE") && (
+                              <>
+                                <label className={styles.label} htmlFor="documentType">
+                                  документ
+                                </label>
+                                <select
+                                  className={styles.input}
+                                  value={values[idx].documentType}
+                                  name="documentType"
+                                  onChange={(e) => this.handleChangeInput(el.id, e)}
+                                >
+                                  {values[idx].citizenship === "RU"
+                                    ? documentTypesRU.map((el) => (
+                                        <option
+                                          key={el.id}
+                                          className={styles.option}
+                                          value={el.id}
+                                        >
+                                          {el.name.RU}
+                                        </option>
+                                      ))
+                                    : documentTypes.map((el) => (
+                                        <option
+                                          key={el.id}
+                                          className={styles.option}
+                                          value={el.id}
+                                        >
+                                          {el.name.RU}
+                                        </option>
+                                      ))}
+                                </select>
+                              </>
+                            )}
+                            {this.props.requeredFields.includes("DOCUMENT_NUMBER") && (
+                              <>
+                                <div className={styles.inputBox}>
+                                  <label
+                                    className={styles.label}
+                                    htmlFor="documentNumber"
+                                  >
+                                    Series
+                                  </label>
+                                  <input
+                                    className={styles.input}
+                                    name="documentSeries"
+                                    type="text"
+                                    value={values[idx].documentSeries}
+                                    onChange={(e) => this.handleChangeInput(el.id, e)}
+                                    autoComplete="nope"
+                                  />
+                                </div>
+                                <div className={styles.inputBox}>
+                                  <label
+                                    className={styles.label}
+                                    htmlFor="documentNumber"
+                                  >
+                                    nomer
+                                  </label>
+                                  <input
+                                    className={styles.input}
+                                    name="documentNumber"
+                                    type="text"
+                                    value={values[idx].documentNumber}
+                                    onChange={(e) => this.handleChangeInput(el.id, e)}
+                                    autoComplete="nope"
+                                  />
+                                </div>
+                              </>
+                            )}
+                            {requeredFields.includes("BIRTHDAY") && (
+                              <DatePicker
+                                className={styles.input}
+                                selected={new Date(values[idx].birthday)}
+                                dateFormat="dd MMMM yyyy"
+                                locale={dateLocale(lang)}
+                                onChange={(date, e) =>
+                                  this.handleChangeDate(date, e, el.id)
+                                }
+                                peekNextMonth
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                              />
+                            )}
                             {this.props.requeredFields.includes("GENDER") && (
                               <GenderInput
                                 id={el.id}
-                                values={values[idx]}
+                                values={values[idx].gender}
                                 changeGender={this.handleChangeInput}
                               />
                             )}
@@ -451,7 +606,7 @@ class FormForBuy extends Component {
                   </div>
                   <button
                     className={styles.buttonBuy}
-                    type="submit"
+                    type="button"
                     disabled={isOffer}
                     onClick={this.sendOrder}
                   >

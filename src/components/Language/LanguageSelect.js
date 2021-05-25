@@ -30,8 +30,7 @@ const LanguageSelect = () => {
 
   return (
     <div className={styles.selectBox}>
-      <select className={styles.select} value={language} onChange={handleChange}>
-        
+      <select className={styles.select} value={language} onChange={handleChange}>        
         <option className={styles.option} value="UA">
           UA
         </option>

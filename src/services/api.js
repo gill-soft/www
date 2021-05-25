@@ -1,7 +1,7 @@
 import axios from "axios";
 const baseURLcontrol = "https://busis.eu/gds-control/api/v1";
 const baseURLsale = "https://busis.eu/gds-sale/api/v1";
-
+// http://busis.eu:8080/gds-sale/api/v1/search
 const AUTH_KEY = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
 const AUTH_KEY2 = `Basic ${Buffer.from("380888888880:8111").toString("base64")}`;
 

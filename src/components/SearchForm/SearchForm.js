@@ -1,9 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ru from "date-fns/locale/ru";
-import en from "date-fns/locale/en-GB";
-import ua from "date-fns/locale/uk";
-import pl from "date-fns/locale/pl";
 import DatePicker from "react-datepicker";
 import Button from "@material-ui/core/Button";
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,6 +23,7 @@ import styles from "./SearchForm.module.css";
 import AmountPassanger from "./AmountPassanger";
 import AutoComplete from "./AutoComlete";
 import { getUrl } from "../../services/getUrl";
+import { dateLocale } from "../../services/dateFormat";
 
 const SearchForm = ({ history, scroll=false }) => {
   const lang = useSelector((state) => state.language);
@@ -51,13 +48,7 @@ const SearchForm = ({ history, scroll=false }) => {
   const locale = lang === "UA" ? "UK" : lang;
   const windowWidth = window.innerWidth;
 
-  // ==== данные для отображения календаря на языке пользователя ==== //
-  const dateLocale = () => {
-    if (lang === "EN") return en;
-    if (lang === "RU") return ru;
-    if (lang === "UA") return ua;
-    if (lang === "PL") return pl;
-  };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,7 +93,7 @@ const SearchForm = ({ history, scroll=false }) => {
                 dateFormat="dd MMMM"
                 selected={date}
                 minDate={new Date()}
-                locale={dateLocale()}
+                locale={dateLocale(lang)}
                 onChange={(date) => {
                   setData(date);
                   changeIsOpenDate(false);

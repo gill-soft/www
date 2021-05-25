@@ -6,26 +6,25 @@ const TextInput = ({
   idx,
   name,
   values,
-  isValidName,
+  isValid ,
   handleChangeInput,
   label,
-  onlyLatin,
 }) => {
   return (
     <div className={styles.inputBox}>
-    
-      <label className={styles.label} htmlFor="surname">
-        {label}<small>{onlyLatin()}</small>
+      <label className={styles.label} htmlFor={name}>
+        {label}
+        
       </label>
       <input
-        className={`${styles.input} ${isValidName[0] === idx ? styles.red : null}`}
+        className={`${styles.input} ${isValid[idx] ? styles.red : null}`}
         name={name}
         type="text"
         value={values[idx][name]}
         onChange={(e) => handleChangeInput(id, e)}
         autoComplete="nope"
       />
-      {isValidName[0] === idx && <p className={styles.redText}>{isValidName[1]}</p>}
+      {isValid[idx] && <p className={styles.redText}>{isValid[idx]}</p>}
     </div>
   );
 };

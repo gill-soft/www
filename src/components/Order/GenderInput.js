@@ -1,6 +1,6 @@
 import React from "react";
 
-const GenderInput = ({ id, values, changeGender }) => {
+const GenderInput = ({ id, value, changeGender }) => {
   return (
     <>
       <span>Стать: </span>
@@ -9,7 +9,7 @@ const GenderInput = ({ id, values, changeGender }) => {
           type="checkbox"
           name="gender"
           value="m"
-          checked={values.gender === "m"}
+          checked={value === "m"}
           onChange={(e) => changeGender(id, e)}
         />{" "}
         чоловік
@@ -19,7 +19,7 @@ const GenderInput = ({ id, values, changeGender }) => {
           type="checkbox"
           name="gender"
           value="f"
-          checked={values.gender === "f"}
+          checked={value === "f"}
           onChange={(e) => changeGender(id, e)}
         />
         жінка
