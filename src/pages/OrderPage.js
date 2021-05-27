@@ -9,7 +9,7 @@ const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
   const tripKeys = useSelector((state) => state.order.tripKeys);
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
-  const [requeredFields, setRequeredFields] = useState(["NAME", "PATRONYMIC", "SURNAME", "ONLY_LATIN", "EMAIL", "PHONE", "GENDER", "CITIZENSHIP", "DOCUMENT_TYPE", "DOCUMENT_NUMBER", "DOCUMENT_SERIES", "BIRTHDAY", "SEAT", "TARIFF"]);
+  const [requeredFields, setRequeredFields] = useState([]);
 
   useEffect(() => {
     window.scrollTo({
@@ -42,14 +42,14 @@ const OrderPage = ({ history }) => {
         <div className="bgnd">
           <div className="container">
             <div className={styles.main}>
-              <div>
+              {/* <div> */}
                 <FormForBuy
                   changeAmountPassanger={(val) => setTotalPassanger(val)}
                   total={totalPassanger}
                   history={history}
                   requeredFields={requeredFields}
                 />
-              </div>
+              {/* </div> */}
               <OrderInfo />
             </div>
           </div>

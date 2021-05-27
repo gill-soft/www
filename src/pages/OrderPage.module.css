@@ -1,28 +1,6 @@
-.formBox {
-    width: 96%;
-    margin: 0 auto;
-    padding: 30px 17px;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.main {
-    padding: 10px 0;
-}
-
-
-@media (min-width: 576px) {}
-
 @media (min-width: 768px) {
     .main {
         display: flex;
         justify-content: space-between;
     }
 }
-
-@media (min-width: 992px) {
-    .main {
-        padding-top: 30px;
-    }
-}
-
-@media (min-width: 1200px) {}

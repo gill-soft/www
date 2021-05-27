@@ -1,0 +1,30 @@
+.genderBox {
+    display: flex;
+}
+
+.genderBox p {
+    color: #636363;
+    margin-right: 6px;
+}
+
+.checkboxBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkboxBox label {
+    color: var(--text-color-main)
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}
+
+@media (min-width:576px) {
+    .genderBox {
+        margin-left: 12px;
+        flex-direction: column;
+    }
+}

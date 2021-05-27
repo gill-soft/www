@@ -1,22 +1,21 @@
 .container {
     width: 96%;
     margin: 0 auto;
-    text-align: center;
 }
 
 .passangersData {
     background-color: rgba(194, 227, 255, 0.8);
     padding: 18px 8px;
     margin-bottom: 20px;
-    /* border-radius: 4px; */
 }
+
 .passangersData:first-child {
-border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0;
 }
 
 .passangersData:last-child {
-    border-radius: 0 0 10px 10px ;
-    }
+    border-radius: 0 0 10px 10px;
+}
 
 
 .title,
@@ -37,13 +36,16 @@ border-radius: 10px 10px 0 0;
 }
 
 .svgBox {
-    padding: 10px;
+    /* padding: 10px; */
     border: 1px solid var(--color-secondary);
     border-radius: 10px;
     height: 50px;
     width: 50px;
     position: relative;
-    margin: 0 auto 10px
+    margin: 0 auto 10px;
+    background-image: url("../../images/person-24px.svg");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .svg {
@@ -68,11 +70,9 @@ border-radius: 10px 10px 0 0;
     top: 12px;
 }
 
-.inputBox {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
+/* .inputBox {
+   text-align: left;
+} */
 
 .emailBox {
     border-top: 1px solid #fff;
@@ -141,7 +141,7 @@ border-radius: 10px 10px 0 0;
     color: var(--color-main);
     cursor: pointer;
     box-shadow: 0 0 3px 2px rgb(152, 206, 253);
-    
+
 }
 
 .buttonAdd:hover,
@@ -153,7 +153,7 @@ border-radius: 10px 10px 0 0;
 
 .buttonBuy {
     width: 220px;
-    padding: 15px 5px ;
+    padding: 15px 5px;
     display: block;
     background-color: rgb(143, 202, 253);
     border: 1px solid rgb(99, 179, 250);
@@ -215,6 +215,7 @@ border-radius: 10px 10px 0 0;
     font-size: 12px;
     font-style: italic;
     padding-left: 4px;
+    white-space: nowrap;
 }
 
 .summBox {
@@ -239,9 +240,58 @@ border-radius: 10px 10px 0 0;
     margin-bottom: 10px;
     color: var(--color-main)
 }
+
 .total .summa {
     width: 160px;
     letter-spacing: 1.5px;
+}
+
+.documentSeries {
+    width: 30%;
+    margin-right: 1px;
+
+}
+
+.documentNumber {
+    width: 70%;
+}
+
+.seriesNumber {
+    display: flex;
+}
+.input[name='citizenship'],
+    .input[name='documentType']{
+        padding-top: 7.5px;
+    }
+
+@media (min-width:576px) {
+    .documentBox {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .documentType {
+        width: 290px;
+    }
+
+    .seriesNumber {
+        width: 40%;
+    }
+
+    .documentSeries {
+        width: 60px;
+    }
+
+    .documentNumber {
+        width: 160px;
+    }
+
+
+
+    .birthdayGender {
+        display: flex;
+        /* justify-content: space-between; */
+    }
 }
 
 @media (min-width:768px) {
@@ -249,10 +299,10 @@ border-radius: 10px 10px 0 0;
         width: 400px;
     }
 
-    /* .buttonAdd,
-    .buttonBuy {
-        margin: 0 0 12px 0;
-    } */
+    .birthday,
+    .input[name='documentType'] {
+        width: 226px;
+    }
 }
 
 @media (min-width:992px) {
@@ -276,11 +326,45 @@ border-radius: 10px 10px 0 0;
 
     .inputsContainer {
         display: flex;
+        flex-wrap: wrap;
+        width: 534px;
     }
 
     .input {
         width: 150px;
         margin-right: 8px;
+    }
+
+    .textBox {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .input[name='citizenship'],
+    .input[name='documentType'],
+    .birthday,
+    .inputBirthday {
+        width: 308px;
+    }
+    
+    .documentType{
+        margin-right: 6px;
+      
+    }
+    .input[name='documentSeries']{
+        width: 60px;
+    }
+    .input[name='documentNumber'] {
+        width: 140px;
+    }
+
+    .inputBox {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inputPhone {
+        margin-right: 6px;
     }
 
     .inputPhone {
@@ -303,11 +387,12 @@ border-radius: 10px 10px 0 0;
     .redText {
         font-size: 11px;
     }
+
     .publicOfferBox input {
-        
+
         margin: 0px 6px 0 0;
     }
-    
+
 }
 
 @media (min-width: 1200px) {
@@ -319,6 +404,7 @@ border-radius: 10px 10px 0 0;
     .inputsContainer {
         padding-top: 8px;
         align-items: center;
+        width: 634px;
     }
 
     .input,

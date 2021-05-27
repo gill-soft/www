@@ -17,14 +17,14 @@ const TextInput = ({
         
       </label>
       <input
-        className={`${styles.input} ${isValid[idx] ? styles.red : null}`}
+        className={`${styles.input} ${isValid[idx]?.[name] ? styles.red : null}`}
         name={name}
         type="text"
         value={values[idx][name]}
         onChange={(e) => handleChangeInput(id, e)}
         autoComplete="nope"
       />
-      {isValid[idx] && <p className={styles.redText}>{isValid[idx]}</p>}
+      {isValid[idx]?.[name] && <p className={styles.redText}>{isValid[idx]?.[name]}</p>}
     </div>
   );
 };
