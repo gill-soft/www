@@ -9,7 +9,7 @@ const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
   const tripKeys = useSelector((state) => state.order.tripKeys);
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
-  const [requeredFields, setRequeredFields] = useState([]);
+  const [requeredFields, setRequeredFields] = useState(["NAME", "PATRONYMIC", "SURNAME", "ONLY_LATIN", "EMAIL", "PHONE", "BIRTHDAY",   "SEAT", "TARIFF"]);
 
   useEffect(() => {
     window.scrollTo({
