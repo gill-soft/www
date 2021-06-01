@@ -2,10 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./TripBox.module.css";
-// import "./TripBoxAnimation.css";
 import { CSSTransition } from "react-transition-group";
 import "../../stylesheet/animation.css";
-
 import { setTripKeys } from "../../redux/order/orderActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
@@ -27,7 +25,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
   const sendTripsKey = (arr) => dispatch(setTripKeys(arr));
   const [isOpen, setIsOpen] = useState(false);
   const [isDetails, setIsDetails] = useState(false);
-
+  const [freeSeats, setFreeSeats] = useState(0);
   const [arrayStops, setArrayStops] = useState([]);
   const locale = lang === "UA" ? "UK" : lang;
   const backdropRef = useRef(null);
@@ -39,9 +37,15 @@ const DoubleTrips = ({ tripKeys, location }) => {
       trips.segments[el].route ? arr.push(true) : arr.push(false);
       return arr;
     }, []);
-    setIsDetails(array.includes(false) ? false : true);
+    setIsDetails(array.every(el=> el === true));
+// ==== определяем минимальное количество мест на маршруте ==== //
+    const freeSeatsArray = tripKeys.reduce((arr, el) => {
+      arr.push(+trips.segments[el].freeSeatsCount);
+      return arr;
+    }, []);
+    setFreeSeats(Math.min(...freeSeatsArray));
   }, [tripKeys, trips.segments]);
-
+  
   const handleClick = () => {
     sendTripsKey(tripKeys);
     sessionStorage.setItem(
@@ -138,6 +142,18 @@ const DoubleTrips = ({ tripKeys, location }) => {
             >
               <FormattedMessage id="choose" />
             </Link>
+            {/*  */}
+            <p
+              className={
+                freeSeats > 10 ? styles.green : styles.red
+              }
+            >
+              мест{" "}
+              {freeSeats > 10
+                ? "10+"
+                : freeSeats}
+            </p>
+            {/*  */}
           </div>
           {isDetails && (
             <button className={styles.additionals} onClick={handleAdditionals}>

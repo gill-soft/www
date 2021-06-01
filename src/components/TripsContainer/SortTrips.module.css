@@ -48,7 +48,7 @@
 .optionsBox {
     position: absolute;
     top: 42px;
-    right: 0;
+    right: 6px;
     z-index: 100;
     text-align: left;
 }

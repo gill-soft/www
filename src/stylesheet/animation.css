@@ -35,7 +35,6 @@
 .menu-exit-active {
     margin-right: -80%;
     transition: margin-right 300ms ease-out;
-    /* color: rgb(43, 43, 83) */
 }
 
 /*  детали маршрута */
@@ -45,7 +44,6 @@
 
 .single-enter-active {
     transform: translateY(-0%) scaleY(1);
-
     transition: transform 300ms ease-out;
 }
 
@@ -55,5 +53,24 @@
 
 .single-exit-active {
     transform: scale(0);
+    transition: transform 300ms ease-out;
+}
+
+/* сортировка */
+.sort-enter {
+    transform: translateY(-50%) scaleY(0);
+}
+
+.sort-enter-active {
+    transform: translateY(-0%) scaleY(1);
+    transition: transform 300ms ease-out;
+}
+
+.sort-exit {
+    transform: translateY(-0%) scaleY(1);
+}
+
+.sort-exit-active {
+    transform: translateY(-50%) scaleY(0);
     transition: transform 300ms ease-out;
 }

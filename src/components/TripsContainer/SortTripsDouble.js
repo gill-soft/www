@@ -3,9 +3,12 @@ import styles from "./SortTrips.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
-import { changeSortBoxShowDouble, changeSortTypeDouble } from "../../redux/trips/tripsActions";
+import {
+  changeSortBoxShowDouble,
+  changeSortTypeDouble,
+} from "../../redux/trips/tripsActions";
 import { CSSTransition } from "react-transition-group";
-import "./anime.css";
+import "../../stylesheet/animation.css";
 import { getPrice } from "../../services/getInfo";
 
 const SortTripsDouble = () => {
@@ -52,8 +55,6 @@ const SortTripsDouble = () => {
     });
   };
   const sortArrivalTime = () => {
-    console.log("value")
-
     doubleTrips.sort((a, b) => {
       const time_partsA = trips.segments[a.segments[doubleTrips.length - 1]].arrivalDate;
       const time_partsB = trips.segments[b.segments[doubleTrips.length - 1]].arrivalDate;
@@ -83,7 +84,6 @@ const SortTripsDouble = () => {
     if (sortType === "departure") return <FormattedMessage id="sortDeparture" />;
     if (sortType === "timeInWay") return <FormattedMessage id="sortTime" />;
   };
-
   const toggleShow = () => {
     changeShowSortBoxDouble(!isShowSortBoxDouble);
   };
@@ -92,15 +92,14 @@ const SortTripsDouble = () => {
       <div className={styles.selectBox}>
         <p className={styles.flex}>
           <FormattedMessage id="sort" />
-          <button type="button" className={styles.selectValue} onClick={toggleShow} >
+          <button type="button" className={styles.selectValue} onClick={toggleShow}>
             {buttonTitle(sortType)}
           </button>
         </p>
-
         <CSSTransition
           in={isShowSortBoxDouble}
           timeout={300}
-          classNames="show"
+          classNames="sort"
           unmountOnExit
           nodeRef={backdropRef}
         >

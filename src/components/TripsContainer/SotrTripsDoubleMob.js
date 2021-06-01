@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import { changeSortTypeSingle } from "../../redux/trips/tripsActions";
-import "./anime.css";
 import { getPrice } from "../../services/getInfo";
 
 const SortTripsDouble = () => {
@@ -105,7 +104,6 @@ const SortTripsDouble = () => {
     if (name === "departure") return departure;
     if (name === "timeInWay") return time;
   };
-
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.selectBox}>

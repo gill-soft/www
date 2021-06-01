@@ -21,7 +21,6 @@ import Scelet from "../components/TripsContainer/Skelet";
 import DateCarousel from "../components/TripsContainer/DateCarousel";
 import NoTrips from "../components/TripsContainer/NoTrips";
 import DoubleTrips from "../components/TripsContainer/DoubleTrips";
-// import SingleTrips from "../components/TripsContainer/SingleTrips";
 import SortTripsSingle from "../components/TripsContainer/SortTripsSingle";
 import SortTripsSingleMob from "../components/TripsContainer/SortTripsSingleMob";
 import SortTripsDouble from "../components/TripsContainer/SortTripsDouble";
@@ -61,7 +60,6 @@ class TripsPage extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { time, location, setIsTrips, lang, history, match } = this.props;
     const parsed = queryString.parse(location.search);
-
     // ==== если меняеться время или строка запроса  ====//
     if (prevProps.time !== time || prevProps.location.pathname !== location.pathname) {
       setIsTrips(true);
@@ -96,7 +94,7 @@ class TripsPage extends Component {
   getRequestData = (parsed) => {
     return {
       idFrom: parsed.from,
-      idWhereTo: parsed.to,
+      idTo: parsed.to,
       date: parsed.date,
     };
   };
@@ -112,11 +110,8 @@ class TripsPage extends Component {
       match,
       lang,
       location,
-      sortTypeDouble,
-      sortTypeSingle,
       trips,
     } = this.props;
-    const parsed = queryString.parse(location.search);
     const locale = lang === "UA" ? "UK" : lang;
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
@@ -124,19 +119,18 @@ class TripsPage extends Component {
         {windowWidth >= 768 && (
           <SearchFormBaner history={history} scroll={this.state.scroll} />
         )}
-
         <div className="bgnd">
           <div className="container">
             <div className={styles.formBox}>
               <SearchForm history={history} scroll={this.state.scroll} />
             </div>
-            {isTrips && !sortTypeDouble && !sortTypeSingle ? (
+            {isTrips ? (
               <div className={styles.tripsBox}>
                 <h2 className={styles.title}>
                   <FormattedMessage id="title" />
                   <br /> {match.params.from} - {match.params.to}
                 </h2>
-                <DateCarousel parsed={parsed} history={history} />
+                <DateCarousel />
                 {isLoading && <Scelet />}
                 {singleTrips.length > 0 && (
                   <>
@@ -159,11 +153,11 @@ class TripsPage extends Component {
             ) : (
               <>
                 <NoTrips />
-                <DateCarousel parsed={parsed} history={history} />
+                <DateCarousel />
               </>
             )}
           </div>
-          <pre>{JSON.stringify(trips, null, 4)}</pre>
+          {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
         </div>
       </IntlProvider>
     );
@@ -180,8 +174,8 @@ const mapStateToProps = (state) => ({
   singleTrips: state.trips.singleTrips,
   doubleTrips: state.trips.doubleTrips,
   isTrips: state.trips.isTrips,
-  sertTypeSingle: state.trips.sortTypeSingle,
-  sertTypeDouble: state.trips.sortTypeDouble,
+  sortTypeSingle: state.trips.sortTypeSingle,
+  sortTypeDouble: state.trips.sortTypeDouble,
   trips: state.trips.trips,
 });
 

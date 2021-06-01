@@ -1,44 +1,43 @@
 import axios from "axios";
 const baseURLcontrol = "https://busis.eu/gds-control/api/v1";
 const baseURLsale = "https://busis.eu/gds-sale/api/v1";
-// http://busis.eu:8080/gds-sale/api/v1/search
-const AUTH_KEY = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
-const AUTH_KEY2 = `Basic ${Buffer.from("380888888880:8111").toString("base64")}`;
+// const AUTH_KEY2 = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
+const AUTH_KEY = `Basic ${Buffer.from("380888888880:8111").toString("base64")}`;
 
 //  ==== получение всех остановок ==== //
-export const getAllStops = () => {
-  return axios({
-    method: "get",
-    url: `${baseURLcontrol}/locality/all`,
-    headers: {
-      Authorization: AUTH_KEY2,
-    },
-  });
-};
+// export const getAllStops = () => {
+//   return axios({
+//     method: "get",
+//     url: `${baseURLcontrol}/locality/all`,
+//     headers: {
+//       Authorization: process.env.REACT_APP_AUTH_KEY2,
+//     },
+//   });
+// };
 // ==== поиск городов для автокомплита ==== //
 export const getCities = (val, lang) => {
   return axios({
     method: "get",
     url: `${baseURLsale}/locality/cities/${lang}?prefix=${val}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
 
 // ==== инициализация поиска ==== //
-export const getInitialization = ({ idFrom, idWhereTo, date }, lang) => {
+export const getInitialization = ({ idFrom, idTo, date }, lang) => {
   return axios({
     method: "post",
     url: `${baseURLcontrol}/search`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
     data: {
       id: "string",
       // lang: `${lang}`,
-      localityPairs: [[`${idFrom}`, `${idWhereTo}`]],
-      dates: [`${date}`],
+      localityPairs: [[idFrom, idTo]],
+      dates: [date],
       currency: "UAH",
       maxConnections: 1,
     },
@@ -51,7 +50,7 @@ export const searchTrips = (id) => {
     method: "get",
     url: `${baseURLcontrol}/search/${id}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
@@ -84,7 +83,7 @@ export const toBookTicket = (body) => {
     method: "post",
     url: `${baseURLsale}/order/with_payment_params/PORTMONE`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
     data: body,
   });
@@ -96,7 +95,7 @@ export const getTicketInfo = (id) => {
     method: "get",
     url: `${baseURLsale}/order/${id}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
@@ -107,7 +106,7 @@ export const isGooglePayComfirm = (body, orderId, paymentParamsId) => {
     method: "post",
     url: `${baseURLsale}/transaction/gPay/${orderId}/${paymentParamsId}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
       "Content-Type": "application/json",
     },
     data: body,
@@ -120,7 +119,7 @@ export const ticketComfirm = (orderId, paymentParamsId) => {
     method: "post",
     url: `${baseURLsale}/order/${orderId}/confirm/AQUIRING/${paymentParamsId}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
       "Content-Type": "application/json",
     },
   });
@@ -132,8 +131,7 @@ export const getTicketPrint = (id, lang) => {
     method: "get",
     url: `${baseURLsale}/order/${id}/document/${lang}`,
     headers: {
-      Authorization: AUTH_KEY2,
+      Authorization: AUTH_KEY,
     },
   });
 };
-

@@ -12,10 +12,10 @@ const MobileBaner = () => {
         <p className={styles.text}>відчуйте всі переваги нашого сервісу</p></div>
         <div className={styles.imgsBox}>
           <div className={styles.img}>
-            <img src={android} alt="google play" />
+            <img src={android} width="260px" height="77px" alt="google play" />
           </div>
           <div className={styles.img}>
-            <img src={ios} alt="appstore" />
+            <img src={ios} width="360px" height="77px" alt="appstore" />
           </div>
         </div>
       </div>

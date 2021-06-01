@@ -9,8 +9,8 @@ const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
   const tripKeys = useSelector((state) => state.order.tripKeys);
   const [totalPassanger, setTotalPassanger] = useState(amountPassangers);
-  const [requeredFields, setRequeredFields] = useState(["NAME", "PATRONYMIC", "SURNAME", "ONLY_LATIN", "EMAIL", "PHONE", "BIRTHDAY",   "SEAT", "TARIFF"]);
-
+  const [requeredFields, setRequeredFields] = useState([]);
+  // "NAME", "PATRONYMIC", "SURNAME", "ONLY_LATIN", "EMAIL", "PHONE", "GENDER", "CITIZENSHIP", "DOCUMENT_TYPE", "DOCUMENT_NUMBER", "DOCUMENT_SERIES",  "SEAT", "TARIFF"
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -23,7 +23,10 @@ const OrderPage = ({ history }) => {
     if (tripKeys)
       tripKeys.forEach((tripKey) => {
         getRequaredFields(tripKey)
-          .then(({ data }) => setRequeredFields([...requeredFields, ...data]))
+          .then(({ data }) =>{
+            console.log(data)
+             setRequeredFields([...requeredFields, ...data])
+          })
           .catch((err) => console.log(err));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,14 +45,12 @@ const OrderPage = ({ history }) => {
         <div className="bgnd">
           <div className="container">
             <div className={styles.main}>
-              {/* <div> */}
-                <FormForBuy
-                  changeAmountPassanger={(val) => setTotalPassanger(val)}
-                  total={totalPassanger}
-                  history={history}
-                  requeredFields={requeredFields}
-                />
-              {/* </div> */}
+              <FormForBuy
+                changeAmountPassanger={(val) => setTotalPassanger(val)}
+                total={totalPassanger}
+                history={history}
+                requeredFields={requeredFields}
+              />
               <OrderInfo />
             </div>
           </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { getPrice } from "../../services/getInfo";
 import styles from "./AdditionalServicesData.module.css";
 
 const AdditionalServicesData = ({ addServ }) => {

@@ -45,10 +45,10 @@ const HomePage = () => {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <meta name="description" content={getDescription(lang)} />
         <title>{getTitle(lang)}</title>
-      </Helmet>
+      </Helmet> */}
       {error && <Redirect to="/error" />}
       {windowWidth < 768 && isModal && (
         <Modal open={isModal} onClose={closeModal} className={styles.modal}>

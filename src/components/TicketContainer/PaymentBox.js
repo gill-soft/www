@@ -28,6 +28,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const [secondaryData, setSecondaryData] = useState(null);
   const [isModal, setIsModal] = useState(false);
   const [segments, setSegments] = useState([]);
+  const [totalPrice, settotalPrice] = useState(0);
   const history = useHistory();
 
   const ref = useRef();
@@ -44,6 +45,14 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
         CryptoJS.AES.decrypt(atob(secondary), "KeyVeze").toString(CryptoJS.enc.Utf8)
       )
     );
+    // ==== расчитываем полную стоимость билета ====//
+    settotalPrice(getTotalPrice().toFixed(2));
+
+    // ==== определяем время до конца оплаты ==== //
+    const timeEnd = new Date(ticket.services[0].expire).getTime();
+    const timeStart = new Date().getTime();
+    setTime(timeEnd - timeStart);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ==== обрабатываем ответ после оплаты googlePay ==== //
@@ -59,14 +68,10 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
         history.push(`/myTicket/${orderId}/${primaryData.paymentParamsId}`);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [googleRes]);
-  // ==== определяем время до конца оплаты ==== //
-  useEffect(() => {
-    const timeEnd = new Date(ticket.services[0].expire).getTime();
-    const timeStart = new Date().getTime();
-    setTime(timeEnd - timeStart);
-  }, [ticket.services]);
 
+  //  ==== секундомер ==== //
   useEffect(() => {
     if (time < 0) {
       setIsModal(true);
@@ -85,7 +90,11 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
       return acc + el.price.amount;
     }, 0);
   };
-
+  const getGooleplayConfirm = (paymentRequest) => {
+    isGooglePayComfirm(paymentRequest, order, primaryData.paymentParamsId)
+      .then(({ data }) => setGoogleRes(data))
+      .catch((err) => console.log(err));
+  };
   const handleClick = () => {
     setIsLoader(true);
   };
@@ -151,7 +160,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
             <div className={styles.flexItem}>
               <p>Сума до сплати: </p>
               <p className={styles.total}>
-                {getTotalPrice().toFixed(2)}
+                {totalPrice}
                 <small> грн</small>
               </p>
             </div>
@@ -194,15 +203,9 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                         countryCode: "UA",
                       },
                     }}
-                    onLoadPaymentData={(paymentRequest) => {
-                      isGooglePayComfirm(
-                        paymentRequest,
-                        order,
-                        primaryData.paymentParamsId
-                      )
-                        .then(({ data }) => setGoogleRes(data))
-                        .catch((err) => console.log(err));
-                    }}
+                    onLoadPaymentData={(paymentRequest) =>
+                      getGooleplayConfirm(paymentRequest)
+                    }
                   />
                 )}
 
@@ -211,11 +214,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                   <input type="hidden" name="payee_id" value={secondaryData.payeeId} />
 
                   <input type="hidden" name="shop_order_number" value={ticket.orderId} />
-                  <input
-                    type="hidden"
-                    name="bill_amount"
-                    value={getTotalPrice().toFixed(2)}
-                  />
+                  <input type="hidden" name="bill_amount" value={totalPrice} />
                   <input
                     type="hidden"
                     name="description"
@@ -268,8 +267,8 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
             <ReturnConditions segments={segments} close={closeReturnConditions} />
           </Modal>
           <Modal open={isModal} disableBackdropClick={true}>
-        <GoHome />
-      </Modal>
+            <GoHome />
+          </Modal>
           {googleRes && (
             <form
               ref={ref}

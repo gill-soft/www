@@ -18,8 +18,8 @@ const ReturnConditions = React.forwardRef(({ segments, close }, ref) => {
             {getCity(ticket.segments[el.segment.id].arrival.id, ticket, lang)}
           </h5>
           <ul>
-            {el.price.tariff.returnConditions.map((item) => (
-              <p className={styles.text}>{item.title.EN}</p>
+            {el.price.tariff.returnConditions.map((item, idx) => (
+              <p key={idx} className={styles.text}>{item.title.EN}</p>
             ))}
           </ul>
         </div>

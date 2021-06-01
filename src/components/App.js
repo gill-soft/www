@@ -1,38 +1,36 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
-import ErrorPage from "../pages/ErrorPage";
-import HomePage from "../pages/HomePage";
-import MyTicketPage from "../pages/MyTicketPage";
-import OrderPage from "../pages/OrderPage";
-import TicketPage from "../pages/TicketPage";
-import TripsPage from "../pages/TripsPage";
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { changeLanguage } from "../redux/Language/LanguageAction";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import Info from "../pages/Info";
-import AboutUs from "../pages/AboutUs";
-import Cities from "../pages/Cities";
-import City from "../pages/City";
-import { changeLanguage } from "../redux/Language/LanguageAction";
-// import ReactGA from "react-ga";
+const ErrorPage = lazy(() => import("../pages/ErrorPage"));
+const HomePage = lazy(() => import("../pages/HomePage"));
+const MyTicketPage = lazy(() => import("../pages/MyTicketPage"));
+const OrderPage = lazy(() => import("../pages/OrderPage"));
+const TicketPage = lazy(() => import("../pages/TicketPage"));
+const TripsPage = lazy(() => import("../pages/TripsPage"));
+const Info = lazy(() => import("../pages/Info"));
+const City = lazy(() => import("../pages/City"));
+const Cities = lazy(() => import("../pages/Cities"));
 
 const App = () => {
   const dispatch = useDispatch();
 
-  const setLanguege = useCallback((lang) => dispatch(changeLanguage(lang)), [dispatch]);
-  // ====Google analitics ==== //
-  // useEffect(() => {
-  //   ReactGA.initialize("G-3Q2PJ52QMM");
-  //   ReactGA.pageview(window.location.pathname + window.location.search);
-  // }, []);
-
+  const setLanguege = useCallback(
+    (lang) => {
+      dispatch(changeLanguage(lang));
+    },
+    [dispatch]
+  );
   useEffect(() => {
     const lang = JSON.parse(localStorage.getItem("language")) || "UA";
     setLanguege(lang);
   }, [setLanguege]);
 
   return (
-    <>
+    <Suspense fallback={<LinearProgress />} >
       <Header />
       <Switch>
         <Route path="/" exact component={HomePage} />
@@ -49,14 +47,13 @@ const App = () => {
         <Route path="/trips/" component={Cities} />
         <Route path="/autobusy/" component={Cities} />
         <Route path="/info" component={Info} />
-        <Route path="/about-us" component={AboutUs} />
         <Route path="/order" component={OrderPage} />
         <Route path="/ticket/:orderId/:primary/:secondary" component={TicketPage} />
         <Route path="/myTicket/:orderId/:payedId" component={MyTicketPage} />
         <Route path="/error" component={ErrorPage} />
       </Switch>
       <Footer />
-    </>
+    </Suspense>
   );
 };
 

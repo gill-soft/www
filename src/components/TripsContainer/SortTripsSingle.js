@@ -5,7 +5,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
 import { changeSortBoxShow, changeSortTypeSingle } from "../../redux/trips/tripsActions";
 import { CSSTransition } from "react-transition-group";
-import "./anime.css";
+import "../../stylesheet/animation.css";
 
 const SortTripsSingle = () => {
   const singleTrips = useSelector(({ trips }) => trips.singleTrips);
@@ -75,7 +75,7 @@ const SortTripsSingle = () => {
         <CSSTransition
           in={isShowSortBox}
           timeout={300}
-          classNames="show"
+          classNames="sort"
           unmountOnExit
           nodeRef={backdropRef}
         >

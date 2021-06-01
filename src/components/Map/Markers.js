@@ -4,10 +4,10 @@ import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import iconBlue from "../../images/adjust_blue.svg";
 import iconYellow from "../../images/adjust_yellow.svg";
-import { citiesList } from "../../assets/cities";
+// import { citiesList } from "../../assets/cities";
 import styles from "./Leaflet.module.css";
 
-const Markers = ({ city, history, changeFrom, list, from, changeTo }) => {
+const Markers = ({ city, changeFrom, from, changeTo, citiesList }) => {
   const lang = useSelector((state) => state.language);
   const [hover, setHover] = useState(false);
 

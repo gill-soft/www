@@ -1,8 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router";
+import queryString from "query-string";
+import { format } from "date-fns";
 import styles from "./DateCarousel.module.css";
 import { getTodayDate, getTomorrow, getYesterday } from "../../services/getInfo";
-import { format } from "date-fns";
 import { startLoader } from "../../redux/global/globalActions";
 import { inputValueDate, setTime } from "../../redux/searchForm/searchFormAction";
 import { getUrl } from "../../services/getUrl";
@@ -14,7 +16,8 @@ import {
 import { ReactComponent as ArrowForward } from "../../images/arrow_forward_ios_white_24dp (1).svg";
 import { ReactComponent as ArrowBack } from "../../images/arrow_back_ios_white_24dp (1).svg";
 
-const DateCarousel = ({ parsed, history }) => {
+
+const DateCarousel = () => {
   const lang = useSelector((state) => state.language);
   const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
@@ -25,9 +28,10 @@ const DateCarousel = ({ parsed, history }) => {
   const sendSingleTrips = (val) => dispatch(setSingleTrips(val));
   const sendDoubleTrips = (val) => dispatch(setDoubleTrips(val));
   const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
-
+  const history = useHistory();
+  const location = useLocation()
+  const parsed = queryString.parse(location.search)
   const locale = lang === "UA" ? "UK" : lang;
-
   // ==== управление изменением даты на следующюю/предыдущую ==== //
   const changeDate = (name, { target }) => {
     const date =

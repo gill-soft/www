@@ -3,17 +3,18 @@ import { Map, TileLayer, Marker, Tooltip, Polyline } from "react-leaflet";
 import L from "leaflet";
 import styles from "./Leaflet.module.css";
 import iconCircle from "../../images/circle.svg";
-import { citiesList } from "../../assets/cities";
+import { citiesList, citiesListSecondary } from "../../assets/cities";
 import Form from "./Form";
 import Markers from "./Markers";
 import { useSelector } from "react-redux";
 
 const limeOptions = { color: "#dc0000" };
 
-const Leaflet = ({ history }) => {
+const Leaflet = () => {
   const lang = useSelector((state) => state.language);
   const [from, setFrom] = useState({});
   const [to, setTo] = useState({});
+
   const [listCities, setListCities] = useState(citiesList);
   const [polyline, setPolyline] = useState([
     [undefined, undefined],
@@ -52,12 +53,19 @@ const Leaflet = ({ history }) => {
     setListCities(citiesList);
   };
   const handleClickTo = () => {
-    // setFrom({});
     setTo({});
     const markers = citiesList.filter((city) => city.latitude !== from.latitude);
     setListCities(markers);
   };
-
+  
+  const changeCitiesList = ({ zoom }) => {
+    const secondary = citiesListSecondary.filter(
+      (el) => el.id !== from.id && el.id !== to.id
+    );
+    const primary = citiesList.filter((el) => el.id !== from.id && el.id !== to.id);
+    if (zoom >= 8) setListCities([...primary, ...secondary]);
+    if (zoom < 8) setListCities([...primary]);
+  };
   return (
     <>
       {/* <div className={styles.container}> */}
@@ -66,6 +74,7 @@ const Leaflet = ({ history }) => {
         center={[49.0139, 29.2858]}
         zoom={windowWidth < 768 ? 6 : 7}
         scrollWheelZoom={true}
+        onViewportChanged={changeCitiesList}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -77,7 +86,6 @@ const Leaflet = ({ history }) => {
               position={[from.latitude, from.longitude]}
               onclick={handleClickFrom}
               icon={iconC}
-              
               className={styles.marker}
             >
               <Tooltip
@@ -109,14 +117,15 @@ const Leaflet = ({ history }) => {
             </Marker>
           </div>
         )}
+
         {listCities.map((el) => (
           <Markers
             key={el.id}
             city={el}
-            history={history}
             changeFrom={changeFrom}
             changeTo={changeTo}
             from={from}
+            citiesList={listCities}
           />
         ))}
         {!polyline[1].includes(undefined) && !polyline[0].includes(undefined) && (

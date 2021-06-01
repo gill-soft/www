@@ -322,9 +322,6 @@ class FormForBuy extends Component {
     const { values, isOffer, validation } = this.state;
     const { isLoading, lang, requeredFields } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(this.state);
-    console.log(new Date(""));
-
     return (
       <>
         {isLoading && <Loader />}
@@ -342,10 +339,6 @@ class FormForBuy extends Component {
                       return (
                         <div className={styles.box} key={idx}>
                           <div className={styles.svgBox}>
-                            {/* <Person
-                              className={styles.svg}
-                              fill="var(--color-secondary)"
-                            /> */}
                             <span>{idx + 1}</span>
                           </div>
                           <button
