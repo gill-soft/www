@@ -6,15 +6,17 @@ import { inputValueFrom, inputValueTo } from "../redux/searchForm/searchFormActi
 import { Link, useParams } from "react-router-dom";
 import { getUrl } from "../services/getUrl";
 import { format } from "date-fns";
-import { citiesList } from "../assets/cities";
+import { citiesList, citiesListSecondary } from "../assets/cities";
 
 const City = ({ history }) => {
   const lang = useSelector((state) => state.language);
   const to = useSelector((state) => state.searchForm.to);
   const [scroll, setScroll] = useState(false);
+  const citieslist = [...citiesList, ...citiesListSecondary];
   const windowWidth = window.innerWidth;
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,7 +28,8 @@ const City = ({ history }) => {
 
   const { city } = useParams();
   const dispatch = useDispatch();
-  const sityObj = citiesList.find((el) => {
+  const sityObj = citieslist.find((el) => {
+    console.log(el)
     return (
       el.name.EN === city ||
       el.name.RU === city ||
@@ -34,7 +37,7 @@ const City = ({ history }) => {
       el.name.PL === city
     );
   });
-  const citiesFrom = citiesList.filter((el) => el.name[lang] !== city);
+  const citiesFrom = citieslist.filter((el) => el.name[lang] !== city);
 
   useEffect(() => {
     ((value) => dispatch(inputValueTo(value)))({

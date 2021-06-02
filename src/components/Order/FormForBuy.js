@@ -106,6 +106,10 @@ class FormForBuy extends Component {
             getError(err.message);
           });
       } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         this.props.stopLoader();
       }
     }

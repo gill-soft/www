@@ -17,12 +17,16 @@ const LanguageSelect = () => {
   const handleChange = ({ target }) => {
     if (from.text)
       getCities(from.text, target.value).then(({ data }) => {
-        changeInputFrom(data.find((city) => city.value === from.value));
+        changeInputFrom(
+          data.find((city) => city.value === from.value) || { text: "", value: "" }
+        );
       });
 
     if (to.text)
       getCities(to.text, target.value).then(({ data }) => {
-        changeInputTo(data.find((city) => city.value === to.value));
+        changeInputTo(
+          data.find((city) => city.value === to.value) || { text: "", value: "" }
+        );
       });
     onChangeLanguage(target.value);
     localStorage.setItem("language", JSON.stringify(target.value));
@@ -30,7 +34,7 @@ const LanguageSelect = () => {
 
   return (
     <div className={styles.selectBox}>
-      <select className={styles.select} value={language} onChange={handleChange}>        
+      <select className={styles.select} value={language} onChange={handleChange}>
         <option className={styles.option} value="UA">
           UA
         </option>

@@ -6,7 +6,12 @@ import { format } from "date-fns";
 import styles from "./DateCarousel.module.css";
 import { getTodayDate, getTomorrow, getYesterday } from "../../services/getInfo";
 import { startLoader } from "../../redux/global/globalActions";
-import { inputValueDate, setTime } from "../../redux/searchForm/searchFormAction";
+import {
+  inputValueDate,
+  setIsOpenFrom,
+  setIsOpenTo,
+  setTime,
+} from "../../redux/searchForm/searchFormAction";
 import { getUrl } from "../../services/getUrl";
 import {
   fetchTripsSuccess,
@@ -15,7 +20,6 @@ import {
 } from "../../redux/trips/tripsActions";
 import { ReactComponent as ArrowForward } from "../../images/arrow_forward_ios_white_24dp (1).svg";
 import { ReactComponent as ArrowBack } from "../../images/arrow_back_ios_white_24dp (1).svg";
-
 
 const DateCarousel = () => {
   const lang = useSelector((state) => state.language);
@@ -28,12 +32,22 @@ const DateCarousel = () => {
   const sendSingleTrips = (val) => dispatch(setSingleTrips(val));
   const sendDoubleTrips = (val) => dispatch(setDoubleTrips(val));
   const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
+  const sendIsOpenFrom = (trips) => dispatch(setIsOpenFrom(trips));
+  const sendIsOpenTo = (trips) => dispatch(setIsOpenTo(trips));
   const history = useHistory();
-  const location = useLocation()
-  const parsed = queryString.parse(location.search)
+  const location = useLocation();
+  const parsed = queryString.parse(location.search);
   const locale = lang === "UA" ? "UK" : lang;
   // ==== управление изменением даты на следующюю/предыдущую ==== //
-  const changeDate = (name, { target }) => {
+  const changeDate = (name) => {
+    if (from.text === "") {
+      sendIsOpenFrom(true);
+      return;
+    }
+    if (to.text === "") {
+      sendIsOpenTo(true);
+      return;
+    }
     const date =
       name === "prev"
         ? new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000

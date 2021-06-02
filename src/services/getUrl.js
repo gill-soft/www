@@ -16,8 +16,8 @@ export const getUrlCities = (lang) => {
 
 export const newUrl = async (params, lang, fromId, toId) => {
   const a = await getCities(params.from, lang);
-  const aa = a.data.find((city) => city.value === fromId).text;
+  const aa = a.data.find((city) => city.value === fromId)?.text ;
   const b = await getCities(params.to, lang);
-  const bb = b.data.find((city) => city.value === toId).text;
+  const bb = b.data.find((city) => city.value === toId)?.text ;
   return `/${getUrl(lang)}/${aa}/${bb}`;
 };
