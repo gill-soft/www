@@ -7,6 +7,8 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/HomePageMessanges";
 import { Redirect, useHistory } from "react-router-dom";
 import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
+import FavoriteTrips2 from "../components/FavoriteTrips/FavoritTrips2";
+
 import AppLinks from "../components/AppLinks/AppLinks";
 import Advantages from "../components/Advantages/Advantages";
 import { getDescription, getTitle } from "../services/headTags";
@@ -42,7 +44,6 @@ const HomePage = () => {
   const closeModal = () => {
     setIsModal(false);
   };
-
   return (
     <>
       {/* <Helmet>
@@ -99,6 +100,7 @@ const HomePage = () => {
         <div className={styles.bgndBottom}>
           <div className={`${styles.information} ${styles.container}`}>
             <FavoriteTrips />
+            {/* <FavoriteTrips2 /> */}
             <Advantages />
           </div>
         </div>

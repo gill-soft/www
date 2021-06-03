@@ -29,7 +29,7 @@ export const getCities = (val, lang) => {
 export const getInitialization = ({ idFrom, idTo, date }, lang) => {
   return axios({
     method: "post",
-    url: `${baseURLsale}/search`,
+    url: `${baseURLcontrol}/search`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -48,7 +48,7 @@ export const getInitialization = ({ idFrom, idTo, date }, lang) => {
 export const searchTrips = (id) => {
   return axios({
     method: "get",
-    url: `${baseURLsale}/search/${id}`,
+    url: `${baseURLcontrol}/search/${id}`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -59,7 +59,7 @@ export const searchTrips = (id) => {
 export const getRequaredFields = (key) => {
   return axios({
     method: "get",
-    url: `${baseURLsale}/search/trip/${key}/required`,
+    url: `${baseURLcontrol}/search/trip/${key}/required`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -70,7 +70,7 @@ export const getRequaredFields = (key) => {
 export const getRequaredFieldsS = (key) => {
   return axios({
     method: "get",
-    url: `${baseURLsale}/search/trip/${key}/seats`,
+    url: `${baseURLcontrol}/search/trip/${key}/seats`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -130,6 +130,17 @@ export const getTicketPrint = (id, lang) => {
   return axios({
     method: "get",
     url: `${baseURLsale}/order/${id}/document/${lang}`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+  });
+};
+// ==== поаулярные маршруты ==== //
+
+export const getPopularRouts = () => {
+  return axios({
+    method: "get",
+    url: `${baseURLsale}/search/trips`,
     headers: {
       Authorization: AUTH_KEY,
     },

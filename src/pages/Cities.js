@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { citiesList, citiesListSecondary } from "../assets/cities";
 import { getUrl } from "../services/getUrl";
 import styles from "./Cities.module.css";
 import Leaflet from "../components/Map/Leaflet";
+import CityImage from "../components/CityImage";
+// import a2498389 from '../images/cities/2498389.jpg';
 
 const Cities = () => {
   const lang = useSelector((state) => state.language);
   const history = useHistory();
-
   // ==== смена url при изменении языка ==== //
   useEffect(() => {
     history.replace(`/${getUrl(lang).trim()}`);
@@ -28,7 +29,7 @@ const Cities = () => {
               >
                 <div className={styles.overlay}></div>
                 <div className={styles.img}>
-                  <img src={el.image} alt={`квитки онлайн в ${el.name.lang}`}></img>
+                  <CityImage id={el.id} />
                 </div>
                 <p className={styles.name}>{el.name[lang]}</p>
               </Link>
@@ -42,7 +43,8 @@ const Cities = () => {
               >
                 <div className={styles.overlay}></div>
                 <div className={styles.img}>
-                  <img src={el.image} alt={`квитки онлайн в ${el.name.lang}`}></img>
+                <CityImage id={el.id} />
+
                 </div>
                 <p className={styles.name}>{el.name[lang]}</p>
               </Link>
