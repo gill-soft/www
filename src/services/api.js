@@ -29,7 +29,7 @@ export const getCities = (val, lang) => {
 export const getInitialization = ({ idFrom, idTo, date }, lang) => {
   return axios({
     method: "post",
-    url: `${baseURLcontrol}/search`,
+    url: `${baseURLsale}/search`,
     headers: {
       Authorization: AUTH_KEY,
     },
@@ -48,7 +48,7 @@ export const getInitialization = ({ idFrom, idTo, date }, lang) => {
 export const searchTrips = (id) => {
   return axios({
     method: "get",
-    url: `${baseURLcontrol}/search/${id}`,
+    url: `${baseURLsale}/search/${id}`,
     headers: {
       Authorization: AUTH_KEY,
     },
