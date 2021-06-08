@@ -133,7 +133,7 @@ const AddServ = ({ addKey }) => {
             <b className={styles.nameAddServ}>
               {trips.additionalServices[addKey].name[lang]}:{" "}
               {trips.additionalServices[addKey].price.amount}
-              <small> {trips.additionalServices[addKey].price.currency}</small>
+              <small> грн</small>
             </b>
 
             <p>{trips.additionalServices[addKey].description[lang]}</p>
@@ -155,7 +155,7 @@ const AddServ = ({ addKey }) => {
         <div className={styles.total}>
           <p>
             <strong>
-              Всього: {price} <small>uah</small>
+              Всього: {price} <small>грн</small>
             </strong>
           </p>
           

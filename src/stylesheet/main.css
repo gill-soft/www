@@ -145,6 +145,7 @@ div>.react-datepicker__day-name {
     min-width: 30px;
 }
 
+
 @media (min-width: 576px) {
     .container {
         max-width: 540px;

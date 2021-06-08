@@ -116,6 +116,7 @@ class FormForBuy extends Component {
 
     //  ==== после получения ответа переходим на страницу билета ==== //
     if (prevState.resp !== resp) {
+      console.log("resp", resp);
       // ==== проверяем на ошибки в статусе ==== //
       const status = resp.services.every((el) => el.status === "NEW");
       if (status) {
@@ -131,10 +132,10 @@ class FormForBuy extends Component {
         this.props.fetchTicket({});
 
         this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
+      } else {
+        this.props.getError("el.error.message");
+        return;
       }
-    } else {
-      this.props.getError("el.error.message");
-      return;
     }
   }
 

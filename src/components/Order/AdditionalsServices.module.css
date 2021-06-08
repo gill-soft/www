@@ -29,12 +29,12 @@
 }
 
 .description {
-    width: 230px;
+    font-size: 14px;
 }
 
 .img {
-    min-width: 30px;
-    max-width: 30px;
+    min-width: 130px;
+    max-width: 130px;
     margin-right: 8px;
 }
 
@@ -63,13 +63,17 @@
 
 .checkbox {
     height: 16px;
-    width: 16px;
+    min-width: 16px;
 }
 
 .nameAddServ {
     display: block;
     margin-bottom: 4px;
-    font-size: 16px;
+    /* font-size: 14px; */
+}
+
+.description small {
+    text-transform: lowercase;
 }
 
 
@@ -100,6 +104,6 @@
     .checkbox {
         height: 18px;
         width: 18px;
-        margin-right: 5px;
+        margin-left: 5px;
     }
 }

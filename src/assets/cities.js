@@ -234,4 +234,5 @@ export const citiesListSecondary = [
     image:
       "https://s1.tchkcdn.com/g-C1-NlRsa8B-MJPiONaVKXQ/17/260608/660x480/f/0/b19_depositphotos_233965292_m_2015.jpg",
   },
+ 
 ];
