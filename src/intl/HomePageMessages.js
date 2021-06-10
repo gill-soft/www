@@ -1,12 +1,11 @@
 export const messages = {
   UK: {
     title: "Квитки на автобус",
-    subtitle: "по Україні, Польщі, Європі",
     iconItem1: "Гарантія низької вартості",
     iconItem2: "Безпечна оплата картою",
     iconItem3: "Цілодобова служба підтримки",
     iconItem4: "Система знижок і бонусів",
-    iconItem5: "смс інформування",
+    iconItem5: "CMC інформування",
     searchBtn: "Пошук квитків",
     inputAmount: "Пасажири",
     from: "Звідки",
@@ -22,12 +21,11 @@ export const messages = {
   },
   RU: {
     title: "Билеты на автобус",
-    subtitle: "по Украине, Польше, Европе",
     iconItem1: "Гарантия низкой цены",
     iconItem2: "Безопасная оплата картой",
     iconItem3: "Круглосуточная служба поддержки",
     iconItem4: "Система скидок и бонусов",
-    iconItem5: "Смс информирование",
+    iconItem5: "СМС информирование",
     searchBtn: "Поиск билетов",
     inputAmount: "Пассажиры",
     from: "Откуда",
@@ -43,7 +41,6 @@ export const messages = {
   },
   EN: {
     title: "Bus ticket",
-    subtitle: "in Ukraine, Poland, Europe",
     iconItem1: "Low price guarantee",
     iconItem2: "Safe card payment",
     iconItem3: "24/7 customer support",
@@ -64,7 +61,6 @@ export const messages = {
   },
   PL: {
     title: "Bilety autobusowe",
-    subtitle: "na Ukrainie, w Polsce, Europie",
     iconItem1: "Gwarancja niskiej ceny",
     iconItem2: "Bezpieczna płatność kartą",
     iconItem3: "Obsługa klienta 24/7",
@@ -80,7 +76,7 @@ export const messages = {
     schedule:"Najlepszy mural",
     timeInWay:"Najkrotszy czas podrozy ",
     teaCoffe:"Kawa i herbata po drodze",
-    service:"Usługi steward\stewardessa",
+    service:"Usługi steward/stewardessa",
     popular:"Popularne trasy",
   },
 };

@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/HomePageMessanges";
+import { messages } from "../../intl/HomePageMessages";
 import {
   inputValueDate,
   setIsOpenDate,

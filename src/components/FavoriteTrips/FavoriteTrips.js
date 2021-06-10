@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/HomePageMessanges";
+import { messages } from "../../intl/HomePageMessages";
 import styles from "./FavoriteTrips.module.css";
 import { getUrl } from "../../services/getUrl";
 // import { popular } from "../../assets/popularsRouts";

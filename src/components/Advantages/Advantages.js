@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/HomePageMessanges";
+import { messages } from "../../intl/HomePageMessages";
 import styles from "./Advantages.module.css";
 import busIcon from "../../images/bus-icon-min.png";
 import scheduleIcon from "../../images/schedule-icon-min.png";

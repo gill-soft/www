@@ -5,7 +5,7 @@ import {
   decrementAmountPassangers,
   incrementAmountPassangers,
 } from "../../redux/searchForm/searchFormAction";
-import { messages } from "../../intl/HomePageMessanges";
+import { messages } from "../../intl/HomePageMessages";
 import { ReactComponent as Plus } from "../../images/add-black-18dp.svg";
 import { ReactComponent as Minus } from "../../images/remove-black-18dp.svg";
 import styles from "./AmountPassanger.module.css";

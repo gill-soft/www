@@ -4,7 +4,7 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../intl/HomePageMessanges";
+import { messages } from "../intl/HomePageMessages";
 import { Redirect, useHistory } from "react-router-dom";
 import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
 import FavoriteTrips2 from "../components/FavoriteTrips/FavoritTrips2";

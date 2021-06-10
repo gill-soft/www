@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../../intl/OrderPageMessanges";
 import { ReactComponent as Plus } from "../../images/add-black-18dp.svg";
 import { ReactComponent as Minus } from "../../images/remove-black-18dp.svg";
 import { setAdditionalServices } from "../../redux/order/orderActions";
 import styles from "./AdditionalsServices.module.css";
+import { startOfQuarter } from "date-fns";
 
 const AdditionalsServices = () => {
   const trips = useSelector((state) => state.trips.trips);
   const tripKeys = useSelector((state) => state.order.tripKeys);
-
+  const lang = useSelector((state) => state.language);
   const dispatch = useDispatch();
   const sendAdditionalServices = useCallback(
     (arr) => {
@@ -18,6 +21,7 @@ const AdditionalsServices = () => {
   );
 
   const [addServicesArray, setAddServicesArray] = useState([]);
+  const locale = lang === "UA" ? "UK" : lang;
 
   useEffect(() => {
     //   ==== получаем масив ключей всех дополнительных услуг ==== //
@@ -42,15 +46,17 @@ const AdditionalsServices = () => {
     sendAdditionalServices(arrKeys);
   }, [sendAdditionalServices, tripKeys, trips.segments]);
   return (
-    <>
+    <IntlProvider locale={locale} messages={messages[locale]}>
       {addServicesArray.length > 0 && (
         <div className={styles.passangersData}>
-          <h3 className={styles.title}>Додаткові послуги:</h3>
+          <h3 className={styles.title}>
+            <FormattedMessage id="additionalService" />
+          </h3>
           {addServicesArray.length > 0 &&
             addServicesArray.map((key) => <AddServ key={key} addKey={key} />)}
         </div>
       )}
-    </>
+    </IntlProvider>
   );
 };
 
@@ -70,6 +76,7 @@ const AddServ = ({ addKey }) => {
     },
     [dispatch]
   );
+  const locale = lang === "UA" ? "UK" : lang;
 
   // ==== управление чекбоксом ==== //
   const handleChange = () => {
@@ -120,45 +127,51 @@ const AddServ = ({ addKey }) => {
     ]);
   };
   return (
-    <div className={styles.box}>
-      <div className={styles.flex}>
-        <div className={styles.item}>
-          <div className={styles.img}>
-            <img 
-              src={`https://busis.eu/gds-sale/api/v1/additional/icon/${trips.additionalServices[addKey].additionals.iconId}`}
-              alt="icon"
-            />
-          </div>
-          <div className={styles.description}>
-            <b className={styles.nameAddServ}>
-              {trips.additionalServices[addKey].name[lang]}:{" "}
-              {trips.additionalServices[addKey].price.amount}
-              <small> грн</small>
-            </b>
+    <IntlProvider locale={locale} messages={messages[locale]}>
+      <div className={styles.box}>
+        <div className={styles.flex}>
+          <div className={styles.item}>
+            <div className={styles.img}>
+              <img
+                src={`https://busis.eu/gds-sale/api/v1/additional/icon/${trips.additionalServices[addKey].additionals.iconId}`}
+                alt="icon"
+              />
+            </div>
+            <div className={styles.description}>
+              <b className={styles.nameAddServ}>
+                {trips.additionalServices[addKey].name[lang]}:{" "}
+                {trips.additionalServices[addKey].price.amount}
+                <small>
+                  <FormattedMessage id="uah" />
+                </small>
+              </b>
 
-            <p>{trips.additionalServices[addKey].description[lang]}</p>
-            {!trips.additionalServices[addKey].enableReturn && (
-              <i>(поверненню не підлягає)</i>
-            )}
+              <p>{trips.additionalServices[addKey].description[lang]}</p>
+              {!trips.additionalServices[addKey].enableReturn && (
+                <i>(поверненню не підлягає)</i>
+              )}
+            </div>
           </div>
+
+          <input
+            type="checkbox"
+            className={styles.checkbox}
+            onChange={handleChange}
+            checked={isChecked}
+          />
         </div>
 
-        <input
-          type="checkbox"
-          className={styles.checkbox}
-          onChange={handleChange}
-          checked={isChecked}
-        />
-      </div>
+        {isChecked && trips.additionalServices[addKey].enableCount && (
+          <div className={styles.total}>
+            <p>
+              <strong>
+                <FormattedMessage id="total" /> {price}{" "}
+                <small>
+                  <FormattedMessage id="uah" />
+                </small>
+              </strong>
+            </p>
 
-      {isChecked && trips.additionalServices[addKey].enableCount && (
-        <div className={styles.total}>
-          <p>
-            <strong>
-              Всього: {price} <small>грн</small>
-            </strong>
-          </p>
-          
             <button
               type="button"
               onClick={onDecrement}
@@ -172,8 +185,8 @@ const AddServ = ({ addKey }) => {
               <Plus />
             </button>
           </div>
-        
-      )}
-    </div>
+        )}
+      </div>
+    </IntlProvider>
   );
 };

@@ -234,18 +234,18 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                     type="hidden"
                     name="success_url"
                     // value={`http://localhost:3000/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
-                    value={`https://site.busis.eu/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
+                    value={`https://veze.club/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
                   />
                   <input
                     type="hidden"
                     name="failure_url"
-                    value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                    // value={`https://site.busis.eu/ticket/${orderId}/${primary}/${secondary}`}
+                    // value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
+                    value={`https://veze.club/ticket/${orderId}/${primary}/${secondary}`}
                   />
                   <input type="hidden" name="lang" value={locale.toLowerCase()} />
                   <input type="hidden" name="encoding" value="UTF-8" />
-                  {/* <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} /> */}
-                  <input type="hidden" name="exp_time" value={"1000"} />
+                  <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
+                  {/* <input type="hidden" name="exp_time" value={"1000"} /> */}
 
                   <button
                     className={styles.portmone}

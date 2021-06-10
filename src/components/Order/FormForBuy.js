@@ -303,7 +303,7 @@ class FormForBuy extends Component {
   onlyLatin = () => {
     const { requeredFields } = this.props;
     // const requeredFields = ["NAME", "ONLY_LATIN"];
-    return requeredFields.includes("ONLY_LATIN") ? " (латинськими літерами)" : null;
+    return requeredFields.includes("ONLY_LATIN") ? <FormattedMessage id="latin" /> : null;
   };
   getTotalPrice = () => {
     return +this.getTotalPriceTickets() + this.getTotalPriceAdditionals();
@@ -362,7 +362,7 @@ class FormForBuy extends Component {
                                 name="name"
                                 idx={idx}
                                 isValid={validation}
-                                label="Ім'я"
+                                label={<FormattedMessage id="name" />}
                               />
                               <TextInput
                                 handleChangeInput={this.handleChangeInput}
@@ -371,7 +371,7 @@ class FormForBuy extends Component {
                                 name="surname"
                                 idx={idx}
                                 isValid={validation}
-                                label="Прізвище"
+                                label={<FormattedMessage id="surname" />}
                               />
 
                               {requeredFields.includes("PATRONYMIC") && (
@@ -382,12 +382,12 @@ class FormForBuy extends Component {
                                   name="patronymic"
                                   idx={idx}
                                   isValid={validation}
-                                  label="Побатькові"
+                                  label={<FormattedMessage id="patronymic" />}
                                 />
                               )}
                               <div className={styles.inputBox}>
                                 <label className={styles.label} htmlFor="phone">
-                                  Телефон**
+                                <FormattedMessage id="phone" />
                                 </label>
                                 <PhoneInput
                                   className={`${styles.inputPhone} ${
@@ -411,7 +411,7 @@ class FormForBuy extends Component {
                             {requeredFields.includes("CITIZENSHIP") && (
                               <div className={styles.inputBox}>
                                 <label className={styles.label} htmlFor="citizenship">
-                                  Громадянство
+                                <FormattedMessage id="citizenship" />
                                 </label>
                                 <select
                                   className={styles.input}
@@ -435,7 +435,7 @@ class FormForBuy extends Component {
                               {requeredFields.includes("DOCUMENT_TYPE") && (
                                 <div className={styles.documentType}>
                                   <label className={styles.label} htmlFor="documentType">
-                                    Документ
+                                  <FormattedMessage id="document" />
                                   </label>
                                   <select
                                     className={styles.input}
@@ -472,7 +472,7 @@ class FormForBuy extends Component {
                                       className={styles.label}
                                       htmlFor="documentSeries"
                                     >
-                                      Серия
+                                      <FormattedMessage id="series" />
                                     </label>
                                     <input
                                       className={`${styles.input} ${
@@ -482,7 +482,7 @@ class FormForBuy extends Component {
                                       }`}
                                       name="documentSeries"
                                       type="text"
-                                      value={values[idx].documentSeries}
+                                      value={(values[idx].documentSeries).toUpperCase()}
                                       onChange={(e) => this.handleChangeInput(el.id, e)}
                                       autoComplete="nope"
                                     />
@@ -499,7 +499,7 @@ class FormForBuy extends Component {
                                       className={styles.label}
                                       htmlFor="documentNumber"
                                     >
-                                      Номер
+                                      <FormattedMessage id="number" />
                                     </label>
                                     <input
                                       className={`${styles.input} ${
@@ -520,7 +520,7 @@ class FormForBuy extends Component {
                             <div className={styles.birthdayGender}>
                               {requeredFields.includes("BIRTHDAY") && (
                                 <div className={styles.birthday}>
-                                  <label className={styles.label}>Дата народження</label>
+                                  <label className={styles.label}><FormattedMessage id="birthday" /></label>
                                   <DatePicker
                                     className={`${styles.input} ${styles.inputBirthday} ${
                                       validation[idx]?.birthday ? styles.red : null
@@ -590,29 +590,29 @@ class FormForBuy extends Component {
                   )}
                 </div>
                 <div className={styles.passangersData}>
-                  <h3 className={styles.title}>Ваше замовлення:</h3>
+                  <h3 className={styles.title}><FormattedMessage id="order" /></h3>
                   <div className={styles.summBox}>
                     <p>
-                      Квитки:
+                    <FormattedMessage id="ticket" />
                       <span className={styles.summa}>
                         {this.getTotalPriceTickets()}
-                        <small>UAH</small>
+                        <small><FormattedMessage id="uah" /></small>
                       </span>
                     </p>
                     <p>
-                      Додаткові послуги:
+                    <FormattedMessage id="additionalService" />
                       <span className={styles.summa}>
                         {this.getTotalPriceAdditionals().toFixed(2)}
-                        <small>UAH</small>
+                        <small><FormattedMessage id="uah" /></small>
                       </span>
                     </p>
                   </div>
 
                   <p className={styles.total}>
-                    Всього:
+                  <FormattedMessage id="total" />
                     <span className={styles.summa}>
                       {this.getTotalPrice().toFixed(2)}
-                      <small>UAH</small>
+                      <small><FormattedMessage id="uah" /></small>
                     </span>
                   </p>
                   <div className={styles.publicOfferBox}>

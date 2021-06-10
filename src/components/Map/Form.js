@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "date-fns";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/HomePageMessanges";
+import { messages } from "../../intl/HomePageMessages";
 import { useHistory } from "react-router-dom";
 import { getUrl } from "../../services/getUrl";
 import styles from "./Leaflet.module.css";

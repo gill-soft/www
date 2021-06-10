@@ -11,7 +11,7 @@ import {
 } from "../../redux/searchForm/searchFormAction";
 import styled from "styled-components";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/HomePageMessanges";
+import { messages } from "../../intl/HomePageMessages";
 import { getCities } from "../../services/api";
 import { ReactComponent as Arrow } from "../../images/sync_alt-white-36dp.svg";
 import styles from "./SearchFormBaner.module.css";

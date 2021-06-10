@@ -7,7 +7,7 @@ import { getUrl } from "../../services/getUrl";
 import { popular } from "../../assets/popularRouts";
 import { setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/HomePageMessanges";
+import { messages } from "../../intl/HomePageMessages";
 
 const FavoriteTrips2 = () => {
   const lang = useSelector((state) => state.language);
