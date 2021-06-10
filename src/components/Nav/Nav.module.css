@@ -6,12 +6,16 @@
 .navLink {
     padding: 2px 5px;
     margin-bottom: 6px;
-    color:#ffffff
-
+    color: #ffffff
 }
 
 .contacts a {
-    color: #ffffff
+    display: block;
+    color: #ffffff;
+}
+
+.contacts a {
+    margin: 6px 0;
 }
 
 .selected {
@@ -33,10 +37,12 @@
 .contactsBox {
     position: relative;
 }
+
 .mobile {
     width: 120px;
 }
-.mobile  img {
+
+.mobile img {
     display: block;
     margin-bottom: 6px;
 }
@@ -68,9 +74,13 @@
         background-position: 0px 2px;
         cursor: pointer;
     }
-    .navLink, .tel, .tel a {
+
+    .navLink,
+    .tel,
+    .tel a {
         margin-bottom: 0;
     }
+
     .contacts {
         width: 170px;
         margin-top: 26px;
@@ -81,12 +91,14 @@
         background-color: var(--color-main);
         z-index: 1000;
     }
+
     .mobile {
         width: 170px;
         margin-top: 26px;
         position: absolute;
     }
-    .mobile > a:first-child {
+
+    .mobile>a:first-child {
         display: block;
         margin-bottom: 6px;
     }
@@ -98,7 +110,7 @@
         position: relative;
     }
 
-    
+
 
     .contacts a {
         cursor: pointer;

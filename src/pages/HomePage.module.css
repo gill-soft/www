@@ -1,13 +1,15 @@
 .bgnd {
-    background-image: url('../images/bgnd/14.jpg');
+    background-image: url('../images/bgnd.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: center 10%;
     padding: 40px 0;
 }
+
 .modal {
     background-color: rgba(0, 0, 0, 0.6);
 }
+
 .bgndBottom {
     background-color: rgb(245, 245, 245);
 }
@@ -25,6 +27,7 @@
     color: #ffffff;
     font-size: 28px;
     font-weight: 500;
+    cursor: default;
 }
 
 .subtitle {
@@ -144,7 +147,7 @@
     }
 
     .title {
-        font-size: 38px;
+        font-size: 42px;
     }
 
     .subtitle {

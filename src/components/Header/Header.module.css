@@ -1,7 +1,8 @@
 .header {
     width: 100%;
     background-color: var(--color-main);
-}
+
+}  
 
 .container {
     max-width: 540px;

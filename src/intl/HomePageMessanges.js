@@ -11,6 +11,14 @@ export const messages = {
     inputAmount: "Пасажири",
     from: "Звідки",
     to: "Куди",
+    date: "Дата",
+    whyWe: "Чому варто подорожувати з нами?",
+    сomfort:"Комфортабельні автобуси",
+    schedule:"Найкращий розклад",
+    timeInWay:"Найкоротший час в дорозі",
+    teaCoffe:"Чай та кава в дорозі",
+    service:"Сервіс стюард/стюардеса",
+    popular:"Популярні маршрути",
   },
   RU: {
     title: "Билеты на автобус",
@@ -24,6 +32,14 @@ export const messages = {
     inputAmount: "Пассажиры",
     from: "Откуда",
     to: "Куда",
+    date: "Дата",
+    whyWe: "Почему стоит путешествовать с нами?",
+    сomfort:"Комфортабельные автобусы",
+    schedule:"Лучшее росписание",
+    timeInWay:"Кратчайшее время в пути",
+    teaCoffe:"Чай и кофе в пути",
+    service:"Сервис стюард/стюардесса",
+    popular:"Популярные маршруты",
   },
   EN: {
     title: "Bus ticket",
@@ -37,6 +53,14 @@ export const messages = {
     inputAmount: "Passengers",
     from: "from",
     to: "to",
+    date: "Date",
+    whyWe: "Why is it worth to travel with us?",
+    сomfort:"Comfortable buses",
+    schedule:"The best schedule",
+    timeInWay:"The shortest travel time",
+    teaCoffe:"Tea and coffee on the way",
+    service:"Steward/stewardess service",
+    popular:"Popular routes",
   },
   PL: {
     title: "Bilety autobusowe",
@@ -50,5 +74,34 @@ export const messages = {
     inputAmount: "Pasażerowie",
     from: "Skąd",
     to: "Dokąd",
+    date: "Data",
+    whyWe: "Dlaczego varto podrowac z nami?",
+    сomfort:"Wygodny autobus",
+    schedule:"Najlepszy mural",
+    timeInWay:"Najkrotszy czas podrozy ",
+    teaCoffe:"Kawa i herbata po drodze",
+    service:"Usługi steward\stewardessa",
+    popular:"Popularne trasy",
   },
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

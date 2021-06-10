@@ -6,12 +6,11 @@ import LanguageSelect from "../Language/LanguageSelect";
 import styles from "./Nav.module.css";
 import "../../stylesheet/animation.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
-
+import { messanges } from "../../intl/NavMessanges";
 import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
-import { messanges } from "../../intl/NavMessanges";
 
 const Nav = ({ handleClick }) => {
   const windowWidth = window.innerWidth;
@@ -74,7 +73,7 @@ const Nav = ({ handleClick }) => {
 
           {windowWidth < 768 ? (
             <p>
-              <a href="tel: +1 111 111-11-11">+38 (099) 999-99-99</a>
+              <a href="tel: +380675092050">+38 (067) 509-20-50</a>
             </p>
           ) : (
             <CSSTransition
@@ -85,8 +84,7 @@ const Nav = ({ handleClick }) => {
               nodeRef={phoneRef}
             >
               <div className={styles.contacts} ref={phoneRef}>
-                <a href="tel: +1 111 111-11-11">+38 (099) 999-99-99</a>
-                <br />
+                <a href="tel: +380675092050">+38 (067) 509-20-50</a>
                 <a href="viber://chat?number=111 111-11-11">viber bot</a>
               </div>
             </CSSTransition>

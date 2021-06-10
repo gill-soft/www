@@ -1,4 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../../intl/HomePageMessanges";
 import styles from "./Advantages.module.css";
 import busIcon from "../../images/bus-icon-min.png";
 import scheduleIcon from "../../images/schedule-icon-min.png";
@@ -8,53 +11,89 @@ import servicesIcon from "../../images/services-icon-min.png";
 import teaIcon from "../../images/tea-icon-min.png";
 
 const Advantages = () => {
+  const lang = useSelector((state) => state.language);
+  const locale = lang === "UA" ? "UK" : lang;
+
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Чому варто подорожувати з нами?</h2>
-      <ul className={styles.list}>
-        <li className={styles.listItem}>
-          <div className={styles.imgBox}>
-            <img src={busIcon} width="30px" height="30px" alt="автобусні маршрути"></img>
-          </div>
-          <p>Комфортабельні автобуси</p>
-        </li>
-        <li className={styles.listItem}>
-          <div className={styles.imgBox}>
-            <img
-              src={scheduleIcon}
-              width="30px"
-              height="30px"
-              alt="розклад автобусів"
-            ></img>
-          </div>
-          <p>Найкращий розклад</p>
-        </li>
-        <li className={styles.listItem}>
-          <div className={styles.imgBox}>
-            <img src={timeIcon} width="30px" height="30px" alt="маршрути автобусів"></img>
-          </div>
-          <p>Найкоротший час в дорозі</p>
-        </li>
-        <li className={styles.listItem}>
-          <div className={styles.imgBox}>
-            <img src={teaIcon} width="30px" height="30px" alt="чай кава в автобусі"></img>
-          </div>
-          <p>Чай та кава в дорозі</p>
-        </li>
-        <li className={styles.listItem}>
-          <div className={styles.imgBox}>
-            <img src={wifiIcon} width="30px" height="30px" alt="wifi в автобусі"></img>
-          </div>
-          <p>WiFi</p>
-        </li>
-        <li className={styles.listItem}>
-          <div className={styles.imgBox}>
-            <img src={servicesIcon} width="30px" height="30px" alt="сервіс в автобусі"></img>
-          </div>
-          <p>Сервіс (стюардеса)</p>
-        </li>
-      </ul>
-    </div>
+    <IntlProvider locale={locale} messages={messages[locale]}>
+      <div className={styles.container}>
+        <h2 className={styles.title}>
+          <FormattedMessage id="whyWe" />
+        </h2>
+        <ul className={styles.list}>
+          <li className={styles.listItem}>
+            <div className={styles.imgBox}>
+              <img
+                src={busIcon}
+                width="30px"
+                height="30px"
+                alt="автобусні маршрути"
+              ></img>
+            </div>
+            <p>
+              <FormattedMessage id="сomfort" />
+            </p>
+          </li>
+          <li className={styles.listItem}>
+            <div className={styles.imgBox}>
+              <img
+                src={scheduleIcon}
+                width="30px"
+                height="30px"
+                alt="розклад автобусів"
+              ></img>
+            </div>
+            <p>
+              <FormattedMessage id="schedule" />
+            </p>
+          </li>
+          <li className={styles.listItem}>
+            <div className={styles.imgBox}>
+              <img
+                src={timeIcon}
+                width="30px"
+                height="30px"
+                alt="маршрути автобусів"
+              ></img>
+            </div>
+
+            <p>
+              <FormattedMessage id="timeInWay" />{" "}
+            </p>
+          </li>
+          <li className={styles.listItem}>
+            <div className={styles.imgBox}>
+              <img
+                src={teaIcon}
+                width="30px"
+                height="30px"
+                alt="чай кава в автобусі"
+              ></img>
+            </div>
+            <p>
+              <FormattedMessage id="teaCoffe" />
+            </p>
+          </li>
+          <li className={styles.listItem}>
+            <div className={styles.imgBox}>
+              <img src={wifiIcon} width="30px" height="30px" alt="wifi в автобусі"></img>
+            </div>
+            <p>WiFi</p>
+          </li>
+          <li className={styles.listItem}>
+            <div className={styles.imgBox}>
+              <img
+                src={servicesIcon}
+                width="30px"
+                height="30px"
+                alt="сервіс в автобусі"
+              ></img>
+            </div>
+            <p><FormattedMessage id="service" /></p>
+          </li>
+        </ul>
+      </div>
+    </IntlProvider>
   );
 };
 

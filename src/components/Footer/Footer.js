@@ -1,4 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../../intl/FooterMessages";
 import Offerta from "../../assets/Oferta_VZ.pdf";
 import Pk from "../../assets/pk_VZ.pdf";
 import styles from "./Footer.module.css";
@@ -9,92 +12,102 @@ import vuso from "../../images/vuso-min.png";
 import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
 const Fotter = () => {
+  const lang = useSelector((state) => state.language);
+  const locale = lang === "UA" ? "UK" : lang;
   return (
-    <footer className={styles.footer}>
-      <div className={styles.container}>
-        <div className={styles.imagesBox}>
-          <img
-            className={styles.logoImg}
-            width="70px"
-            height="41px"
-            src={vuso}
-            alt="Vuso logo"
-          ></img>
-          <img
-            className={styles.logoImg}
-            width="70px"
-            height="41px"
-            src={mastercard}
-            alt="Mastercsrd logo"
-          ></img>
-          <img
-            className={styles.logoImg}
-            width="70px"
-            height="41px"
-            src={maestro}
-            alt="Maestro logo"
-          ></img>
-          <img
-            className={styles.logoImg}
-            width="70px"
-            height="41px"
-            src={visa}
-            alt="Visa logo"
-          ></img>
-        </div>
-        <div className={styles.row}>
-          <div className={styles.listBox}>
-            <h4 className={styles.title}>Контакти</h4>
-            <ul>
-              <li className={styles.listItem}>
-                <a className={styles.link} href="tel: +1 111 111-11-11">
-                  Зв'язок з оператором:
-                  <br /> +38 (099) 999-99-99
-                </a>
-              </li>
-              <li>
-                <a className={styles.link} href="mailto: test@test.com">
-                  Email: test@test.com
-                </a>
-              </li>
-            </ul>
+    <IntlProvider locale={locale} messages={messages[locale]}>
+      <footer className={styles.footer}>
+        <div className={styles.container}>
+          <div className={styles.imagesBox}>
+            <img
+              className={styles.logoImg}
+              width="70px"
+              height="41px"
+              src={vuso}
+              alt="Vuso logo"
+            ></img>
+            <img
+              className={styles.logoImg}
+              width="70px"
+              height="41px"
+              src={mastercard}
+              alt="Mastercsrd logo"
+            ></img>
+            <img
+              className={styles.logoImg}
+              width="70px"
+              height="41px"
+              src={maestro}
+              alt="Maestro logo"
+            ></img>
+            <img
+              className={styles.logoImg}
+              width="70px"
+              height="41px"
+              src={visa}
+              alt="Visa logo"
+            ></img>
           </div>
-          <div className={styles.listBox}>
-            <h4 className={styles.title}>Документи</h4>
-            <ul>
-              <li className={styles.listItem}>
-                <a className={styles.link} href={Offerta} target="_blanc">
-                  Договір оферти
-                </a>
-              </li>
-              <li>
-                <a className={styles.link} href={Pk} target="_blanc">
-                  Політика конфіденційності
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className={styles.listBox}>
-            <h4 className={styles.title}>Мобільні додатки</h4>
-            <div className={styles.flexImgs}>
-              <div className={styles.img}>
-                <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
-                  <img src={play} width="150px" height="44px" alt="playMarket"></img>
-                </a>
-              </div>
-              <div className={styles.img}>
-                <img src={app} width="150px" height="44px" alt="appStore"></img>
+          <div className={styles.row}>
+            <div className={styles.listBox}>
+              <h4 className={styles.title}>
+                <FormattedMessage id="concacts" />
+              </h4>
+              <ul>
+                <li className={styles.listItem}>
+                  <a className={styles.link} href="tel: +380675092050">
+                    <FormattedMessage id="connection" />
+                    <br /> +38 (067) 509 20 50
+                  </a>
+                </li>
+                <li>
+                  <a className={styles.link} href="mailto: test@test.com">
+                    Email: test@test.com
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className={styles.listBox}>
+              <h4 className={styles.title}>
+                <FormattedMessage id="documents" />
+              </h4>
+              <ul>
+                <li className={styles.listItem}>
+                  <a className={styles.link} href={Offerta} target="_blanc">
+                    <FormattedMessage id="offer" />
+                  </a>
+                </li>
+                <li>
+                  <a className={styles.link} href={Pk} target="_blanc">
+                    <FormattedMessage id="privacyPolicy" />
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className={styles.listBox}>
+              <h4 className={styles.title}><FormattedMessage id="applications" /></h4>
+              <div className={styles.flexImgs}>
+                <div className={styles.img}>
+                  <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
+                    <img src={play} width="150px" height="44px" alt="playMarket"></img>
+                  </a>
+                </div>
+                <div className={styles.img}>
+                  <img src={app} width="150px" height="44px" alt="appStore"></img>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <p>
-          &copy; {new Date().getFullYear()}, Veze.
-          <span> Всі права захищено. Онлайн сервіс продажу квитків</span>
-        </p>
-      </div>
-    </footer>
+          <p>
+            &copy; {new Date().getFullYear()}, Veze.{" "}
+            <span>
+              <FormattedMessage id="allRights" />
+            </span>
+          </p>
+        </div>
+      </footer>
+    </IntlProvider>
   );
 };
 

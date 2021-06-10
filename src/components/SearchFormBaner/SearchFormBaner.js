@@ -28,7 +28,7 @@ import AmountPassanger from "./AmountPassanger";
 import AutoComplete from "./AutoComlete";
 import { getUrl } from "../../services/getUrl";
 import { CSSTransition } from "react-transition-group";
-import "./anime.css";
+import "../../stylesheet/animation.css";
 
 const SearchFormBaner = ({ history, scroll }) => {
   const lang = useSelector((state) => state.language);
@@ -102,7 +102,7 @@ const SearchFormBaner = ({ history, scroll }) => {
           <form onSubmit={handleSubmit} className={`${styles.form} `}>
             <AutoComplete />
             <div className={styles.inputBox}>
-              <span className={styles.dataLabel}>дата</span>
+              <span className={styles.dataLabel}><FormattedMessage id="date" /></span>
               <DatePicker
               className={styles.datePicker}
               dateFormat="dd MMMM"

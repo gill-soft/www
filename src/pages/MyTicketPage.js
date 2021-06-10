@@ -88,10 +88,10 @@ class MyTicketPage extends Component {
   };
   render() {
     const { status, id, url, routs, additionalServices } = this.state;
-
+    const {ticket} = this.props
     return (
       <>
-        {!Object.keys(this.props.ticket).includes("error") && (
+        {!Object.keys(ticket).includes("error") && routs.length > 0 && (
           <div className="bgnd">
             <div className="container">
               <div className={styles.data}>

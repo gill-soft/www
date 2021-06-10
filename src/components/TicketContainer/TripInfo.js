@@ -9,6 +9,7 @@ const TripInfo = ({ routs }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
+  
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.orderBox}>
