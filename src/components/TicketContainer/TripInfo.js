@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import styles from "./TripInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
-import { getCity, getDate, getStop, getTime } from "../../services/getInfo";
+import { getCity, getDate, getStop, getTimeDisplay } from "../../services/getInfo";
 
 const TripInfo = ({ routs }) => {
   const lang = useSelector((state) => state.language);
@@ -33,7 +33,7 @@ const TripInfo = ({ routs }) => {
           </p>
           <p className={styles.date}>
             {getDate("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}{" "}
-            {getTime("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}
+            {getTimeDisplay("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}
           </p>
         </div>
         <div>
@@ -57,7 +57,7 @@ const TripInfo = ({ routs }) => {
               ticket.segments[Object.keys(routs[routs.length - 1])[0]],
               lang
             )}{" "}
-            {getTime(
+            {getTimeDisplay(
               "arrivalDate",
               ticket.segments[Object.keys(routs[routs.length - 1])[0]],
               lang

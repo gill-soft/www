@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import styles from "./OrderInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/OrderPageMessanges";
-import { getCity, getDate, getStop, getTime } from "../../services/getInfo";
+import { getCity, getDate, getStop, getTimeDisplay } from "../../services/getInfo";
 
 const OrderInfo = () => {
   const lang = useSelector((state) => state.language);
@@ -34,7 +34,7 @@ const OrderInfo = () => {
             </p>
             <p className={styles.date}>
               {getDate("departureDate", trips.segments[departureKey], locale)}{" "}
-              {getTime("departureDate", trips.segments[departureKey], locale)}
+              {getTimeDisplay("departureDate", trips.segments[departureKey], locale)}
             </p>
             <h4 className={styles.subTitle}>
               <FormattedMessage id="arrival" />
@@ -47,7 +47,7 @@ const OrderInfo = () => {
             </p>
             <p className={styles.date2}>
               {getDate("arrivalDate", trips.segments[arrivalKey], locale)}{" "}
-              {getTime("arrivalDate", trips.segments[arrivalKey], locale)}
+              {getTimeDisplay("arrivalDate", trips.segments[arrivalKey], locale)}
             </p>
             
           </div>

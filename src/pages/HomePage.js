@@ -15,6 +15,7 @@ import { getDescription, getTitle } from "../services/headTags";
 import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
 import MobileBaner from "../components/MobileBaner/MobileBaner";
 import Modal from "@material-ui/core/Modal";
+import { getDate } from "../services/getInfo";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -43,6 +44,9 @@ const HomePage = () => {
 
   const closeModal = () => {
     setIsModal(false);
+  };
+  const getDate = () => {
+    console.log(new Date().toString());
   };
   return (
     <>
@@ -99,7 +103,7 @@ const HomePage = () => {
 
         <div className={styles.bgndBottom}>
           <div className={`${styles.information} ${styles.container}`}>
-            {/* <FavoriteTrips /> */}
+            <FavoriteTrips2 />
             <Advantages />
           </div>
         </div>

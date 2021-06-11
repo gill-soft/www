@@ -43,39 +43,14 @@ export const getDate = (key, trip, lang) => {
 };
 
 // ==== получаем время отправки/прибытия ==== //
-export const getTime = (key, trip, lang) => {
-  
+export const getTimeDisplay = (key, trip, lang) => {  
   return new Date(trip[key]).toLocaleString(lang, {
     hour: "2-digit",
     minute: "2-digit",
-  }).toString();
+  });
 };
 
-// ==== получаем время в дороге маршрута ==== //
-export const getTimeInWay = (trip, lang) => {
-  let h, m;
-  switch (lang) {
-    case "RU":
-      h = "ч";
-      m = "мин";
-      break;
-    case "UA":
-      h = "г";
-      m = "хв";
-      break;
-    case "EN":
-      h = "h";
-      m = "min";
-      break;
-    case "PL":
-      h = "g";
-      m = "min";
-      break;
-    default:
-      break;
-  }
-  return `${+trip.timeInWay.split(":")[0]}${h} ${trip.timeInWay.split(":")[1]}${m}`;
-};
+
 
 // ==== получаем время в дороге маршрутов с пересадкой ====//
 export const getTimeInWayDouble = (tripKeys, trips, lang) => {
@@ -105,8 +80,10 @@ export const getTimeInWayDouble = (tripKeys, trips, lang) => {
     trips.segments[tripKeys[tripKeys.length - 1]].arrivalDate
   ).getTime();
   const deltaMs = arrivalMs - departureMs;
+  console.log(deltaMs)
   const hour = Math.floor(deltaMs / (1000 * 60 * 60));
   const minutes = Math.floor((deltaMs / (1000 * 60)) % 60);
+
   return `${hour}${h} ${minutes}${m}`;
 };
 

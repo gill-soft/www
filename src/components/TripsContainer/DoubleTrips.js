@@ -11,7 +11,7 @@ import {
   getCity,
   getStop,
   getDate,
-  getTime,
+  getTimeDisplay,
   getTimeInWayDouble,
   getAddress,
   getPrice,
@@ -90,7 +90,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
             <div className={styles.info}>
               <div>
                 <p className={styles.time}>
-                  {getTime("departureDate", trips.segments[tripKeys[0]], locale)}
+                  {getTimeDisplay("departureDate", trips.segments[tripKeys[0]], locale)}
                 </p>
                 <p className={styles.date}>
                   {getDate("departureDate", trips.segments[tripKeys[0]], locale)}
@@ -109,7 +109,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
             <div className={`${styles.info} ${styles.infoLast}`}>
               <div>
                 <p className={styles.time}>
-                  {getTime("arrivalDate", trips.segments[lastKey], locale)}
+                  {getTimeDisplay("arrivalDate", trips.segments[lastKey], locale)}
                 </p>
                 <p className={styles.date}>
                   {getDate("arrivalDate", trips.segments[lastKey], locale)}
@@ -178,7 +178,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
                   <div className={styles.start}>
                     <p className={styles.timeStop}>
                       {getDate("departureDate", trips.segments[el], locale)}{" "}
-                      {getTime("departureDate", trips.segments[el], lang)}
+                      {getTimeDisplay("departureDate", trips.segments[el], lang)}
                     </p>
                     <p className={`${styles.locality} ${styles.addLocality} `}>
                       {getCity(trips.segments[el].departure.id, trips, lang)}
@@ -203,7 +203,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
                   <div className={`${styles.start} ${styles.finish}`}>
                     <p className={styles.timeStop}>
                       {getDate("arrivalDate", trips.segments[el], locale)}{" "}
-                      {getTime("arrivalDate", trips.segments[el], lang)}
+                      {getTimeDisplay("arrivalDate", trips.segments[el], lang)}
                     </p>
                     <p className={`${styles.locality} ${styles.addLocality} `}>
                       {getCity(trips.segments[el].arrival.id, trips, lang)}
