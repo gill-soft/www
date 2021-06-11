@@ -1,3 +1,5 @@
+import { getTime } from "date-fns";
+
 // ==== получаем наcелённый пункт отправки/прибытия ==== //
 export const getLocality = (id, stops, lang) => {
   const result = stops.find((el) => el.id === id);
@@ -35,7 +37,15 @@ export const getAllAddress = (key, trips, lang) =>
 
 // ==== получаем дату отправки/прибытия ==== //
 export const getDate = (key, trip, lang) => {
-  return new Date(trip[key]).toLocaleString(lang, {
+  console.log(
+    "date",
+    new Date(new Date(trip[key]).getTime()).toLocaleString(lang, {
+      day: "2-digit",
+      month: "short",
+      year: "2-digit",
+    })
+  );
+  return new Date(new Date(trip[key]).getTime()).toLocaleString(lang, {
     day: "2-digit",
     month: "short",
     year: "2-digit",
@@ -43,14 +53,12 @@ export const getDate = (key, trip, lang) => {
 };
 
 // ==== получаем время отправки/прибытия ==== //
-export const getTimeDisplay = (key, trip, lang) => {  
-  return new Date(trip[key]).toLocaleString(lang, {
+export const getTimeDisplay = (key, trip, lang) => {
+  return new Date(new Date(trip[key]).getTime()).toLocaleString(lang, {
     hour: "2-digit",
     minute: "2-digit",
   });
 };
-
-
 
 // ==== получаем время в дороге маршрутов с пересадкой ====//
 export const getTimeInWayDouble = (tripKeys, trips, lang) => {
@@ -80,7 +88,6 @@ export const getTimeInWayDouble = (tripKeys, trips, lang) => {
     trips.segments[tripKeys[tripKeys.length - 1]].arrivalDate
   ).getTime();
   const deltaMs = arrivalMs - departureMs;
-  console.log(deltaMs)
   const hour = Math.floor(deltaMs / (1000 * 60 * 60));
   const minutes = Math.floor((deltaMs / (1000 * 60)) % 60);
 
