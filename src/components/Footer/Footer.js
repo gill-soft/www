@@ -61,7 +61,7 @@ const Fotter = () => {
                   </a>
                 </li>
                 <li>
-                  <a className={styles.link} href="mailto: book@veze.club">
+                  <a className={styles.link} href="mailto:book@veze.club">
                     Email: book@veze.club
                   </a>
                 </li>

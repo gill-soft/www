@@ -15,7 +15,8 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Q2PJ52QMM"></script>
 
 </head>
-<!-- <script>
+<!-- googleAnalytics -->
+<script>
   window.dataLayer = window.dataLayer || [];
 
   function gtag() {
@@ -24,11 +25,11 @@
   gtag('js', new Date());
 
   gtag('config', 'G-3Q2PJ52QMM');
-</script> -->
+</script>
 
 <body>
   <!-- Yandex.Metrika counter -->
-  <!-- <script type="text/javascript">
+  <script type="text/javascript">
     (function (m, e, t, r, i, k, a) {
       m[i] = m[i] || function () {
         (m[i].a = m[i].a || []).push(arguments)
@@ -48,21 +49,44 @@
   </script>
   <noscript>
     <div><img src="https://mc.yandex.ru/watch/79718554" style="position:absolute; left:-9999px;" alt="" /></div>
-  </noscript> -->
+  </noscript>
   <!-- /Yandex.Metrika counter -->
   <noscript>You need to enable JavaScript to run this app.</noscript>
+  
   <div class="wrapper">
     <div id="trips"></div>
   </div>
 
   <!-- Telefonia -->
   <script type="text/javascript">
-    (function(d, w, s) {
-    var widgetHash = 'hs8ux1o3y560tpwusgu7', gcw = d.createElement(s); gcw.type = 'text/javascript'; gcw.async = true;
-    gcw.src = '//widgets.binotel.com/getcall/widgets/'+ widgetHash +'.js';
-    var sn = d.getElementsByTagName(s)[0]; sn.parentNode.insertBefore(gcw, sn);
+    (function (d, w, s) {
+      var widgetHash = 'hs8ux1o3y560tpwusgu7',
+        gcw = d.createElement(s);
+      gcw.type = 'text/javascript';
+      gcw.async = true;
+      gcw.src = '//widgets.binotel.com/getcall/widgets/' + widgetHash + '.js';
+      var sn = d.getElementsByTagName(s)[0];
+      sn.parentNode.insertBefore(gcw, sn);
     })(document, window, 'script');
   </script>
+  <!-- Consultant -->
+  <script>
+    window.senderCallback = function () {
+      SenderWidget.init({
+        companyId: "i940040518"
+      });
+    }
+  </script>
+  <script>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://widget.sender.mobi/build/init.js";
+      fjs.parentNode.insertBefore(js, fjs, 'sender-widget');
+    })(document, 'script');
+  </script>
+
 </body>
 
 </html>

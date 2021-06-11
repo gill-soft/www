@@ -4,7 +4,6 @@ import OrderInfo from "../components/Order/OrderInfo";
 import FormForBuy from "../components/Order/FormForBuy";
 import styles from "./OrderPage.module.css";
 import { getRequaredFields } from "../services/api";
-
 const OrderPage = ({ history }) => {
   const amountPassangers = useSelector((state) => state.searchForm.amountPassanger);
   const tripKeys = useSelector((state) => state.order.tripKeys);

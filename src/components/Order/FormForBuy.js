@@ -116,7 +116,6 @@ class FormForBuy extends Component {
 
     //  ==== после получения ответа переходим на страницу билета ==== //
     if (prevState.resp !== resp) {
-      console.log("resp", resp);
       // ==== проверяем на ошибки в статусе ==== //
       const status = resp.services.every((el) => el.status === "NEW");
       if (status) {
@@ -154,8 +153,16 @@ class FormForBuy extends Component {
       const obj = {};
       obj.name = this.getValidText(el, "name");
       obj.surname = this.getValidText(el, "surname");
-      obj.phone = !isValidPhoneNumber(el.phone) ? "не коректний номер телефону" : "";
-      obj.email = !regexEmail.test(el.email) ? "не коректний email" : "";
+      obj.phone = !isValidPhoneNumber(el.phone) ? (
+        <FormattedMessage id="dontcorectlyPhone" />
+      ) : (
+        ""
+      );
+      obj.email = !regexEmail.test(el.email) ? (
+        <FormattedMessage id="dontcorectlyEmail" />
+      ) : (
+        ""
+      );
       if (requeredFields.includes("PATRONUMIC"))
         obj.patronymic = this.getValidText(el, "patronymic");
       if (requeredFields.includes("DOCUMENT_NUMBER"))
@@ -163,7 +170,7 @@ class FormForBuy extends Component {
       if (requeredFields.includes("DOCUMENT_SERIES"))
         obj.documentSeries = this.getValidDocument(el.documentSeries);
       if (requeredFields.includes("BIRTHDAY"))
-        obj.birthday = !el.birthday ? "це поле необхідно заповнити" : "";
+        obj.birthday = !el.birthday ? <FormattedMessage id="requare" /> : "";
       arr.push(obj);
       return arr;
     }, []);
@@ -172,16 +179,16 @@ class FormForBuy extends Component {
   getValidText = (el, key) => {
     let str;
     if (!el[key].trim()) {
-      str = "це поле необхідно заповнити";
+      str = <FormattedMessage id="requare" />;
     } else if (!regexText.test(el[key])) {
-      str = 'поле не може містити #!"№%:?*/{|}<>';
+      str = <FormattedMessage id="dontinclud" />;
     } else if (
       this.props.requeredFields.includes("ONLY_LATIN") &&
       !regexLatin.test(el[key])
     ) {
-      str = "лише латинськими літерами";
+      str = <FormattedMessage id="latin" />;
     } else if (el[key].trim().length < 2) {
-      str = "не менше двох символів";
+      str = <FormattedMessage id="min2" />;
     } else {
       str = "";
     }
@@ -191,9 +198,9 @@ class FormForBuy extends Component {
   getValidDocument = (value) => {
     let str;
     if (!value.trim()) {
-      str = "це поле необхідно заповнити";
+      str = <FormattedMessage id="requare" />;
     } else if (!regexText.test(value)) {
-      str = 'поле не може містити #!"№%:?*/{|}<>';
+      str = <FormattedMessage id="dontinclud" />;
     } else {
       str = "";
     }
@@ -387,7 +394,7 @@ class FormForBuy extends Component {
                               )}
                               <div className={styles.inputBox}>
                                 <label className={styles.label} htmlFor="phone">
-                                <FormattedMessage id="phone" />
+                                  <FormattedMessage id="phone" />
                                 </label>
                                 <PhoneInput
                                   className={`${styles.inputPhone} ${
@@ -411,7 +418,7 @@ class FormForBuy extends Component {
                             {requeredFields.includes("CITIZENSHIP") && (
                               <div className={styles.inputBox}>
                                 <label className={styles.label} htmlFor="citizenship">
-                                <FormattedMessage id="citizenship" />
+                                  <FormattedMessage id="citizenship" />
                                 </label>
                                 <select
                                   className={styles.input}
@@ -435,7 +442,7 @@ class FormForBuy extends Component {
                               {requeredFields.includes("DOCUMENT_TYPE") && (
                                 <div className={styles.documentType}>
                                   <label className={styles.label} htmlFor="documentType">
-                                  <FormattedMessage id="document" />
+                                    <FormattedMessage id="document" />
                                   </label>
                                   <select
                                     className={styles.input}
@@ -482,7 +489,7 @@ class FormForBuy extends Component {
                                       }`}
                                       name="documentSeries"
                                       type="text"
-                                      value={(values[idx].documentSeries).toUpperCase()}
+                                      value={values[idx].documentSeries.toUpperCase()}
                                       onChange={(e) => this.handleChangeInput(el.id, e)}
                                       autoComplete="nope"
                                     />
@@ -520,7 +527,9 @@ class FormForBuy extends Component {
                             <div className={styles.birthdayGender}>
                               {requeredFields.includes("BIRTHDAY") && (
                                 <div className={styles.birthday}>
-                                  <label className={styles.label}><FormattedMessage id="birthday" /></label>
+                                  <label className={styles.label}>
+                                    <FormattedMessage id="birthday" />
+                                  </label>
                                   <DatePicker
                                     className={`${styles.input} ${styles.inputBirthday} ${
                                       validation[idx]?.birthday ? styles.red : null
@@ -590,29 +599,37 @@ class FormForBuy extends Component {
                   )}
                 </div>
                 <div className={styles.passangersData}>
-                  <h3 className={styles.title}><FormattedMessage id="order" /></h3>
+                  <h3 className={styles.title}>
+                    <FormattedMessage id="order" />
+                  </h3>
                   <div className={styles.summBox}>
                     <p>
-                    <FormattedMessage id="ticket" />
+                      <FormattedMessage id="ticket" />
                       <span className={styles.summa}>
                         {this.getTotalPriceTickets()}
-                        <small><FormattedMessage id="uah" /></small>
+                        <small>
+                          <FormattedMessage id="uah" />
+                        </small>
                       </span>
                     </p>
                     <p>
-                    <FormattedMessage id="additionalService" />
+                      <FormattedMessage id="additionalService" />
                       <span className={styles.summa}>
                         {this.getTotalPriceAdditionals().toFixed(2)}
-                        <small><FormattedMessage id="uah" /></small>
+                        <small>
+                          <FormattedMessage id="uah" />
+                        </small>
                       </span>
                     </p>
                   </div>
 
                   <p className={styles.total}>
-                  <FormattedMessage id="total" />
+                    <FormattedMessage id="total" />
                     <span className={styles.summa}>
                       {this.getTotalPrice().toFixed(2)}
-                      <small><FormattedMessage id="uah" /></small>
+                      <small>
+                        <FormattedMessage id="uah" />
+                      </small>
                     </span>
                   </p>
                   <div className={styles.publicOfferBox}>

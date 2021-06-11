@@ -12,12 +12,13 @@ export const messages = {
     to: "Куди",
     date: "Дата",
     whyWe: "Чому варто подорожувати з нами?",
-    сomfort:"Комфортабельні автобуси",
-    schedule:"Найкращий розклад",
-    timeInWay:"Найкоротший час в дорозі",
-    teaCoffe:"Чай та кава в дорозі",
-    service:"Сервіс стюард/стюардеса",
-    popular:"Популярні маршрути",
+    сomfort: "Комфортабельні автобуси",
+    schedule: "Найкращий розклад",
+    timeInWay: "Найкоротший час в дорозі",
+    teaCoffe: "Чай та кава в дорозі",
+    service: "Сервіс стюард/стюардеса",
+    popular: "Популярні маршрути",
+    text: "Для більш зручного користування рекомендуємо вам скористатися нашими мобільними додатками",
   },
   RU: {
     title: "Билеты на автобус",
@@ -32,12 +33,13 @@ export const messages = {
     to: "Куда",
     date: "Дата",
     whyWe: "Почему стоит путешествовать с нами?",
-    сomfort:"Комфортабельные автобусы",
-    schedule:"Лучшее росписание",
-    timeInWay:"Кратчайшее время в пути",
-    teaCoffe:"Чай и кофе в пути",
-    service:"Сервис стюард/стюардесса",
-    popular:"Популярные маршруты",
+    сomfort: "Комфортабельные автобусы",
+    schedule: "Лучшее росписание",
+    timeInWay: "Кратчайшее время в пути",
+    teaCoffe: "Чай и кофе в пути",
+    service: "Сервис стюард/стюардесса",
+    popular: "Популярные маршруты",
+    text: "Для более удобного пользования рекомендуем вам воспользоваться нашими мобильными приложениями.",
   },
   EN: {
     title: "Bus ticket",
@@ -52,12 +54,13 @@ export const messages = {
     to: "to",
     date: "Date",
     whyWe: "Why is it worth to travel with us?",
-    сomfort:"Comfortable buses",
-    schedule:"The best schedule",
-    timeInWay:"The shortest travel time",
-    teaCoffe:"Tea and coffee on the way",
-    service:"Steward/stewardess service",
-    popular:"Popular routes",
+    сomfort: "Comfortable buses",
+    schedule: "The best schedule",
+    timeInWay: "The shortest travel time",
+    teaCoffe: "Tea and coffee on the way",
+    service: "Steward/stewardess service",
+    popular: "Popular routes",
+    text: "For more convenient use, we recommend that you use our mobile applications.",
   },
   PL: {
     title: "Bilety autobusowe",
@@ -72,32 +75,12 @@ export const messages = {
     to: "Dokąd",
     date: "Data",
     whyWe: "Dlaczego varto podrowac z nami?",
-    сomfort:"Wygodny autobus",
-    schedule:"Najlepszy mural",
-    timeInWay:"Najkrotszy czas podrozy ",
-    teaCoffe:"Kawa i herbata po drodze",
-    service:"Usługi steward/stewardessa",
-    popular:"Popularne trasy",
+    сomfort: "Wygodny autobus",
+    schedule: "Najlepszy mural",
+    timeInWay: "Najkrotszy czas podrozy ",
+    teaCoffe: "Kawa i herbata po drodze",
+    service: "Usługi steward/stewardessa",
+    popular: "Popularne trasy",
+    text: "Dla wygodniejszego użytkowania polecamy nasze aplikacje mobilne.",
   },
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

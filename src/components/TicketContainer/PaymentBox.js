@@ -142,8 +142,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
           <div className={styles.payment}>
             <div className={styles.infoblock}>
               <p>
-                Ваші платіжні та особисті дані надійно захищені відповідно до міжнародних
-                стандартів безпеки.
+              <FormattedMessage id="securityStandart" />
               </p>
               <div className={styles.images}>
                 <div className={styles.img}>
@@ -158,14 +157,14 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
               </div>
             </div>
             <div className={styles.flexItem}>
-              <p>Сума до сплати: </p>
+              <p><FormattedMessage id="summ" /></p>
               <p className={styles.total}>
                 {totalPrice}
                 <small> грн</small>
               </p>
             </div>
             <div className={styles.flexItem}>
-              <p>сплатити за допомогою:</p>
+              <p><FormattedMessage id="pay" /></p>
               <div className={styles.payType}>
                 {primaryData.sellerToken !== "" && (
                   <GooglePayButton
@@ -260,7 +259,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
               onClick={handleClickReturn}
               className={styles.returnConditions}
             >
-              Умови повернення
+              <FormattedMessage id="return" />
             </button>
           </div>
           <Modal open={segments.length > 0} onClose={closeReturnConditions}>

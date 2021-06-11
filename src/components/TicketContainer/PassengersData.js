@@ -44,7 +44,7 @@ const PassengersData = () => {
                   <span>
                     <FormattedMessage id="cost" />
                   </span>{" "}
-                  {(getTotalPrice() / passangers.length).toFixed(2)} <small>UAH</small>
+                  {(getTotalPrice() / passangers.length).toFixed(2)} <small><FormattedMessage id="uah" /></small>
                 </p>
               </div>
               <div className={styles.passangerData}>

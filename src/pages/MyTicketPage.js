@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CryptoJS from "crypto-js";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../intl/TicketPageMessanges";
 import { getTicket, getTicketConfirm } from "../redux/order/orderOperation";
 import { getTicketPrint } from "../services/api";
 import styles from "./MyTicketPage.module.css";
@@ -53,15 +55,15 @@ class MyTicketPage extends Component {
             )
           ),
         });
-        if (this.props.ticket.services[0].status === "NEW") {
+        if (ticket.services[0].status === "NEW") {
           this.props.getTicketConfirm(id, match.params.payedId);
         }
-        if (this.props.ticket.services[0].status === "CONFIRM") {
+        if (ticket.services[0].status === "CONFIRM") {
           this.setState({ status: "CONFIRM" });
           // ==== получаем билеты для печати ==== //
           getTicketPrint(id, this.props.lang)
             .then(({ data }) => {
-              this.getURL(data.documents[0].base64);
+              this.getPDF(data.documents[0].base64);
             })
             .catch((err) => console.log(err));
         }
@@ -75,7 +77,7 @@ class MyTicketPage extends Component {
     }
   }
   // ==== получаем ссылку на билет ==== //
-  getURL = (data) => {
+  getPDF = (data) => {
     const byteCharacters = atob(data);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -88,9 +90,11 @@ class MyTicketPage extends Component {
   };
   render() {
     const { status, id, url, routs, additionalServices } = this.state;
-    const {ticket} = this.props
+    const { ticket, lang } = this.props;
+    const locale = lang === "UA" ? "UK" : lang;
+
     return (
-      <>
+      <IntlProvider locale={locale} messages={messages[locale]}>
         {!Object.keys(ticket).includes("error") && routs.length > 0 && (
           <div className="bgnd">
             <div className="container">
@@ -104,29 +108,31 @@ class MyTicketPage extends Component {
               {status === "CONFIRM" && (
                 <>
                   <h1 className={`${styles.title} ${styles.blue}`}>
-                    Оплата прошла Успешно!!!
+                    <FormattedMessage id="success" />
                   </h1>
                   <p className={styles.text}>
-                    Hомер вашего заказа: <span className={styles.blue}>{id}</span>
+                    <FormattedMessage id="number" />
+                    <span className={styles.blue}>{id}</span>
                   </p>
                   <a className={styles.link} href={url} target="_blank" rel="noreferrer">
-                    Cкачать билет
+                    <FormattedMessage id="download" />
                   </a>
                 </>
               )}
               {status === "ERROR" && (
                 <>
                   <h1 className={`${styles.title} ${styles.red}`}>
-                    При офрормлении билета произошла ошибка!!!
+                    <FormattedMessage id="fail" />
                   </h1>
                   <p className={styles.text}>
-                    Свяжитесь со службой поддержки по телефону:{" "}
-                    <a href="tel: +1 111 111-11-11" className={styles.red}>
-                      +1 111 111-11-11
+                    <FormattedMessage id="call" />
+                    <a href="tel: +380675092050" className={styles.red}>
+                      +38 (067) 509-20-50
                     </a>
                   </p>
                   <p className={styles.text}>
-                    Hомер вашего заказа <span className={styles.red}>{id}</span>
+                    <FormattedMessage id="number" />
+                    <span className={styles.red}>{id}</span>
                   </p>
                 </>
               )}
@@ -135,7 +141,7 @@ class MyTicketPage extends Component {
             {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
           </div>
         )}
-      </>
+      </IntlProvider>
     );
   }
 }
