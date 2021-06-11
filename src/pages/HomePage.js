@@ -51,13 +51,13 @@ const HomePage = () => {
         <title>{getTitle(lang)}</title>
       </Helmet> */}
       {error && <Redirect to="/error" />}
-      {/* {windowWidth < 768 && isModal && (
+      {windowWidth < 768 && isModal && (
         <Modal open={isModal} onClose={closeModal} className={styles.modal}>
           <AppLinks onClose={closeModal} />
         </Modal>
-      )} */}
-      {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
-      <IntlProvider locale={locale} messages={messages[locale]}>
+      )}
+      {/* {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />} */}
+      {/* <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.bgnd}>
           <div className={styles.container}>
             <h1 className={styles.title}>
@@ -100,11 +100,11 @@ const HomePage = () => {
         <div className={styles.bgndBottom}>
           <div className={`${styles.information} ${styles.container}`}>
             <FavoriteTrips />
-            {/* <FavoriteTrips2 /> */}
             <Advantages />
           </div>
         </div>
-      </IntlProvider>
+      </IntlProvider> */}
+      <h1>Главная страница</h1>
     </>
   );
 };
