@@ -66,7 +66,7 @@ const HomePage = () => {
             <div className={styles.formContainer}>
               <SearchForm history={history} scroll={scroll} />
             </div>
-            {/* <ul className={styles.iconsBox}>
+            <ul className={styles.iconsBox}>
               <li className={`${styles.iconItem} ${styles.iconItem1}`}>
                 <p>
                   <FormattedMessage id="iconItem1" />
@@ -92,17 +92,17 @@ const HomePage = () => {
                   <FormattedMessage id="iconItem5" />
                 </p>
               </li>
-            </ul> */}
+            </ul>
           </div>
         </div>
         {windowWidth >= 768 && <MobileBaner />}
 
-        {/* <div className={styles.bgndBottom}>
+        <div className={styles.bgndBottom}>
           <div className={`${styles.information} ${styles.container}`}>
-            <FavoriteTrips />
+            {/* <FavoriteTrips /> */}
             <Advantages />
           </div>
-        </div> */}
+        </div>
       </IntlProvider>
     </>
   );
