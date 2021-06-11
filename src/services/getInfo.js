@@ -124,12 +124,15 @@ export const getTodayDate = ({ date }, lang) => {
   });
 };
 // ==== время до конца оплаты ==== //
-export const getExpireTime = (date, lang) => {
-  return new Date(date).toLocaleString(lang, {
+export const getExpireDate = (date, lang) => {
+  const time = date.split(" ")[0];
+  return new Date(time).toLocaleString(lang, {
     day: "2-digit",
     month: "long",
     year: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
   });
+};
+export const getExpireTime = (date) => {
+  return ` ${date.split(" ")[1]}`;
+  
 };

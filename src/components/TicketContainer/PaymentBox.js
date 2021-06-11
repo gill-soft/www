@@ -7,7 +7,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import GooglePayButton from "@google-pay/button-react";
 import styles from "./PaymentBox.module.css";
 import { messages } from "../../intl/TicketPageMessanges";
-import { getCity, getDate, getExpireTime } from "../../services/getInfo";
+import { getCity, getDate, getExpireTime, getExpireDate } from "../../services/getInfo";
 import { isGooglePayComfirm } from "../../services/api";
 import GoHome from "../GoHome/GoHome";
 import Loader from "../Loader/Loader";
@@ -129,7 +129,11 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
           <div className={styles.warning}>
             <p className={styles.warningText}>
               <FormattedMessage id="endTime" />
-              <span> {getExpireTime(ticket.services[0].expire, locale)}</span>
+              <span>
+                {" "}
+                {getExpireDate(ticket.services[0].expire, locale)}
+                {getExpireTime(ticket.services[0].expire)}
+              </span>
             </p>
             <p className={styles.time}>
               {new Date(time).toLocaleString("uk", {
@@ -142,7 +146,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
           <div className={styles.payment}>
             <div className={styles.infoblock}>
               <p>
-              <FormattedMessage id="securityStandart" />
+                <FormattedMessage id="securityStandart" />
               </p>
               <div className={styles.images}>
                 <div className={styles.img}>
@@ -157,14 +161,18 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
               </div>
             </div>
             <div className={styles.flexItem}>
-              <p><FormattedMessage id="summ" /></p>
+              <p>
+                <FormattedMessage id="summ" />
+              </p>
               <p className={styles.total}>
                 {totalPrice}
                 <small> грн</small>
               </p>
             </div>
             <div className={styles.flexItem}>
-              <p><FormattedMessage id="pay" /></p>
+              <p>
+                <FormattedMessage id="pay" />
+              </p>
               <div className={styles.payType}>
                 {primaryData.sellerToken !== "" && (
                   <GooglePayButton
