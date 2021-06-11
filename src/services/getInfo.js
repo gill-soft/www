@@ -36,8 +36,8 @@ export const getAllAddress = (key, trips, lang) =>
     : null;
 
 // ==== получаем дату отправки/прибытия ==== //
-export const getDate = (key, trip, lang) => { 
-  const date = trip[key].split(' ')[0]
+export const getDate = (key, trip, lang) => {
+  const date = trip[key].split(" ")[0];
   return new Date(new Date(date).getTime()).toLocaleString(lang, {
     day: "2-digit",
     month: "short",
@@ -47,10 +47,7 @@ export const getDate = (key, trip, lang) => {
 
 // ==== получаем время отправки/прибытия ==== //
 export const getTimeDisplay = (key, trip, lang) => {
-  return new Date(new Date(trip[key]).getTime()).toLocaleString(lang, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return trip[key].split(" ")[1];
 };
 
 // ==== получаем время в дороге маршрутов с пересадкой ====//
@@ -76,10 +73,16 @@ export const getTimeInWayDouble = (tripKeys, trips, lang) => {
     default:
       break;
   }
-  const departureMs = new Date(trips.segments[tripKeys[0]].departureDate).getTime();
-  const arrivalMs = new Date(
-    trips.segments[tripKeys[tripKeys.length - 1]].arrivalDate
-  ).getTime();
+  const dateDeparture = trips.segments[tripKeys[0]].departureDate.split(" ");
+  const dateArrival = trips.segments[tripKeys[0]].arrivalDate.split(" ");
+  const departureTime =
+    dateDeparture[1].split(":")[0] * 60 * 60 * 1000 +
+    dateDeparture[1].split(":")[1] * 60 * 1000;
+  const arrivalTime =
+    dateArrival[1].split(":")[0] * 60 * 60 * 1000 +
+    dateArrival[1].split(":")[1] * 60 * 1000;
+  const departureMs = new Date(dateDeparture[0]).getTime() + departureTime;
+  const arrivalMs = new Date(dateArrival[0]).getTime() + arrivalTime;
   const deltaMs = arrivalMs - departureMs;
   const hour = Math.floor(deltaMs / (1000 * 60 * 60));
   const minutes = Math.floor((deltaMs / (1000 * 60)) % 60);
