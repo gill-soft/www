@@ -37,15 +37,15 @@ const DoubleTrips = ({ tripKeys, location }) => {
       trips.segments[el].route ? arr.push(true) : arr.push(false);
       return arr;
     }, []);
-    setIsDetails(array.every(el=> el === true));
-// ==== определяем минимальное количество мест на маршруте ==== //
+    setIsDetails(array.every((el) => el === true));
+    // ==== определяем минимальное количество мест на маршруте ==== //
     const freeSeatsArray = tripKeys.reduce((arr, el) => {
       arr.push(+trips.segments[el].freeSeatsCount);
       return arr;
     }, []);
     setFreeSeats(Math.min(...freeSeatsArray));
   }, [tripKeys, trips.segments]);
-  
+
   const handleClick = () => {
     sendTripsKey(tripKeys);
     sessionStorage.setItem(
@@ -143,15 +143,8 @@ const DoubleTrips = ({ tripKeys, location }) => {
               <FormattedMessage id="choose" />
             </Link>
             {/*  */}
-            <p
-              className={
-                freeSeats > 10 ? styles.green : styles.red
-              }
-            >
-              мест{" "}
-              {freeSeats > 10
-                ? "10+"
-                : freeSeats}
+            <p className={freeSeats > 10 ? styles.green : styles.red}>
+              мест {freeSeats > 10 ? "10+" : freeSeats}
             </p>
             {/*  */}
           </div>

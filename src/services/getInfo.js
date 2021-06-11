@@ -1,4 +1,4 @@
-import { getTime } from "date-fns";
+// import { getTime } from "date-fns";
 
 // ==== получаем наcелённый пункт отправки/прибытия ==== //
 export const getLocality = (id, stops, lang) => {
@@ -36,16 +36,9 @@ export const getAllAddress = (key, trips, lang) =>
     : null;
 
 // ==== получаем дату отправки/прибытия ==== //
-export const getDate = (key, trip, lang) => {
-  console.log(
-    "date",
-    new Date(new Date(trip[key]).getTime()).toLocaleString(lang, {
-      day: "2-digit",
-      month: "short",
-      year: "2-digit",
-    })
-  );
-  return new Date(new Date(trip[key]).getTime()).toLocaleString(lang, {
+export const getDate = (key, trip, lang) => { 
+  const date = trip[key].split(' ')[0]
+  return new Date(new Date(date).getTime()).toLocaleString(lang, {
     day: "2-digit",
     month: "short",
     year: "2-digit",
