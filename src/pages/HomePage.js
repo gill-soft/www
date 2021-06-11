@@ -57,7 +57,7 @@ const HomePage = () => {
         </Modal>
       )}
       {/* {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />} */}
-      {/* <IntlProvider locale={locale} messages={messages[locale]}>
+      <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.bgnd}>
           <div className={styles.container}>
             <h1 className={styles.title}>
@@ -66,7 +66,7 @@ const HomePage = () => {
             <div className={styles.formContainer}>
               <SearchForm history={history} scroll={scroll} />
             </div>
-            <ul className={styles.iconsBox}>
+            {/* <ul className={styles.iconsBox}>
               <li className={`${styles.iconItem} ${styles.iconItem1}`}>
                 <p>
                   <FormattedMessage id="iconItem1" />
@@ -92,19 +92,18 @@ const HomePage = () => {
                   <FormattedMessage id="iconItem5" />
                 </p>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
         {windowWidth >= 768 && <MobileBaner />}
 
-        <div className={styles.bgndBottom}>
+        {/* <div className={styles.bgndBottom}>
           <div className={`${styles.information} ${styles.container}`}>
             <FavoriteTrips />
             <Advantages />
           </div>
-        </div>
-      </IntlProvider> */}
-      <h1>Главная страница</h1>
+        </div> */}
+      </IntlProvider>
     </>
   );
 };
