@@ -31,7 +31,7 @@ const HomePage = () => {
     };
   }, []);
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    if (typeof window !== `undefined`) window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -51,11 +51,11 @@ const HomePage = () => {
         <title>{getTitle(lang)}</title>
       </Helmet> */}
       {error && <Redirect to="/error" />}
-      {windowWidth < 768 && isModal && (
+      {/* {windowWidth < 768 && isModal && (
         <Modal open={isModal} onClose={closeModal} className={styles.modal}>
           <AppLinks onClose={closeModal} />
         </Modal>
-      )}
+      )} */}
       {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.bgnd}>

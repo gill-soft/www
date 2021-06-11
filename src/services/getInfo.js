@@ -44,10 +44,11 @@ export const getDate = (key, trip, lang) => {
 
 // ==== получаем время отправки/прибытия ==== //
 export const getTime = (key, trip, lang) => {
+  
   return new Date(trip[key]).toLocaleString(lang, {
     hour: "2-digit",
     minute: "2-digit",
-  });
+  }).toString();
 };
 
 // ==== получаем время в дороге маршрута ==== //
