@@ -39,13 +39,13 @@ class FormForBuy extends Component {
     const { amountPassangers, requeredFields } = this.props;
     for (let i = 0; i <= amountPassangers - 1; i++) {
       const value = {
-        name: "ww",
-        surname: "rr",
-        phone: "+380992222603",
+        name: "",
+        surname: "",
+        phone: "",
         id: `${i}`,
         email: "",
       };
-      if (requeredFields.includes("PATRONYMIC")) value.patronymic = "rr";
+      if (requeredFields.includes("PATRONYMIC")) value.patronymic = "";
       if (requeredFields.includes("GENDER")) value.gender = "m";
       if (requeredFields.includes("CITIZENSHIP")) value.citizenship = "UA";
       if (requeredFields.includes("DOCUMENT_TYPE")) value.documentType = "PASSPORT";
