@@ -45,6 +45,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
         CryptoJS.AES.decrypt(atob(secondary), "KeyVeze").toString(CryptoJS.enc.Utf8)
       )
     );
+    
     // ==== расчитываем полную стоимость билета ====//
     settotalPrice(getTotalPrice().toFixed(2));
 
@@ -122,6 +123,9 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const closeReturnConditions = () => {
     setSegments([]);
   };
+  console.log("primaryData", primaryData)
+  //   console.log("secondaryData", secondaryData )
+    // console.log(totalPrice)
   return (
     <>
       {primaryData && secondaryData && (
@@ -177,7 +181,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 {primaryData.sellerToken !== "" && (
                   <GooglePayButton
                     className={styles.google}
-                    environment="TEST"
+                    environment="PRODUCTION"
                     buttonType="short"
                     paymentRequest={{
                       apiVersion: 2,
@@ -199,19 +203,20 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                         },
                       ],
                       merchantInfo: {
-                        merchantId: primaryData.gpayMerchantId,
-                        merchantName: "Demo Merchant",
+                        // merchantId: primaryData.gpayMerchantId,
+                        merchantName: "VEZE",
                       },
                       transactionInfo: {
                         totalPriceStatus: "FINAL",
                         totalPriceLabel: "Total",
-                        totalPrice: "4.00",
+                        totalPrice:`${totalPrice}`,
                         currencyCode: "UAH",
                         countryCode: "UA",
                       },
                     }}
                     onLoadPaymentData={(paymentRequest) =>
-                      getGooleplayConfirm(paymentRequest)
+                      {console.log("paymentRequest", paymentRequest)
+                      getGooleplayConfirm(paymentRequest)}
                     }
                   />
                 )}
@@ -251,8 +256,8 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                   />
                   <input type="hidden" name="lang" value={locale.toLowerCase()} />
                   <input type="hidden" name="encoding" value="UTF-8" />
-                  <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
-                  {/* <input type="hidden" name="exp_time" value={"1000"} /> */}
+                  {/* <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} /> */}
+                  <input type="hidden" name="exp_time" value={"1000"} />
 
                   <button
                     className={styles.portmone}
@@ -273,9 +278,9 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
           <Modal open={segments.length > 0} onClose={closeReturnConditions}>
             <ReturnConditions segments={segments} close={closeReturnConditions} />
           </Modal>
-          <Modal open={isModal} disableBackdropClick={true}>
+          {/* <Modal open={isModal} disableBackdropClick={true}>
             <GoHome />
-          </Modal>
+          </Modal> */}
           {googleRes && (
             <form
               ref={ref}
