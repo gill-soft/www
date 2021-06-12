@@ -45,12 +45,21 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
         CryptoJS.AES.decrypt(atob(secondary), "KeyVeze").toString(CryptoJS.enc.Utf8)
       )
     );
-    
+
     // ==== расчитываем полную стоимость билета ====//
     settotalPrice(getTotalPrice().toFixed(2));
 
     // ==== определяем время до конца оплаты ==== //
-    const timeEnd = new Date(ticket.services[0].expire).getTime();
+    // преобразовуем дату в массив
+    const dateArray = ticket.services[0].expire.split(" ");
+    // определям милисекунды даты
+    const dayMs = new Date(dateArray[0]).getTime();
+    // определяем милисикунды времени
+    const timeMs =
+      dateArray[1].split(":")[0] * 60 * 60 * 1000 +
+      dateArray[1].split(":")[1] * 60 * 1000;
+    // разница миллисикунд
+    const timeEnd = dayMs + timeMs;
     const timeStart = new Date().getTime();
     setTime(timeEnd - timeStart);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,9 +132,9 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const closeReturnConditions = () => {
     setSegments([]);
   };
-  console.log("primaryData", primaryData)
+  // console.log("primaryData", primaryData);
   //   console.log("secondaryData", secondaryData )
-    // console.log(totalPrice)
+  // console.log(totalPrice)
   return (
     <>
       {primaryData && secondaryData && (
@@ -203,21 +212,20 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                         },
                       ],
                       merchantInfo: {
-                        // merchantId: primaryData.gpayMerchantId,
+                        merchantId: "BCR2DN6TSOFZJADQ",
                         merchantName: "VEZE",
                       },
                       transactionInfo: {
                         totalPriceStatus: "FINAL",
                         totalPriceLabel: "Total",
-                        totalPrice:`${totalPrice}`,
+                        totalPrice: `${totalPrice}`,
                         currencyCode: "UAH",
                         countryCode: "UA",
                       },
                     }}
-                    onLoadPaymentData={(paymentRequest) =>
-                      {console.log("paymentRequest", paymentRequest)
-                      getGooleplayConfirm(paymentRequest)}
-                    }
+                    onLoadPaymentData={(paymentRequest) => {
+                      getGooleplayConfirm(paymentRequest);
+                    }}
                   />
                 )}
 
