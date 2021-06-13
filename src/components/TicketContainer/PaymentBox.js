@@ -303,7 +303,9 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 type="hidden"
                 name="TermUrl"
                 // value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                value={`https://veze.club/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
+                value={`https://busis.eu/gds-sale/api/v1/transaction/callback/3ds/${orderId}/${secondaryData.paymentParamsId}?`
+                  + `successURL=` + encodeURIComponent(`https://veze.club/myTicket/${orderId}/${secondaryData.paymentParamsId}`)
+                  + `&errorURL=` + encodeURIComponent(`https://veze.club/ticket/${orderId}/${primary}/${secondary}`)}
               />
             </form>
           )}
