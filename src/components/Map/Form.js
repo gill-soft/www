@@ -26,7 +26,6 @@ const Form = ({ from, to }) => {
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-
     <div className={styles.formBox}>
       <div className={styles.inputsBox}>
         <div className={styles.input}>
@@ -40,7 +39,7 @@ const Form = ({ from, to }) => {
       </div>
       <button
         className={styles.link}
-        disabled={(Object.keys(from).length > 0 && Object.keys(to).length > 0)}
+        disabled={!(Object.keys(from).length > 0 && Object.keys(to).length > 0)}
         // disabled={true}
 
         onClick={handleClick}

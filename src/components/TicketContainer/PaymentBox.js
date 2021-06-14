@@ -45,7 +45,6 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
         CryptoJS.AES.decrypt(atob(secondary), "KeyVeze").toString(CryptoJS.enc.Utf8)
       )
     );
-
     // ==== расчитываем полную стоимость билета ====//
     settotalPrice(getTotalPrice().toFixed(2));
 
@@ -73,10 +72,11 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
         ref.current.submit();
         return;
       }
-      //  ==== если оплата тодтверждена ==== //
+      //  ==== если оплата подтверждена ==== //
       if (googleRes.payed) {
         history.push(`/myTicket/${orderId}/${primaryData.paymentParamsId}`);
       }
+      setIsLoader(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [googleRes]);
@@ -132,9 +132,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const closeReturnConditions = () => {
     setSegments([]);
   };
-  // console.log("primaryData", primaryData);
-  //   console.log("secondaryData", secondaryData )
-  // console.log(totalPrice)
+
   return (
     <>
       {primaryData && secondaryData && (
@@ -224,6 +222,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                       },
                     }}
                     onLoadPaymentData={(paymentRequest) => {
+                      setIsLoader(true);
                       getGooleplayConfirm(paymentRequest);
                     }}
                   />
@@ -303,9 +302,17 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
                 type="hidden"
                 name="TermUrl"
                 // value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                value={`https://busis.eu/gds-sale/api/v1/transaction/callback/3ds/${orderId}/${secondaryData.paymentParamsId}?`
-                  + `successURL=` + encodeURIComponent(`https://veze.club/myTicket/${orderId}/${secondaryData.paymentParamsId}`)
-                  + `&errorURL=` + encodeURIComponent(`https://veze.club/ticket/${orderId}/${primary}/${secondary}`)}
+                value={
+                  `https://busis.eu/gds-sale/api/v1/transaction/callback/3ds/${orderId}/${secondaryData.paymentParamsId}?` +
+                  `successURL=` +
+                  encodeURIComponent(
+                    `https://veze.club/myTicket/${orderId}/${secondaryData.paymentParamsId}`
+                  ) +
+                  `&errorURL=` +
+                  encodeURIComponent(
+                    `https://veze.club/ticket/${orderId}/${primary}/${secondary}`
+                  )
+                }
               />
             </form>
           )}

@@ -19,6 +19,8 @@ export const messages = {
     service: "Сервіс стюард/стюардеса",
     popular: "Популярні маршрути",
     text: "Для більш зручного користування рекомендуємо вам скористатися нашими мобільними додатками",
+    mobileTitle: "Мобільний додаток Veze",
+    mobileText: "відчуйте всі переваги нашого сервісу",
   },
   RU: {
     title: "Билеты на автобус",
@@ -40,6 +42,8 @@ export const messages = {
     service: "Сервис стюард/стюардесса",
     popular: "Популярные маршруты",
     text: "Для более удобного пользования рекомендуем вам воспользоваться нашими мобильными приложениями.",
+    mobileTitle: "Мобильное приложение Veze",
+    mobileText: "почувствуйте все преимущества нашего сервиса",
   },
   EN: {
     title: "Bus ticket",
@@ -61,6 +65,8 @@ export const messages = {
     service: "Steward/stewardess service",
     popular: "Popular routes",
     text: "For more convenient use, we recommend that you use our mobile applications.",
+    mobileTitle: "Veze mobile application",
+    mobileText: "feel all the benefits of our service",
   },
   PL: {
     title: "Bilety autobusowe",
@@ -82,5 +88,7 @@ export const messages = {
     service: "Usługi steward/stewardessa",
     popular: "Popularne trasy",
     text: "Dla wygodniejszego użytkowania polecamy nasze aplikacje mobilne.",
+    mobileTitle: "Aplikacja mobilna Veze",
+    mobileText: "poczuj wszystkie zalety naszej usługi",
   },
 };

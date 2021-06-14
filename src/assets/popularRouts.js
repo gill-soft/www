@@ -18,7 +18,7 @@ export const popular = [
         },
         id: "2498710",
       },
-      price: "220грн",
+      price: "550грн",
     },
     {
       departure: {
@@ -39,7 +39,7 @@ export const popular = [
         },
         id: "2498710",
       },
-      price: "280грн",
+      price: "470грн",
     },
     {
       departure: {
@@ -61,5 +61,21 @@ export const popular = [
         id: "2498336",
       },
       price: "333грн",
+    },
+    {
+      departure: {
+        name: {
+          UA: "Київ",
+          RU: "Киев",
+          EN: "Kiev",
+          PL: "Kijów",
+        },
+        id: "2498710",
+      },
+      arrival: {
+        name: { UA: "Затока", RU: "Затока", EN: "Zatoka", PL: "Zatoka" },
+        id: "2482771",
+      },
+      price: "370грн",
     },
   ];

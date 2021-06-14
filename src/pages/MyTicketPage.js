@@ -28,6 +28,7 @@ class MyTicketPage extends Component {
     this.setState({ id: id });
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);
+
   }
   componentDidUpdate(prevProps) {
     const { id } = this.state;
@@ -92,6 +93,7 @@ class MyTicketPage extends Component {
     const { status, id, url, routs, additionalServices } = this.state;
     const { ticket, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
+    console.log(this.state)
 
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>

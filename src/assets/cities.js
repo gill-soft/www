@@ -164,7 +164,26 @@ export const citiesList = [
     },
     image: "http://grand-ukraine.com.ua/images/photogalery/Belaja%20Tserkov/1.jpg",
   },
+  {
+    id: "2498204",
+    latitude: 49.9808, 
+    longitude: 36.2527,
+    name: {
+      UA: "Харків",
+      PL: "Kharkov",
+      EN: "Kharkov",
+      RU: "Харьков",
+    },
+    text: {
+      UA: "Хáрків - друге за чисельністю населення місто України, важливий промисловий і науковий центр країни.У Харкові знаходиться найбільша площа в Україні під назвою Свобода також є площа Архітекторів, Конституції і Привокзальна, також є екопарки, сади і музеї. Харків - один з найбільших промислових центрів Украіни.Благовещенській кафедральний собор-є не лише найдавнішим харківським храмом, а й найбільшим кафедральним собором з тих, які розташовані в східній частині європейського континенту.",
+      RU: "Хáрьков  - второй по численности населения город Украины, важный промышленный и научный центр страны. В Харькове находится самая большая площадь в Украине под названием Свобода также площадь Архитекторов, Конституции и Привокзальная, также есть экопарки, сады и музеи. Харьков - один из крупнейших промышленных центров Украины.Благовещенський кафедральный собор-есть  не только древнейшим харьковским храмом, но и самым большим кафедральным собором из тех, которые расположены в восточной части европейского континента.",
+      EN: "Khárkov  is the second most populous city in Ukraine, an important industrial and scientific center of the country. In Kharkiv, there is the largest square in Ukraine called Svoboda, also the Square of Architects, the Constitution and the Pryvokzalnaya Square, there are also eco-parks, gardens and museums. Kharkov is one of the largest industrial centers of Ukraine. The Annunciation Cathedral is not only the oldest Kharkov church, but also the largest cathedral of those located in the eastern part of the European continent.",
+      PL: "Khárkov  to drugie pod względem liczby ludności miasto na Ukrainie, ważny ośrodek przemysłowy i naukowy kraju. W Charkowie znajduje się największy plac na Ukrainie o nazwie Svoboda, również Plac Architektów, Plac Konstytucji i Plac Pryvokzalnaya, są też ekoparki, ogrody i muzea. Charków jest jednym z największych ośrodków przemysłowych Ukrainy.Sobór Zwiastowania NMP jest nie tylko najstarszym charkowskim kościołem, ale także największą katedrą z tych położonych we wschodniej części kontynentu europejskiego",
+    },
+    image: "",
+  },
 ];
+
 export const citiesListSecondary = [
   {
     id: "2482771",
@@ -234,5 +253,4 @@ export const citiesListSecondary = [
     image:
       "https://s1.tchkcdn.com/g-C1-NlRsa8B-MJPiONaVKXQ/17/260608/660x480/f/0/b19_depositphotos_233965292_m_2015.jpg",
   },
- 
 ];

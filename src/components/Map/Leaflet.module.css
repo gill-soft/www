@@ -1,6 +1,7 @@
 .container {
     position: relative;
 }
+
 .tooltip,
 .tooltipYellow {
     cursor: pointer;
@@ -9,12 +10,12 @@
     border: none;
 }
 
- .tooltipYellow::before  {
+.tooltipYellow::before {
     border-right-color: var(--color-secondary);
     transition: border-right-color 300ms;
 }
 
-.tooltip::before  {
+.tooltip::before {
     border-right-color: #fff;
     transition: border-right-color 300ms;
 }
@@ -23,6 +24,7 @@
 .text {
     padding: 4px 10px;
 }
+
 .tooltip {
     background-color: #fff;
     transition: background-color 300ms;
@@ -42,7 +44,7 @@
     background-color: #fff;
     z-index: 999;
     position: absolute;
-    padding: 5px ;
+    padding: 5px;
     color: var(--text-color-main);
     box-shadow: 0 2px 5px 1px rgb(241, 241, 241);
 }
@@ -90,16 +92,27 @@
     text-align: center;
     text-transform: uppercase;
     color: var(--color-main);
-    background-color: none;
+    background-color: #fff;
     cursor: pointer;
 }
-.link:hover{
+
+.link:hover {
     font-weight: 700;
 }
-.link:disabled{
-    cursor: not-allowed
+
+.link:disabled {
+    cursor: not-allowed;
+    background-color: rgb(236, 236, 236);
+    color: var(--text-color-main);
+
 }
-@media(min-width: 576px){
+
+.link:disabled:hover {
+    font-weight: 400;
+
+}
+
+@media(min-width: 576px) {
     .formBox {
         width: 360px;
         right: 0px;
