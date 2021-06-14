@@ -120,17 +120,10 @@ class FormForBuy extends Component {
       const status = resp.services.every((el) => el.status === "NEW");
       if (status) {
         const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
-        const primaryPaymentParams = JSON.stringify(resp.primaryPaymentParams);
-        const secondaryPaymentParams = JSON.stringify(resp.secondaryPaymentParams);
-        const primary = btoa(
-          CryptoJS.AES.encrypt(primaryPaymentParams, "KeyVeze").toString()
-        );
-        const secondary = btoa(
-          CryptoJS.AES.encrypt(secondaryPaymentParams, "KeyVeze").toString()
-        );
+       
         this.props.fetchTicket({});
 
-        this.props.history.push(`/ticket/${id}/${primary}/${secondary}`);
+        this.props.history.push(`/ticket/${id}`);
       } else {
         this.props.getError("el.error.message");
         return;

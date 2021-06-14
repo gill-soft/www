@@ -16,8 +16,8 @@ const rootRedusers = combineReducers({
 });
 const enhancer = applyMiddleware(thunk);
 
-// const store = createStore(rootRedusers, composeWithDevTools(enhancer));
-const store = createStore(rootRedusers, enhancer);
+const store = createStore(rootRedusers, composeWithDevTools(enhancer));
+// const store = createStore(rootRedusers, enhancer);
 
 
 export default store;

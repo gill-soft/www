@@ -16,7 +16,7 @@ import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
 import ReturnConditions from "./ReturnConditions";
 
-const PaymentBox = ({ routs, orderId, primary, secondary }) => {
+const PaymentBox = ({ routs, orderId }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
@@ -24,8 +24,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
   const [order, setOrder] = useState("");
-  const [primaryData, setPrimaryData] = useState(null);
-  const [secondaryData, setSecondaryData] = useState(null);
+
   const [isModal, setIsModal] = useState(false);
   const [segments, setSegments] = useState([]);
   const [totalPrice, settotalPrice] = useState(0);
@@ -63,7 +62,6 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
     setTime(timeEnd - timeStart);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-console.log(primaryData)
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {
@@ -74,7 +72,9 @@ console.log(primaryData)
       }
       //  ==== если оплата подтверждена ==== //
       if (googleRes.payed) {
-        history.push(`/myTicket/${orderId}/${primaryData.paymentParamsId}`);
+        history.push(
+          `/myTicket/${orderId}/${ticket.primaryPaymentParams.paymentParamsId}`
+        );
       }
       setIsLoader(false);
     }
@@ -101,7 +101,7 @@ console.log(primaryData)
     }, 0);
   };
   const getGooleplayConfirm = (paymentRequest) => {
-    isGooglePayComfirm(paymentRequest, order, primaryData.paymentParamsId)
+    isGooglePayComfirm(paymentRequest, order, ticket.primaryPaymentParams.paymentParamsId)
       .then(({ data }) => setGoogleRes(data))
       .catch((err) => console.log(err));
   };
@@ -135,189 +135,204 @@ console.log(primaryData)
 
   return (
     <>
-      {primaryData && secondaryData && (
-        <IntlProvider locale={locale} messages={messages[locale]}>
-          <div className={styles.warning}>
-            <p className={styles.warningText}>
-              <FormattedMessage id="endTime" />
-              <span>
-                {" "}
-                {getExpireDate(ticket.services[0].expire, locale)}
-                {getExpireTime(ticket.services[0].expire)}
-              </span>
-            </p>
-            <p className={styles.time}>
-              {new Date(time).toLocaleString("uk", {
-                minute: "2-digit",
-                second: "2-digit",
-              })}
-            </p>
-          </div>
+      {/* {ticket && secondaryData && ( */}
+      <IntlProvider locale={locale} messages={messages[locale]}>
+        <div className={styles.warning}>
+          <p className={styles.warningText}>
+            <FormattedMessage id="endTime" />
+            <span>
+              {" "}
+              {getExpireDate(ticket.services[0].expire, locale)}
+              {getExpireTime(ticket.services[0].expire)}
+            </span>
+          </p>
+          <p className={styles.time}>
+            {new Date(time).toLocaleString("uk", {
+              minute: "2-digit",
+              second: "2-digit",
+            })}
+          </p>
+        </div>
 
-          <div className={styles.payment}>
-            <div className={styles.infoblock}>
-              <p>
-                <FormattedMessage id="securityStandart" />
-              </p>
-              <div className={styles.images}>
-                <div className={styles.img}>
-                  <img src={visa} alt="visa" />
-                </div>
-                <div className={styles.img}>
-                  <img src={maestro} alt="visa" />
-                </div>
-                <div className={styles.img}>
-                  <img src={mastercard} alt="visa" />
-                </div>
+        <div className={styles.payment}>
+          <div className={styles.infoblock}>
+            <p>
+              <FormattedMessage id="securityStandart" />
+            </p>
+            <div className={styles.images}>
+              <div className={styles.img}>
+                <img src={visa} alt="visa" />
+              </div>
+              <div className={styles.img}>
+                <img src={maestro} alt="visa" />
+              </div>
+              <div className={styles.img}>
+                <img src={mastercard} alt="visa" />
               </div>
             </div>
-            <div className={styles.flexItem}>
-              <p>
-                <FormattedMessage id="summ" />
-              </p>
-              <p className={styles.total}>
-                {totalPrice}
-                <small> грн</small>
-              </p>
-            </div>
-            <div className={styles.flexItem}>
-              <p>
-                <FormattedMessage id="pay" />
-              </p>
-              <div className={styles.payType}>
-                {primaryData.sellerToken !== "" && (
-                  <GooglePayButton
-                    className={styles.google}
-                    environment="PRODUCTION"
-                    buttonType="short"
-                    paymentRequest={{
-                      apiVersion: 2,
-                      apiVersionMinor: 0,
-                      allowedPaymentMethods: [
-                        {
-                          type: "CARD",
-                          parameters: {
-                            allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                            allowedCardNetworks: ["MASTERCARD", "VISA"],
-                          },
-                          tokenizationSpecification: {
-                            type: "PAYMENT_GATEWAY",
-                            parameters: {
-                              gateway: primaryData.gpayGateway,
-                              gatewayMerchantId: primaryData.gpayMerchantId,
+          </div>
+          <div className={styles.flexItem}>
+            <p>
+              <FormattedMessage id="summ" />
+            </p>
+            <p className={styles.total}>
+              {totalPrice}
+              <small> грн</small>
+            </p>
+          </div>
+          {ticket.hasOwnProperty("primaryPaymentParams") &&
+            ticket.hasOwnProperty("secondaryPaymentParams") && (
+              <>
+                <div className={styles.flexItem}>
+                  <p>
+                    <FormattedMessage id="pay" />
+                  </p>
+                  <div className={styles.payType}>
+                    {ticket.primaryPaymentParams.sellerToken !== "" && (
+                      <GooglePayButton
+                        className={styles.google}
+                        environment="PRODUCTION"
+                        buttonType="short"
+                        paymentRequest={{
+                          apiVersion: 2,
+                          apiVersionMinor: 0,
+                          allowedPaymentMethods: [
+                            {
+                              type: "CARD",
+                              parameters: {
+                                allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                                allowedCardNetworks: ["MASTERCARD", "VISA"],
+                              },
+                              tokenizationSpecification: {
+                                type: "PAYMENT_GATEWAY",
+                                parameters: {
+                                  gateway: ticket.primaryPaymentParams.gpayGateway,
+                                  gatewayMerchantId:
+                                    ticket.primaryPaymentParams.gpayMerchantId,
+                                },
+                              },
                             },
+                          ],
+                          merchantInfo: {
+                            merchantId: "BCR2DN6TSOFZJADQ",
+                            merchantName: "VEZE",
                           },
-                        },
-                      ],
-                      merchantInfo: {
-                        merchantId: "BCR2DN6TSOFZJADQ",
-                        merchantName: "VEZE",
-                      },
-                      transactionInfo: {
-                        totalPriceStatus: "FINAL",
-                        totalPriceLabel: "Total",
-                        totalPrice: `${totalPrice}`,
-                        currencyCode: "UAH",
-                        countryCode: "UA",
-                      },
-                    }}
-                    onLoadPaymentData={(paymentRequest) => {
-                      setIsLoader(true);
-                      getGooleplayConfirm(paymentRequest);
-                    }}
-                  />
-                )}
+                          transactionInfo: {
+                            totalPriceStatus: "FINAL",
+                            totalPriceLabel: "Total",
+                            totalPrice: `${totalPrice}`,
+                            currencyCode: "UAH",
+                            countryCode: "UA",
+                          },
+                        }}
+                        onError={(data) => console.log(data)}
+                        onLoadPaymentData={(paymentRequest) => {
+                          setIsLoader(true);
+                          getGooleplayConfirm(paymentRequest);
+                        }}
+                      />
+                    )}
 
-                {/* Portmone */}
-                <form action="https://www.portmone.com.ua/gateway/" method="post">
-                  <input type="hidden" name="payee_id" value={secondaryData.payeeId} />
+                    {/* Portmone */}
+                    <form action="https://www.portmone.com.ua/gateway/" method="post">
+                      <input
+                        type="hidden"
+                        name="payee_id"
+                        value={ticket.secondaryPaymentParams.payeeId}
+                      />
 
-                  <input type="hidden" name="shop_order_number" value={ticket.orderId} />
-                  <input type="hidden" name="bill_amount" value={totalPrice} />
-                  <input
-                    type="hidden"
-                    name="description"
-                    value={`${getCity(
-                      ticket.segments[Object.keys(routs[0])[0]].departure.id,
-                      ticket,
-                      lang
-                    )} - ${getCity(
-                      ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival.id,
-                      ticket,
-                      lang
-                    )} 
+                      <input
+                        type="hidden"
+                        name="shop_order_number"
+                        value={ticket.orderId}
+                      />
+                      <input type="hidden" name="bill_amount" value={totalPrice} />
+                      <input
+                        type="hidden"
+                        name="description"
+                        value={`${getCity(
+                          ticket.segments[Object.keys(routs[0])[0]].departure.id,
+                          ticket,
+                          lang
+                        )} - ${getCity(
+                          ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival
+                            .id,
+                          ticket,
+                          lang
+                        )} 
               ${getDate("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}
               `}
-                  />
-                  <input
-                    type="hidden"
-                    name="success_url"
-                    // value={`http://localhost:3000/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
-                    value={`https://veze.club/myTicket/${orderId}/${secondaryData.paymentParamsId}`}
-                  />
-                  <input
-                    type="hidden"
-                    name="failure_url"
-                    // value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                    value={`https://veze.club/ticket/${orderId}/${primary}/${secondary}`}
-                  />
-                  <input type="hidden" name="lang" value={locale.toLowerCase()} />
-                  <input type="hidden" name="encoding" value="UTF-8" />
-                  <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
-                  {/* <input type="hidden" name="exp_time" value={"1000"} /> */}
+                      />
+                      <input
+                        type="hidden"
+                        name="success_url"
+                        value={`https://veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
+                      />
+                      <input
+                        type="hidden"
+                        name="failure_url"
+                        value={`https://veze.club/ticket/${orderId}`}
+                      />
+                      <input type="hidden" name="lang" value={locale.toLowerCase()} />
+                      <input type="hidden" name="encoding" value="UTF-8" />
+                      <input
+                        type="hidden"
+                        name="exp_time"
+                        value={(time / 1000).toFixed()}
+                      />
 
-                  <button
-                    className={styles.portmone}
-                    type="submit"
-                    onClick={handleClick}
-                  ></button>
-                </form>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={handleClickReturn}
-              className={styles.returnConditions}
-            >
-              <FormattedMessage id="return" />
-            </button>
-          </div>
-          <Modal open={segments.length > 0} onClose={closeReturnConditions}>
-            <ReturnConditions segments={segments} close={closeReturnConditions} />
-          </Modal>
-          {/* <Modal open={isModal} disableBackdropClick={true}>
-            <GoHome />
-          </Modal> */}
-          {googleRes && (
-            <form
-              ref={ref}
-              id="TheForm"
-              action={googleRes.params3ds.action}
-              method="POST"
-              name="TheForm"
-            >
-              <input type="hidden" name="PaReq" value={googleRes.params3ds.PaReq} />
-              <input type="hidden" name="MD" value={googleRes.params3ds.MD} />
-              <input
-                type="hidden"
-                name="TermUrl"
-                // value={`http://localhost:3000/ticket/${orderId}/${primary}/${secondary}`}
-                value={
-                  `https://busis.eu/gds-sale/api/v1/transaction/callback/3ds/${orderId}/${secondaryData.paymentParamsId}?` +
-                  `successURL=` +
-                  encodeURIComponent(
-                    `https://veze.club/myTicket/${orderId}/${secondaryData.paymentParamsId}`
-                  ) +
-                  `&errorURL=` +
-                  encodeURIComponent(
-                    `https://veze.club/ticket/${orderId}/${primary}/${secondary}`
-                  )
-                }
-              />
-            </form>
-          )}
-        </IntlProvider>
-      )}
+                      <button
+                        className={styles.portmone}
+                        type="submit"
+                        onClick={handleClick}
+                      ></button>
+                    </form>
+                  </div>
+                </div>
+              </>
+            )}
+
+          <button
+            type="button"
+            onClick={handleClickReturn}
+            className={styles.returnConditions}
+          >
+            <FormattedMessage id="return" />
+          </button>
+        </div>
+        <Modal open={segments.length > 0} onClose={closeReturnConditions}>
+          <ReturnConditions segments={segments} close={closeReturnConditions} />
+        </Modal>
+        <Modal open={isModal} disableBackdropClick={true}>
+          <GoHome />
+        </Modal>
+        {googleRes && (
+          <form
+            ref={ref}
+            id="TheForm"
+            action={googleRes.params3ds.action}
+            method="POST"
+            name="TheForm"
+          >
+            <input type="hidden" name="PaReq" value={googleRes.params3ds.PaReq} />
+            <input type="hidden" name="MD" value={googleRes.params3ds.MD} />
+            <input
+              type="hidden"
+              name="TermUrl"
+              value={
+                `https://busis.eu/gds-sale/api/v1/transaction/callback/3ds/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}?` +
+                `successURL=` +
+                encodeURIComponent(
+                  `https://veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`
+                ) +
+                `&errorURL=` +
+                encodeURIComponent(`https://veze.club/ticket/${orderId}`)
+              }
+            />
+          </form>
+        )}
+      </IntlProvider>
+      {/* )} */}
       {isLoader && <Loader />}
     </>
   );

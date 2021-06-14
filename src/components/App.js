@@ -48,7 +48,7 @@ const App = () => {
         <Route path="/autobusy/" component={Cities} />
         <Route path="/info" component={Info} />
         <Route path="/order" component={OrderPage} />
-        <Route path="/ticket/:orderId/:primary/:secondary" component={TicketPage} />
+        <Route path="/ticket/:orderId" component={TicketPage} />
         <Route path="/myTicket/:orderId/:payedId" component={MyTicketPage} />
         <Route path="/error" component={ErrorPage} />
       </Switch>

@@ -14,7 +14,7 @@ const TicketPage = () => {
   const ticket = useSelector((state) => state.order.ticket);
   const [routs, setRouts] = useState([]);
   const [additionalServices, setAdditionalServices] = useState([]);
-  const { orderId, primary, secondary } = useParams();
+  const { orderId } = useParams();
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
     // ==== получаем зашифрованый id === //
@@ -69,8 +69,8 @@ const TicketPage = () => {
             <PaymentBox
               routs={routs}
               orderId={orderId}
-              primary={primary}
-              secondary={secondary}
+              // primary={primary}
+              // secondary={secondary}
             />
           </div>
         </div>
