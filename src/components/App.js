@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { useDispatch } from "react-redux";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { changeLanguage } from "../redux/Language/LanguageAction";
 import Header from "./Header/Header";
@@ -51,6 +51,7 @@ const App = () => {
         <Route path="/ticket/:orderId" component={TicketPage} />
         <Route path="/myTicket/:orderId/:payedId" component={MyTicketPage} />
         <Route path="/error" component={ErrorPage} />
+        <Redirect to="/" />
       </Switch>
       <Footer />
     </Suspense>

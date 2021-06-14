@@ -14,15 +14,15 @@
     "static/js/5.bc99ef8d.chunk.js": "/static/js/5.bc99ef8d.chunk.js",
     "static/js/5.bc99ef8d.chunk.js.map": "/static/js/5.bc99ef8d.chunk.js.map",
     "main.css": "/static/css/main.9fec97fe.chunk.css",
-    "main.js": "/static/js/main.51bb2c5c.chunk.js",
-    "main.js.map": "/static/js/main.51bb2c5c.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.50a23551.js",
-    "runtime-main.js.map": "/static/js/runtime-main.50a23551.js.map",
+    "main.js": "/static/js/main.dffb27e2.chunk.js",
+    "main.js.map": "/static/js/main.dffb27e2.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.27cced9b.js",
+    "runtime-main.js.map": "/static/js/runtime-main.27cced9b.js.map",
     "static/js/8.287819e2.chunk.js": "/static/js/8.287819e2.chunk.js",
     "static/js/8.287819e2.chunk.js.map": "/static/js/8.287819e2.chunk.js.map",
     "static/css/9.cb3dce1a.chunk.css": "/static/css/9.cb3dce1a.chunk.css",
-    "static/js/9.1383318b.chunk.js": "/static/js/9.1383318b.chunk.js",
-    "static/js/9.1383318b.chunk.js.map": "/static/js/9.1383318b.chunk.js.map",
+    "static/js/9.7cfe8afe.chunk.js": "/static/js/9.7cfe8afe.chunk.js",
+    "static/js/9.7cfe8afe.chunk.js.map": "/static/js/9.7cfe8afe.chunk.js.map",
     "static/css/10.28d0b0d5.chunk.css": "/static/css/10.28d0b0d5.chunk.css",
     "static/js/10.04ecc672.chunk.js": "/static/js/10.04ecc672.chunk.js",
     "static/js/10.04ecc672.chunk.js.map": "/static/js/10.04ecc672.chunk.js.map",
@@ -98,7 +98,7 @@
     "static/js/3.43148f0d.chunk.js.LICENSE.txt": "/static/js/3.43148f0d.chunk.js.LICENSE.txt",
     "static/js/4.c7d75e75.chunk.js.LICENSE.txt": "/static/js/4.c7d75e75.chunk.js.LICENSE.txt",
     "static/js/8.287819e2.chunk.js.LICENSE.txt": "/static/js/8.287819e2.chunk.js.LICENSE.txt",
-    "static/js/9.1383318b.chunk.js.LICENSE.txt": "/static/js/9.1383318b.chunk.js.LICENSE.txt",
+    "static/js/9.7cfe8afe.chunk.js.LICENSE.txt": "/static/js/9.7cfe8afe.chunk.js.LICENSE.txt",
     "static/media/2472227.jpg": "/static/media/2472227.852f1ca4.jpg",
     "static/media/2482771.jpg": "/static/media/2482771.8ed2bd77.jpg",
     "static/media/2483562.jpg": "/static/media/2483562.b5c3bc59.jpg",
@@ -137,9 +137,9 @@
     "static/media/vuso-min.c96e7eca.png": "/static/media/vuso-min.c96e7eca.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.50a23551.js",
+    "static/js/runtime-main.27cced9b.js",
     "static/js/8.287819e2.chunk.js",
     "static/css/main.9fec97fe.chunk.css",
-    "static/js/main.51bb2c5c.chunk.js"
+    "static/js/main.dffb27e2.chunk.js"
   ]
 }
