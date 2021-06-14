@@ -157,7 +157,7 @@ const PaymentBox = ({ routs, orderId }) => {
             </p>
             <p className={styles.total}>
               {totalPrice}
-              <small> грн</small>
+              <small><FormattedMessage id='uah'/></small>
             </p>
           </div>
 
