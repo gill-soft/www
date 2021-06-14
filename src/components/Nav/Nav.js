@@ -67,8 +67,7 @@ const Nav = ({ handleClick }) => {
               setTimeout(() => setIsPhone(true), 300);
             }}
           >
-                      <FormattedMessage id="contacts" />
-
+            <FormattedMessage id="contacts" />
           </p>
 
           {windowWidth < 768 ? (
@@ -85,7 +84,7 @@ const Nav = ({ handleClick }) => {
             >
               <div className={styles.contacts} ref={phoneRef}>
                 <a href="tel: +380675092050">+38 (067) 509-20-50</a>
-                <a href="viber://chat?number=111 111-11-11">viber bot</a>
+                <a href="viber://pa?chatURI=busis">viber bot</a>
               </div>
             </CSSTransition>
           )}
@@ -95,7 +94,7 @@ const Nav = ({ handleClick }) => {
             <>
               <p className={styles.tel}>Мобільна версія</p>
               <div className={styles.mobile}>
-                <a href="https://play.google.com/store/movies/details/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9%D0%BA%D0%B0_%D0%9A%D1%80%D1%83%D0%B4%D1%81_%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B5%D0%BB%D1%8C%D0%B5?id=O-BG17Yow6s.P">
+                <a href="#">
                   <img src={play} alt="playMarket"></img>
                 </a>
                 <img src={app} alt="appStore"></img>

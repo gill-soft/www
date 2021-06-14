@@ -35,16 +35,16 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
   // ==== расшифровуем данные ==== //
   useEffect(() => {
     setOrder(CryptoJS.AES.decrypt(atob(orderId), "KeyVeze").toString(CryptoJS.enc.Utf8));
-    setPrimaryData(
-      JSON.parse(
-        CryptoJS.AES.decrypt(atob(primary), "KeyVeze").toString(CryptoJS.enc.Utf8)
-      )
-    );
-    setSecondaryData(
-      JSON.parse(
-        CryptoJS.AES.decrypt(atob(secondary), "KeyVeze").toString(CryptoJS.enc.Utf8)
-      )
-    );
+    // setPrimaryData(
+    //   JSON.parse(
+    //     CryptoJS.AES.decrypt(atob(primary), "KeyVeze").toString(CryptoJS.enc.Utf8)
+    //   )
+    // );
+    // setSecondaryData(
+    //   JSON.parse(
+    //     CryptoJS.AES.decrypt(atob(secondary), "KeyVeze").toString(CryptoJS.enc.Utf8)
+    //   )
+    // );
     // ==== расчитываем полную стоимость билета ====//
     settotalPrice(getTotalPrice().toFixed(2));
 
@@ -63,7 +63,7 @@ const PaymentBox = ({ routs, orderId, primary, secondary }) => {
     setTime(timeEnd - timeStart);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+console.log(primaryData)
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {

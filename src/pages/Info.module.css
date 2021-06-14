@@ -1,3 +1,18 @@
-.text{
-    color: var(--text-color-main)
+.text {
+    color: var(--text-color-main);
+    line-height: 25px;
+}
+ .ml{
+     margin-left: 140px;
+    margin-bottom: 50px;
+
+ }
+ .mr {
+     margin-right: 140px;
+    margin-bottom: 50px;
+
+ }
+
+.title {
+    color: var(--text-color-title);
 }

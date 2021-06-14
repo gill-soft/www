@@ -6,16 +6,7 @@ const AUTH_KEY = `Basic ${Buffer.from('380888888880:8111').toString(
   "base64"
 )}`;
 
-//  ==== получение всех остановок ==== //
-// export const getAllStops = () => {
-//   return axios({
-//     method: "get",
-//     url: `${baseURLcontrol}/locality/all`,
-//     headers: {
-//       Authorization: process.env.REACT_APP_AUTH_KEY2,
-//     },
-//   });
-// };
+
 // ==== поиск городов для автокомплита ==== //
 export const getCities = (val, lang) => {
   return axios({
