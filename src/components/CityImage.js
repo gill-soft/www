@@ -4,6 +4,7 @@ const CityImage = ({ id }) => {
   const [img, setImg] = useState("");
   useEffect(() => {
     getImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const getImage = () => {
     if (id) import(`../images/cities/${id}.jpg`).then((img) => setImg(img.default));

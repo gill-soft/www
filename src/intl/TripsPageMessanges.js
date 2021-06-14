@@ -11,6 +11,8 @@ export const messages = {
     sortDeparture: "часом відправлення",
     sortPrice: "ціною",
     sortTime: "часом в дорозі",
+    hasntTrips: "Маршрутів не знайдено",
+    allPosible:"Ми робимо все можливе, щоб підключати якомога більше маршрутів",
   },
   RU: {
     title: "Расписание автобусов",
@@ -24,7 +26,12 @@ export const messages = {
     sortDeparture: "времени отправления",
     sortPrice: "цене",
     sortTime: "времени в пути",
+    hasntTrips: "Маршруты не найдены.",
+    allPosible:"Мы делаем все возможное, чтобы подключать как можно больше маршрутов.",
   },
+
+
+
   EN: {
     title: "Bus schedule",
     timeInWay: "on the way",
@@ -37,6 +44,8 @@ export const messages = {
     sortDeparture: "departure time",
     sortPrice: "price",
     sortTime: "travel time",
+    hasntTrips: "No routes found.",
+    allPosible:"We do our best to connect as many routes as possible.",
   },
   PL: {
     title: "Rozkład jazdy autobusów",
@@ -50,5 +59,7 @@ export const messages = {
     sortDeparture: "czasu odjazdu",
     sortPrice: "ceny",
     sortTime: "czasu podróży",
+    hasntTrips: "Nie znaleziono tras.",
+    allPosible:"Dokładamy wszelkich starań, aby połączyć jak najwięcej tras.",
   },
 };

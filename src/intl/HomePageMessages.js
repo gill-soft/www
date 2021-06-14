@@ -21,6 +21,8 @@ export const messages = {
     text: "Для більш зручного користування рекомендуємо вам скористатися нашими мобільними додатками",
     mobileTitle: "Мобільний додаток Veze",
     mobileText: "відчуйте всі переваги нашого сервісу",
+    goHome: "Повернутися на головну сторінку",
+    oops: "Упс..! Щось пішло не так",
   },
   RU: {
     title: "Билеты на автобус",
@@ -44,6 +46,8 @@ export const messages = {
     text: "Для более удобного пользования рекомендуем вам воспользоваться нашими мобильными приложениями.",
     mobileTitle: "Мобильное приложение Veze",
     mobileText: "почувствуйте все преимущества нашего сервиса",
+    goHome: "Вернуться на главную страницу ",
+    oops: "Упс..! Что-то пошло не так.",
   },
   EN: {
     title: "Bus ticket",
@@ -67,6 +71,8 @@ export const messages = {
     text: "For more convenient use, we recommend that you use our mobile applications.",
     mobileTitle: "Veze mobile application",
     mobileText: "feel all the benefits of our service",
+    goHome: "Return to the homepage",
+    oops: "Oops..! something went wrong",
   },
   PL: {
     title: "Bilety autobusowe",
@@ -90,5 +96,7 @@ export const messages = {
     text: "Dla wygodniejszego użytkowania polecamy nasze aplikacje mobilne.",
     mobileTitle: "Aplikacja mobilna Veze",
     mobileText: "poczuj wszystkie zalety naszej usługi",
+    goHome: "Wróć do strony głównej",
+    oops: "Ups...! coś poszło nie tak",
   },
 };

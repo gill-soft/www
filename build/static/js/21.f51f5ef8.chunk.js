@@ -1,2 +1,0 @@
-(this.webpackJsonpfirst=this.webpackJsonpfirst||[]).push([[21],{399:function(s,t,i){"use strict";i.r(t),t.default=i.p+"static/media/2483562.b5c3bc59.jpg"}}]);
-//# sourceMappingURL=21.f51f5ef8.chunk.js.map

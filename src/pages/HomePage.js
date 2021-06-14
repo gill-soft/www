@@ -6,16 +6,13 @@ import { Helmet } from "react-helmet";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../intl/HomePageMessages";
 import { Redirect, useHistory } from "react-router-dom";
-import FavoriteTrips from "../components/FavoriteTrips/FavoriteTrips";
 import FavoriteTrips2 from "../components/FavoriteTrips/FavoritTrips2";
-
 import AppLinks from "../components/AppLinks/AppLinks";
 import Advantages from "../components/Advantages/Advantages";
 import { getDescription, getTitle } from "../services/headTags";
 import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
 import MobileBaner from "../components/MobileBaner/MobileBaner";
 import Modal from "@material-ui/core/Modal";
-import { getDate } from "../services/getInfo";
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -45,22 +42,20 @@ const HomePage = () => {
   const closeModal = () => {
     setIsModal(false);
   };
-  const getDate = () => {
-    console.log(new Date().toString());
-  };
+ 
   return (
     <>
-      {/* <Helmet>
+      <Helmet>
         <meta name="description" content={getDescription(lang)} />
         <title>{getTitle(lang)}</title>
-      </Helmet> */}
+      </Helmet>
       {error && <Redirect to="/error" />}
       {windowWidth < 768 && isModal && (
         <Modal open={isModal} onClose={closeModal} className={styles.modal}>
           <AppLinks onClose={closeModal} />
         </Modal>
       )}
-      {/* {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />} */}
+      {windowWidth >= 768 && <SearchFormBaner history={history} scroll={scroll} />}
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.bgnd}>
           <div className={styles.container}>
