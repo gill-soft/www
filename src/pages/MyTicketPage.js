@@ -93,7 +93,6 @@ class MyTicketPage extends Component {
     const { status, id, url, routs, additionalServices } = this.state;
     const { ticket, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-    console.log(this.state)
 
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
@@ -158,3 +157,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyTicketPage);
+

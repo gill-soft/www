@@ -66,12 +66,7 @@ const TicketPage = () => {
             )}
           </div>
           <div className={styles.data}>
-            <PaymentBox
-              routs={routs}
-              orderId={orderId}
-              // primary={primary}
-              // secondary={secondary}
-            />
+            <PaymentBox routs={routs} orderId={orderId} />
           </div>
         </div>
       )}

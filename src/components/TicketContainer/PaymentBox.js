@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import CryptoJS from "crypto-js";
 import Modal from "@material-ui/core/Modal";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import GooglePayButton from "@google-pay/button-react";
@@ -23,45 +22,24 @@ const PaymentBox = ({ routs, orderId }) => {
   const [time, setTime] = useState(0);
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
-  const [order, setOrder] = useState("");
-
   const [isModal, setIsModal] = useState(false);
   const [segments, setSegments] = useState([]);
   const [totalPrice, settotalPrice] = useState(0);
   const history = useHistory();
 
   const ref = useRef();
-  // ==== расшифровуем данные ==== //
   useEffect(() => {
-    setOrder(CryptoJS.AES.decrypt(atob(orderId), "KeyVeze").toString(CryptoJS.enc.Utf8));
-    // setPrimaryData(
-    //   JSON.parse(
-    //     CryptoJS.AES.decrypt(atob(primary), "KeyVeze").toString(CryptoJS.enc.Utf8)
-    //   )
-    // );
-    // setSecondaryData(
-    //   JSON.parse(
-    //     CryptoJS.AES.decrypt(atob(secondary), "KeyVeze").toString(CryptoJS.enc.Utf8)
-    //   )
-    // );
     // ==== расчитываем полную стоимость билета ====//
     settotalPrice(getTotalPrice().toFixed(2));
 
     // ==== определяем время до конца оплаты ==== //
-    // преобразовуем дату в массив
-    const dateArray = ticket.services[0].expire.split(" ");
-    // определям милисекунды даты
-    const dayMs = new Date(dateArray[0]).getTime();
-    // определяем милисикунды времени
-    const timeMs =
-      dateArray[1].split(":")[0] * 60 * 60 * 1000 +
-      dateArray[1].split(":")[1] * 60 * 1000;
-    // разница миллисикунд
-    const timeEnd = dayMs + timeMs;
+    const dateEnd = ticket.services[0].expire.split(" ").join("T");
+    const timeEnd = new Date(dateEnd).getTime();
     const timeStart = new Date().getTime();
     setTime(timeEnd - timeStart);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
     if (googleRes) {
@@ -101,7 +79,11 @@ const PaymentBox = ({ routs, orderId }) => {
     }, 0);
   };
   const getGooleplayConfirm = (paymentRequest) => {
-    isGooglePayComfirm(paymentRequest, order, ticket.primaryPaymentParams.paymentParamsId)
+    isGooglePayComfirm(
+      paymentRequest,
+      ticket.orderId,
+      ticket.primaryPaymentParams.paymentParamsId
+    )
       .then(({ data }) => setGoogleRes(data))
       .catch((err) => console.log(err));
   };
@@ -132,10 +114,8 @@ const PaymentBox = ({ routs, orderId }) => {
   const closeReturnConditions = () => {
     setSegments([]);
   };
-
   return (
     <>
-      {/* {ticket && secondaryData && ( */}
       <IntlProvider locale={locale} messages={messages[locale]}>
         <div className={styles.warning}>
           <p className={styles.warningText}>
@@ -180,117 +160,105 @@ const PaymentBox = ({ routs, orderId }) => {
               <small> грн</small>
             </p>
           </div>
-          {ticket.hasOwnProperty("primaryPaymentParams") &&
-            ticket.hasOwnProperty("secondaryPaymentParams") && (
-              <>
-                <div className={styles.flexItem}>
-                  <p>
-                    <FormattedMessage id="pay" />
-                  </p>
-                  <div className={styles.payType}>
-                    {ticket.primaryPaymentParams.sellerToken !== "" && (
-                      <GooglePayButton
-                        className={styles.google}
-                        environment="PRODUCTION"
-                        buttonType="short"
-                        paymentRequest={{
-                          apiVersion: 2,
-                          apiVersionMinor: 0,
-                          allowedPaymentMethods: [
-                            {
-                              type: "CARD",
-                              parameters: {
-                                allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                                allowedCardNetworks: ["MASTERCARD", "VISA"],
-                              },
-                              tokenizationSpecification: {
-                                type: "PAYMENT_GATEWAY",
-                                parameters: {
-                                  gateway: ticket.primaryPaymentParams.gpayGateway,
-                                  gatewayMerchantId:
-                                    ticket.primaryPaymentParams.gpayMerchantId,
-                                },
-                              },
-                            },
-                          ],
-                          merchantInfo: {
-                            merchantId: "BCR2DN6TSOFZJADQ",
-                            merchantName: "VEZE",
-                          },
-                          transactionInfo: {
-                            totalPriceStatus: "FINAL",
-                            totalPriceLabel: "Total",
-                            totalPrice: `${totalPrice}`,
-                            currencyCode: "UAH",
-                            countryCode: "UA",
-                          },
-                        }}
-                        onError={(data) => console.log(data)}
-                        onLoadPaymentData={(paymentRequest) => {
-                          setIsLoader(true);
-                          getGooleplayConfirm(paymentRequest);
-                        }}
-                      />
-                    )}
 
-                    {/* Portmone */}
-                    <form action="https://www.portmone.com.ua/gateway/" method="post">
-                      <input
-                        type="hidden"
-                        name="payee_id"
-                        value={ticket.secondaryPaymentParams.payeeId}
-                      />
+          <div className={styles.flexItem}>
+            <p>
+              <FormattedMessage id="pay" />
+            </p>
+            <div className={styles.payType}>
+              {ticket.primaryPaymentParams.sellerToken !== "" && (
+                <GooglePayButton
+                  className={styles.google}
+                  environment="PRODUCTION"
+                  buttonType="short"
+                  paymentRequest={{
+                    apiVersion: 2,
+                    apiVersionMinor: 0,
+                    allowedPaymentMethods: [
+                      {
+                        type: "CARD",
+                        parameters: {
+                          allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                          allowedCardNetworks: ["MASTERCARD", "VISA"],
+                        },
+                        tokenizationSpecification: {
+                          type: "PAYMENT_GATEWAY",
+                          parameters: {
+                            gateway: ticket.primaryPaymentParams.gpayGateway,
+                            gatewayMerchantId: ticket.primaryPaymentParams.gpayMerchantId,
+                          },
+                        },
+                      },
+                    ],
+                    merchantInfo: {
+                      merchantId: "BCR2DN6TSOFZJADQ",
+                      merchantName: "VEZE",
+                    },
+                    transactionInfo: {
+                      totalPriceStatus: "FINAL",
+                      totalPriceLabel: "Total",
+                      totalPrice: `${totalPrice}`,
+                      currencyCode: "UAH",
+                      countryCode: "UA",
+                    },
+                  }}
+                  onError={(error) => {
+                    console.log(error);
+                  }}
+                  onLoadPaymentData={(paymentRequest) => {
+                    setIsLoader(true);
+                    getGooleplayConfirm(paymentRequest);
+                  }}
+                />
+              )}
 
-                      <input
-                        type="hidden"
-                        name="shop_order_number"
-                        value={ticket.orderId}
-                      />
-                      <input type="hidden" name="bill_amount" value={totalPrice} />
-                      <input
-                        type="hidden"
-                        name="description"
-                        value={`${getCity(
-                          ticket.segments[Object.keys(routs[0])[0]].departure.id,
-                          ticket,
-                          lang
-                        )} - ${getCity(
-                          ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival
-                            .id,
-                          ticket,
-                          lang
-                        )} 
+              {/* Portmone */}
+              <form action="https://www.portmone.com.ua/gateway/" method="post">
+                <input
+                  type="hidden"
+                  name="payee_id"
+                  value={ticket.secondaryPaymentParams.payeeId}
+                />
+
+                <input type="hidden" name="shop_order_number" value={ticket.orderId} />
+                <input type="hidden" name="bill_amount" value={totalPrice} />
+                <input
+                  type="hidden"
+                  name="description"
+                  value={`${getCity(
+                    ticket.segments[Object.keys(routs[0])[0]].departure.id,
+                    ticket,
+                    lang
+                  )} - ${getCity(
+                    ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival.id,
+                    ticket,
+                    lang
+                  )} 
               ${getDate("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}
               `}
-                      />
-                      <input
-                        type="hidden"
-                        name="success_url"
-                        value={`https://veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
-                      />
-                      <input
-                        type="hidden"
-                        name="failure_url"
-                        value={`https://veze.club/ticket/${orderId}`}
-                      />
-                      <input type="hidden" name="lang" value={locale.toLowerCase()} />
-                      <input type="hidden" name="encoding" value="UTF-8" />
-                      <input
-                        type="hidden"
-                        name="exp_time"
-                        value={(time / 1000).toFixed()}
-                      />
+                />
+                <input
+                  type="hidden"
+                  name="success_url"
+                  value={`https://veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
+                />
+                <input
+                  type="hidden"
+                  name="failure_url"
+                  value={`https://veze.club/ticket/${orderId}`}
+                />
+                <input type="hidden" name="lang" value={locale.toLowerCase()} />
+                <input type="hidden" name="encoding" value="UTF-8" />
+                <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
 
-                      <button
-                        className={styles.portmone}
-                        type="submit"
-                        onClick={handleClick}
-                      ></button>
-                    </form>
-                  </div>
-                </div>
-              </>
-            )}
+                <button
+                  className={styles.portmone}
+                  type="submit"
+                  onClick={handleClick}
+                ></button>
+              </form>
+            </div>
+          </div>
 
           <button
             type="button"
@@ -332,7 +300,6 @@ const PaymentBox = ({ routs, orderId }) => {
           </form>
         )}
       </IntlProvider>
-      {/* )} */}
       {isLoader && <Loader />}
     </>
   );
