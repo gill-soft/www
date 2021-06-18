@@ -84,7 +84,7 @@ const Nav = ({ handleClick }) => {
             >
               <div className={styles.contacts} ref={phoneRef}>
                 <a href="tel: +380675092050">+38 (067) 509-20-50</a>
-                <a href="viber://pa?chatURI=busis">viber bot</a>
+                <a href="viber://pa?chatURI=busis">Viber bot</a>
               </div>
             </CSSTransition>
           )}
@@ -92,9 +92,11 @@ const Nav = ({ handleClick }) => {
         <div className={styles.contactsBox}>
           {windowWidth < 768 && (
             <>
-              <p className={styles.tel}>Мобільна версія</p>
+              <p className={styles.tel}>
+                <FormattedMessage id="mobile" />
+              </p>
               <div className={styles.mobile}>
-                <a href="#">
+                <a href="https://play.google.com/store/apps/details?id=com.veze.gds">
                   <img src={play} alt="playMarket"></img>
                 </a>
                 <img src={app} alt="appStore"></img>

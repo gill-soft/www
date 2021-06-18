@@ -88,7 +88,7 @@ const Fotter = () => {
               <h4 className={styles.title}><FormattedMessage id="applications" /></h4>
               <div className={styles.flexImgs}>
                 <div className={styles.img}>
-                  <a href="#">
+                  <a href="https://play.google.com/store/apps/details?id=com.veze.gds">
                     <img src={play} width="150px" height="44px" alt="playMarket"></img>
                   </a>
                 </div>

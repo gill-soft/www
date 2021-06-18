@@ -1,18 +1,88 @@
-.text {
-    color: var(--text-color-main);
-    line-height: 25px;
+.box {
+    margin-bottom: 24px;
+    position: relative;
 }
- .ml{
-     margin-left: 140px;
-    margin-bottom: 50px;
-
- }
- .mr {
-     margin-right: 140px;
-    margin-bottom: 50px;
-
- }
+.box:first-child {
+    margin-top: 12px;
+}
 
 .title {
+    text-align: center;
+    font-size: 22px;
     color: var(--text-color-title);
+    margin-bottom: 12px;
 }
+
+.subtitle {
+    color: #636363;
+    font-size: 18px;
+}
+
+.text {
+    color: var(--text-color-main);
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 4px;
+}
+
+.listItem {
+    color: var(--text-color-main);
+    margin-left: 14px;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+
+
+.text a {
+    color: var(--color-main);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+@media (min-width: 576px) {
+
+    .subtitle {
+        text-indent: 20px;
+    }
+
+    .listItem {
+        margin-left: 24px;
+        list-style: disc;
+    }
+
+    .box::before {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border-top: 6px solid var(--color-main);
+        border-left: 6px solid var(--color-main);
+        position: absolute;
+        top: -12px;
+        left: -10px;
+        border-radius: 5px;
+    }
+
+    .box::after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border-bottom: 6px solid var(--color-secondary);
+        border-right: 6px solid var(--color-secondary);
+        position: absolute;
+        right: -10px;
+        bottom: -12px;
+        border-radius: 5px;
+    }
+}
+ @media (min-width: 992px) {
+     .title {
+         font-size: 28px;
+     }
+     .subtitle {
+        font-size: 20px;
+    }
+    .text, .listItem {
+        font-size: 16px;
+    }
+ }

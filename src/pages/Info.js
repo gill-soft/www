@@ -7,54 +7,132 @@ import { messages } from "../intl/InfoMassages";
 const Info = () => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
+  // const locale = "UK";
+
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className="container">
-        <div className={styles.mr}>
-          <h3 className={styles.title}>
-            <FormattedMessage id="title" />
+        <div className={styles.box}>
+          <h2 className={styles.title}>
+            <FormattedMessage id="title_promo" />
+          </h2>
+          <h3 className={styles.text}>
+            <FormattedMessage id="text_promo" />
+            <a href="https://play.google.com/store/apps/details?id=com.veze.gds">VZ. </a>
+            <FormattedMessage id="text_promo_b" />
           </h3>
-          <p className={`${styles.mr} ${styles.text}`}>
-            В случае необходимости перевозчик имеет право без предварительного
-            предупреждения изменять указанное в билете посадочное место. У нас СВМ –
-            свободный выбор места. Если до отправления больше чем 24 часа, и(или) на рейс
-            больше 10 свободных мест. Если билет не будет оплачен в течении 24 часов,
-            бронь будет автоматически аннулирована. Если до отправления меньше суток (24
-            часа) и(или) на рейс меньше 10 свободных мест, билеты необходимо оплатить в
-            течении 3-х часов после бронирования. Фактом подтверждения брони является факт
-            оплаты. Забронированные, но неоплаченные билеты не гарантируют места в
-            автобусе!
-          </p>
+          <ul>
+            <li className={styles.listItem}>
+              <FormattedMessage id="promoList_1" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="promoList_2" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="promoList_3" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="promoList_4" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="promoList_5" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="promoList_6" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="promoList_7" />
+            </li>
+          </ul>
         </div>
-        <div className={styles.ml}>
-          <h3 className={styles.title}>Информация по отправлению.</h3>{" "}
-          <p className={`${styles.text} `}>
-            На каком автобусе я буду ехать? На рейс отправляется автобус в зависимости от
-            количества проданных билетов на ту или иную дату. Заранее узнать марку и номер
-            автобуса возможности нет. Детальная информация с маркой, моделью, цветом и
-            номером автобуса, а также номером водителя или стюардессы, Вы получите в смс
-            сообщении на номер телефона, который был указан при покупке билета. Нашими
-            автобусами добираться комфортно, автобусы оборудованы под длительные переезды,
-            оснащены полками для багажа и багажниками, удобными и функциональными
-            креслами. В нашем автопарке есть автобусы таких моделей: Mercedes Sprinter/
-            Toyota Caetano Optimo/ Mercedes O350/ Neoplan 116/ Neoplan 122 Если
-            отправление вашего рейса с 00:01 до 17:00, то за день до отправления (с 18:00
-            до 19:00) на ваш номер телефона будет отправлено смс сообщение с деталями
-            рейса (телефон водителя или сопровождающего, номер, марка и цвет автобуса).
-            Если отправление вашего рейса после 17:00, ожидайте смс сообщение в день
-            отправления с 13:00 до 14:00. Важно! Если едет большой автобус, то время
-            прибытия может изменится в сторону увеличения.{" "}
+        <div className={styles.box}>
+          <h2 className={styles.title}>
+            <FormattedMessage id="title_booking" />
+          </h2>
+          <h3 className={styles.subtitle}>
+            <FormattedMessage id="subtitle_booking" />
+          </h3>
+          <p className={styles.text}>
+            <FormattedMessage id="bookingList" />
           </p>
-        </div>
-        <h3 className={styles.title}>Пассажир застрахован!</h3>
+          <ul>
+            <li className={styles.listItem}>
+              <FormattedMessage id="bookingList_1" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="bookingList_2" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="bookingList_3" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="bookingList_4" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="bookingList_5" />
+            </li>
+            <li className={styles.listItem}>
+              <FormattedMessage id="bookingList_6" />
+            </li>
+          </ul>
+          <h3 className={styles.subtitle}>
+          <FormattedMessage id="subtitle_pay" />
+        </h3>
         <p className={styles.text}>
-          Вид страхования: обязательное личное страхование от несчастных случаев на
-          транспорте. Оплатив услугу перевозки, пассажир дал согласие, которое
-          приравнивается к письменному, на обработку его данных, с целью предоставления
-          услуг по перевозке автомобильным транспортом и принял условия договора публичной
-          оферты перевозчика. И согласился с правилами и условиями перевозки.
+          <FormattedMessage id="text_pay" />
         </p>
+        <h3 className={styles.subtitle}>
+          <FormattedMessage id="subtitle_print" />
+        </h3>
+        <p className={styles.text}>
+          <FormattedMessage id="text_print" />
+        </p>
+        <h3 className={styles.subtitle}>
+          <FormattedMessage id="subtitle_seat" />
+        </h3>
+        <p className={styles.text}>
+          <FormattedMessage id="text_seat" />
+        </p>
+        </div>
+        <div className={styles.box}>
+          <h2 className={styles.title}>
+            <FormattedMessage id="title_routs" />
+          </h2>
+          <h3 className={styles.subtitle}>
+            <FormattedMessage id="subtitle_trip" />
+          </h3>
+          <p className={styles.text}>
+            <FormattedMessage id="text_trip" />
+          </p>
+          <h3 className={styles.subtitle}>
+            <FormattedMessage id="subtitle_bus" />
+          </h3>
+          <p className={styles.text}>
+            <FormattedMessage id="text_bus" />
+          </p>
+          <h3 className={styles.subtitle}>
+            <FormattedMessage id="subtitle_pets" />
+          </h3>
+          <p className={styles.text}>
+            <FormattedMessage id="text_pets" />
+          </p>
+
+          <h3 className={styles.subtitle}>
+            <FormattedMessage id="subtitle_luggage" />
+          </h3>
+          <p className={styles.text}>
+            <FormattedMessage id="text_luggage" />
+          </p>
+        </div>
+        <div className={styles.box}>
+          <h3 className={styles.subtitle}><FormattedMessage id="contacts"/>
+          </h3>
+          <p className={styles.text}><FormattedMessage id="name"/></p>
+          <p className={styles.text}><FormattedMessage id="address"/></p>
+          <p className={styles.text}><FormattedMessage id="cod"/></p>
+
+        </div>
       </div>
     </IntlProvider>
   );
