@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Modal from "@material-ui/core/Modal";
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -157,7 +157,9 @@ const PaymentBox = ({ routs, orderId }) => {
             </p>
             <p className={styles.total}>
               {totalPrice}
-              <small><FormattedMessage id='uah'/></small>
+              <small>
+                <FormattedMessage id="uah" />
+              </small>
             </p>
           </div>
 
@@ -203,7 +205,7 @@ const PaymentBox = ({ routs, orderId }) => {
                     },
                   }}
                   onError={(error) => {
-                    console.log(error);
+                    <Redirect to="/error" />;
                   }}
                   onLoadPaymentData={(paymentRequest) => {
                     setIsLoader(true);

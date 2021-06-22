@@ -15,7 +15,6 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
   if (deltaTime <= 500) {
     searchTrips(id)
       .then(({ data }) => {
-        console.log("1",data)
         if (data.searchId) {
           dispatch(searchRouts(data.searchId, time, requestData));
         } else {
@@ -31,8 +30,6 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
     setTimeout(() => {
       searchTrips(id)
         .then(({ data }) => {
-        console.log("2",data)
-
           if (data.searchId) {
             dispatch(searchRouts(data.searchId, time, requestData));
           } else {
@@ -49,8 +46,6 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
     setTimeout(() => {
       searchTrips(id)
         .then(({ data }) => {
-        console.log("3",data)
-
           if (data.searchId) {
             dispatch(searchRouts(data.searchId, time, requestData));
           } else {

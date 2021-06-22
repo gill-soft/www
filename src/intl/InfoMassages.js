@@ -109,16 +109,20 @@ export const messages = {
   },
 
   EN: {
-    title_promo: "",
-    text_promo: "",
-    text_promo_b: "",
-    promoList_1: "",
-    promoList_2: "",
-    promoList_3: "",
-    promoList_4: "",
-    promoList_5: "",
-    promoList_6: "",
-    promoList_7: "",
+    title_promo: "What are the discounts and promotions",
+    text_promo:
+      "To find out in time and take advantage of promotional offers and discounts, install the ",
+    text_promo_b: " application. With its help you can",
+    promoList_1: "Get accurate information about the location of the bus.",
+    promoList_2: "Find your bus on the map online.",
+    promoList_3: "Buy tickets at the lowest prices.",
+    promoList_4:
+      "Order food and drinks when booking tickets to avoid queues at stopping points.",
+    promoList_5:
+      "Receive timely information on flight details (bus number, driver's or steward / stewardess's phone number).",
+    promoList_6: "Get insurance in case of flight cancellation.",
+    promoList_7: "Become a member of the loyalty and bonus programs.",
+
     title_booking: "Booking seats and buying tickets",
     subtitle_booking: "How to book a ticket",
     bookingList: "To book a ticket you need:",
@@ -143,24 +147,30 @@ export const messages = {
     text_seat:
       "Free boarding means that on this flight The carrier has limited the choice of a specific seat and, in fact, the seat number will be determined by the dispatcher directly upon boarding the flight.We recommend that you arrive early for boarding and choose the seat that is most convenient for you.",
 
-    title_routs: "",
-    subtitle_trip: "",
-    text_trip: "",
-    subtitle_bus: "",
-    text_bus: "",
-    subtitle_pets: "",
-    text_pets: "",
-    subtitle_luggage: "",
-    text_luggage: "",
+    title_routs: "Flights and buses",
+    subtitle_trip: "There will definitely be a flight",
+    text_trip:
+      "We receive information about all changes on the flight from carrier, and therefore we cannot exclude the option of canceling the flight for reasons beyond our control. As soon as the carrier informs us, we will immediately contact you and notify you of any changes on the flight. You can always find out additional information about the flight and the bus number by the carrier's contact number indicated on your ticket.",
+    subtitle_bus: "What the bus will be",
+    text_bus:
+      "Flight information, bus brands, available services and amenities provided by the carrier are reflected on our website when purchasing a ticket. After purchasing a ticket, you will see the carrier's contact number, which you can use to clarify additional details.",
+    subtitle_pets: "Traveling with animals",
+    text_pets:
+      "When planning a trip with an animal, we strongly recommend that you prepare in advance a veterinary passport with marks of vaccinations, a health certificate of the animal, a portable bag or a cage with a blank bottom, and ensure the availability of clean drinking water. The carrier has the right to regulate the rules for transporting animals on the buses of its flights, therefore, it is necessary to clarify this information individually.",
+
+    subtitle_luggage: "Carriage of baggage",
+    text_luggage:
+      "Please note that the carrier has every right to refuse the passenger of the bus to carry hand luggage or baggage if this baggage blocks the passage of other passengers in the transport or does not correspond to the allowed amount and size. You can always clarify information about the conditions of baggage transportation on specific flights by phone.",
     contacts: "Contacts",
     name: "LIMITED LIABILITY COMPANY «VEZE» (LLC «VEZE»)",
     address: "01004, misto Kyiv, vul.Rohnidynska, budynok 4a, ofis 213",
     cod: "USREOU code: 44122313",
   },
   PL: {
-    title_promo: "",
-    text_promo: "",
-    text_promo_b: "",
+    title_promo: "Jakie są rabaty i promocje",
+    text_promo:
+      "Aby dowiedzieć się na czas i skorzystać z ofert promocyjnych i zniżek, zainstaluj aplikację ",
+    text_promo_b: "Z jego pomocą możesz:",
     promoList_1: "",
     promoList_2: "",
     promoList_3: "",
@@ -187,8 +197,9 @@ export const messages = {
     subtitle_print: "Nie musisz drukować biletu",
     text_print:
       "Drukowany bilet nie jest wymagany do wejścia do autobusu.Przewoźnicy umożliwiają prezentację biletu z ekranów swoich gadżetów.    Posiadanie przy sobie biletu elektronicznego jest warunkiem wstępu do autobusu.Pamiętaj, że jeśli nie możesz pokazać swojego biletu elektronicznego kierowcy, ma on prawo odmówić Ci wejścia do autobusu.",
-    subtitle_seat: "",
-    text_seat: "",
+    subtitle_seat: "Swobodne dopasowanie, jak wybrać siedzenie",
+    text_seat:
+      "Bezpłatne wejście na pokład oznacza, że na tym locie Przewoźnik ograniczył wybór konkretnego miejsca i tak naprawdę numer miejsca zostanie określony przez dyspozytora bezpośrednio przy wejściu na pokład. Zalecamy wcześniejsze przybycie na pokład i wybranie najwygodniejszego dla siebie miejsca.",
     title_routs: "",
     subtitle_trip: "",
     text_trip: "",
