@@ -90,23 +90,7 @@
 .search {
     width: 40px;
 }
-.poper {
-    border: 1px solid gray;
-    background-color: var(--color-main);
-    /* padding: 10px; */
-    display: flex;
-    align-items: center;
-}
-.poper button {
-    border: none;
-    background-color: var(--color-main);
-}
-.poper input {
-    border: none;
-    background-color: var(--color-main);
-    padding: 5px;
-    color:#ffffff
-}
+
 
 @media (min-width: 576px) {
     .container {

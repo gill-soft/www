@@ -11,7 +11,7 @@ import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
-import { ReactComponent as Search} from '../../images/search.svg'
+import Agent from "../Agent/Agent";
 
 const Nav = ({ handleClick, agent, handleExit }) => {
   const windowWidth = window.innerWidth;
@@ -107,17 +107,7 @@ const Nav = ({ handleClick, agent, handleExit }) => {
           </>
         )}
 
-        {agent && (
-          <div className={styles.agentBox}>
-            <p>
-              <FormattedMessage id="login" />
-              <span> {agent.clientName || agent.login}</span>
-            </p>
-            <div className={styles.search}><Search fill="var(--color-secondary)" /></div>
-            <button onClick={handleExit}>Вихід</button>
-            
-          </div>
-        )}
+        {agent && <Agent agent={agent} handleExit={handleExit} />}
       </nav>
       <LanguageSelect />
     </IntlProvider>

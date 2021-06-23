@@ -49,44 +49,9 @@
     margin-bottom: 6px;
 }
 
-.agentBox {
-    display: flex;
-
-    align-items: center;
-    border-radius: 4px;
-    font-size: 14px;
-    padding: 2px 5px;
-
-}
-
-.agentBox p {
-    margin-right: 6px;
-    color: var(--color-secondary);
-    display: flex;
-    font-size: 16px;
-}
-
-.agentBox span {
-    margin-left: 2px;
-}
-
-.agentBox button {
-    background: transparent;
-    width: 100%;
-    border: 1px solid var(--color-secondary);
-    border-radius: 6px;
-    padding: 2px 4px;
-    color: var(--color-secondary);
-}
-
-.search {
-    margin: 0 6px;
-}
-
 @media (min-width: 576px) {}
 
 @media (min-width: 768px) {
-
     .nav {
         width: 55%;
         display: flex;
@@ -139,10 +104,7 @@
         margin-bottom: 6px;
     }
 
-    .agentBox {
-        margin-left: 150px;
 
-    }
 }
 
 
@@ -155,13 +117,8 @@
         width: 70%;
     }
 
-
     .contacts a {
         cursor: pointer;
-    }
-
-    .agentBox {
-        margin: 0;
     }
 }
 
@@ -169,6 +126,4 @@
     .container {
         max-width: 1140px;
     }
-
-
 }

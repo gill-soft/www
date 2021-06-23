@@ -66,9 +66,7 @@ const Fotter = () => {
                     Email: book@veze.club
                   </a>
                 </li>
-                <li className={styles.link}>
-                  <Link to="/login" >Вхід</Link>
-                </li>
+                
               </ul>
             </div>
             <div className={styles.listBox}>
@@ -85,6 +83,9 @@ const Fotter = () => {
                   <a className={styles.link} href={Pk} target="_blanc">
                     <FormattedMessage id="privacyPolicy" />
                   </a>
+                </li>
+                <li className={styles.link}>
+                  <Link to="/login" style={{color:"var(--color-main)"}} >Агентам</Link>
                 </li>
               </ul>
             </div>
