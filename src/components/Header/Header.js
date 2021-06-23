@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
@@ -13,25 +13,44 @@ const Header = () => {
   const dispatch = useDispatch();
   const clearErorr = (val) => dispatch(getError(val));
   const [isMenu, setIsMenu] = useState(false);
-
+  const [agent, setAgent] = useState(null);
   const windowWidth = window.innerWidth;
   const backdropRef = useRef(null);
+
+  useEffect(() => {
+    const storage = JSON.parse(localStorage.getItem("auth"));
+    setAgent(storage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localStorage.getItem("auth")]);
 
   const handleBackdropClick = (event) => {
     const { current } = backdropRef;
     if (current && event.target !== current) return;
     setIsMenu(false);
   };
-  const handleClick =()=> {
-    setIsMenu(false)
-  }
+  const handleClick = () => {
+    setIsMenu(false);
+  };
+  const handleExit = () => {
+    setAgent(null);
+    localStorage.removeItem("auth");
+  };
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo} onClick={() => clearErorr("")}></Link>
+
         {windowWidth < 768 ? (
           <>
+            {agent && (
+              <div className={styles.agentBox}>
+                <p>
+                  Login:<span> {agent.clientName || agent.login}</span>
+                </p>
+                <button onClick={handleExit}>Вихід</button>
+              </div>
+            )}
             <button
               className={styles.btnMenu}
               type="button"
@@ -52,7 +71,7 @@ const Header = () => {
                 onClick={handleBackdropClick}
               >
                 <div className={styles.menuBox}>
-                  <Nav handleClick={handleClick}/>
+                  <Nav handleClick={handleClick} />
                   <button
                     className={styles.btnClose}
                     type="button"
@@ -65,7 +84,7 @@ const Header = () => {
             </CSSTransition>
           </>
         ) : (
-          <Nav handleClick={handleClick} />
+          <Nav handleClick={handleClick} agent={agent} handleExit={handleExit} />
         )}
       </div>
     </header>

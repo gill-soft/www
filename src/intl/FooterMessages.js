@@ -27,7 +27,7 @@ export const messages = {
     applications:"Mobile applications",
   },
   PL: {
-    concacts: "Contact",
+    concacts: "Kontakt",
     documents: "Akta",
     connection: "Komunikacja z operatorem",
     offer: "Umowa ofertowa ",

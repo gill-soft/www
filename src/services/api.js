@@ -2,10 +2,12 @@ import axios from "axios";
 const baseURLcontrol = "https://busis.eu/gds-control/api/v1";
 const baseURLsale = "https://busis.eu/gds-sale/api/v1";
 // const AUTH_KEY2 = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
-const AUTH_KEY = `Basic ${Buffer.from('380888888880:8111').toString(
-  "base64"
-)}`;
-
+const storage = JSON.parse(localStorage.getItem("auth"));
+const passwordLogin = storage?.login + ":" + storage?.password;
+const auth = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
+const AUTH_KEY = storage
+  ? auth
+  : `Basic ${Buffer.from("380888888880:8111").toString("base64")}`;
 
 // ==== поиск городов для автокомплита ==== //
 export const getCities = (val, lang) => {
@@ -127,14 +129,27 @@ export const getTicketPrint = (id, lang) => {
     },
   });
 };
-// ==== поаулярные маршруты ==== //
 
+// ==== поаулярные маршруты ==== //
 export const getPopularRouts = () => {
   return axios({
     method: "get",
     url: `${baseURLsale}/search/trips`,
     headers: {
       Authorization: AUTH_KEY,
+    },
+  });
+};
+
+// ==== Авторизация ==== //
+export const getAuthorization = (login, password) => {
+  const passwordLogin = login + ":" + password;
+  const auth = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
+  return axios({
+    method: "post",
+    url: `http://busis.eu:8080/gds-sale/api/v1/client/auth`,
+    headers: {
+      Authorization: auth,
     },
   });
 };

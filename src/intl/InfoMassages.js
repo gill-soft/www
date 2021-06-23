@@ -171,13 +171,16 @@ export const messages = {
     text_promo:
       "Aby dowiedzieć się na czas i skorzystać z ofert promocyjnych i zniżek, zainstaluj aplikację ",
     text_promo_b: "Z jego pomocą możesz:",
-    promoList_1: "",
-    promoList_2: "",
-    promoList_3: "",
-    promoList_4: "",
-    promoList_5: "",
-    promoList_6: "",
-    promoList_7: "",
+    promoList_1: "Uzyskaj dokładne informacje o lokalizacji autobusu.",
+    promoList_2: "Znajdź swój autobus na mapie online.",
+    promoList_3: "Kupuj bilety w najniższych cenach.",
+    promoList_4:
+      "Zamawiaj jedzenie i napoje podczas rezerwacji biletów, aby uniknąć kolejek na przystankach.",
+    promoList_5:
+      "Otrzymuj aktualne informacje o szczegółach lotu (numer autobusu, numer telefonu kierowcy lub stewarda / stewardesy).",
+    promoList_6: "Uzyskaj ubezpieczenie na wypadek odwołania lotu.",
+    promoList_7: "Zostań członkiem programów lojalnościowych i bonusowych.",
+
     title_booking: "Rezerwacja miejsc i zakup biletów.",
     subtitle_booking: "Jak zarezerwować bilet",
     bookingList: "Aby zarezerwować bilet potrzebujesz:",
@@ -200,18 +203,22 @@ export const messages = {
     subtitle_seat: "Swobodne dopasowanie, jak wybrać siedzenie",
     text_seat:
       "Bezpłatne wejście na pokład oznacza, że na tym locie Przewoźnik ograniczył wybór konkretnego miejsca i tak naprawdę numer miejsca zostanie określony przez dyspozytora bezpośrednio przy wejściu na pokład. Zalecamy wcześniejsze przybycie na pokład i wybranie najwygodniejszego dla siebie miejsca.",
-    title_routs: "",
-    subtitle_trip: "",
-    text_trip: "",
-    subtitle_bus: "",
-    text_bus: "",
-    subtitle_pets: "",
-    text_pets: "",
-    subtitle_luggage: "",
-    text_luggage: "",
-    contacts: "",
-    name: "",
-    address: "",
-    cod: "",
+    title_routs: "Lot i autobusy",
+    subtitle_trip: "Na pewno będzie lot",
+    text_trip:
+      "O wszelkich zmianach w locie otrzymujemy od przewoźnika, dlatego nie możemy wykluczyć możliwości odwołania lotu z przyczyn od nas niezależnych. Jak tylko przewoźnik nas poinformuje, niezwłocznie skontaktujemy się z Tobą i powiadomimy Cię o wszelkich zmianach w locie. Zawsze możesz uzyskać dodatkowe informacje o locie i numerze autobusu pod numerem kontaktowym przewoźnika wskazanym na bilecie.",
+    subtitle_bus: "Jaki będzie autobus",
+    text_bus:
+      "Informacje o lotach, marki autobusów, dostępne usługi i udogodnienia oferowane przez przewoźnika znajdują odzwierciedlenie na naszej stronie internetowej przy zakupie biletu. Po zakupie biletu zobaczysz numer kontaktowy przewoźnika, który możesz wykorzystać do wyjaśnienia dodatkowych szczegółów.",
+    subtitle_pets: "Podróżowanie ze zwierzętami",
+    text_pets:
+      "Planując wyjazd ze zwierzęciem zdecydowanie zalecamy wcześniejsze przygotowanie paszportu weterynaryjnego ze znakami szczepień, świadectwo zdrowia zwierzęcia, torbę przenośną lub klatkę z pustym dnem oraz zapewnienie dostępności czystej wody pitnej. Przewoźnik ma prawo regulować zasady przewozu zwierząt w autobusach swoich lotów, dlatego konieczne jest doprecyzowanie tych informacji indywidualnie.",
+    subtitle_luggage: "Przewóz bagażu",
+    text_luggage:
+      "Należy pamiętać, że przewoźnik ma pełne prawo odmówić pasażerowi autobusu przewozu bagażu podręcznego lub bagażu, jeśli bagaż ten blokuje przejazd innym pasażerom w transporcie lub nie odpowiada dozwolonej ilości i gabarytom. Zawsze możesz telefonicznie wyjaśnić informacje o warunkach przewozu bagażu na poszczególnych rejsach.",
+    contacts: "Kontakt",
+    name: 'LLC "VEZE"',
+    address: "01004, m. Kijów, ul. Rognidyńska, Dom 4a, biuro 213",
+    cod: "Kod USREOU: 44122313",
   },
 };

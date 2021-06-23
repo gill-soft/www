@@ -12,7 +12,7 @@ import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
 
-const Nav = ({ handleClick }) => {
+const Nav = ({ handleClick, agent, handleExit }) => {
   const windowWidth = window.innerWidth;
   const [isPhone, setIsPhone] = useState(false);
   const phoneRef = useRef(null);
@@ -89,9 +89,9 @@ const Nav = ({ handleClick }) => {
             </CSSTransition>
           )}
         </div>
-        <div className={styles.contactsBox}>
+        
           {windowWidth < 768 && (
-            <>
+            <><div className={styles.contactsBox}>
               <p className={styles.tel}>
                 <FormattedMessage id="mobile" />
               </p>
@@ -100,10 +100,18 @@ const Nav = ({ handleClick }) => {
                   <img src={play} alt="playMarket"></img>
                 </a>
                 <img src={app} alt="appStore"></img>
-              </div>
+              </div></div>
             </>
           )}
-        </div>
+        
+        {agent && (
+          <div className={styles.agentBox}>
+            <p>
+            <FormattedMessage id="login" /><span> {agent.clientName || agent.login}</span>
+            </p>
+            <button onClick={handleExit}>Вихід</button>
+          </div>
+        )}
       </nav>
       <LanguageSelect />
     </IntlProvider>

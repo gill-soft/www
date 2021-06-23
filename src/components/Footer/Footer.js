@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/FooterMessages";
 import Offerta from "../../assets/Oferta_VZ.pdf";
@@ -65,6 +66,9 @@ const Fotter = () => {
                     Email: book@veze.club
                   </a>
                 </li>
+                <li className={styles.link}>
+                  <Link to="/login" >Вхід</Link>
+                </li>
               </ul>
             </div>
             <div className={styles.listBox}>
@@ -85,7 +89,9 @@ const Fotter = () => {
               </ul>
             </div>
             <div className={styles.listBox}>
-              <h4 className={styles.title}><FormattedMessage id="applications" /></h4>
+              <h4 className={styles.title}>
+                <FormattedMessage id="applications" />
+              </h4>
               <div className={styles.flexImgs}>
                 <div className={styles.img}>
                   <a href="https://play.google.com/store/apps/details?id=com.veze.gds">

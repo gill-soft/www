@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { changeLanguage } from "../redux/Language/LanguageAction";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
@@ -14,9 +14,11 @@ const TripsPage = lazy(() => import("../pages/TripsPage"));
 const Info = lazy(() => import("../pages/Info"));
 const City = lazy(() => import("../pages/City"));
 const Cities = lazy(() => import("../pages/Cities"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
 
 const App = () => {
   const dispatch = useDispatch();
+  
 
   const setLanguege = useCallback(
     (lang) => {
@@ -28,10 +30,11 @@ const App = () => {
     const lang = JSON.parse(localStorage.getItem("language")) || "UA";
     setLanguege(lang);
   }, [setLanguege]);
+ 
 
   return (
-    <Suspense fallback={<LinearProgress />} >
-      <Header />
+    <Suspense fallback={<LinearProgress />}>
+      <Header  />
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/автобуси/:from/:to" component={TripsPage} />
@@ -50,6 +53,7 @@ const App = () => {
         <Route path="/order" component={OrderPage} />
         <Route path="/ticket/:orderId" component={TicketPage} />
         <Route path="/myTicket/:orderId/:payedId" component={MyTicketPage} />
+        <Route path="/login" component={LoginPage} />
         <Route path="/error" component={ErrorPage} />
         <Redirect to="/" />
       </Switch>

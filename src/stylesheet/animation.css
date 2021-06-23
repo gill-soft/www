@@ -4,7 +4,7 @@
 }
 
 .phone-enter-active {
-    margin-top: 26px;
+    margin-top: 28px;
     transition: margin-top 300ms ease-out, opacity 300ms ease-out
 }
 
