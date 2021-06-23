@@ -11,6 +11,7 @@ import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
+import { ReactComponent as Search} from '../../images/search.svg'
 
 const Nav = ({ handleClick, agent, handleExit }) => {
   const windowWidth = window.innerWidth;
@@ -89,9 +90,10 @@ const Nav = ({ handleClick, agent, handleExit }) => {
             </CSSTransition>
           )}
         </div>
-        
-          {windowWidth < 768 && (
-            <><div className={styles.contactsBox}>
+
+        {windowWidth < 768 && (
+          <>
+            <div className={styles.contactsBox}>
               <p className={styles.tel}>
                 <FormattedMessage id="mobile" />
               </p>
@@ -100,16 +102,20 @@ const Nav = ({ handleClick, agent, handleExit }) => {
                   <img src={play} alt="playMarket"></img>
                 </a>
                 <img src={app} alt="appStore"></img>
-              </div></div>
-            </>
-          )}
-        
+              </div>
+            </div>
+          </>
+        )}
+
         {agent && (
           <div className={styles.agentBox}>
             <p>
-            <FormattedMessage id="login" /><span> {agent.clientName || agent.login}</span>
+              <FormattedMessage id="login" />
+              <span> {agent.clientName || agent.login}</span>
             </p>
+            <div className={styles.search}><Search fill="var(--color-secondary)" /></div>
             <button onClick={handleExit}>Вихід</button>
+            
           </div>
         )}
       </nav>

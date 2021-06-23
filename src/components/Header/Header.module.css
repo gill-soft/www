@@ -80,6 +80,32 @@
     border-radius: 6px;
     padding: 2px 4px;
     color: var(--color-secondary);
+    margin: 0 8px;
+}
+.flex {
+    /* width: 140px; */
+    display: flex;
+    justify-content: space-between
+}
+.search {
+    width: 40px;
+}
+.poper {
+    border: 1px solid gray;
+    background-color: var(--color-main);
+    /* padding: 10px; */
+    display: flex;
+    align-items: center;
+}
+.poper button {
+    border: none;
+    background-color: var(--color-main);
+}
+.poper input {
+    border: none;
+    background-color: var(--color-main);
+    padding: 5px;
+    color:#ffffff
 }
 
 @media (min-width: 576px) {

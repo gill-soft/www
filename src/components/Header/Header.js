@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
+import { ReactComponent as Search } from "../../images/search.svg";
 import styles from "./Header.module.css";
 import { ReactComponent as Menu } from "../../images/menu-black-48dp.svg";
 import { ReactComponent as Close } from "../../images/clear-black-36dp.svg";
@@ -48,7 +49,11 @@ const Header = () => {
                 <p>
                   Login:<span> {agent.clientName || agent.login}</span>
                 </p>
-                <button onClick={handleExit}>Вихід</button>
+                <div className={styles.flex}>
+                  <Search className={styles.search} fill="var(--color-secondary)" />
+
+                  <button onClick={handleExit}>Вихід</button>
+                </div>
               </div>
             )}
             <button
