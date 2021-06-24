@@ -25,8 +25,8 @@ const PaymentBox = ({ routs, orderId }) => {
   const [isModal, setIsModal] = useState(false);
   const [segments, setSegments] = useState([]);
   const [totalPrice, settotalPrice] = useState(0);
+  const agent = JSON.parse(localStorage.getItem("auth"));
   const history = useHistory();
-
   const ref = useRef();
   useEffect(() => {
     // ==== расчитываем полную стоимость билета ====//
@@ -74,9 +74,22 @@ const PaymentBox = ({ routs, orderId }) => {
   }, [time]);
 
   const getTotalPrice = () => {
-    return ticket.services.reduce((acc, el) => {
+    const ticketsArray = ticket.services.filter((el) => el.hasOwnProperty("segment"));
+    const servicesArray = ticket.services.filter((el) =>
+      el.hasOwnProperty("additionalService")
+    );
+    const ticketsSumm = ticketsArray.reduce((acc, el) => {
       return acc + el.price.amount;
     }, 0);
+    const servicesSumm = servicesArray.reduce((acc, el) => {
+      return acc + el.price.amount;
+    }, 0);
+
+    if (agent) {
+      return ticketsSumm * 0.85 + servicesSumm;
+    } else {
+      return ticketsSumm + servicesSumm;
+    }
   };
   const getGooleplayConfirm = (paymentRequest) => {
     isGooglePayComfirm(
@@ -303,6 +316,7 @@ const PaymentBox = ({ routs, orderId }) => {
         )}
       </IntlProvider>
       {isLoader && <Loader />}
+      <pre>{JSON.stringify(ticket, null, 4)}</pre>
     </>
   );
 };

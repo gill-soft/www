@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/FooterMessages";
-import Offerta from "../../assets/Oferta_VZ.pdf";
-import Pk from "../../assets/pk_VZ.pdf";
 import styles from "./Footer.module.css";
 import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
@@ -12,6 +10,8 @@ import visa from "../../images/visa-min.png";
 import vuso from "../../images/vuso-min.png";
 import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
+import { getOfferta, getPk } from "../../services/getpdfFiles";
+
 const Fotter = () => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
@@ -66,7 +66,6 @@ const Fotter = () => {
                     Email: book@veze.club
                   </a>
                 </li>
-                
               </ul>
             </div>
             <div className={styles.listBox}>
@@ -75,17 +74,19 @@ const Fotter = () => {
               </h4>
               <ul>
                 <li className={styles.listItem}>
-                  <a className={styles.link} href={Offerta} target="_blanc">
+                  <a className={styles.link} href={getOfferta(lang)} target="_blanc">
                     <FormattedMessage id="offer" />
                   </a>
                 </li>
                 <li>
-                  <a className={styles.link} href={Pk} target="_blanc">
+                  <a className={styles.link} href={getPk(lang)} target="_blanc">
                     <FormattedMessage id="privacyPolicy" />
                   </a>
                 </li>
                 <li className={styles.link}>
-                  <Link to="/login" style={{color:"var(--color-main)"}} >Агентам</Link>
+                  <Link to="/login" style={{ color: "var(--color-main)" }}>
+                    Агентам
+                  </Link>
                 </li>
               </ul>
             </div>

@@ -11,8 +11,6 @@ import { toBookTicket } from "../../services/api";
 import { getError, startLoader, stopLoader } from "../../redux/global/globalActions";
 import Loader from "../Loader/Loader";
 import { messages } from "../../intl/OrderPageMessanges";
-import Offerta from "../../assets/Oferta_VZ.pdf";
-import Pk from "../../assets/pk_VZ.pdf";
 import AdditionalsServices from "./AdditionalsServices";
 import { getPrice } from "../../services/getInfo";
 import { fetchTicket } from "../../redux/order/orderActions";
@@ -20,6 +18,7 @@ import GenderInput from "./GenderInput";
 import TextInput from "./TextInput";
 import { citizenship, documentTypes, documentTypesRU } from "../../assets/documentType";
 import { dateLocale } from "../../services/dateFormat";
+import { getOfferta, getPk } from "../../services/getpdfFiles";
 
 const regexEmail =
   /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
@@ -120,7 +119,7 @@ class FormForBuy extends Component {
       const status = resp.services.every((el) => el.status === "NEW");
       if (status) {
         const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
-       
+
         this.props.fetchTicket({});
 
         this.props.history.push(`/ticket/${id}`);
@@ -633,11 +632,11 @@ class FormForBuy extends Component {
                     />
                     <p>
                       <FormattedMessage id="offer" />
-                      <a href={Offerta} target="_blanc">
+                      <a href={getOfferta(lang)} target="_blanc">
                         <FormattedMessage id="offerSpan" />
                       </a>
                       <FormattedMessage id="myData" />
-                      <a href={Pk} target="_blanc">
+                      <a href={getPk(lang)} target="_blanc">
                         <FormattedMessage id="myDataSpan" />
                       </a>
                     </p>
