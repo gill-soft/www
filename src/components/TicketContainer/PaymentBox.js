@@ -316,7 +316,7 @@ const PaymentBox = ({ routs, orderId }) => {
         )}
       </IntlProvider>
       {isLoader && <Loader />}
-      <pre>{JSON.stringify(ticket, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(ticket, null, 4)}</pre> */}
     </>
   );
 };
