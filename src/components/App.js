@@ -15,6 +15,7 @@ const Info = lazy(() => import("../pages/Info"));
 const City = lazy(() => import("../pages/City"));
 const Cities = lazy(() => import("../pages/Cities"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
+const AgentTicket = lazy(()=> import("../pages/AgentTicket"))
 
 const App = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,8 @@ const App = () => {
         <Route path="/ticket/:orderId" component={TicketPage} />
         <Route path="/myTicket/:orderId/:payedId" component={MyTicketPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/agentTicket/:orderId" component={AgentTicket} />
+
         <Route path="/error" component={ErrorPage} />
         <Redirect to="/" />
       </Switch>

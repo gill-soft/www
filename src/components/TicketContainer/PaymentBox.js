@@ -91,6 +91,13 @@ const PaymentBox = ({ routs, orderId }) => {
       return ticketsSumm + servicesSumm;
     }
   };
+  const getComissionSumm = () => {
+    const ticketsArray = ticket.services.filter((el) => el.hasOwnProperty("segment"));
+    const ticketsSumm = ticketsArray.reduce((acc, el) => {
+      return acc + el.price.amount;
+    }, 0);
+    return ticketsSumm * 0.15;
+  };
   const getGooleplayConfirm = (paymentRequest) => {
     isGooglePayComfirm(
       paymentRequest,
@@ -127,6 +134,7 @@ const PaymentBox = ({ routs, orderId }) => {
   const closeReturnConditions = () => {
     setSegments([]);
   };
+
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>
@@ -175,7 +183,17 @@ const PaymentBox = ({ routs, orderId }) => {
               </small>
             </p>
           </div>
-
+          {agent && (
+            <div className={styles.flexItem}>
+              <p>Комісія агента: </p>
+              <p className={styles.total}>
+                {getComissionSumm()}
+                <small>
+                  <FormattedMessage id="uah" />
+                </small>
+              </p>
+            </div>
+          )}
           <div className={styles.flexItem}>
             <p>
               <FormattedMessage id="pay" />

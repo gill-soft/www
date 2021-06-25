@@ -12,7 +12,7 @@ const AppLinks = React.forwardRef(({ onClose }, ref) => {
   const locale = lang === "UA" ? "UK" : lang;
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <div ref={ref} tabIndex="-1">
+      <div ref={ref} tabIndex className={styles.box}>
         <div className={styles.progress2}>
           <div className={styles.progress}></div>
         </div>

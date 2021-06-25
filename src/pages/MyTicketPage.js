@@ -28,7 +28,6 @@ class MyTicketPage extends Component {
     this.setState({ id: id });
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);
-
   }
   componentDidUpdate(prevProps) {
     const { id } = this.state;
@@ -56,10 +55,10 @@ class MyTicketPage extends Component {
             )
           ),
         });
-        if (ticket.services[0].status === "NEW") {
+        if (ticket.services.every((el) => el.status === "NEW")) {
           this.props.getTicketConfirm(id, match.params.payedId);
         }
-        if (ticket.services[0].status === "CONFIRM") {
+        if (ticket.services.every((el) => el.status === "CONFIRM")) {
           this.setState({ status: "CONFIRM" });
           // ==== получаем билеты для печати ==== //
           getTicketPrint(id, this.props.lang)
@@ -69,8 +68,8 @@ class MyTicketPage extends Component {
             .catch((err) => console.log(err));
         }
         if (
-          this.props.ticket.services[0].status !== "CONFIRM" &&
-          this.props.ticket.services[0].status !== "NEW"
+          ticket.services.some((el) => el.status !== "CONFIRM") &&
+          ticket.services.some((el) => el.status !== "NEW")
         ) {
           this.setState({ status: "ERROR" });
         }
@@ -157,4 +156,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyTicketPage);
-
