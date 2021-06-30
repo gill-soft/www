@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
@@ -8,21 +8,15 @@ import { ReactComponent as Close } from "../../images/clear-black-36dp.svg";
 import { getError } from "../../redux/global/globalActions";
 import Nav from "../Nav/Nav";
 import "../../stylesheet/animation.css";
-import Agent from "../Agent/Agent";
+import AgentHeader from "../AgentPageContainer/AgentHeader";
 
 const Header = () => {
   const dispatch = useDispatch();
   const clearErorr = (val) => dispatch(getError(val));
   const [isMenu, setIsMenu] = useState(false);
-  const [agent, setAgent] = useState(null);
+  const agent = localStorage.getItem("auth");
   const windowWidth = window.innerWidth;
   const backdropRef = useRef(null);
-
-  useEffect(() => {
-    const storage = JSON.parse(localStorage.getItem("auth"));
-    setAgent(storage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localStorage.getItem("auth")]);
 
   const handleBackdropClick = (event) => {
     const { current } = backdropRef;
@@ -32,10 +26,6 @@ const Header = () => {
   const handleClick = () => {
     setIsMenu(false);
   };
-  const handleExit = () => {
-    setAgent(null);
-    localStorage.removeItem("auth");
-  };
 
   return (
     <header className={styles.header}>
@@ -44,9 +34,7 @@ const Header = () => {
 
         {windowWidth < 768 ? (
           <>
-            {agent && (
-              <Agent agent={agent} handleExit={handleExit}/>
-            )}
+            {agent && <AgentHeader />}
             <button
               className={styles.btnMenu}
               type="button"
@@ -80,7 +68,7 @@ const Header = () => {
             </CSSTransition>
           </>
         ) : (
-          <Nav handleClick={handleClick} agent={agent} handleExit={handleExit} />
+          <Nav handleClick={handleClick} agent={agent} />
         )}
       </div>
     </header>

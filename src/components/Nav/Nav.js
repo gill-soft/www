@@ -11,9 +11,9 @@ import play from "../../images/google-play-300x116.png";
 import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
-import Agent from "../Agent/Agent";
+import AgentHeader from "../AgentPageContainer/AgentHeader";
 
-const Nav = ({ handleClick, agent, handleExit }) => {
+const Nav = ({ handleClick, agent }) => {
   const windowWidth = window.innerWidth;
   const [isPhone, setIsPhone] = useState(false);
   const phoneRef = useRef(null);
@@ -107,7 +107,7 @@ const Nav = ({ handleClick, agent, handleExit }) => {
           </>
         )}
 
-        {agent && <Agent agent={agent} handleExit={handleExit} />}
+        {agent && <AgentHeader />}
       </nav>
       <LanguageSelect />
     </IntlProvider>

@@ -84,7 +84,7 @@ const Fotter = () => {
                   </a>
                 </li>
                 <li className={styles.link}>
-                  <Link to="/login" style={{ color: "var(--color-main)" }}>
+                  <Link to="/agent" style={{ color: "var(--color-main)" }}>
                     Агентам
                   </Link>
                 </li>

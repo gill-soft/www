@@ -141,15 +141,76 @@ export const getPopularRouts = () => {
   });
 };
 
-// ==== Авторизация ==== //
+// ==== Авторизация Агента ==== //
 export const getAuthorization = (login, password) => {
   const passwordLogin = login + ":" + password;
   const auth = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
   return axios({
     method: "post",
-    url: `http://busis.eu:8080/gds-sale/api/v1/client/auth`,
+    url: `http://busis.eu:8080/gds-sale/api/v1/client/user/auth`,
     headers: {
       Authorization: auth,
     },
+  });
+};
+// ==== Активные заказы ==== //
+export const getActivOrders = () => {
+  return axios({
+    method: "get",
+    url: `${baseURLsale}/tickets/active/RU`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+  });
+};
+// ==== Активные заказы за период ==== //
+export const getActivOrdersByPeriod = (start, end) => {
+  return axios({
+    method: "get",
+    url: `${baseURLsale}/tickets/by_period/RU?from=${start}&to=${end}`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+  });
+};
+// ==== Инициализация дополнительных сервисов ==== //
+export const getInitializationServices = (orderId, services) => {
+  return axios({
+    method: "post",
+    url: `${baseURLcontrol}/additional`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+    data: {
+      id: "7defe2a0-3dba-4199-aa4b-e7e651b8f9ca",
+      currency: "UAH",
+      order: {
+        orderId: orderId,
+        services: services,
+      },
+    },
+  });
+};
+
+// ==== поиск дополнительных сервисов ==== //
+export const getAdditionalServices = (searchId) => {
+  return axios({
+    method: "get",
+    url: `${baseURLcontrol}/additional/${searchId}`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+  });
+};
+
+// ==== обновление заказа с дополнительными сервисами ==== //
+export const updateTicketWithServices = (orderId, data) => {
+  return axios({
+    method: "post",
+    url: `${baseURLcontrol}/order/${orderId}/service/add`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+    data: data
   });
 };

@@ -19,6 +19,7 @@ import TextInput from "./TextInput";
 import { citizenship, documentTypes, documentTypesRU } from "../../assets/documentType";
 import { dateLocale } from "../../services/dateFormat";
 import { getOfferta, getPk } from "../../services/getpdfFiles";
+import { Redirect } from "react-router-dom";
 
 const regexEmail =
   /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
@@ -116,7 +117,11 @@ class FormForBuy extends Component {
     //  ==== после получения ответа переходим на страницу билета ==== //
     if (prevState.resp !== resp) {
       // ==== проверяем на ошибки в статусе ==== //
-      const status = resp.services.every((el) => el.status === "NEW");
+      console.log(resp);
+      if (resp.hasOwnProperty("error")) {
+        return <Redirect to="/error" />;
+      }
+      const status = resp?.services.every((el) => el.status === "NEW");
       if (status) {
         const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
 
@@ -323,12 +328,15 @@ class FormForBuy extends Component {
   };
 
   render() {
-    const { values, isOffer, validation } = this.state;
+    const { values, isOffer, validation, resp } = this.state;
     const { isLoading, lang, requeredFields } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
     return (
       <>
         {isLoading && <Loader />}
+        {Object.keys(resp).length > 0 && resp.hasOwnProperty("error") && (
+          <Redirect to="/error" />
+        )}
         <IntlProvider locale={locale} messages={messages[locale]}>
           <div className={styles.container}>
             {values.length > 0 && (

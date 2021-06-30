@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messanges } from "../intl/NavMessanges";
-import { getAuthorization } from "../services/api";
+import { messanges } from "../../intl/NavMessanges";
+import { getAuthorization } from "../../services/api";
 import { Formik, Form, useField } from "formik";
-import { ReactComponent as Visibility } from "../images/visibility.svg";
+import { ReactComponent as Visibility } from "../../images/visibility.svg";
 import * as Yup from "yup";
-import s from "./LoginPage.module.css";
+import s from "./Login.module.css";
 
 const MyTextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -26,7 +25,7 @@ const LoginPage = () => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
 
-  const history = useHistory();
+//   const location = useLocation();
 
   return (
     <IntlProvider locale={locale} messages={messanges[locale]}>
@@ -45,7 +44,9 @@ const LoginPage = () => {
             try {
               const { data } = await getAuthorization(login, password);
               localStorage.setItem("auth", JSON.stringify(data));
-              history.push("/");
+            //   history.push("/");
+            window.location.reload();
+            // exit()
             } catch {
               setError(true);
             }

@@ -1,0 +1,102 @@
+.box {
+    margin: 0 auto 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--color-main)
+}
+
+.box p {
+    margin-right: 12px;
+    font-weight: 500;
+}
+
+.input {
+    width: 170px;
+    padding: 7px;
+    border-radius: 4px;
+    border: none;
+    margin-right: 12px;
+    border: 1px solid var(--color-main)
+}
+
+.search {
+    padding: 6px 12px;
+    color: var(--color-main);
+    border: 1px solid var(--color-main);
+    border-radius: 4px;
+    box-shadow: 0 0 2px 2px rgb(207, 207, 207);
+    transition: box-shadow 200ms linear;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.search:hover {
+    box-shadow: 0 0 1px 1px rgb(207, 207, 207);
+    border: 1px solid var(--color-main);
+    transition: box-shadow 200ms linear;
+}
+
+.periodBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 200px;
+}
+
+.periodBox>p {
+    margin-bottom: 6px;
+}
+
+.dateBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 180px;
+    margin-bottom: 6px;
+}
+
+.datePickerBox {
+    width: 140px;
+}
+
+.datePicker {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-main);
+    border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+    .periodBox {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 540px;
+    }
+
+    .periodBox>p {
+        margin-bottom: 0px;
+    }
+
+    .dateBox {
+        /* display: flex;
+        align-items: center; */
+        justify-content: flex-start;
+        width: 170px;
+        margin-bottom: 0px;
+    }
+
+    .datePickerBox {
+        width: 140px;
+    }
+
+    .datePicker {
+        width: 100%;
+        padding: 7px;
+        border: 1px solid var(--color-main);
+        border-radius: 4px;
+    }
+}

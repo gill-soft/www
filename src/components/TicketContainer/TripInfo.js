@@ -6,10 +6,11 @@ import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getStop, getTimeDisplay } from "../../services/getInfo";
 
 const TripInfo = ({ routs }) => {
+  
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
-  
+
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.orderBox}>
@@ -33,7 +34,11 @@ const TripInfo = ({ routs }) => {
           </p>
           <p className={styles.date}>
             {getDate("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}{" "}
-            {getTimeDisplay("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}
+            {getTimeDisplay(
+              "departureDate",
+              ticket.segments[Object.keys(routs[0])[0]],
+              lang
+            )}
           </p>
         </div>
         <div>

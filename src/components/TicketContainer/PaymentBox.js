@@ -111,25 +111,20 @@ const PaymentBox = ({ routs, orderId }) => {
     setIsLoader(true);
   };
   const handleClickReturn = () => {
-    segments.length > 0
-      ? setSegments([])
-      : setSegments(
-          ticket.services
-            .reduce((arr, el) => {
-              if (el.hasOwnProperty("segment")) arr.push(el);
-              return arr;
-            }, [])
-            .reduce(
-              (acc, el) => {
-                if (acc.map[el.segment.id]) return acc;
+    setSegments(
+      ticket.services
+        .filter((el) => el.hasOwnProperty("segment"))
+        .reduce(
+          (acc, el) => {
+            if (acc.map[el.segment.id]) return acc;
 
-                acc.map[el.segment.id] = true;
-                acc.item.push(el);
-                return acc;
-              },
-              { map: {}, item: [] }
-            ).item
-        );
+            acc.map[el.segment.id] = true;
+            acc.item.push(el);
+            return acc;
+          },
+          { map: {}, item: [] }
+        ).item
+    );
   };
   const closeReturnConditions = () => {
     setSegments([]);
@@ -187,7 +182,7 @@ const PaymentBox = ({ routs, orderId }) => {
             <div className={styles.flexItem}>
               <p>Комісія агента: </p>
               <p className={styles.total}>
-                {getComissionSumm()}
+                {getComissionSumm().toFixed(2)}
                 <small>
                   <FormattedMessage id="uah" />
                 </small>
@@ -304,9 +299,9 @@ const PaymentBox = ({ routs, orderId }) => {
         <Modal open={segments.length > 0} onClose={closeReturnConditions}>
           <ReturnConditions segments={segments} close={closeReturnConditions} />
         </Modal>
-        <Modal open={isModal} disableBackdropClick={true}>
+        {/* <Modal open={isModal} disableBackdropClick={true}>
           <GoHome />
-        </Modal>
+        </Modal> */}
         {googleRes && (
           <form
             ref={ref}

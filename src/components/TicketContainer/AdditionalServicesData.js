@@ -19,20 +19,28 @@ const AdditionalServicesData = ({ addServ }) => {
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-
-    <div className={styles.box}>
-      <h4 className={styles.title}><FormattedMessage id="addservices" /></h4>
-      <div className={styles.flex}>
-        {addServ.map((el) => (
-          <div key={el} className={styles.item}>
-            <p>{ticket.additionalServices[el].name[lang]}: </p>
-            <p>
-              {getPrice(el)} <small><FormattedMessage id="uah" /></small>
-            </p>
-          </div>
-        ))}
+      <div className={styles.box}>
+        <h4 className={styles.title}>
+          <FormattedMessage id="addservices" />
+        </h4>
+        <div className={styles.flex}>
+          {addServ.map((el) => (
+            <div key={el} className={styles.item}>
+              <p>
+                {ticket.additionalServices[el].name[lang]}:
+                <span>
+                  {" "}
+                  {getPrice(el).toFixed(2)}
+                  <small>
+                    <FormattedMessage id="uah" />
+                  </small>
+                </span>
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div></IntlProvider>
+    </IntlProvider>
   );
 };
 
