@@ -68,7 +68,10 @@
     border: 1px solid var(--color-main);
     border-radius: 4px;
 }
-
+.loader {
+    width: 100px;
+    margin: 0 auto;
+}
 @media (min-width: 768px) {
     .periodBox {
         flex-direction: row;

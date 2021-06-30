@@ -23,6 +23,8 @@ export const messages = {
     call: "Звяжіться з службою підтримки за телефоном: ",
     download: "завантажити квиток",
     addBtn: "Додати до замовлення",
+    status: "Статус",
+    order: "Номер замовлення: ",
   },
   RU: {
     trip: "Маршрут:",
@@ -48,6 +50,8 @@ export const messages = {
     call: "Свяжитесь со службой поддержки по телефону: ",
     download: "скачать билет",
     addBtn: "Добавить к заказу",
+    status: "Статус",
+    order: "Номер заказа: ",
   },
   
   EN: {
@@ -74,6 +78,8 @@ export const messages = {
     call: "Contact support by phone: ",
     download: "download your ticket",
     addBtn: "Add to order",
+    status: "Status",
+    order: "Order number: ",
   },
   
   PL: {
@@ -100,6 +106,8 @@ export const messages = {
     call: "Skontaktuj się z obsługą klienta telefonicznie:",
     download: "pobierz bilet",
     addBtn: "Dodać do zamówienia",
+    status: "Status",
+    order: "Order number: ",
   },
 };
 

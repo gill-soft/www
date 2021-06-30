@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messanges } from "../../intl/NavMessanges";
+import { messages } from "../../intl/AgentPageMessage";
 import { getAuthorization } from "../../services/api";
 import { Formik, Form, useField } from "formik";
 import { ReactComponent as Visibility } from "../../images/visibility.svg";
@@ -25,10 +24,8 @@ const LoginPage = () => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
 
-//   const location = useLocation();
-
   return (
-    <IntlProvider locale={locale} messages={messanges[locale]}>
+    <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={s.container}>
         <Formik
           initialValues={{
@@ -43,10 +40,11 @@ const LoginPage = () => {
             setError(false);
             try {
               const { data } = await getAuthorization(login, password);
-              localStorage.setItem("auth", JSON.stringify(data));
-            //   history.push("/");
-            window.location.reload();
-            // exit()
+              localStorage.setItem(
+                "auth",
+                JSON.stringify({ ...data, password: password })
+              );
+              window.location.reload();
             } catch {
               setError(true);
             }
@@ -82,8 +80,7 @@ const LoginPage = () => {
               </button>
               {error && (
                 <p className={s.errorText}>
-                  {" "}
-                  <FormattedMessage id="errorText" />
+                  <FormattedMessage id="errorAuth" />
                 </p>
               )}
             </Form>

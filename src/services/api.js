@@ -211,6 +211,6 @@ export const updateTicketWithServices = (orderId, data) => {
     headers: {
       Authorization: AUTH_KEY,
     },
-    data: data
+    data: data,
   });
 };

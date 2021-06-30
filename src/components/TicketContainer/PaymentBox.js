@@ -299,9 +299,9 @@ const PaymentBox = ({ routs, orderId }) => {
         <Modal open={segments.length > 0} onClose={closeReturnConditions}>
           <ReturnConditions segments={segments} close={closeReturnConditions} />
         </Modal>
-        {/* <Modal open={isModal} disableBackdropClick={true}>
+        <Modal open={isModal} disableBackdropClick={true}>
           <GoHome />
-        </Modal> */}
+        </Modal>
         {googleRes && (
           <form
             ref={ref}

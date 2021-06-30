@@ -4,16 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
-
+import LoaderFromLibrary from "react-loader-spinner";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { messages } from "../../intl/TicketPageMessanges";
+import { messages } from "../../intl/AgentPageMessage";
 import styles from "./AgentDashboard.module.css";
-import { ReactComponent as Search } from "../../images/search.svg";
-import { getTicket } from "../../redux/order/orderOperation";
 import { fetchTicket } from "../../redux/order/orderActions";
 import { getActivOrders, getActivOrdersByPeriod } from "../../services/api";
-// import TripInfo from "../TicketContainer/TripInfo";
 import AgentOrder from "./AgentOrder";
+import { dateLocale } from "../../services/dateFormat";
 
 const AgentDashboard = () => {
   const dispatch = useDispatch();
@@ -29,6 +27,7 @@ const AgentDashboard = () => {
   const [ordersActiv, setOrdersActiv] = useState([]);
   const [ordersPeriod, setOrdersPeriod] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoader, setIsLoader] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const handleChange = ({ target }) => {
@@ -39,16 +38,28 @@ const AgentDashboard = () => {
   };
   const searchActivOrders = () => {
     setOrdersPeriod([]);
+    setOrdersActiv([]);
+    setIsLoader(true);
+
     getActivOrders()
-      .then(({ data }) => setOrdersActiv(data))
+      .then(({ data }) => {
+        setIsLoader(false);
+        setOrdersActiv(data);
+      })
       .catch((err) => setError(err));
   };
   const searchActivOrdersByPeriod = () => {
+    setIsLoader(true);
     setOrdersActiv([]);
+    setOrdersPeriod([]);
+
     const start = format(new Date(startDate), "yyyy-MM-dd");
     const end = format(new Date(endDate), "yyyy-MM-dd");
     getActivOrdersByPeriod(start, end)
-      .then(({ data }) => setOrdersPeriod(data))
+      .then(({ data }) => {
+        setIsLoader(false);
+        setOrdersPeriod(data);
+      })
       .catch((err) => setError(err));
   };
   return (
@@ -56,30 +67,39 @@ const AgentDashboard = () => {
       <div className="container">
         {error && <Redirect to="/error" />}
         <div className={styles.box}>
-          <p>Знайти замовлення по номеру</p>
+          <p>
+            <FormattedMessage id="searchByNumber" />
+          </p>
           <input className={styles.input} value={value} onChange={handleChange} />
           <Link
             to={`/agentTicket/${value}`}
             onClick={handleClick}
             className={styles.search}
           >
-            Пошук
+            <FormattedMessage id="search" />
           </Link>
         </div>
         <div className={styles.box}>
-          <p>Всі активні замовлення</p>
+          <p>
+            <FormattedMessage id="searchActiv" />
+          </p>
           <button className={styles.search} onClick={searchActivOrders}>
-            Пошук
+            <FormattedMessage id="search" />
           </button>
         </div>
         <div className={styles.box}>
           <div className={styles.periodBox}>
-            <p>Замовлення за період </p>
+            <p>
+              <FormattedMessage id="searchByPeriod" />
+            </p>
             <div className={styles.dateBox}>
-              <p>з</p>
+              <p>
+                <FormattedMessage id="from" />
+              </p>
               <div className={styles.datePickerBox}>
                 <DatePicker
                   dateFormat="dd MMM yyyy"
+                  locale={dateLocale(lang)}
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   selectsStart
@@ -91,10 +111,13 @@ const AgentDashboard = () => {
             </div>
 
             <div className={styles.dateBox}>
-              <p>по</p>
+              <p>
+                <FormattedMessage id="to" />
+              </p>
               <div className={styles.datePickerBox}>
                 <DatePicker
                   dateFormat="dd MMM yyyy"
+                  locale={dateLocale(lang)}
                   selected={endDate}
                   onChange={(date) => setEndDate(date)}
                   selectsEnd
@@ -107,14 +130,23 @@ const AgentDashboard = () => {
             </div>
           </div>
           <button className={styles.search} onClick={searchActivOrdersByPeriod}>
-            Пошук
+            <FormattedMessage id="search" />
           </button>
         </div>
         {ordersActiv.length > 0 &&
-          ordersActiv.map((order) => <AgentOrder order={order} />)}
+          ordersActiv.map((order, idx) => (
+            <AgentOrder order={order} key={idx} idx={idx} />
+          ))}
         {ordersPeriod.length > 0 &&
-          ordersPeriod.map((order) => <AgentOrder order={order} />)}
+          ordersPeriod.map((order, idx) => (
+            <AgentOrder order={order} key={idx} idx={idx} />
+          ))}
       </div>
+      {isLoader && (
+        <div className={styles.loader}>
+          <LoaderFromLibrary type="Oval" color="#00BFFF" height={100} width={100} />
+        </div>
+      )}
     </IntlProvider>
   );
 };
