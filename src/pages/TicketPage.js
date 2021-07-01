@@ -20,9 +20,11 @@ const TicketPage = () => {
   );
   const ticket = useSelector((state) => state.order.ticket);
   const [routs, setRouts] = useState([]);
-  const [newAddServicesData, setNewAddServicesData] = useState(null);
   const [isLoader, setIsLoader] = useState(true);
-  const [additionalServices, setAdditionalServices] = useState([]);
+  const [additionalServicesKeys, setAdditionalServicesKeys] = useState([]);
+  const [newAddServicesData, setNewAddServicesData] = useState(null);
+  const [newAddServicesKeys, setNewAddServicesKeys] = useState([]);
+
   const { orderId } = useParams();
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
@@ -36,20 +38,20 @@ const TicketPage = () => {
 
   useEffect(() => {
     if (Object.keys(ticket).length > 0) {
-      const arr = [];
+      const routs = [];
       for (let [key, values] of Object.entries(ticket.segments)) {
-        arr.push({ [key]: values });
+        routs.push({ [key]: values });
       }
+
       setRouts(
-        arr.sort((a, b) => {
+        routs.sort((a, b) => {
           const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
           const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
           return A - B;
         })
       );
-
       // ==== определяем масив всех уникальных ключей дополнительных сервисов ==== //
-      setAdditionalServices(
+      setAdditionalServicesKeys(
         Array.from(
           new Set(
             ticket.services
@@ -61,6 +63,12 @@ const TicketPage = () => {
           )
         )
       );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ticket]);
+
+  useEffect(() => {
+    if (Object.keys(ticket).length > 0) {
       // ==== инициализация поиска дополнительных сервисов ==== //
       const services = ticket.services
         .filter((el) => el.hasOwnProperty("segment"))
@@ -76,7 +84,7 @@ const TicketPage = () => {
         .catch((err) => console.log(err));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ticket]);
+  }, [additionalServicesKeys]);
 
   // ==== поиск дополнительных сервисов ==== //
   const getSearchServices = (searchId, time) => {
@@ -88,7 +96,7 @@ const TicketPage = () => {
             getSearchServices(data.searchId, time);
           } else {
             if (data.additionalServices) {
-              setNewAddServicesData(data);
+              getAdditionalServicesInfo(data);
             } else {
               return;
             }
@@ -104,7 +112,7 @@ const TicketPage = () => {
               getSearchServices(data.searchId, time);
             } else {
               if (data.additionalServices) {
-                setNewAddServicesData(data);
+                getAdditionalServicesInfo(data);
               } else {
                 return;
               }
@@ -114,9 +122,18 @@ const TicketPage = () => {
       }, 300);
     }
   };
+  const getAdditionalServicesInfo = (data) => {
+    const keys = [];
+    for (let key of Object.keys(data.additionalServices)) {
+      if (!additionalServicesKeys.includes(key)) keys.push(key);
+    }
+    setNewAddServicesData(data.additionalServices);
+    setNewAddServicesKeys(keys);
+  };
   const changeRouts = () => {
     setRouts([]);
-    setIsLoader(true)
+    setIsLoader(true);
+    
   };
   
   return (
@@ -126,14 +143,15 @@ const TicketPage = () => {
           <div className={styles.data}>
             <TripInfo routs={routs} />
             <PassengersData />
-            {additionalServices.length > 0 && (
-              <AdditionalServicesData addServ={additionalServices} />
+            {additionalServicesKeys.length > 0 && (
+              <AdditionalServicesData addServ={additionalServicesKeys} />
             )}
           </div>
-          {newAddServicesData && (
+          {newAddServicesKeys.length > 0 && (
             <div className={styles.data}>
               <AddAdditionalServices
-                addServ={newAddServicesData}
+                data={newAddServicesData}
+                keys={newAddServicesKeys}
                 changeRouts={changeRouts}
               />
             </div>

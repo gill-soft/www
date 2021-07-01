@@ -147,7 +147,7 @@ export const getAuthorization = (login, password) => {
   const auth = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
   return axios({
     method: "post",
-    url: `http://busis.eu:8080/gds-sale/api/v1/client/user/auth`,
+    url: `${baseURLsale}/client/user/auth`,
     headers: {
       Authorization: auth,
     },

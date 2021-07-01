@@ -102,7 +102,7 @@ const AgentTicket = () => {
           </div>
         </div>
       ) : (
-        <p> Інформацію по квитку {orderId} не знайдено</p>
+        <h2> Інформацію по квитку {orderId} не знайдено</h2>
       )}
       {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
     </div>

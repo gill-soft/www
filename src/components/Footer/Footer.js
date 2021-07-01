@@ -5,7 +5,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/FooterMessages";
 import styles from "./Footer.module.css";
 import play from "../../images/google-play-300x116.png";
-import app from "../../images/appstore.png";
+// import app from "../../images/appstore.png";
 import visa from "../../images/visa-min.png";
 import vuso from "../../images/vuso-min.png";
 import mastercard from "../../images/Mastercard-min.png";
@@ -100,9 +100,9 @@ const Fotter = () => {
                     <img src={play} width="150px" height="44px" alt="playMarket"></img>
                   </a>
                 </div>
-                <div className={styles.img}>
+                {/* <div className={styles.img}>
                   <img src={app} width="150px" height="44px" alt="appStore"></img>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

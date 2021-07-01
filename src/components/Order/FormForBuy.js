@@ -117,7 +117,6 @@ class FormForBuy extends Component {
     //  ==== после получения ответа переходим на страницу билета ==== //
     if (prevState.resp !== resp) {
       // ==== проверяем на ошибки в статусе ==== //
-      console.log(resp);
       if (resp.hasOwnProperty("error")) {
         return <Redirect to="/error" />;
       }

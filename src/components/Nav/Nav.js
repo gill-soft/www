@@ -8,7 +8,7 @@ import "../../stylesheet/animation.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messanges } from "../../intl/NavMessanges";
 import play from "../../images/google-play-300x116.png";
-import app from "../../images/appstore.png";
+// import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
 import AgentHeader from "../AgentPageContainer/AgentHeader";
@@ -101,7 +101,7 @@ const Nav = ({ handleClick, agent }) => {
                 <a href="https://play.google.com/store/apps/details?id=com.veze.gds">
                   <img src={play} alt="playMarket"></img>
                 </a>
-                <img src={app} alt="appStore"></img>
+                {/* <img src={app} alt="appStore"></img> */}
               </div>
             </div>
           </>

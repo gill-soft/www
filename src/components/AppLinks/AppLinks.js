@@ -4,7 +4,7 @@ import { messages } from "../../intl/HomePageMessages";
 import { useSelector } from "react-redux";
 import styles from "./AppLinks.module.css";
 import play from "../../images/google-play-300x116.png";
-import app from "../../images/appstore.png";
+// import app from "../../images/appstore.png";
 import { ReactComponent as Close } from "../../images/clear-black-36dp.svg";
 
 const AppLinks = React.forwardRef(({ onClose }, ref) => {
@@ -28,9 +28,9 @@ const AppLinks = React.forwardRef(({ onClose }, ref) => {
               <img src={play} alt="playMarket"></img>
             </a>
           </div>
-          <div className={styles.img}>
+          {/* <div className={styles.img}>
             <img src={app} alt="appStore"></img>
-          </div>
+          </div> */}
         </div>
       </div>
     </IntlProvider>

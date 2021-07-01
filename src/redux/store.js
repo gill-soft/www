@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+// import { composeWithDevTools } from "redux-devtools-extension";
 import { searchFormReduser } from "./searchForm/searchFormReduser";
 import language from "./Language/languageReduser";
 import { globalReduser } from "./global/globalReduser";
@@ -16,8 +16,8 @@ const rootRedusers = combineReducers({
 });
 const enhancer = applyMiddleware(thunk);
 
-const store = createStore(rootRedusers, composeWithDevTools(enhancer));
-// const store = createStore(rootRedusers, enhancer);
+// const store = createStore(rootRedusers, composeWithDevTools(enhancer));
+const store = createStore(rootRedusers, enhancer);
 
 
 export default store;

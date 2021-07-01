@@ -8,7 +8,7 @@ import { ReactComponent as Minus } from "../../images/remove-black-18dp.svg";
 import styles from "./AddAdditionalServices.module.css";
 import { getTicket } from "../../redux/order/orderOperation";
 
-const AddAdditionalServices = ({ addServ, changeRouts }) => {
+const AddAdditionalServices = ({ data, keys, changeRouts }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const dispatch = useDispatch();
@@ -16,28 +16,16 @@ const AddAdditionalServices = ({ addServ, changeRouts }) => {
     (orderId) => dispatch(getTicket(orderId)),
     [dispatch]
   );
-  const [keys, setKeys] = useState([]);
   const [newServices, setNewServices] = useState([]);
   const [summa, setSumma] = useState(0);
 
   const locale = lang === "UA" ? "UK" : lang;
 
-  //   ==== определяем масив ключей дополнительных сервисов ==== //
-  useEffect(() => {
-    const keys = [];
-    for (let key of Object.keys(addServ.additionalServices)) {
-      keys.push(key);
-    }
-
-    setKeys(keys);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  //   ==== подсчитываем сумму дополнительных сервисов ==== //
+  // ==== подсчитываем сумму дополнительных сервисов ==== //
   useEffect(() => {
     setSumma(
       newServices.reduce((summ, el) => {
-        const amount = +addServ.additionalServices[el.additionalService.id].price.amount;
+        const amount = +data[el.additionalService.id].price.amount;
         return summ + amount;
       }, 0)
     );
@@ -54,10 +42,7 @@ const AddAdditionalServices = ({ addServ, changeRouts }) => {
     data.customers = { 0: ticket.customers["0"] };
     data.services = newServices;
     updateTicketWithServices(ticket.orderId, data)
-      .then(({ data }) => {
-        // setIsLoader(false)
-        getTicketInfo(data.orderId);
-      })
+      .then(({ data }) => getTicketInfo(data.orderId))
       .catch((err) => console.log(err));
   };
 
@@ -85,21 +70,23 @@ const AddAdditionalServices = ({ addServ, changeRouts }) => {
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      {keys.length > 0 &&
-        keys.map((key) => (
-          <>
-            <AddServ
-              key={key}
-              addKey={key}
-              addServ={addServ}
-              handleAddServices={handleAddServices}
-              handleRemoveServices={handleRemoveServices}
-              handleRemoveOneServices={handleRemoveOneServices}
-            />
-          </>
-        ))}
+      {keys.map((key) => (
+        <AddServ
+          key={key}
+          addKey={key}
+          data={data}
+          handleAddServices={handleAddServices}
+          handleRemoveServices={handleRemoveServices}
+          handleRemoveOneServices={handleRemoveOneServices}
+        />
+      ))}
       <div className={styles.total}>
-        <p><FormattedMessage id="addservices" />: {summa.toFixed(2)} <span><FormattedMessage id="uah" /> </span></p>
+        <p>
+          <FormattedMessage id="addservices" />: {summa}{" "}
+          <span>
+            <FormattedMessage id="uah" />{" "}
+          </span>
+        </p>
         <button
           className={styles.totalbutton}
           disabled={newServices.length <= 0}
@@ -115,7 +102,7 @@ export default AddAdditionalServices;
 
 const AddServ = ({
   addKey,
-  addServ,
+  data,
   handleAddServices,
   handleRemoveServices,
   handleRemoveOneServices,
@@ -126,7 +113,6 @@ const AddServ = ({
   const [isChecked, setIsChecked] = useState(false);
 
   const locale = lang === "UA" ? "UK" : lang;
-
   //   ==== управление чекбоксом ==== //
   const handleChange = () => {
     if (isChecked) {
@@ -156,19 +142,18 @@ const AddServ = ({
           <div className={styles.item}>
             <div className={styles.img}>
               <img
-                src={`https://busis.eu/gds-sale/api/v1/additional/icon/${addServ.additionalServices[addKey].additionals.iconId}`}
+                src={`https://busis.eu/gds-sale/api/v1/additional/icon/${data[addKey].additionals.iconId}`}
                 alt="icon"
               />
             </div>
             <div className={styles.description}>
               <b className={styles.nameAddServ}>
-                {addServ.additionalServices[addKey].name[lang]}:{" "}
-                {addServ.additionalServices[addKey].price.amount}
+                {data[addKey].name[lang]}: {data[addKey].price.amount}
                 <small>
                   <FormattedMessage id="uah" />
                 </small>
               </b>
-              <p>{addServ.additionalServices[addKey].description[lang]}</p>
+              <p>{data[addKey].description[lang]}</p>
               {/* {!addServ.additionalServices[addKey].enableReturn && (
                 <i>(поверненню не підлягає)</i>
               )} */}
@@ -183,7 +168,7 @@ const AddServ = ({
           />
         </div>
 
-        {isChecked && addServ.additionalServices[addKey].enableCount && (
+        {isChecked && data[addKey].enableCount && (
           <div className={styles.controlers}>
             <button
               type="button"
