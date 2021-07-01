@@ -66,6 +66,7 @@ class FormForBuy extends Component {
       let isValid;
       validation.forEach((el) => {
         const keys = Object.keys(el);
+        if (isValid === false) return;
         return (isValid = keys.every((key) => el[key] === ""));
       });
       //  ==== если все поля валидные ==== //
@@ -195,6 +196,7 @@ class FormForBuy extends Component {
     } else {
       str = "";
     }
+
     return str;
   };
   // ==== валидация серии и номера пасспорта ====//
