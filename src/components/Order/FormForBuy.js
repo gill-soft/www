@@ -126,7 +126,7 @@ class FormForBuy extends Component {
 
         this.props.fetchTicket({});
 
-        // this.props.history.push(`/ticket/${id}`);
+        this.props.history.push(`/ticket/${id}`);
       } else {
         this.props.getError("el.error.message");
         return;
