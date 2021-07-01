@@ -126,7 +126,7 @@ class FormForBuy extends Component {
 
         this.props.fetchTicket({});
 
-        this.props.history.push(`/ticket/${id}`);
+        // this.props.history.push(`/ticket/${id}`);
       } else {
         this.props.getError("el.error.message");
         return;
@@ -149,11 +149,7 @@ class FormForBuy extends Component {
       const obj = {};
       obj.name = this.getValidText(el, "name");
       obj.surname = this.getValidText(el, "surname");
-      obj.phone = !isValidPhoneNumber(el.phone) ? (
-        <FormattedMessage id="dontcorectlyPhone" />
-      ) : (
-        ""
-      );
+      obj.phone = this.getValidPhone(el.phone);
       obj.email = !regexEmail.test(el.email) ? (
         <FormattedMessage id="dontcorectlyEmail" />
       ) : (
@@ -185,6 +181,17 @@ class FormForBuy extends Component {
       str = <FormattedMessage id="latin" />;
     } else if (el[key].trim().length < 2) {
       str = <FormattedMessage id="min2" />;
+    } else {
+      str = "";
+    }
+    return str;
+  };
+  getValidPhone = (value) => {
+    let str;
+    if (value.trim().length < 9) {
+      str = <FormattedMessage id="dontcorectlyPhone" />;
+    } else if (!isValidPhoneNumber(value)) {
+      str = <FormattedMessage id="dontcorectlyPhone" />;
     } else {
       str = "";
     }
