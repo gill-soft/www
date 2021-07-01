@@ -144,7 +144,7 @@ const DoubleTrips = ({ tripKeys, location }) => {
             </Link>
             {/*  */}
             <p className={freeSeats > 10 ? styles.green : styles.red}>
-              мест {freeSeats > 10 ? "10+" : freeSeats}
+            <FormattedMessage id="seats" /> {freeSeats > 10 ? "10+" : freeSeats}
             </p>
             {/*  */}
           </div>
