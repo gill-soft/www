@@ -8,21 +8,19 @@ import styles from "./PaymentBox.module.css";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getExpireTime, getExpireDate } from "../../services/getInfo";
 import { isGooglePayComfirm } from "../../services/api";
-import GoHome from "../GoHome/GoHome";
 import Loader from "../Loader/Loader";
 import visa from "../../images/visa-min.png";
 import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
 import ReturnConditions from "./ReturnConditions";
+import StopWatch from "./StopWatch";
 
 const PaymentBox = ({ routs, orderId }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
-  const [time, setTime] = useState(0);
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
-  const [isModal, setIsModal] = useState(false);
   const [segments, setSegments] = useState([]);
   const [totalPrice, settotalPrice] = useState(0);
   const agent = JSON.parse(localStorage.getItem("auth"));
@@ -32,11 +30,6 @@ const PaymentBox = ({ routs, orderId }) => {
     // ==== расчитываем полную стоимость билета ====//
     settotalPrice(getTotalPrice().toFixed(2));
 
-    // ==== определяем время до конца оплаты ==== //
-    const dateEnd = ticket.services[0].expire.split(" ").join("T");
-    const timeEnd = new Date(dateEnd).getTime();
-    const timeStart = new Date().getTime();
-    setTime(timeEnd - timeStart);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -58,20 +51,6 @@ const PaymentBox = ({ routs, orderId }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [googleRes]);
-
-  //  ==== секундомер ==== //
-  useEffect(() => {
-    if (time < 0) {
-      setIsModal(true);
-      setTime(0);
-      return;
-    }
-    const intervalId = setInterval(() => {
-      setTime(time - 1000);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [time]);
 
   const getTotalPrice = () => {
     const ticketsArray = ticket.services.filter((el) => el.hasOwnProperty("segment"));
@@ -129,7 +108,12 @@ const PaymentBox = ({ routs, orderId }) => {
   const closeReturnConditions = () => {
     setSegments([]);
   };
-
+  const getPortmoneTime = () => {
+    const dateEnd = ticket.services[0].expire.split(" ").join("T");
+    const timeEnd = new Date(dateEnd).getTime();
+    const time = ((timeEnd - Date.now()) / 1000).toFixed();
+    return time;
+  };
   return (
     <>
       <IntlProvider locale={locale} messages={messages[locale]}>
@@ -137,17 +121,11 @@ const PaymentBox = ({ routs, orderId }) => {
           <p className={styles.warningText}>
             <FormattedMessage id="endTime" />
             <span>
-              {" "}
               {getExpireDate(ticket.services[0].expire, locale)}
               {getExpireTime(ticket.services[0].expire)}
             </span>
           </p>
-          <p className={styles.time}>
-            {new Date(time).toLocaleString("uk", {
-              minute: "2-digit",
-              second: "2-digit",
-            })}
-          </p>
+          <StopWatch />
         </div>
 
         <div className={styles.payment}>
@@ -277,7 +255,7 @@ const PaymentBox = ({ routs, orderId }) => {
                 />
                 <input type="hidden" name="lang" value={locale.toLowerCase()} />
                 <input type="hidden" name="encoding" value="UTF-8" />
-                <input type="hidden" name="exp_time" value={(time / 1000).toFixed()} />
+                <input type="hidden" name="exp_time" value={getPortmoneTime()} />
 
                 <button
                   className={styles.portmone}
@@ -299,9 +277,7 @@ const PaymentBox = ({ routs, orderId }) => {
         <Modal open={segments.length > 0} onClose={closeReturnConditions}>
           <ReturnConditions segments={segments} close={closeReturnConditions} />
         </Modal>
-        <Modal open={isModal} disableBackdropClick={true}>
-          <GoHome />
-        </Modal>
+
         {googleRes && (
           <form
             ref={ref}
