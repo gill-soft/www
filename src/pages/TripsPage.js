@@ -110,7 +110,6 @@ class TripsPage extends Component {
       match,
       lang,
       location,
-      trips,
     } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
     return (
@@ -157,7 +156,7 @@ class TripsPage extends Component {
               </>
             )}
           </div>
-          {/* <pre>{JSON.stringify(trips, null, 4)}</pre> */}
+          {/* <pre>{JSON.stringify(this.props.trips, null, 4)}</pre> */}
         </div>
       </IntlProvider>
     );

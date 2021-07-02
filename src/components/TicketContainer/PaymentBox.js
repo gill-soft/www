@@ -22,16 +22,9 @@ const PaymentBox = ({ routs, orderId }) => {
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
   const [segments, setSegments] = useState([]);
-  const [totalPrice, settotalPrice] = useState(0);
   const agent = JSON.parse(localStorage.getItem("auth"));
   const history = useHistory();
   const ref = useRef();
-  useEffect(() => {
-    // ==== расчитываем полную стоимость билета ====//
-    settotalPrice(getTotalPrice().toFixed(2));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
@@ -52,6 +45,17 @@ const PaymentBox = ({ routs, orderId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [googleRes]);
 
+  const getGooleplayConfirm = (paymentRequest) => {
+    isGooglePayComfirm(
+      paymentRequest,
+      ticket.orderId,
+      ticket.primaryPaymentParams.paymentParamsId
+    )
+      .then(({ data }) => setGoogleRes(data))
+      .catch((err) => console.log(err));
+  };
+
+  // ==== расчитываем сумму для оплаты ==== //
   const getTotalPrice = () => {
     const ticketsArray = ticket.services.filter((el) => el.hasOwnProperty("segment"));
     const servicesArray = ticket.services.filter((el) =>
@@ -65,30 +69,28 @@ const PaymentBox = ({ routs, orderId }) => {
     }, 0);
 
     if (agent) {
-      return ticketsSumm * 0.85 + servicesSumm;
+      return ticketsSumm + servicesSumm - getComissionSumm();
     } else {
       return ticketsSumm + servicesSumm;
     }
   };
+
+  // ==== расчитываем сумму коммисии агента ==== //
   const getComissionSumm = () => {
-    const ticketsArray = ticket.services.filter((el) => el.hasOwnProperty("segment"));
-    const ticketsSumm = ticketsArray.reduce((acc, el) => {
-      return acc + el.price.amount;
-    }, 0);
-    return ticketsSumm * 0.15;
+    return ticket.services
+      .map((el) => el.price.commissions)
+      .flat()
+      .filter((el) => el.code === "AGN_IN_15")
+      .reduce((acc, el) => {
+        return acc + el.value;
+      }, 0);
   };
-  const getGooleplayConfirm = (paymentRequest) => {
-    isGooglePayComfirm(
-      paymentRequest,
-      ticket.orderId,
-      ticket.primaryPaymentParams.paymentParamsId
-    )
-      .then(({ data }) => setGoogleRes(data))
-      .catch((err) => console.log(err));
-  };
+
   const handleClick = () => {
     setIsLoader(true);
   };
+
+  //  ==== кнопка условий возврвта ==== //
   const handleClickReturn = () => {
     setSegments(
       ticket.services
@@ -105,9 +107,12 @@ const PaymentBox = ({ routs, orderId }) => {
         ).item
     );
   };
+  //  ==== закрыть условия возврата ==== //
   const closeReturnConditions = () => {
     setSegments([]);
   };
+
+  // ==== время оплаты для портмоне ==== //
   const getPortmoneTime = () => {
     const dateEnd = ticket.services[0].expire.split(" ").join("T");
     const timeEnd = new Date(dateEnd).getTime();
@@ -150,7 +155,7 @@ const PaymentBox = ({ routs, orderId }) => {
               <FormattedMessage id="summ" />
             </p>
             <p className={styles.total}>
-              {totalPrice}
+              {getTotalPrice().toFixed(2)}
               <small>
                 <FormattedMessage id="uah" />
               </small>
@@ -203,7 +208,7 @@ const PaymentBox = ({ routs, orderId }) => {
                     transactionInfo: {
                       totalPriceStatus: "FINAL",
                       totalPriceLabel: "Total",
-                      totalPrice: `${totalPrice}`,
+                      totalPrice: `${getTotalPrice().toFixed(2)}`,
                       currencyCode: "UAH",
                       countryCode: "UA",
                     },
@@ -227,7 +232,11 @@ const PaymentBox = ({ routs, orderId }) => {
                 />
 
                 <input type="hidden" name="shop_order_number" value={ticket.orderId} />
-                <input type="hidden" name="bill_amount" value={totalPrice} />
+                <input
+                  type="hidden"
+                  name="bill_amount"
+                  value={getTotalPrice().toFixed(2)}
+                />
                 <input
                   type="hidden"
                   name="description"
