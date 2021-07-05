@@ -12,7 +12,7 @@ const GoHome = React.forwardRef((props, ref) => {
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <div className={styles.box} ref={ref}>
+      <div className={styles.box} ref={ref} tabIndex="-1">
         <p className={styles.text}><FormattedMessage id="booking" /></p>
         <Link to="/" className={styles.link}>
         <FormattedMessage id="goHome" />

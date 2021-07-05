@@ -13,6 +13,8 @@ import { getDescription, getTitle } from "../services/headTags";
 import SearchFormBaner from "../components/SearchFormBaner/SearchFormBaner";
 import MobileBaner from "../components/MobileBaner/MobileBaner";
 import Modal from "@material-ui/core/Modal";
+import { isIOS } from "react-device-detect";
+
 
 const HomePage = () => {
   const lang = useSelector((state) => state.language);
@@ -50,7 +52,7 @@ const HomePage = () => {
         <title>{getTitle(lang)}</title>
       </Helmet>
       {error && <Redirect to="/error" />}
-      {windowWidth < 768 && isModal && (
+      {windowWidth < 768 && isModal && !isIOS && (
         <Modal open={true} onClose={closeModal} className={styles.modal}>
           <AppLinks onClose={closeModal} />
         </Modal>

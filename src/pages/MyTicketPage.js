@@ -9,6 +9,8 @@ import styles from "./MyTicketPage.module.css";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import TripInfo from "../components/TicketContainer/TripInfo";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
+import Modal from "@material-ui/core/Modal";
+import Success from "../components/MyTicketContainer/Success";
 
 class MyTicketPage extends Component {
   state = {
@@ -17,6 +19,7 @@ class MyTicketPage extends Component {
     url: [],
     routs: [],
     additionalServices: [],
+    isModal: true,
   };
 
   //  ==== получаем информацию о билете ==== //
@@ -88,11 +91,15 @@ class MyTicketPage extends Component {
     const base64 = window.URL.createObjectURL(pdf);
     this.setState({ url: base64 });
   };
+
+  // ==== закрыть модальное окно ==== //
+  toggleModal = () => {
+    this.setState((prev) => ({ isModal: !prev.isModal }));
+  };
   render() {
     const { status, id, url, routs, additionalServices } = this.state;
     const { ticket, lang } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
-
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {!Object.keys(ticket).includes("error") && routs.length > 0 && (
@@ -107,16 +114,19 @@ class MyTicketPage extends Component {
               </div>
               {status === "CONFIRM" && (
                 <>
-                  <h1 className={`${styles.title} ${styles.blue}`}>
-                    <FormattedMessage id="success" />
-                  </h1>
-                  <p className={styles.text}>
-                    <FormattedMessage id="number" />
-                    <span className={styles.blue}>{id}</span>
-                  </p>
-                  <a className={styles.link} href={url} target="_blank" rel="noreferrer">
-                    <FormattedMessage id="download" />
-                  </a>
+                  <Modal open={this.state.isModal} onClose={this.toggleModal}>
+                    <Success url={url} id={id} closeModal={this.toggleModal} />
+                  </Modal>
+                  {!this.state.isModal && (
+                    <div className={styles.data}>
+                      <Success
+                        url={url}
+                        id={id}
+                        closeModal={this.toggleModal}
+                        isModal={false}
+                      />
+                    </div>
+                  )}
                 </>
               )}
               {status === "ERROR" && (

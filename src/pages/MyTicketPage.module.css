@@ -48,9 +48,7 @@
     color: var(--color-danger)
 }
 
-.blue {
-    color: var(--color-main)
-}
+
 
 @media (min-width: 576px) {}
 

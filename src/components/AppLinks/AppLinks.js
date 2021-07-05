@@ -7,12 +7,13 @@ import play from "../../images/google-play-300x116.png";
 // import app from "../../images/appstore.png";
 import { ReactComponent as Close } from "../../images/clear-black-36dp.svg";
 
+
 const AppLinks = React.forwardRef(({ onClose }, ref) => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <div ref={ref} tabIndex className={styles.box}>
+      <div ref={ref} tabIndex="-1" className={styles.box}>
         <div className={styles.progress2}>
           <div className={styles.progress}></div>
         </div>

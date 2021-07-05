@@ -1,0 +1,45 @@
+.box {
+    background-color: #fff;
+    width: 90%;
+    max-width: 850px;
+    margin: 100px auto;
+    outline: none;
+    border-radius: 6px;
+    text-align: right;
+    padding: 6px;
+
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    text-align: right;
+}
+
+.blue {
+    color: var(--color-main);
+    text-align: center;
+    margin: 12px 0;
+}
+
+.text {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 12px;
+    text-align: center;
+    margin: 0 auto 12px;
+}
+
+.text span {
+    font-weight: 500;
+}
+
+.appLink {
+    color: var(--color-main);
+    font-weight: 500;
+}
+
+.helperText {
+    font-size: 14px;
+    text-align: right;
+}

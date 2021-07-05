@@ -21,10 +21,13 @@ export const messages = {
     fail: "При оформленні квитка виникла помилка",
     number: "Номер Вашого замовлення ",
     call: "Звяжіться з службою підтримки за телефоном: ",
-    download: "завантажити квиток",
+    download: " тут*",
     addBtn: "Додати до замовлення",
     status: "Статус",
     order: "Номер замовлення: ",
+    forDownload: "Для отримання квитка та додаткового супроводу встановіть додаток ",
+    or: " або завантажити квиток",
+    dontPrint: "*Для посадки роздруковувати квиток не обов'язково",
   },
   RU: {
     trip: "Маршрут:",
@@ -48,12 +51,16 @@ export const messages = {
     fail: "При оформлении билета возникла ошибка",
     number: "Номер вашего заказа",
     call: "Свяжитесь со службой поддержки по телефону: ",
-    download: "скачать билет",
+    download: " здесь*",
     addBtn: "Добавить к заказу",
     status: "Статус",
     order: "Номер заказа: ",
+    forDownload:
+      "Для получения билета и дополнительного сопровождения установите приложение ",
+    or: " или загрузить билет",
+    dontPrint: "*Для посадки распечатывать билет не обязательно",
   },
-  
+
   EN: {
     trip: "Route:",
     passangersData: "Passenger data:",
@@ -76,12 +83,15 @@ export const messages = {
     fail: "An error occurred while issuing a ticket",
     number: "Your order number",
     call: "Contact support by phone: ",
-    download: "download your ticket",
+    download: " here*",
     addBtn: "Add to order",
     status: "Status",
     order: "Order number: ",
+    forDownload: "To receive a ticket and additional support, install the application ",
+    or: " or download the ticket",
+    dontPrint: "*It is not necessary to print a ticket for boarding",
   },
-  
+
   PL: {
     trip: "Trasa:",
     passangersData: "Dane pasażera:",
@@ -104,17 +114,12 @@ export const messages = {
     fail: "Wystąpił błąd podczas wystawiania biletu",
     number: "Numer Twojego zamówienia",
     call: "Skontaktuj się z obsługą klienta telefonicznie:",
-    download: "pobierz bilet",
+    download: " tutaj*",
     addBtn: "Dodać do zamówienia",
     status: "Status",
     order: "Order number: ",
+    forDownload: "Aby otrzymać zgłoszenie i dodatkowe wsparcie, zainstaluj aplikację ",
+    or: " lub pobierz bilet",
+    dontPrint: "*Nie ma konieczności drukowania biletu na wejście na pokład",
   },
 };
-
-
-
-
-
-
-
- 
