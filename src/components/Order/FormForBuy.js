@@ -193,6 +193,8 @@ class FormForBuy extends Component {
       str = <FormattedMessage id="dontcorectlyPhone" />;
     } else if (!isValidPhoneNumber(value)) {
       str = <FormattedMessage id="dontcorectlyPhone" />;
+    } else if (value.slice(0, 4) === "+380" && value.length !== 13) {
+      str = <FormattedMessage id="dontcorectlyPhone" />;
     } else {
       str = "";
     }
