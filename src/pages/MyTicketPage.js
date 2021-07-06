@@ -11,6 +11,8 @@ import TripInfo from "../components/TicketContainer/TripInfo";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
 import Modal from "@material-ui/core/Modal";
 import Success from "../components/MyTicketContainer/Success";
+import { getError } from "../redux/global/globalActions";
+import { changeError } from "../services/getError";
 
 class MyTicketPage extends Component {
   state = {
@@ -36,7 +38,7 @@ class MyTicketPage extends Component {
     const { id } = this.state;
     const { ticket, match } = this.props;
     if (prevProps.ticket !== ticket) {
-      if (!Object.keys(ticket).includes("error")) {
+      if (!ticket.hasOwnProperty("error")) {
         const arr = [];
         for (let [key, values] of Object.entries(ticket.segments)) {
           arr.push({ [key]: values });
@@ -66,6 +68,7 @@ class MyTicketPage extends Component {
           // ==== получаем билеты для печати ==== //
           getTicketPrint(id, this.props.lang)
             .then(({ data }) => {
+              console.log(data);
               this.getPDF(data.documents[0].base64);
             })
             .catch((err) => console.log(err));
@@ -76,6 +79,9 @@ class MyTicketPage extends Component {
         ) {
           this.setState({ status: "ERROR" });
         }
+      } else {
+        const msgErr = changeError(ticket.error.name)
+        this.props.getError(msgErr);
       }
     }
   }
@@ -98,11 +104,11 @@ class MyTicketPage extends Component {
   };
   render() {
     const { status, id, url, routs, additionalServices } = this.state;
-    const { ticket, lang } = this.props;
+    const { ticket, lang, error } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
-        {!Object.keys(ticket).includes("error") && routs.length > 0 && (
+        {!ticket.hasOwnProperty("error") && routs.length > 0 && (
           <div className="bgnd">
             <div className="container">
               <div className={styles.data}>
@@ -147,9 +153,24 @@ class MyTicketPage extends Component {
                 </>
               )}
             </div>
-            {/* <pre>{JSON.stringify(this.props.data, null, 4)}</pre> */}
-            {/* <pre>{JSON.stringify(this.props.ticket, null, 4)}</pre> */}
           </div>
+        )}
+        {error && (
+          <>
+            <h1 className={`${styles.title} ${styles.red}`}>
+              {error}
+            </h1>
+            <p className={styles.text}>
+              <FormattedMessage id="call" />
+              <a href="tel: +380675092050" className={styles.red}>
+                +38 (067) 509-20-50
+              </a>
+            </p>
+            <p className={styles.text}>
+              <FormattedMessage id="number" />
+              <span className={styles.red}>{id}</span>
+            </p>
+          </>
         )}
       </IntlProvider>
     );
@@ -158,11 +179,13 @@ class MyTicketPage extends Component {
 const mapStateToProps = (state) => ({
   ticket: state.order.ticket,
   lang: state.language,
+  error: state.global.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getTicketConfirm: (id, paramsId) => dispatch(getTicketConfirm(id, paramsId)),
   getTicket: (id) => dispatch(getTicket(id)),
+  getError: (val) => dispatch(getError(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyTicketPage);

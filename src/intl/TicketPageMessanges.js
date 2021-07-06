@@ -28,6 +28,10 @@ export const messages = {
     forDownload: "Для отримання квитка та додаткового супроводу встановіть додаток ",
     or: " або завантажити квиток",
     dontPrint: "*Для посадки роздруковувати квиток не обов'язково",
+    errorPayed: "При оплаті виникла помилка",
+    errorOrder: "Не вдається знайти замовлення",
+    errorTransaction: "Не вдається знайти платіжну операцію",
+    errorError: "Упс..! Щось пішло не так",
   },
   RU: {
     trip: "Маршрут:",
@@ -49,7 +53,7 @@ export const messages = {
     uah: "грн",
     success: "Оплата прошла успешно !!!",
     fail: "При оформлении билета возникла ошибка",
-    number: "Номер вашего заказа",
+    number: "Номер вашего заказа ",
     call: "Свяжитесь со службой поддержки по телефону: ",
     download: " здесь*",
     addBtn: "Добавить к заказу",
@@ -59,6 +63,10 @@ export const messages = {
       "Для получения билета и дополнительного сопровождения установите приложение ",
     or: " или загрузить билет",
     dontPrint: "*Для посадки распечатывать билет не обязательно",
+    errorPayed: "При оплате произошла ошибка",
+    errorOrder: "Не удалось найти заказ",
+    errorTransaction: "Не удалось найти платежную транзакцию",
+    errorError: "Упс..! Что-то пошло не так.",
   },
 
   EN: {
@@ -90,6 +98,10 @@ export const messages = {
     forDownload: "To receive a ticket and additional support, install the application ",
     or: " or download the ticket",
     dontPrint: "*It is not necessary to print a ticket for boarding",
+    errorPayed: "An error occurred while paying",
+    errorOrder: "Couldn't find order",
+    errorTransaction: "Can not find payment transaction",
+    errorError: "Oops..! something went wrong",
   },
 
   PL: {
@@ -121,5 +133,9 @@ export const messages = {
     forDownload: "Aby otrzymać zgłoszenie i dodatkowe wsparcie, zainstaluj aplikację ",
     or: " lub pobierz bilet",
     dontPrint: "*Nie ma konieczności drukowania biletu na wejście na pokład",
+    errorPayed: "Wystąpił błąd podczas płacenia",
+    errorOrder: "Nie udało się znaleźć zamówienia",
+    errorTransaction: "Nie można znaleźć transakcji płatniczej",
+    errorError: "Ups...! coś poszło nie tak",
   },
 };
