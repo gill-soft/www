@@ -39,5 +39,5 @@ export const changeSortBoxShowDouble = (bool) => ({
 });
 export const setIsTrips = (bool) => ({
   type: Types.GET_IS_TRIPS,
-  payload: bool
+  payload: bool,
 });

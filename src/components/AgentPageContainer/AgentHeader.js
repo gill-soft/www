@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messanges } from "../../intl/NavMessanges";
@@ -8,10 +9,11 @@ const AgentHeader = () => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
   const agent = JSON.parse(localStorage.getItem("auth"));
-
+  const history = useHistory();
+  const { pathname } = useLocation();
   const handleExit = () => {
     localStorage.removeItem("auth");
-    window.location.reload();
+    pathname === "/agent" ? window.location.reload() : history.push("/agent");
   };
   return (
     <IntlProvider locale={locale} messages={messanges[locale]}>

@@ -6,6 +6,7 @@ import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import { useParams } from "react-router-dom";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
+import { getTicketPrint } from "../services/api";
 
 const AgentTicket = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const AgentTicket = () => {
   );
   const ticket = useSelector((state) => state.order.ticket);
   const [routs, setRouts] = useState([]);
+  const lang = useSelector((state) => state.language);
   const [additionalServices, setAdditionalServices] = useState([]);
   const { orderId } = useParams();
   // ==== получаем информацию о билете ==== //
@@ -54,6 +56,17 @@ const AgentTicket = () => {
       );
     }
   }, [ticket]);
+
+// ==== заготовка на получение PDF билета ==== //
+  useEffect(() => {
+    getTicketPrint(orderId, lang)
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+
   const getResultNew = () => {
     const expireTime = ticket.services[0].expire.split(" ").join("T");
     const msExpireTime = new Date(expireTime).getTime();
@@ -84,7 +97,6 @@ const AgentTicket = () => {
     }
     return result;
   };
-
   return (
     <div className="bgnd">
       {Object.keys(ticket).length > 0 && routs.length > 0 ? (

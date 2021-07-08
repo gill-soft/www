@@ -58,7 +58,7 @@ const DateCarousel = () => {
     sendDoubleTrips([]);
     loaderStart();
     changeInputDate(new Date(newDay));
-    sendTime(new Date().getTime());
+    sendTime(Date.now());
 
     history.push(
       `/${getUrl(lang).trim()}/${from.text}/${to.text}?from=${parsed.from}&to=${

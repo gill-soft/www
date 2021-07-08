@@ -32,6 +32,7 @@ const TicketPage = () => {
     const encryptId = atob(orderId);
     // ==== расшифровуем id ==== //
     const id = CryptoJS.AES.decrypt(encryptId, "KeyVeze").toString(CryptoJS.enc.Utf8);
+
     // ==== самовызывающяяся функция redux====
     getTicketInfo(id);
   }, [getTicketInfo, orderId]);
@@ -132,8 +133,7 @@ const TicketPage = () => {
   };
   const changeRouts = () => {
     setRouts([]);
-    setIsLoader(true);
-    
+    setIsLoader(true);    
   };
   
   return (
