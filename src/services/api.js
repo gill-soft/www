@@ -24,10 +24,10 @@ export const getCities = (val, lang) => {
 export const getInitialization = ({ idFrom, idTo, date }, lang) => {
   return axios({
     method: "post",
-    url: `${baseURLcontrol}/search`,
-    headers: {
-      Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
-    },
+    url: `${baseURLsale}/search`,
+    // headers: {
+    //   Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
+    // },
     data: {
       id: "string",
       // lang: `${lang}`,
@@ -43,10 +43,10 @@ export const getInitialization = ({ idFrom, idTo, date }, lang) => {
 export const searchTrips = (id) => {
   return axios({
     method: "get",
-    url: `${baseURLcontrol}/search/${id}`,
-    headers: {
-      Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
-    },
+    url: `${baseURLsale}/search/${id}`,
+    // headers: {
+    //   Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
+    // },
   });
 };
 
