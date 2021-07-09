@@ -19,8 +19,6 @@ class MyTicketPage extends Component {
     status: "NEW",
     id: "",
     url: [],
-    routs: [],
-    additionalServices: [],
     isModal: true,
   };
 
@@ -39,27 +37,6 @@ class MyTicketPage extends Component {
     const { ticket, match } = this.props;
     if (prevProps.ticket !== ticket) {
       if (!ticket.hasOwnProperty("error")) {
-        const arr = [];
-        for (let [key, values] of Object.entries(ticket.segments)) {
-          arr.push({ [key]: values });
-        }
-        this.setState({
-          routs: arr.sort((a, b) => {
-            const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
-            const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
-            return A - B;
-          }),
-          additionalServices: Array.from(
-            new Set(
-              ticket.services
-                .filter((el) => el.hasOwnProperty("additionalService"))
-                .reduce((arr, el) => {
-                  arr.push(el.additionalService.id);
-                  return arr;
-                }, [])
-            )
-          ),
-        });
         if (ticket.services.every((el) => el.status === "NEW")) {
           this.props.getTicketConfirm(id, match.params.payedId);
         }
@@ -80,7 +57,7 @@ class MyTicketPage extends Component {
           this.setState({ status: "ERROR" });
         }
       } else {
-        const msgErr = changeError(ticket.error.name)
+        const msgErr = changeError(ticket.error.name);
         this.props.getError(msgErr);
       }
     }
@@ -103,20 +80,18 @@ class MyTicketPage extends Component {
     this.setState((prev) => ({ isModal: !prev.isModal }));
   };
   render() {
-    const { status, id, url, routs, additionalServices } = this.state;
+    const { status, id, url } = this.state;
     const { ticket, lang, error } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
-        {!ticket.hasOwnProperty("error") && routs.length > 0 && (
+        {!ticket.hasOwnProperty("error") && Object.keys(ticket).length > 0 && (
           <div className="bgnd">
             <div className="container">
               <div className={styles.data}>
-                <TripInfo routs={routs} />
+                <TripInfo />
                 <PassengersData />
-                {additionalServices.length > 0 && (
-                  <AdditionalServicesData addServ={additionalServices} />
-                )}
+                <AdditionalServicesData />
               </div>
               {status === "CONFIRM" && (
                 <>
@@ -157,9 +132,7 @@ class MyTicketPage extends Component {
         )}
         {error && (
           <>
-            <h1 className={`${styles.title} ${styles.red}`}>
-              {error}
-            </h1>
+            <h1 className={`${styles.title} ${styles.red}`}>{error}</h1>
             <p className={styles.text}>
               <FormattedMessage id="call" />
               <a href="tel: +380675092050" className={styles.red}>
@@ -182,10 +155,15 @@ const mapStateToProps = (state) => ({
   error: state.global.error,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getTicketConfirm: (id, paramsId) => dispatch(getTicketConfirm(id, paramsId)),
-  getTicket: (id) => dispatch(getTicket(id)),
-  getError: (val) => dispatch(getError(val)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   getTicketConfirm: (id, paramsId) => dispatch(getTicketConfirm(id, paramsId)),
+//   getTicket: (id) => dispatch(getTicket(id)),
+//   getError: (val) => dispatch(getError(val)),
+// });
+const mapDispatchToProps = {
+  getTicketConfirm,
+  getTicket,
+  getError,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyTicketPage);

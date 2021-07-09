@@ -1,31 +1,32 @@
 import axios from "axios";
 const baseURLcontrol = "https://busis.eu/gds-control/api/v1";
 const baseURLsale = "https://busis.eu/gds-sale/api/v1";
-// const AUTH_KEY2 = `Basic ${Buffer.from("busfor_test:busfor_test").toString("base64")}`;
 const storage = JSON.parse(localStorage.getItem("auth"));
 const passwordLogin = storage?.login + ":" + storage?.password;
-const auth = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
-const AUTH_KEY = storage
-  ? auth
-  : `Basic ${Buffer.from("380888888880:8111").toString("base64")}`;
-
+const AUTH_KEY = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
+// const AUTH_KEY =  storage
+// ? auth
+// : `Basic ${Buffer.from("380888888880:8111").toString("base64")}`;
+//
+const getAuth = () => ({
+  Authorization: AUTH_KEY,
+});
 // ==== поиск городов для автокомплита ==== //
 export const getCities = (val, lang) => {
   return axios({
     method: "get",
     url: `${baseURLsale}/locality/cities/${lang}?prefix=${val}`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    // headers: storage ? getAuth() : null,
   });
 };
+
 // ==== инициализация поиска ==== //
 export const getInitialization = ({ idFrom, idTo, date }, lang) => {
   return axios({
     method: "post",
     url: `${baseURLcontrol}/search`,
     headers: {
-      Authorization: AUTH_KEY,
+      Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
     },
     data: {
       id: "string",
@@ -44,7 +45,7 @@ export const searchTrips = (id) => {
     method: "get",
     url: `${baseURLcontrol}/search/${id}`,
     headers: {
-      Authorization: AUTH_KEY,
+      Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
     },
   });
 };
@@ -76,9 +77,11 @@ export const toBookTicket = (body) => {
   return axios({
     method: "post",
     url: `${baseURLsale}/order/with_payment_params/PORTMONE`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    // headers: {
+    //   Authorization: `Basic ${Buffer.from("veze-club:FWqb6gysMPnsvQt").toString(
+    //     "base64"
+    //   )}`,
+    // },
     data: body,
   });
 };
@@ -87,9 +90,9 @@ export const toBookTicket = (body) => {
 export const getTicketInfo = (id) => {
   return axios({
     method: "get",
-    url: `${baseURLsale}/order/${id}`,
+    url: `${baseURLcontrol}/order/${id}`,
     headers: {
-      Authorization: AUTH_KEY,
+      Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
     },
   });
 };
@@ -124,9 +127,7 @@ export const getTicketPrint = (id, lang) => {
   return axios({
     method: "get",
     url: `${baseURLsale}/order/${id}/document/${lang}`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    // headers: storage ? getAuth() : null,
   });
 };
 
@@ -135,9 +136,7 @@ export const getPopularRouts = () => {
   return axios({
     method: "get",
     url: `${baseURLsale}/search/trips`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    headers: storage ? getAuth() : null,
   });
 };
 

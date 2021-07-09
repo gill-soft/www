@@ -4,13 +4,13 @@ import styles from "./TripInfo.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getStop, getTimeDisplay } from "../../services/getInfo";
+import { getRouts } from "../../redux/order/orderSelectors";
 
-const TripInfo = ({ routs }) => {
-  
+const TripInfo = () => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
-
+  const routs = useSelector(getRouts);
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.orderBox}>

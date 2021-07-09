@@ -13,11 +13,7 @@ import {
   setTime,
 } from "../../redux/searchForm/searchFormAction";
 import { getUrl } from "../../services/getUrl";
-import {
-  fetchTripsSuccess,
-  setDoubleTrips,
-  setSingleTrips,
-} from "../../redux/trips/tripsActions";
+
 import { ReactComponent as ArrowForward } from "../../images/arrow_forward_ios_white_24dp (1).svg";
 import { ReactComponent as ArrowBack } from "../../images/arrow_back_ios_white_24dp (1).svg";
 
@@ -29,9 +25,7 @@ const DateCarousel = () => {
   const loaderStart = () => dispatch(startLoader());
   const changeInputDate = (val) => dispatch(inputValueDate(val));
   const sendTime = (time) => dispatch(setTime(time));
-  const sendSingleTrips = (val) => dispatch(setSingleTrips(val));
-  const sendDoubleTrips = (val) => dispatch(setDoubleTrips(val));
-  const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
+
   const sendIsOpenFrom = (trips) => dispatch(setIsOpenFrom(trips));
   const sendIsOpenTo = (trips) => dispatch(setIsOpenTo(trips));
   const history = useHistory();
@@ -53,9 +47,7 @@ const DateCarousel = () => {
         ? new Date(parsed.date).getTime() - 24 * 60 * 60 * 1000
         : new Date(parsed.date).getTime() + 24 * 60 * 60 * 1000;
     const newDay = format(new Date(date), "yyyy-MM-dd");
-    setTripsSuccess({});
-    sendSingleTrips([]);
-    sendDoubleTrips([]);
+
     loaderStart();
     changeInputDate(new Date(newDay));
     sendTime(Date.now());

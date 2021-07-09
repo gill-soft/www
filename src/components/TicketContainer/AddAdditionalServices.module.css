@@ -1,3 +1,11 @@
+.data {
+    padding: 12px;
+    margin-bottom: 12px;
+    background-color: #ffffff;
+    border: 1px solid #838282;
+    box-shadow: 0 0 3px 2px #838282;
+    border-radius: 10px;
+}
 .passangersData {
     background-color: rgba(194, 227, 255, 0.8);
     padding: 18px 8px 8px;

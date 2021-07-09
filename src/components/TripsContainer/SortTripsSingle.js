@@ -6,10 +6,11 @@ import { messages } from "../../intl/TripsPageMessanges";
 import { changeSortBoxShow, changeSortTypeSingle } from "../../redux/trips/tripsActions";
 import { CSSTransition } from "react-transition-group";
 import "../../stylesheet/animation.css";
+import { getSingleTrips, getTrips } from "../../redux/trips/tripsSelectors";
 
 const SortTripsSingle = () => {
-  const singleTrips = useSelector(({ trips }) => trips.singleTrips);
-  const trips = useSelector(({ trips }) => trips.trips);
+  const singleTrips = useSelector((state) => getSingleTrips(state));
+  const trips = useSelector((state) => getTrips(state));
   const lang = useSelector((state) => state.language);
   const sortType = useSelector((state) => state.trips.sortTypeSingle);
   const isShowSortBox = useSelector((state) => state.trips.isShowSortBox);

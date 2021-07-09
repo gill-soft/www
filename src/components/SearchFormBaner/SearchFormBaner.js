@@ -17,11 +17,7 @@ import {
   setIsOpenTo,
   setTime,
 } from "../../redux/searchForm/searchFormAction";
-import {
-  fetchTripsSuccess,
-  setDoubleTrips,
-  setSingleTrips,
-} from "../../redux/trips/tripsActions";
+
 import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchFormBaner.module.css";
 import AmountPassanger from "./AmountPassanger";
@@ -40,9 +36,7 @@ const SearchFormBaner = ({ history, scroll }) => {
 
   const dispatch = useDispatch();
   const setData = (date) => dispatch(inputValueDate(date));
-  const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
-  const sendSingleTrips = (trips) => dispatch(setSingleTrips(trips));
-  const sendDoubleTrips = (trips) => dispatch(setDoubleTrips(trips));
+
   const setError = (err) => dispatch(getError(err));
   const loaderStart = () => dispatch(startLoader());
   const getTime = (time) => dispatch(setTime(time));
@@ -77,9 +71,7 @@ const SearchFormBaner = ({ history, scroll }) => {
     const dateQuery = format(new Date(date), "yyyy-MM-dd");
     // ==== запускаем лоадер, очищаем ошибки и данные предыдущего запроса ==== //
     setError("");
-    setTripsSuccess({});
-    sendSingleTrips([]);
-    sendDoubleTrips([]);
+
     loaderStart();
     getTime(new Date().getTime());
     //  ==== переход на страницу поездок ==== //
@@ -102,25 +94,27 @@ const SearchFormBaner = ({ history, scroll }) => {
           <form onSubmit={handleSubmit} className={`${styles.form} `}>
             <AutoComplete />
             <div className={styles.inputBox}>
-              <span className={styles.dataLabel}><FormattedMessage id="date" /></span>
+              <span className={styles.dataLabel}>
+                <FormattedMessage id="date" />
+              </span>
               <DatePicker
-              className={styles.datePicker}
-              dateFormat="dd MMMM"
-              selected={date}
-              minDate={new Date()}
-              locale={dateLocale()}
-              onChange={(date) => {
-                setData(date);
-                changeIsOpenDate(false);
-              }}
-              onClickOutside={() => changeIsOpenDate(false)}
-              onFocus={() => {
-                changeIsOpenDate(true);
-                changeIsOpenFrom(false);
-                changeIsOpenTo(false);
-              }}
-              open={isOpenDate}
-            />
+                className={styles.datePicker}
+                dateFormat="dd MMMM"
+                selected={date}
+                minDate={new Date()}
+                locale={dateLocale()}
+                onChange={(date) => {
+                  setData(date);
+                  changeIsOpenDate(false);
+                }}
+                onClickOutside={() => changeIsOpenDate(false)}
+                onFocus={() => {
+                  changeIsOpenDate(true);
+                  changeIsOpenFrom(false);
+                  changeIsOpenTo(false);
+                }}
+                open={isOpenDate}
+              />
             </div>
             <div className={styles.inputBox}>
               <AmountPassanger />

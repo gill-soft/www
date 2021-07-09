@@ -1,28 +1,9 @@
 import { Types } from "../actionsTypes";
 import { combineReducers } from "redux";
 
-const getTrips = (state = {}, { type, payload }) => {
+const getTrips = (state = null, { type, payload }) => {
   switch (type) {
     case Types.FETCH_TRIPS_SUCCESS:
-      return payload;
-
-    default:
-      return state;
-  }
-};
-
-const getSingleTrips = (state = [], { type, payload }) => {
-  switch (type) {
-    case Types.GET_SINGLE_TRIPS:
-      return payload;
-
-    default:
-      return state;
-  }
-};
-const getDoubleTrips = (state = [], { type, payload }) => {
-  switch (type) {
-    case Types.GET_DOUBLE_TRIPS:
       return payload;
 
     default:
@@ -68,23 +49,12 @@ const getIsShowSortBoxDouble = (state = false, { type, payload }) => {
       return state;
   }
 };
-const getIsTrips = (state = true, { type, payload }) => {
-  switch (type) {
-    case Types.GET_IS_TRIPS:
-      return payload;
 
-    default:
-      return state;
-  }
-};
 
 export const tripsReduser = combineReducers({
   trips: getTrips,
-  singleTrips: getSingleTrips,
-  doubleTrips: getDoubleTrips,
   sortTypeSingle: getSortTypeSingle,
   sortTypeDouble: getSortTypeDouble,
   isShowSortBox: getIsShowSortBox,
   isShowSortBoxDouble: getIsShowSortBoxDouble,
-  isTrips: getIsTrips,
 });

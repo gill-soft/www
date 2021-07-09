@@ -13,11 +13,7 @@ import {
   setIsOpenTo,
   setTime,
 } from "../../redux/searchForm/searchFormAction";
-import {
-  fetchTripsSuccess,
-  setDoubleTrips,
-  setSingleTrips,
-} from "../../redux/trips/tripsActions";
+
 import { getError, startLoader } from "../../redux/global/globalActions";
 import styles from "./SearchForm.module.css";
 import AmountPassanger from "./AmountPassanger";
@@ -25,7 +21,7 @@ import AutoComplete from "./AutoComlete";
 import { getUrl } from "../../services/getUrl";
 import { dateLocale } from "../../services/dateFormat";
 
-const SearchForm = ({ history, scroll=false }) => {
+const SearchForm = ({ history, scroll = false }) => {
   const lang = useSelector((state) => state.language);
   const from = useSelector((state) => state.searchForm.from);
   const to = useSelector((state) => state.searchForm.to);
@@ -35,9 +31,7 @@ const SearchForm = ({ history, scroll=false }) => {
 
   const dispatch = useDispatch();
   const setData = (date) => dispatch(inputValueDate(date));
-  const setTripsSuccess = (trips) => dispatch(fetchTripsSuccess(trips));
-  const sendSingleTrips = (trips) => dispatch(setSingleTrips(trips));
-  const sendDoubleTrips = (trips) => dispatch(setDoubleTrips(trips));
+
   const setError = (err) => dispatch(getError(err));
   const loaderStart = () => dispatch(startLoader());
   const getTime = (time) => dispatch(setTime(time));
@@ -47,8 +41,6 @@ const SearchForm = ({ history, scroll=false }) => {
 
   const locale = lang === "UA" ? "UK" : lang;
   const windowWidth = window.innerWidth;
-
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -66,11 +58,8 @@ const SearchForm = ({ history, scroll=false }) => {
     const dateQuery = format(new Date(date), "yyyy-MM-dd");
     // ==== запускаем лоадер, очищаем ошибки и данные предыдущего запроса ==== //
     setError("");
-    setTripsSuccess({});
-    sendSingleTrips([]);
-    sendDoubleTrips([]);
     loaderStart();
-    getTime(new Date().getTime());
+    getTime(Date.now());
     //  ==== переход на страницу поездок ==== //
     history.push(
       `/${getUrl(lang).trim()}/${from.text}/${to.text}?from=${from.value}&to=${
@@ -83,7 +72,7 @@ const SearchForm = ({ history, scroll=false }) => {
     <IntlProvider locale={locale} messages={messages[locale]}>
       <form onSubmit={handleSubmit} className={`${styles.form} `}>
         <div className={styles.fromTo}>
-        {(!scroll || windowWidth < 768) &&<AutoComplete /> }
+          {(!scroll || windowWidth < 768) && <AutoComplete />}
         </div>
         <div className={styles.flex}>
           <div className={styles.inputBox}>

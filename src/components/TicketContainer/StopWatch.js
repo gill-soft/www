@@ -37,9 +37,9 @@ const StopWatch = () => {
           second: "2-digit",
         })}
       </p>
-      <Modal open={isModal} disableBackdropClick={true}>
+      {/* <Modal open={isModal} disableBackdropClick={true}>
         <GoHome />
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

@@ -5,22 +5,6 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.title {
-    /* width: 300px; */
-    margin: 20px auto 20px;
-    font-size: 30px;
-    text-align: center;
-    color: var(--text-color-title);
-}
-
-.tripsBox {
-    padding-bottom: 20px;
-}
-.titleDouble {
-    color:var(--text-color-title);
-    padding-left: 6px;
-}
-
 @media(min-width: 768px) {
     .formBox {
         height: 255px;

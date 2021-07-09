@@ -1,13 +1,9 @@
 import { searchTrips } from "../../services/api";
-import { getPrice } from "../../services/getInfo";
 import { getError, stopLoader } from "../global/globalActions";
 import {
   changeSortTypeDouble,
   changeSortTypeSingle,
   fetchTripsSuccess,
-  setDoubleTrips,
-  setIsTrips,
-  setSingleTrips,
 } from "./tripsActions";
 
 export const searchRouts = (id, time, requestData) => (dispatch) => {
@@ -21,7 +17,7 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
           if (data.segments) {
             dispatch(TripsSuccess(data));
           } else {
-            dispatch(setIsTrips(false));
+            dispatch(fetchTripsSuccess(null));
           }
         }
       })
@@ -36,7 +32,7 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
             if (data.segments) {
               dispatch(TripsSuccess(data));
             } else {
-              dispatch(setIsTrips(false));
+              dispatch(fetchTripsSuccess(null));
             }
           }
         })
@@ -52,7 +48,7 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
             if (data.segments) {
               dispatch(TripsSuccess(data));
             } else {
-              dispatch(setIsTrips(false));
+              dispatch(fetchTripsSuccess(null));
             }
           }
         })
@@ -60,29 +56,12 @@ export const searchRouts = (id, time, requestData) => (dispatch) => {
     }, 2000);
   } else {
     dispatch(stopLoader());
-    dispatch(setIsTrips(false));
+    dispatch(fetchTripsSuccess(null));
   }
 };
 
 const TripsSuccess = (data) => (dispatch) => {
-  dispatch(setSingleTrips([]));
-  dispatch(setDoubleTrips([]));
-  const allTrips = data.tripContainers
-    .reduce((arr, el) => {
-      arr.push(el.trips);
-      return arr;
-    }, [])
-    .flat();
-  const singleTrips = allTrips
-    .filter((el) => Object.keys(el)[0] === "id")
-    .sort((a, b) => data.segments[a.id].price.amount - data.segments[b.id].price.amount)
-    .map((el) => ({ id: [el.id] }));
-  const doubleTrips = allTrips
-    .filter((el) => Object.keys(el)[0] === "segments")
-    .sort((a, b) => getPrice(a.segments, data) - getPrice(b.segments, data));
   dispatch(changeSortTypeSingle("price"));
   dispatch(changeSortTypeDouble("price"));
   dispatch(fetchTripsSuccess(data));
-  dispatch(setSingleTrips(singleTrips));
-  dispatch(setDoubleTrips(doubleTrips));
 };

@@ -14,8 +14,9 @@ import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
 import ReturnConditions from "./ReturnConditions";
 import StopWatch from "./StopWatch";
+import { getRouts } from "../../redux/order/orderSelectors";
 
-const PaymentBox = ({ routs, orderId }) => {
+const PaymentBox = ({ orderId }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
@@ -25,6 +26,8 @@ const PaymentBox = ({ routs, orderId }) => {
   const agent = JSON.parse(localStorage.getItem("auth"));
   const history = useHistory();
   const ref = useRef();
+  const routs = useSelector(getRouts);
+
 
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {

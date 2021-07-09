@@ -6,7 +6,7 @@ import { messages } from "../../intl/TripsPageMessanges";
 import { changeSortTypeSingle } from "../../redux/trips/tripsActions";
 import { getPrice } from "../../services/getInfo";
 
-const SortTripsDouble = () => {
+const SortTripsDoubleMob = () => {
   const doubleTrips = useSelector(({ trips }) => trips.doubleTrips);
   const trips = useSelector(({ trips }) => trips.trips);
   const lang = useSelector((state) => state.language);
@@ -134,4 +134,4 @@ const SortTripsDouble = () => {
   );
 };
 
-export default SortTripsDouble;
+export default SortTripsDoubleMob;

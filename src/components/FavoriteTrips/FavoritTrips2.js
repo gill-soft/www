@@ -13,14 +13,9 @@ const FavoriteTrips2 = () => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
 
-  const dispatch = useDispatch();
-  const sendSingleTrips = (val) => dispatch(setSingleTrips(val));
-  const sendDoubleTrips = (val) => dispatch(setDoubleTrips(val));
+ 
 
-  const handleClick = () => {
-    sendSingleTrips([]);
-    sendDoubleTrips([]);
-  };
+ 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.container}>
@@ -36,7 +31,6 @@ const FavoriteTrips2 = () => {
                   new Date(),
                   "yyyy-MM-dd"
                 )}&passengers=1`}
-                onClick={handleClick}
               >
                 <div>
                   <span>{el.departure.name[lang]}</span>

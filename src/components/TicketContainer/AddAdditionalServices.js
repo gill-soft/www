@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateTicketWithServices } from "../../services/api";
+import {
+  getAdditionalServices,
+  getInitializationServices,
+  updateTicketWithServices,
+} from "../../services/api";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { ReactComponent as Plus } from "../../images/add-black-18dp.svg";
 import { ReactComponent as Minus } from "../../images/remove-black-18dp.svg";
 import styles from "./AddAdditionalServices.module.css";
 import { getTicket } from "../../redux/order/orderOperation";
+import { getAdditionalServicesKeys } from "../../redux/order/orderSelectors";
 
-const AddAdditionalServices = ({ data, keys, changeRouts }) => {
+const AddAdditionalServices = () => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
+  const addServ = useSelector(getAdditionalServicesKeys);
   const dispatch = useDispatch();
   const getTicketInfo = useCallback(
     (orderId) => dispatch(getTicket(orderId)),
@@ -18,8 +24,73 @@ const AddAdditionalServices = ({ data, keys, changeRouts }) => {
   );
   const [newServices, setNewServices] = useState([]);
   const [summa, setSumma] = useState(0);
+  const [data, setData] = useState(null);
+  const [keys, setKeys] = useState([]);
 
   const locale = lang === "UA" ? "UK" : lang;
+
+  // ==============
+  useEffect(() => {
+    // ==== инициализация поиска дополнительных сервисов ==== //
+    const services = ticket.services
+      .filter((el) => el.hasOwnProperty("segment"))
+      .reduce((arr, el) => {
+        arr.push({ id: el.id });
+        return arr;
+      }, []);
+    getInitializationServices(ticket.orderId, services)
+      .then(({ data }) => {
+        getSearchServices(data.searchId, Date.now());
+      })
+      .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // ==== поиск дополнительных сервисов ==== //
+  const getSearchServices = (searchId, time) => {
+    const deltaTime = Date.now() - time;
+    if (deltaTime <= 500) {
+      getAdditionalServices(searchId)
+        .then(({ data }) => {
+          if (data.searchId) {
+            getSearchServices(data.searchId, time);
+          } else {
+            if (data.additionalServices) {
+              setData(data.additionalServices);
+            } else {
+              return;
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    if (deltaTime > 500) {
+      setTimeout(() => {
+        getAdditionalServices(searchId)
+          .then(({ data }) => {
+            if (data.searchId) {
+              getSearchServices(data.searchId, time);
+            } else {
+              if (data.additionalServices) {
+                setData(data.additionalServices);
+              } else {
+                return;
+              }
+            }
+          })
+          .catch((err) => console.log(err));
+      }, 300);
+    }
+  };
+  //  ==== обновляем масив ключей дополнительніх услуг ==== //
+  useEffect(() => {
+    if (data) {
+      const keys = [];
+      for (let key of Object.keys(data)) {
+        if (!addServ.includes(key)) keys.push(key);
+      }
+      setKeys(keys);
+    }
+  }, [data, addServ]);
 
   // ==== подсчитываем сумму дополнительных сервисов ==== //
   useEffect(() => {
@@ -34,7 +105,6 @@ const AddAdditionalServices = ({ data, keys, changeRouts }) => {
 
   //   ==== купить дополнительные услуги ==== //
   const insuranceBuy = () => {
-    changeRouts();
     const data = {
       lang: lang,
       currency: "UAH",
@@ -43,7 +113,8 @@ const AddAdditionalServices = ({ data, keys, changeRouts }) => {
     data.services = newServices;
     updateTicketWithServices(ticket.orderId, data)
       .then(({ data }) => getTicketInfo(data.orderId))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(setNewServices([]));
   };
 
   // ==== добавить дополнительную услугу ==== //
@@ -70,31 +141,35 @@ const AddAdditionalServices = ({ data, keys, changeRouts }) => {
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      {keys.map((key) => (
-        <AddServ
-          key={key}
-          addKey={key}
-          data={data}
-          handleAddServices={handleAddServices}
-          handleRemoveServices={handleRemoveServices}
-          handleRemoveOneServices={handleRemoveOneServices}
-        />
-      ))}
-      <div className={styles.total}>
-        <p>
-          <FormattedMessage id="addservices" />: {summa}{" "}
-          <span>
-            <FormattedMessage id="uah" />{" "}
-          </span>
-        </p>
-        <button
-          className={styles.totalbutton}
-          disabled={newServices.length <= 0}
-          onClick={() => insuranceBuy()}
-        >
-          <FormattedMessage id="addBtn" />
-        </button>
-      </div>
+      {keys.length > 0 && (
+        <div className={styles.data}>
+          {keys.map((key) => (
+            <AddServ
+              key={key}
+              addKey={key}
+              data={data}
+              handleAddServices={handleAddServices}
+              handleRemoveServices={handleRemoveServices}
+              handleRemoveOneServices={handleRemoveOneServices}
+            />
+          ))}
+          <div className={styles.total}>
+            <p>
+              <FormattedMessage id="addservices" />: {summa}{" "}
+              <span>
+                <FormattedMessage id="uah" />{" "}
+              </span>
+            </p>
+            <button
+              className={styles.totalbutton}
+              disabled={newServices.length <= 0}
+              onClick={() => insuranceBuy()}
+            >
+              <FormattedMessage id="addBtn" />
+            </button>
+          </div>
+        </div>
+      )}
     </IntlProvider>
   );
 };

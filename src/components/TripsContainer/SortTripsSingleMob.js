@@ -3,10 +3,11 @@ import styles from "./SortTrips.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TripsPageMessanges";
-import {  changeSortTypeSingle } from "../../redux/trips/tripsActions";
+import { changeSortTypeSingle } from "../../redux/trips/tripsActions";
+import { getSingleTrips } from "../../redux/trips/tripsSelectors";
 
 const SortTripsSingleMob = () => {
-  const singleTrips = useSelector(({ trips }) => trips.singleTrips);
+  const singleTrips = useSelector((state) => getSingleTrips(state));
   const trips = useSelector(({ trips }) => trips.trips);
   const lang = useSelector((state) => state.language);
   const sortType = useSelector((state) => state.trips.sortTypeSingle);

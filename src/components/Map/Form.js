@@ -11,13 +11,10 @@ import { setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 const Form = ({ from, to }) => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
-  const dispatch = useDispatch();
-  const sendSingleTrips = (val) => dispatch(setSingleTrips(val));
-  const sendDoubleTrips = (val) => dispatch(setDoubleTrips(val));
+  
   const history = useHistory();
   const handleClick = () => {
-    sendSingleTrips([]);
-    sendDoubleTrips([]);
+    
     history.push(
       `${getUrl(lang).trim()}/${from?.name?.[lang]}/${to?.name?.[lang]}?from=${
         from?.id
