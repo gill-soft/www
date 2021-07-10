@@ -12,6 +12,7 @@ import { ReactComponent as Minus } from "../../images/remove-black-18dp.svg";
 import styles from "./AddAdditionalServices.module.css";
 import { getTicket } from "../../redux/order/orderOperation";
 import { getAdditionalServicesKeys } from "../../redux/order/orderSelectors";
+import Loader from "../Loader/Loader";
 
 const AddAdditionalServices = () => {
   const lang = useSelector((state) => state.language);
@@ -26,6 +27,7 @@ const AddAdditionalServices = () => {
   const [summa, setSumma] = useState(0);
   const [data, setData] = useState(null);
   const [keys, setKeys] = useState([]);
+  const [isLoader, setIsLoader] = useState(true);
 
   const locale = lang === "UA" ? "UK" : lang;
 
@@ -61,7 +63,8 @@ const AddAdditionalServices = () => {
             }
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(setIsLoader(false));
     }
     if (deltaTime > 500) {
       setTimeout(() => {
@@ -77,7 +80,8 @@ const AddAdditionalServices = () => {
               }
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.log(err))
+          .finally(setIsLoader(false));
       }, 300);
     }
   };
@@ -141,6 +145,8 @@ const AddAdditionalServices = () => {
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
+      {isLoader && <Loader />}
+
       {keys.length > 0 && (
         <div className={styles.data}>
           {keys.map((key) => (

@@ -125,7 +125,7 @@ class FormForBuy extends Component {
       if (status) {
         const id = btoa(CryptoJS.AES.encrypt(resp.orderId, "KeyVeze").toString());
 
-        this.props.fetchTicket({});
+        this.props.fetchTicket(null);
 
         this.props.history.push(`/ticket/${id}`);
       } else {

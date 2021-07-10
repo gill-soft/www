@@ -6,7 +6,6 @@ import TripInfo from "../components/TicketContainer/TripInfo";
 import PassengersData from "../components/TicketContainer/PassengersData";
 import { useParams } from "react-router-dom";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
-import { getTicketPrint } from "../services/api";
 
 const AgentTicket = () => {
   const dispatch = useDispatch();
@@ -15,57 +14,13 @@ const AgentTicket = () => {
     [dispatch]
   );
   const ticket = useSelector((state) => state.order.ticket);
-  const [routs, setRouts] = useState([]);
   const lang = useSelector((state) => state.language);
-  const [additionalServices, setAdditionalServices] = useState([]);
   const { orderId } = useParams();
   // ==== получаем информацию о билете ==== //
   useEffect(() => {
     // ==== самовызывающяяся функция redux====
     getTickenInfo(orderId);
   }, [dispatch, getTickenInfo, orderId]);
-  useEffect(() => {
-    setRouts([]);
-  }, [ticket]);
-  useEffect(() => {
-    if (Object.keys(ticket).length > 0) {
-      const arr = [];
-      for (let [key, values] of Object.entries(ticket.segments)) {
-        arr.push({ [key]: values });
-      }
-      setRouts(
-        arr.sort((a, b) => {
-          const A = new Date(a[Object.keys(a)[0]].departureDate).getTime();
-          const B = new Date(b[Object.keys(b)[0]].departureDate).getTime();
-          return A - B;
-        })
-      );
-
-      // ==== определяем масив всех уникальных ключей дополнительных сервисов ==== //
-      setAdditionalServices(
-        Array.from(
-          new Set(
-            ticket.services
-              .filter((el) => el.hasOwnProperty("additionalService"))
-              .reduce((arr, el) => {
-                arr.push(el.additionalService.id);
-                return arr;
-              }, [])
-          )
-        )
-      );
-    }
-  }, [ticket]);
-
-// ==== заготовка на получение PDF билета ==== //
-  useEffect(() => {
-    getTicketPrint(orderId, lang)
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
 
   const getResultNew = () => {
     const expireTime = ticket.services[0].expire.split(" ").join("T");
@@ -99,18 +54,16 @@ const AgentTicket = () => {
   };
   return (
     <div className="bgnd">
-      {Object.keys(ticket).length > 0 && routs.length > 0 ? (
+      { ticket && !ticket?.hasOwnProperty('error') ? (
         <div className="container">
           <div className={styles.statusBox}>
             <h3>Статус квитка:</h3>
             <p className={styles.status}>{getStatus()}</p>
           </div>
           <div className={styles.data}>
-            <TripInfo routs={routs} />
+            <TripInfo />
             <PassengersData />
-            {additionalServices.length > 0 && (
-              <AdditionalServicesData addServ={additionalServices} />
-            )}
+            <AdditionalServicesData />
           </div>
         </div>
       ) : (

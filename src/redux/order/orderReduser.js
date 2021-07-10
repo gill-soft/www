@@ -11,7 +11,7 @@ const getTripKeys = (state = [], { type, payload }) => {
   }
 };
 
-const getTicket = (state = {}, { type, payload }) => {
+const getTicket = (state = null, { type, payload }) => {
   switch (type) {
     case Types.FETCH_TICKET:
       return payload;

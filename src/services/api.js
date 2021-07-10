@@ -1,22 +1,23 @@
 import axios from "axios";
-const baseURLcontrol = "https://busis.eu/gds-control/api/v1";
 const baseURLsale = "https://busis.eu/gds-sale/api/v1";
 const storage = JSON.parse(localStorage.getItem("auth"));
 const passwordLogin = storage?.login + ":" + storage?.password;
 const AUTH_KEY = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
-// const AUTH_KEY =  storage
-// ? auth
-// : `Basic ${Buffer.from("380888888880:8111").toString("base64")}`;
-//
+
 const getAuth = () => ({
   Authorization: AUTH_KEY,
 });
+const getAuthWithContentType = () => ({
+  Authorization: AUTH_KEY,
+  "Content-Type": "application/json",
+});
+
 // ==== поиск городов для автокомплита ==== //
 export const getCities = (val, lang) => {
   return axios({
     method: "get",
     url: `${baseURLsale}/locality/cities/${lang}?prefix=${val}`,
-    // headers: storage ? getAuth() : null,
+    headers: storage ? getAuth() : null,
   });
 };
 
@@ -25,9 +26,7 @@ export const getInitialization = ({ idFrom, idTo, date }, lang) => {
   return axios({
     method: "post",
     url: `${baseURLsale}/search`,
-    // headers: {
-    //   Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
-    // },
+    headers: storage ? getAuth() : null,
     data: {
       id: "string",
       // lang: `${lang}`,
@@ -44,9 +43,7 @@ export const searchTrips = (id) => {
   return axios({
     method: "get",
     url: `${baseURLsale}/search/${id}`,
-    // headers: {
-    //   Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
-    // },
+    headers: storage ? getAuth() : null,
   });
 };
 
@@ -54,10 +51,8 @@ export const searchTrips = (id) => {
 export const getRequaredFields = (key) => {
   return axios({
     method: "get",
-    url: `${baseURLcontrol}/search/trip/${key}/required`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    url: `${baseURLsale}/search/trip/${key}/required`,
+    headers: storage ? getAuth() : null,
   });
 };
 
@@ -65,10 +60,8 @@ export const getRequaredFields = (key) => {
 export const getRequaredFieldsS = (key) => {
   return axios({
     method: "get",
-    url: `${baseURLcontrol}/search/trip/${key}/seats`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    url: `${baseURLsale}/search/trip/${key}/seats`,
+    headers: storage ? getAuth() : null,
   });
 };
 
@@ -77,11 +70,7 @@ export const toBookTicket = (body) => {
   return axios({
     method: "post",
     url: `${baseURLsale}/order/with_payment_params/PORTMONE`,
-    // headers: {
-    //   Authorization: `Basic ${Buffer.from("veze-club:FWqb6gysMPnsvQt").toString(
-    //     "base64"
-    //   )}`,
-    // },
+    headers: storage ? getAuth() : null,
     data: body,
   });
 };
@@ -90,10 +79,8 @@ export const toBookTicket = (body) => {
 export const getTicketInfo = (id) => {
   return axios({
     method: "get",
-    url: `${baseURLcontrol}/order/${id}`,
-    headers: {
-      Authorization: `Basic ${Buffer.from("380888888880:8111").toString("base64")}`,
-    },
+    url: `${baseURLsale}/order/${id}`,
+    headers: storage ? getAuth() : null,
   });
 };
 
@@ -102,10 +89,8 @@ export const isGooglePayComfirm = (body, orderId, paymentParamsId) => {
   return axios({
     method: "post",
     url: `${baseURLsale}/transaction/gPay/${orderId}/${paymentParamsId}`,
-    headers: {
-      Authorization: AUTH_KEY,
-      "Content-Type": "application/json",
-    },
+    headers: storage ? getAuthWithContentType() : null,
+
     data: body,
   });
 };
@@ -115,10 +100,7 @@ export const ticketComfirm = (orderId, paymentParamsId) => {
   return axios({
     method: "post",
     url: `${baseURLsale}/order/${orderId}/confirm/AQUIRING/${paymentParamsId}`,
-    headers: {
-      Authorization: AUTH_KEY,
-      "Content-Type": "application/json",
-    },
+    headers: storage ? getAuthWithContentType() : null,
   });
 };
 
@@ -127,7 +109,7 @@ export const getTicketPrint = (id, lang) => {
   return axios({
     method: "get",
     url: `${baseURLsale}/order/${id}/document/${lang}`,
-    // headers: storage ? getAuth() : null,
+    headers: storage ? getAuth() : null,
   });
 };
 
@@ -176,10 +158,8 @@ export const getActivOrdersByPeriod = (start, end) => {
 export const getInitializationServices = (orderId, services) => {
   return axios({
     method: "post",
-    url: `${baseURLcontrol}/additional`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    url: `${baseURLsale}/additional`,
+    headers: storage ? getAuth() : null,
     data: {
       id: "7defe2a0-3dba-4199-aa4b-e7e651b8f9ca",
       currency: "UAH",
@@ -195,10 +175,8 @@ export const getInitializationServices = (orderId, services) => {
 export const getAdditionalServices = (searchId) => {
   return axios({
     method: "get",
-    url: `${baseURLcontrol}/additional/${searchId}`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    url: `${baseURLsale}/additional/${searchId}`,
+    headers: storage ? getAuth() : null,
   });
 };
 
@@ -206,10 +184,8 @@ export const getAdditionalServices = (searchId) => {
 export const updateTicketWithServices = (orderId, data) => {
   return axios({
     method: "post",
-    url: `${baseURLcontrol}/order/${orderId}/service/add`,
-    headers: {
-      Authorization: AUTH_KEY,
-    },
+    url: `${baseURLsale}/order/${orderId}/service/add`,
+    headers: storage ? getAuth() : null,
     data: data,
   });
 };

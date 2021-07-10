@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./TicketPage.module.css";
 import PaymentBox from "../components/TicketContainer/PaymentBox";
@@ -8,7 +8,6 @@ import CryptoJS from "crypto-js";
 import { useParams } from "react-router-dom";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
 import AddAdditionalServices from "../components/TicketContainer/AddAdditionalServices";
-import Loader from "../components/Loader/Loader";
 import { getTicket } from "../redux/order/orderOperation";
 
 const TicketPage = () => {
@@ -17,8 +16,7 @@ const TicketPage = () => {
     (orderId) => dispatch(getTicket(orderId)),
     [dispatch]
   );
-  const ticket = useSelector((state) =>state.order.ticket);
-  const [isLoader, setIsLoader] = useState(false);
+  const ticket = useSelector((state) => state.order.ticket);
 
   const { orderId } = useParams();
   // ==== получаем информацию о билете ==== //
@@ -30,11 +28,11 @@ const TicketPage = () => {
 
     // ==== получаем информацию о билете ====
     getTicketInfo(id);
-  }, [getTicketInfo, orderId]);
-  console.log(ticket)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="bgnd">
-      {Object.keys(ticket).length && (
+      {ticket && !ticket?.hasOwnProperty("error") && (
         <div className="container">
           <div className={styles.data}>
             <TripInfo />
@@ -47,8 +45,6 @@ const TicketPage = () => {
           </div>
         </div>
       )}
-      {isLoader && <Loader />}
-
       {/* <pre>{JSON.stringify(ticket, null, 4)} </pre> */}
     </div>
   );

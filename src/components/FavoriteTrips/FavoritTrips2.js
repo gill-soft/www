@@ -1,11 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import styles from "./FavoriteTrips.module.css";
 import { getUrl } from "../../services/getUrl";
 import { popular } from "../../assets/popularRouts";
-import { setDoubleTrips, setSingleTrips } from "../../redux/trips/tripsActions";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/HomePageMessages";
 
@@ -13,13 +12,12 @@ const FavoriteTrips2 = () => {
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
 
- 
-
- 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.container}>
-        <h2 className={styles.title}><FormattedMessage id="popular" /></h2>
+        <h2 className={styles.title}>
+          <FormattedMessage id="popular" />
+        </h2>
         <ul className={styles.list}>
           {popular.map((el, idx) => (
             <li className={styles.item} key={idx}>

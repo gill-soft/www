@@ -45,7 +45,6 @@ class MyTicketPage extends Component {
           // ==== получаем билеты для печати ==== //
           getTicketPrint(id, this.props.lang)
             .then(({ data }) => {
-              console.log(data);
               this.getPDF(data.documents[0].base64);
             })
             .catch((err) => console.log(err));
@@ -85,7 +84,7 @@ class MyTicketPage extends Component {
     const locale = lang === "UA" ? "UK" : lang;
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
-        {!ticket.hasOwnProperty("error") && Object.keys(ticket).length > 0 && (
+        {ticket && !ticket?.hasOwnProperty("error") && (
           <div className="bgnd">
             <div className="container">
               <div className={styles.data}>
@@ -155,11 +154,6 @@ const mapStateToProps = (state) => ({
   error: state.global.error,
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getTicketConfirm: (id, paramsId) => dispatch(getTicketConfirm(id, paramsId)),
-//   getTicket: (id) => dispatch(getTicket(id)),
-//   getError: (val) => dispatch(getError(val)),
-// });
 const mapDispatchToProps = {
   getTicketConfirm,
   getTicket,

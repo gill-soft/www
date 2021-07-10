@@ -26,7 +26,6 @@ const Trips = () => {
   const sortTypeDouble = useSelector((state) => state.trips.sortTypeDouble);
   const location = useLocation();
   const { from, to } = useParams();
-  console.log("object");
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.tripsBox}>
