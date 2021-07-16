@@ -4,9 +4,11 @@ const storage = JSON.parse(localStorage.getItem("auth"));
 const passwordLogin = storage?.login + ":" + storage?.password;
 const AUTH_KEY = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
 
-const getAuth = () => ({
+const getAuth = () => {
+  console.log("п", storage?.password)
+  return{
   Authorization: AUTH_KEY,
-});
+}};
 const getAuthWithContentType = () => ({
   Authorization: AUTH_KEY,
   "Content-Type": "application/json",
@@ -189,3 +191,25 @@ export const updateTicketWithServices = (orderId, data) => {
     data: data,
   });
 };
+
+// ==== отправка номера телефона ==== //
+export const sendValidation = (phone) => {
+  return axios({
+    method: "post",
+    url: `${baseURLsale}/client/customer/register`,
+    data: {
+      login: phone,
+      phone: phone,
+    },
+  });
+};
+
+//  ==== подтверждение паролем ==== //
+export const confirmValidation = (phone, code) => {
+  return axios({
+    method: "post",
+    url: `${baseURLsale}/client/confirm?clientName=${phone}&validationCode=${code}`,
+  });
+};
+
+//

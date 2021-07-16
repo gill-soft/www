@@ -34,7 +34,7 @@ const AgentDashboard = () => {
     setValue(target.value);
   };
   const handleClick = () => {
-    clearTicket({});
+    clearTicket(null);
   };
   const searchActivOrders = () => {
     setOrdersPeriod([]);

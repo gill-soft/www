@@ -12,7 +12,7 @@ const AgentHeader = () => {
   const history = useHistory();
   const handleExit = () => {
     localStorage.removeItem("auth");
-    history.push("/agent");
+    history.push("/");
     window.location.reload();
   };
   return (

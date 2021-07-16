@@ -12,6 +12,7 @@ export const messanges = {
     authorization: "Авторизація",
     exit: "Вихід",
     required: "Це поле необхідно заповнити",
+    cabinet: "Особистий кабінет"
   },
   RU: {
     main: "Главная",
@@ -26,6 +27,7 @@ export const messanges = {
     authorization: "Aвторизация",
     exit: "Выход",
     required: "Это поле необходимо заполнить",
+    cabinet: "Личный кабинет"
   },
   EN: {
     main: "Home",
@@ -40,6 +42,7 @@ export const messanges = {
     authorization: "Authorization",
     exit: "Sign out",
     required: "This field is required",
+    cabinet: "Personal area"
   },
   PL: {
     main: "Główna",
@@ -54,5 +57,6 @@ export const messanges = {
     authorization: "Upoważnienie",
     exit: "Exit",
     required: "to pole jest wymagane",
+    cabinet: "Obszar osobisty"
   },
 };

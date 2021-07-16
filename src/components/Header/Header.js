@@ -9,12 +9,14 @@ import { getError } from "../../redux/global/globalActions";
 import Nav from "../Nav/Nav";
 import "../../stylesheet/animation.css";
 import AgentHeader from "../AgentPageContainer/AgentHeader";
+import AuthorizationHeader from "../AuthorizationContainer/AuthorizationHeader";
 
 const Header = () => {
   const dispatch = useDispatch();
   const clearErorr = (val) => dispatch(getError(val));
   const [isMenu, setIsMenu] = useState(false);
-  const agent = localStorage.getItem("auth");
+  const isAuth = localStorage.getItem("auth");
+
   const windowWidth = window.innerWidth;
   const backdropRef = useRef(null);
 
@@ -34,7 +36,7 @@ const Header = () => {
 
         {windowWidth < 768 ? (
           <>
-            {agent && <AgentHeader />}
+          <AuthorizationHeader />
             <button
               className={styles.btnMenu}
               type="button"
@@ -68,7 +70,9 @@ const Header = () => {
             </CSSTransition>
           </>
         ) : (
-          <Nav handleClick={handleClick} agent={agent} />
+          <>
+            <Nav handleClick={handleClick} />
+          </>
         )}
       </div>
     </header>

@@ -11,9 +11,9 @@ import play from "../../images/google-play-300x116.png";
 // import app from "../../images/appstore.png";
 import { getUrl } from "../../services/getUrl";
 import { getError } from "../../redux/global/globalActions";
-import AgentHeader from "../AgentPageContainer/AgentHeader";
+import AuthorizationHeader from "../AuthorizationContainer/AuthorizationHeader";
 
-const Nav = ({ handleClick, agent }) => {
+const Nav = ({ handleClick }) => {
   const windowWidth = window.innerWidth;
   const [isPhone, setIsPhone] = useState(false);
   const phoneRef = useRef(null);
@@ -90,6 +90,7 @@ const Nav = ({ handleClick, agent }) => {
             </CSSTransition>
           )}
         </div>
+        <AuthorizationHeader />
 
         {windowWidth < 768 && (
           <>
@@ -106,8 +107,6 @@ const Nav = ({ handleClick, agent }) => {
             </div>
           </>
         )}
-
-        {agent && <AgentHeader />}
       </nav>
       <LanguageSelect />
     </IntlProvider>
