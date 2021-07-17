@@ -21,7 +21,7 @@ const AuthorizationHeader = () => {
     <IntlProvider locale={locale} messages={messanges[locale]}>
       {isAuth ? (
         <div className={styles.box}>
-          <p className={styles.name}>{isAuth.clientName || isAuth.login}</p>
+          <Link to='/cabinet' className={styles.name}>{isAuth.clientName || isAuth.login}</Link>
           <button className={styles.exitBtn} onClick={handleExit}>
             <FormattedMessage id="exit" />
           </button>

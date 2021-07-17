@@ -17,6 +17,8 @@ const Cities = lazy(() => import("../pages/Cities"));
 const AgentPage = lazy(() => import("../pages/AgentPage"));
 const AgentTicket = lazy(() => import("../pages/AgentTicket"));
 const Authorization = lazy(() => import("../pages/Authorization"));
+const Cabinet = lazy(() => import("../pages/CabinetPage"));
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -58,6 +60,7 @@ const App = () => {
           <Route path="/agentTicket/:orderId" component={AgentTicket} />
           <Route path="/error" component={ErrorPage} />
           <Route path="/authorization" component={Authorization} />
+          <Route path="/cabinet" component={Cabinet} />
           <Redirect to="/" />
         </Switch>
       </Suspense>

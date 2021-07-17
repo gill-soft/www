@@ -5,10 +5,11 @@ const passwordLogin = storage?.login + ":" + storage?.password;
 const AUTH_KEY = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
 
 const getAuth = () => {
-  console.log("п", storage?.password)
-  return{
-  Authorization: AUTH_KEY,
-}};
+  console.log("п", storage?.password);
+  return {
+    Authorization: AUTH_KEY,
+  };
+};
 const getAuthWithContentType = () => ({
   Authorization: AUTH_KEY,
   "Content-Type": "application/json",
@@ -212,4 +213,13 @@ export const confirmValidation = (phone, code) => {
   });
 };
 
-//
+//  ==== получить данніе кошелька пользователя ==== //
+export const getWallet = () => {
+  return axios({
+    method: "get",
+    url: `${baseURLsale}/client/wallet`,
+    headers: {
+      Authorization: AUTH_KEY,
+    },
+  });
+};
