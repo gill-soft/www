@@ -1,0 +1,131 @@
+.container {
+    border: 2px solid var(--color-main);
+    border-radius: 6px;
+    padding: 6px;
+    margin: 0 auto;
+}
+
+.box {
+    margin: 0 auto 12px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    /* border-radius: 6px; */
+    border-bottom: 1px solid var(--color-main)
+}
+
+.box:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.p {
+    margin-right: 12px;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.title {
+    color: var(--text-color-title);
+    text-align: center;
+}
+
+.input {
+    width: 170px;
+    padding: 7px;
+    border-radius: 4px;
+    border: none;
+    border: 1px solid var(--color-main)
+}
+
+.search {
+    padding: 6px 12px;
+    color: var(--color-main);
+    border: 1px solid var(--color-main);
+    border-radius: 4px;
+    box-shadow: 0 0 2px 2px rgb(207, 207, 207);
+    transition: box-shadow 200ms linear;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.search:hover {
+    box-shadow: 0 0 1px 1px rgb(207, 207, 207);
+    border: 1px solid var(--color-main);
+    transition: box-shadow 200ms linear;
+}
+
+
+
+.dateBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 180px;
+    margin-bottom: 6px;
+}
+
+
+
+.flexPeriod {
+    display: flex;
+    flex-direction: column;
+    /* margin-right: 12px; */
+}
+
+.datePickerBox {
+    width: 140px;
+}
+
+.datePicker {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-main);
+    border-radius: 4px;
+}
+
+.loader {
+    width: 100px;
+    margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+    .flexPeriod {
+        flex-direction: row;
+    }
+
+    .dateBox {
+        margin-bottom: 0;
+    }
+
+    .dateBox:first-child {
+        margin-right: 20px;
+    }
+
+    .box {
+        align-items: flex-end;
+    }
+}
+@media (min-width: 1200px) {
+    .periodBox {
+        display: flex;
+        align-items: center;
+    }
+    .p {
+        margin: 0 6px 0 0 ;
+    }
+    .dateBox >p {
+        font-weight: 500;
+        margin-right: 6px;
+    }
+    .dateBox {
+        width: auto;
+    }
+    .dateBox:first-child{
+        margin-right: 6px;
+
+    }
+}
+

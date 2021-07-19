@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
+import styles from "./CabinenPage.module.css";
 
 import { IntlProvider, FormattedMessage } from "react-intl";
 // import { messages } from "../intl/AgentPageMessage";
 import { getLang } from "../redux/Language/LanguageSelectors";
 import { getWallet } from "../services/api";
 import Wallet from "../components/CabinetContainer/Wallet";
+import SearchBox from "../components/CabinetContainer/SearchBox";
 
 const CabinetPage = () => {
   const lang = useSelector(getLang);
@@ -25,7 +27,12 @@ const CabinetPage = () => {
   }, [getWalletInfo]);
   return (
     <div className="container">
-      {wallet && <Wallet wallet={wallet.availableBonuses} />}
+      <div className={styles.flex}>
+        <div className={styles.flex1}>{!wallet && <Wallet />}</div>
+        <div className={styles.flex2}>
+          <SearchBox />
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,46 @@
+.flex {
+    padding-bottom: 400px;
+}
+
+.flex1,
+.flex2 {
+    margin-bottom: 12px;
+    width: 350px;
+    margin: 0 auto;
+}
+
+@media(min-width:768px) {
+    .flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .flex1 {
+        margin-bottom: 0;
+        order: 2;
+    }
+
+    .flex2 {
+        margin-bottom: 0;
+        order: 1
+    }
+}
+
+@media(min-width:768px) {
+    .flex2 {
+        width: 360px;
+    }
+}
+
+@media(min-width:992px) {
+    .flex2 {
+        width: 545px;
+    }
+}
+
+@media(min-width:1200px) {
+    .flex2 {
+        width: 760px;
+    }
+
+}

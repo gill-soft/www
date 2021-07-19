@@ -17,6 +17,7 @@ export const messages = {
     send: "Відправити",
     confirm: "Підтвердіть номер",
     sms: "СМС з кодом підтвердження відправлено на номер ",
+    myTickets: "Мої квитки"
   },
   RU: {
     login: "Логин",
@@ -37,6 +38,7 @@ export const messages = {
     send: "Отправить",
     confirm: "Подтвердите номер",
     sms: "СМС с кодом подтверждения отправлено на номер",
+    myTickets: "Мои билеты"
   },
 
   EN: {
@@ -58,6 +60,7 @@ export const messages = {
     send: "Send",
     confirm: "Confirm number",
     sms: "SMS with confirmation code sent to number",
+    myTickets: "My tickets"
   },
   PL: {
     login: "Login",
@@ -78,5 +81,6 @@ export const messages = {
     send: "Wysłać",
     confirm: "Potwierdź numer",
     sms: "SMS z kodem potwierdzającym wysłany na numer",
+    myTickets: "Moje bilety"
   },
 };
