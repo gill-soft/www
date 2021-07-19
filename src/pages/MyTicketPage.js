@@ -82,6 +82,7 @@ class MyTicketPage extends Component {
     const { status, id, url } = this.state;
     const { ticket, lang, error } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
+    console.log(ticket)
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {ticket && !ticket?.hasOwnProperty("error") && (

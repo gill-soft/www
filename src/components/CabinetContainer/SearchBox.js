@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,6 +12,8 @@ import { fetchTicket } from "../../redux/order/orderActions";
 import { getActivOrders, getActivOrdersByPeriod } from "../../services/api";
 // import AgentOrder from "./AgentOrder";
 import { dateLocale } from "../../services/dateFormat";
+import CryptoJS from "crypto-js";
+import AgentOrder from "../AgentPageContainer/AgentOrder";
 
 const SearchBox = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ const SearchBox = () => {
     },
     [dispatch]
   );
+  const history = useHistory();
   const lang = useSelector((state) => state.language);
   const locale = lang === "UA" ? "UK" : lang;
   const [value, setValue] = useState("");
@@ -35,6 +38,8 @@ const SearchBox = () => {
   };
   const handleClick = () => {
     clearTicket(null);
+    const ticketId = btoa(CryptoJS.AES.encrypt(value, "KeyVeze").toString());
+    history.push(`/myTicket/${ticketId}/00000`);
   };
   const searchActivOrders = () => {
     setOrdersPeriod([]);
@@ -84,13 +89,9 @@ const SearchBox = () => {
             </p>
             <input className={styles.input} value={value} onChange={handleChange} />
           </div>
-          <Link
-            to={`/agentTicket/${value}`}
-            onClick={handleClick}
-            className={styles.search}
-          >
+          <button onClick={handleClick} className={styles.search}>
             <FormattedMessage id="search" />
-          </Link>
+          </button>
         </div>
         <div className={styles.box}>
           <div className={styles.periodBox}>
@@ -136,18 +137,22 @@ const SearchBox = () => {
               </div>
             </div>
           </div>
-          <button className={styles.search} onClick={searchActivOrdersByPeriod}>
+          <button
+            className={styles.search}
+            onClick={searchActivOrdersByPeriod}
+            disabled={!startDate && !endDate}
+          >
             <FormattedMessage id="search" />
           </button>
         </div>
-        {/* {ordersActiv.length > 0 &&
+        {ordersActiv.length > 0 &&
           ordersActiv.map((order, idx) => (
             <AgentOrder order={order} key={idx} idx={idx} />
           ))}
         {ordersPeriod.length > 0 &&
           ordersPeriod.map((order, idx) => (
             <AgentOrder order={order} key={idx} idx={idx} />
-          ))} */}
+          ))}
       </div>
       {isLoader && (
         <div className={styles.loader}>

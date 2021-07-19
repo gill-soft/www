@@ -5,7 +5,6 @@ const passwordLogin = storage?.login + ":" + storage?.password;
 const AUTH_KEY = `Basic ${Buffer.from(passwordLogin).toString("base64")}`;
 
 const getAuth = () => {
-  console.log("п", storage?.password);
   return {
     Authorization: AUTH_KEY,
   };
