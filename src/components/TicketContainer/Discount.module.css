@@ -10,6 +10,11 @@
     margin-right: 6px;
 }
 
+.text > span {
+    color: var(--color-main);
+    font-weight: 700;
+}
+
 .input {
     width: 18px;
     height: 18px;

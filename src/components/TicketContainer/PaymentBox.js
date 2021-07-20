@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Modal from "@material-ui/core/Modal";
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -65,20 +65,21 @@ const PaymentBox = ({ orderId }) => {
     const ticketSumm = ticket.services.reduce((acc, el) => {
       return acc + el.price.amount;
     }, 0);
-    const bonusSumm = ticket.services.reduce((summ, el) => {
-      return summ + el.price?.discounts?.value;
-    }, 0);
-
+    let bonusSumm = 0;
+    if (ticket.services.some((el) => el.price.hasOwnProperty("discounts"))) {
+      bonusSumm = ticket.services
+        .reduce((arr, el) => {
+          arr.push(el.price.discounts);
+          return arr;
+        }, [])
+        .flat()
+        .reduce((summ, el) => summ + el.value, 0);
+    }
     if (isBonus) {
       return ticketSumm + bonusSumm;
     } else {
       return ticketSumm;
     }
-    // if (user) {
-    //   return ticketsSumm + servicesSumm - getComissionSumm();
-    // } else {
-    //   return ticketsSumm + servicesSumm;
-    // }
   };
 
   // ==== расчитываем сумму коммисии агента ==== //
@@ -141,7 +142,7 @@ const PaymentBox = ({ orderId }) => {
               {getExpireTime(ticket.services[0].expire)}
             </span>
           </p>
-          {/* <StopWatch /> */}
+          <StopWatch />
         </div>
 
         <div className={styles.payment}>
@@ -172,7 +173,7 @@ const PaymentBox = ({ orderId }) => {
               </small>
             </p>
           </div>
-          {user.type === "USER" && (
+          {user?.type === "USER" && (
             <div className={styles.flexItem}>
               <p>Комісія агента: </p>
               <p className={styles.total}>
@@ -183,9 +184,14 @@ const PaymentBox = ({ orderId }) => {
               </p>
             </div>
           )}
-          {user.type === "CLIENT" && <Discount addBonus={addBonus} isBonus={isBonus} />}
+          {user?.type === "CLIENT" && <Discount addBonus={addBonus} isBonus={isBonus} />}
           {getTotalPrice() === 0 ? (
-            <button className={styles.bonusBtn}>Сплатити Бонусами</button>
+            <Link
+              to={`/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsI}`}
+              className={styles.bonusBtn}
+            >
+              Сплатити Бонусами
+            </Link>
           ) : (
             <div className={styles.flexItem}>
               <p>

@@ -147,6 +147,7 @@
     color: #ffffff;
     margin-bottom: 12px;
     cursor: pointer;
+    margin: 0 auto;
 }
 
 .bonusBtn:hover {

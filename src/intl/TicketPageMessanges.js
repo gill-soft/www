@@ -32,6 +32,8 @@ export const messages = {
     errorOrder: "Не вдається знайти замовлення",
     errorTransaction: "Не вдається знайти платіжну операцію",
     errorError: "Упс..! Щось пішло не так",
+    use: "використати ",
+    bonuses: " бонусів"
   },
   RU: {
     trip: "Маршрут:",
@@ -67,6 +69,8 @@ export const messages = {
     errorOrder: "Не удалось найти заказ",
     errorTransaction: "Не удалось найти платежную транзакцию",
     errorError: "Упс..! Что-то пошло не так.",
+    use: "использовать ",
+    bonuses: " бонусов"
   },
 
   EN: {
@@ -102,6 +106,8 @@ export const messages = {
     errorOrder: "Couldn't find order",
     errorTransaction: "Can not find payment transaction",
     errorError: "Oops..! something went wrong",
+    use: "use ",
+    bonuses: " of bonuses"
   },
 
   PL: {
@@ -137,5 +143,7 @@ export const messages = {
     errorOrder: "Nie udało się znaleźć zamówienia",
     errorTransaction: "Nie można znaleźć transakcji płatniczej",
     errorError: "Ups...! coś poszło nie tak",
+    use: "wykorzystaj ",
+    bonuses: " bonusów"
   },
 };
