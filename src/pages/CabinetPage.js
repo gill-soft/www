@@ -12,23 +12,24 @@ import SearchBox from "../components/CabinetContainer/SearchBox";
 const CabinetPage = () => {
   const lang = useSelector(getLang);
   const locale = lang === "UA" ? "UK" : lang;
-  const [wallet, setWallet] = useState(null);
-  const getWalletInfo = useCallback(async () => {
-    try {
-      const { data } = await getWallet();
-      console.log(data);
-      setWallet(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-  useEffect(() => {
-    getWalletInfo();
-  }, [getWalletInfo]);
+  // const [wallet, setWallet] = useState(null);
+  // const getWalletInfo = useCallback(async () => {
+  //   try {
+  //     const { data } = await getWallet();
+  //     setWallet(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   getWalletInfo();
+  // }, [getWalletInfo]);
   return (
     <div className="container">
       <div className={styles.flex}>
-        <div className={styles.flex1}>{!wallet && <Wallet />}</div>
+        <div className={styles.flex1}>
+          <Wallet />
+        </div>
         <div className={styles.flex2}>
           <SearchBox />
         </div>

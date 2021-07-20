@@ -222,3 +222,11 @@ export const getWallet = () => {
     },
   });
 };
+
+// ==== применить бонусы ==== //
+export const applyDiscount = (orderId) => {
+  return axios({
+    method: "post",
+    url: `${baseURLsale}/order/${orderId}/discount`,
+  });
+};

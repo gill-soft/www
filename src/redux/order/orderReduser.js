@@ -29,9 +29,19 @@ const getAdditionalServices = (state= [], {type, payload})=>{
       return state;
   }
 }
+const getWallet = (state= [], {type, payload}) => {
+  switch (type) {
+    case Types.GET_WALLET:
+      return payload.availableBonuses;
+
+      default:
+      return state;
+  }
+}
 
 export const orderReduser = combineReducers({
   tripKeys: getTripKeys,
   ticket: getTicket,
-  additionalServicesKeys: getAdditionalServices
+  additionalServicesKeys: getAdditionalServices,
+  wallet: getWallet,
 });

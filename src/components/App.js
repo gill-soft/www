@@ -5,6 +5,8 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { changeLanguage } from "../redux/Language/LanguageAction";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
+import { getWallet } from "../services/api";
+import { getWalletInfo } from "../redux/order/orderOperation";
 const ErrorPage = lazy(() => import("../pages/ErrorPage"));
 const HomePage = lazy(() => import("../pages/HomePage"));
 const MyTicketPage = lazy(() => import("../pages/MyTicketPage"));
@@ -19,7 +21,6 @@ const AgentTicket = lazy(() => import("../pages/AgentTicket"));
 const Authorization = lazy(() => import("../pages/Authorization"));
 const Cabinet = lazy(() => import("../pages/CabinetPage"));
 
-
 const App = () => {
   const dispatch = useDispatch();
 
@@ -29,10 +30,14 @@ const App = () => {
     },
     [dispatch]
   );
+  const getWallet = useCallback(() => {
+    dispatch(getWalletInfo());
+  }, [dispatch]);
   useEffect(() => {
     const lang = JSON.parse(localStorage.getItem("language")) || "UA";
     setLanguege(lang);
-  }, [setLanguege]);
+    getWallet();
+  }, [setLanguege, getWallet]);
 
   return (
     <>

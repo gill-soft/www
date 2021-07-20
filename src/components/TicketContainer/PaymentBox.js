@@ -23,11 +23,11 @@ const PaymentBox = ({ orderId }) => {
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
   const [segments, setSegments] = useState([]);
-  const agent = JSON.parse(localStorage.getItem("auth"));
+  const [isPayBonus, setIsPayBonus] = useState(false);
+  const user = JSON.parse(localStorage.getItem("auth"));
   const history = useHistory();
   const ref = useRef();
   const routs = useSelector(getRouts);
-
 
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
@@ -48,7 +48,7 @@ const PaymentBox = ({ orderId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [googleRes]);
 
-  const getGooleplayConfirm = (paymentRequest) => {
+  const getGooglePayConfirm = (paymentRequest) => {
     isGooglePayComfirm(
       paymentRequest,
       ticket.orderId,
@@ -71,7 +71,7 @@ const PaymentBox = ({ orderId }) => {
       return acc + el.price.amount;
     }, 0);
 
-    if (agent) {
+    if (user) {
       return ticketsSumm + servicesSumm - getComissionSumm();
     } else {
       return ticketsSumm + servicesSumm;
@@ -133,7 +133,7 @@ const PaymentBox = ({ orderId }) => {
               {getExpireTime(ticket.services[0].expire)}
             </span>
           </p>
-          <StopWatch />
+          {/* <StopWatch /> */}
         </div>
 
         <div className={styles.payment}>
@@ -164,7 +164,7 @@ const PaymentBox = ({ orderId }) => {
               </small>
             </p>
           </div>
-          {agent && (
+          {user.type === "USER" && (
             <div className={styles.flexItem}>
               <p>Комісія агента: </p>
               <p className={styles.total}>
@@ -175,6 +175,19 @@ const PaymentBox = ({ orderId }) => {
               </p>
             </div>
           )}
+          {user.type === "CLIENT" && (
+            <div>
+              <label>використати бонуси
+                <input
+                  type="checkbox"
+                  checked={isPayBonus}
+                  onChange={() => setIsPayBonus(!isPayBonus)}
+                />
+                
+              </label>
+            </div>
+          )}
+
           <div className={styles.flexItem}>
             <p>
               <FormattedMessage id="pay" />
@@ -221,7 +234,7 @@ const PaymentBox = ({ orderId }) => {
                   }}
                   onLoadPaymentData={(paymentRequest) => {
                     setIsLoader(true);
-                    getGooleplayConfirm(paymentRequest);
+                    getGooglePayConfirm(paymentRequest);
                   }}
                 />
               )}

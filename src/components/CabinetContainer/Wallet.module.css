@@ -11,7 +11,7 @@
 
 .flex {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	margin-bottom: 6px;
 
 }
@@ -37,7 +37,7 @@
 }
 
 .total {
-	text-align: right;
+	/* text-align: right; */
 	color: var(--color-main);
 	font-weight: 700;
 	font-size: 18px;

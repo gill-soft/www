@@ -14,3 +14,7 @@ export const setAdditionalServices = (arr) => ({
   type: Types.ADDITIONAL_SERVICES,
   payload: arr,
 });
+export const setWallet =(obj) =>({
+  type: Types.GET_WALLET,
+  payload: obj
+})
