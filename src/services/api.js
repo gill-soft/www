@@ -212,7 +212,7 @@ export const confirmValidation = (phone, code) => {
   });
 };
 
-//  ==== получить данніе кошелька пользователя ==== //
+//  ==== получить данные кошелька пользователя ==== //
 export const getWallet = () => {
   return axios({
     method: "get",
@@ -228,5 +228,6 @@ export const applyDiscount = (orderId) => {
   return axios({
     method: "post",
     url: `${baseURLsale}/order/${orderId}/discount`,
+    headers: storage ? getAuth() : null,
   });
 };

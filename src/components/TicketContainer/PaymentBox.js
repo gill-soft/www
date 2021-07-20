@@ -14,16 +14,18 @@ import mastercard from "../../images/Mastercard-min.png";
 import maestro from "../../images/maestro-min.png";
 import ReturnConditions from "./ReturnConditions";
 import StopWatch from "./StopWatch";
-import { getRouts } from "../../redux/order/orderSelectors";
+import { getRouts, getTicket } from "../../redux/order/orderSelectors";
+import Discount from "./Discount";
+import { getLang } from "../../redux/Language/LanguageSelectors";
 
 const PaymentBox = ({ orderId }) => {
-  const lang = useSelector((state) => state.language);
-  const ticket = useSelector((state) => state.order.ticket);
+  const lang = useSelector(getLang);
+  const ticket = useSelector(getTicket);
   const locale = lang === "UA" ? "UK" : lang;
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
   const [segments, setSegments] = useState([]);
-  const [isPayBonus, setIsPayBonus] = useState(false);
+  const [isBonus, setIsBonus] = useState(false);
   const user = JSON.parse(localStorage.getItem("auth"));
   const history = useHistory();
   const ref = useRef();
@@ -60,22 +62,23 @@ const PaymentBox = ({ orderId }) => {
 
   // ==== расчитываем сумму для оплаты ==== //
   const getTotalPrice = () => {
-    const ticketsArray = ticket.services.filter((el) => el.hasOwnProperty("segment"));
-    const servicesArray = ticket.services.filter((el) =>
-      el.hasOwnProperty("additionalService")
-    );
-    const ticketsSumm = ticketsArray.reduce((acc, el) => {
+    const ticketSumm = ticket.services.reduce((acc, el) => {
       return acc + el.price.amount;
     }, 0);
-    const servicesSumm = servicesArray.reduce((acc, el) => {
-      return acc + el.price.amount;
+    const bonusSumm = ticket.services.reduce((summ, el) => {
+      return summ + el.price?.discounts?.value;
     }, 0);
 
-    if (user) {
-      return ticketsSumm + servicesSumm - getComissionSumm();
+    if (isBonus) {
+      return ticketSumm + bonusSumm;
     } else {
-      return ticketsSumm + servicesSumm;
+      return ticketSumm;
     }
+    // if (user) {
+    //   return ticketsSumm + servicesSumm - getComissionSumm();
+    // } else {
+    //   return ticketsSumm + servicesSumm;
+    // }
   };
 
   // ==== расчитываем сумму коммисии агента ==== //
@@ -121,6 +124,11 @@ const PaymentBox = ({ orderId }) => {
     const timeEnd = new Date(dateEnd).getTime();
     const time = ((timeEnd - Date.now()) / 1000).toFixed();
     return time;
+  };
+
+  // ==== использовать бонус ==== //
+  const addBonus = (bool) => {
+    setIsBonus(bool);
   };
   return (
     <>
@@ -175,121 +183,114 @@ const PaymentBox = ({ orderId }) => {
               </p>
             </div>
           )}
-          {user.type === "CLIENT" && (
-            <div>
-              <label>використати бонуси
-                <input
-                  type="checkbox"
-                  checked={isPayBonus}
-                  onChange={() => setIsPayBonus(!isPayBonus)}
-                />
-                
-              </label>
-            </div>
-          )}
-
-          <div className={styles.flexItem}>
-            <p>
-              <FormattedMessage id="pay" />
-            </p>
-            <div className={styles.payType}>
-              {ticket.primaryPaymentParams.sellerToken !== "" && (
-                <GooglePayButton
-                  className={styles.google}
-                  environment="PRODUCTION"
-                  buttonType="short"
-                  paymentRequest={{
-                    apiVersion: 2,
-                    apiVersionMinor: 0,
-                    allowedPaymentMethods: [
-                      {
-                        type: "CARD",
-                        parameters: {
-                          allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                          allowedCardNetworks: ["MASTERCARD", "VISA"],
-                        },
-                        tokenizationSpecification: {
-                          type: "PAYMENT_GATEWAY",
+          {user.type === "CLIENT" && <Discount addBonus={addBonus} isBonus={isBonus} />}
+          {getTotalPrice() === 0 ? (
+            <button className={styles.bonusBtn}>Сплатити Бонусами</button>
+          ) : (
+            <div className={styles.flexItem}>
+              <p>
+                <FormattedMessage id="pay" />
+              </p>
+              <div className={styles.payType}>
+                {ticket.primaryPaymentParams.sellerToken !== "" && (
+                  <GooglePayButton
+                    className={styles.google}
+                    environment="PRODUCTION"
+                    buttonType="short"
+                    paymentRequest={{
+                      apiVersion: 2,
+                      apiVersionMinor: 0,
+                      allowedPaymentMethods: [
+                        {
+                          type: "CARD",
                           parameters: {
-                            gateway: ticket.primaryPaymentParams.gpayGateway,
-                            gatewayMerchantId: ticket.primaryPaymentParams.gpayMerchantId,
+                            allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                            allowedCardNetworks: ["MASTERCARD", "VISA"],
+                          },
+                          tokenizationSpecification: {
+                            type: "PAYMENT_GATEWAY",
+                            parameters: {
+                              gateway: ticket.primaryPaymentParams.gpayGateway,
+                              gatewayMerchantId:
+                                ticket.primaryPaymentParams.gpayMerchantId,
+                            },
                           },
                         },
+                      ],
+                      merchantInfo: {
+                        merchantId: "BCR2DN6TSOFZJADQ",
+                        merchantName: "VEZE",
                       },
-                    ],
-                    merchantInfo: {
-                      merchantId: "BCR2DN6TSOFZJADQ",
-                      merchantName: "VEZE",
-                    },
-                    transactionInfo: {
-                      totalPriceStatus: "FINAL",
-                      totalPriceLabel: "Total",
-                      totalPrice: `${getTotalPrice().toFixed(2)}`,
-                      currencyCode: "UAH",
-                      countryCode: "UA",
-                    },
-                  }}
-                  onError={(error) => {
-                    <Redirect to="/error" />;
-                  }}
-                  onLoadPaymentData={(paymentRequest) => {
-                    setIsLoader(true);
-                    getGooglePayConfirm(paymentRequest);
-                  }}
-                />
-              )}
+                      transactionInfo: {
+                        totalPriceStatus: "FINAL",
+                        totalPriceLabel: "Total",
+                        totalPrice: `${getTotalPrice().toFixed(2)}`,
+                        currencyCode: "UAH",
+                        countryCode: "UA",
+                      },
+                    }}
+                    onError={(error) => {
+                      <Redirect to="/error" />;
+                    }}
+                    onLoadPaymentData={(paymentRequest) => {
+                      setIsLoader(true);
+                      getGooglePayConfirm(paymentRequest);
+                    }}
+                  />
+                )}
 
-              {/* Portmone */}
-              <form action="https://www.portmone.com.ua/gateway/" method="post">
-                <input
-                  type="hidden"
-                  name="payee_id"
-                  value={ticket.secondaryPaymentParams.payeeId}
-                />
+                {/* Portmone */}
+                <form action="https://www.portmone.com.ua/gateway/" method="post">
+                  <input
+                    type="hidden"
+                    name="payee_id"
+                    value={ticket.secondaryPaymentParams.payeeId}
+                  />
 
-                <input type="hidden" name="shop_order_number" value={ticket.orderId} />
-                <input
-                  type="hidden"
-                  name="bill_amount"
-                  value={getTotalPrice().toFixed(2)}
-                />
-                <input
-                  type="hidden"
-                  name="description"
-                  value={`${getCity(
-                    ticket.segments[Object.keys(routs[0])[0]].departure.id,
-                    ticket,
-                    lang
-                  )} - ${getCity(
-                    ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival.id,
-                    ticket,
-                    lang
-                  )} 
+                  <input type="hidden" name="shop_order_number" value={ticket.orderId} />
+                  <input
+                    type="hidden"
+                    name="bill_amount"
+                    value={getTotalPrice().toFixed(2)}
+                  />
+                  <input
+                    type="hidden"
+                    name="description"
+                    value={`${getCity(
+                      ticket.segments[Object.keys(routs[0])[0]].departure.id,
+                      ticket,
+                      lang
+                    )} - ${getCity(
+                      ticket.segments[Object.keys(routs[routs.length - 1])[0]].arrival.id,
+                      ticket,
+                      lang
+                    )} 
               ${getDate("departureDate", ticket.segments[Object.keys(routs[0])[0]], lang)}
               `}
-                />
-                <input
-                  type="hidden"
-                  name="success_url"
-                  value={`https://veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
-                />
-                <input
-                  type="hidden"
-                  name="failure_url"
-                  value={`https://veze.club/ticket/${orderId}`}
-                />
-                <input type="hidden" name="lang" value={locale.toLowerCase()} />
-                <input type="hidden" name="encoding" value="UTF-8" />
-                <input type="hidden" name="exp_time" value={getPortmoneTime()} />
+                  />
+                  <input
+                    type="hidden"
+                    name="success_url"
+                    value={`https://veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
+                  />
+                  <input
+                    type="hidden"
+                    name="failure_url"
+                    value={`https://veze.club/ticket/${orderId}`}
+                  />
+                  <input type="hidden" name="lang" value={locale.toLowerCase()} />
+                  <input type="hidden" name="encoding" value="UTF-8" />
+                  <input type="hidden" name="exp_time" value={getPortmoneTime()} />
 
-                <button
-                  className={styles.portmone}
-                  type="submit"
-                  onClick={handleClick}
-                ></button>
-              </form>
+                  <button
+                    className={styles.portmone}
+                    type="submit"
+                    onClick={handleClick}
+                  ></button>
+                </form>
+              </div>
             </div>
-          </div>
+          )}
 
           <button
             type="button"

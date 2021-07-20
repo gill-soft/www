@@ -1,0 +1,22 @@
+.box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.text {
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.input {
+    width: 18px;
+    height: 18px;
+}
+
+@media(min-width: 992px) {
+    .text {
+        font-size: 18px;
+    }
+}

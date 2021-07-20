@@ -20,8 +20,8 @@ const AdditionalServicesData = () => {
       }, 0);
   };
   return (
-    <IntlProvider locale={locale} messages={messages[locale]}>
-      <div className={styles.box}>
+        <IntlProvider locale={locale} messages={messages[locale]}>
+          {addServ.length > 0 && <div className={styles.box}>
         <h4 className={styles.title}>
           <FormattedMessage id="addservices" />
         </h4>
@@ -41,7 +41,8 @@ const AdditionalServicesData = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
+      
     </IntlProvider>
   );
 };
