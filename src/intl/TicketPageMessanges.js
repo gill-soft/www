@@ -33,7 +33,8 @@ export const messages = {
     errorTransaction: "Не вдається знайти платіжну операцію",
     errorError: "Упс..! Щось пішло не так",
     use: "використати ",
-    bonuses: " бонусів"
+    bonuses: " бонусів",
+    payBonuses: "Cплатити бонусами"
   },
   RU: {
     trip: "Маршрут:",
@@ -70,7 +71,8 @@ export const messages = {
     errorTransaction: "Не удалось найти платежную транзакцию",
     errorError: "Упс..! Что-то пошло не так.",
     use: "использовать ",
-    bonuses: " бонусов"
+    bonuses: " бонусов",
+    payBonuses: "Оплатить бонусами"
   },
 
   EN: {
@@ -107,7 +109,8 @@ export const messages = {
     errorTransaction: "Can not find payment transaction",
     errorError: "Oops..! something went wrong",
     use: "use ",
-    bonuses: " of bonuses"
+    bonuses: " of bonuses",
+    payBonuses: "Pay bonuses"
   },
 
   PL: {
@@ -144,6 +147,7 @@ export const messages = {
     errorTransaction: "Nie można znaleźć transakcji płatniczej",
     errorError: "Ups...! coś poszło nie tak",
     use: "wykorzystaj ",
-    bonuses: " bonusów"
+    bonuses: " bonusów",
+    payBonuses: "Płacić bonusów"
   },
 };

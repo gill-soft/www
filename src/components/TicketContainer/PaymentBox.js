@@ -190,7 +190,7 @@ const PaymentBox = ({ orderId }) => {
               to={`/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsI}`}
               className={styles.bonusBtn}
             >
-              Сплатити Бонусами
+              <FormattedMessage id="payBonuses" />
             </Link>
           ) : (
             <div className={styles.flexItem}>
