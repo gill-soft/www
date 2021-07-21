@@ -68,10 +68,7 @@ const PaymentBox = ({ orderId }) => {
     let bonusSumm = 0;
     if (ticket.services.some((el) => el.price.hasOwnProperty("discounts"))) {
       bonusSumm = ticket.services
-        .reduce((arr, el) => {
-          arr.push(el.price.discounts);
-          return arr;
-        }, [])
+        .map((el) => el.price.discounts)
         .flat()
         .reduce((summ, el) => summ + el.value, 0);
     }
