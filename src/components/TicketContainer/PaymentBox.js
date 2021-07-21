@@ -17,6 +17,7 @@ import StopWatch from "./StopWatch";
 import { getRouts, getTicket } from "../../redux/order/orderSelectors";
 import Discount from "./Discount";
 import { getLang } from "../../redux/Language/LanguageSelectors";
+import GoogleError from "./GoogleError";
 
 const PaymentBox = ({ orderId }) => {
   const lang = useSelector(getLang);
@@ -26,6 +27,7 @@ const PaymentBox = ({ orderId }) => {
   const [googleRes, setGoogleRes] = useState(null);
   const [segments, setSegments] = useState([]);
   const [isBonus, setIsBonus] = useState(false);
+  const [googleError, setGoogleError] = useState("");
   const user = JSON.parse(localStorage.getItem("auth"));
   const history = useHistory();
   const ref = useRef();
@@ -57,7 +59,7 @@ const PaymentBox = ({ orderId }) => {
       ticket.primaryPaymentParams.paymentParamsId
     )
       .then(({ data }) => setGoogleRes(data))
-      .catch((err) => console.log(err));
+      .catch((err) => setGoogleError(err));
   };
 
   // ==== расчитываем сумму для оплаты ==== //
@@ -65,13 +67,13 @@ const PaymentBox = ({ orderId }) => {
     const ticketSumm = ticket.services.reduce((acc, el) => {
       return acc + el.price.amount;
     }, 0);
-    let bonusSumm = 0;
-    if (ticket.services.some((el) => el.price.hasOwnProperty("discounts"))) {
-      bonusSumm = ticket.services
-        .map((el) => el.price.discounts)
-        .flat()
-        .reduce((summ, el) => summ + el.value, 0);
-    }
+
+    const bonusSumm = ticket.services
+      .filter((el) => el.price.hasOwnProperty("discounts"))
+      .map((el) => el.price.discounts)
+      .flat()
+      .reduce((summ, el) => summ + el.value, 0);
+
     if (isBonus) {
       return ticketSumm + bonusSumm;
     } else {
@@ -114,6 +116,10 @@ const PaymentBox = ({ orderId }) => {
   //  ==== закрыть условия возврата ==== //
   const closeReturnConditions = () => {
     setSegments([]);
+  };
+  //  ==== закрыть модалку про ошибку гугл ==== //
+  const closeGoogleError = () => {
+    setGoogleError("");
   };
 
   // ==== время оплаты для портмоне ==== //
@@ -333,6 +339,9 @@ const PaymentBox = ({ orderId }) => {
           </form>
         )}
       </IntlProvider>
+      <Modal open={googleError} onClose={closeGoogleError}>
+        <GoogleError close={closeGoogleError} />
+      </Modal>
       {isLoader && <Loader />}
       {/* <pre>{JSON.stringify(ticket, null, 4)}</pre> */}
     </>

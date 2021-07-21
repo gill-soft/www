@@ -11,14 +11,16 @@ const GoHome = React.forwardRef((props, ref) => {
   const locale = lang === "UA" ? "UK" : lang;
 
   return (
-    <IntlProvider locale={locale} messages={messages[locale]}>
-      <div className={styles.box} ref={ref} tabIndex="-1">
-        <p className={styles.text}><FormattedMessage id="booking" /></p>
+    <div className={styles.box} ref={ref} tabIndex="-1">
+      <IntlProvider locale={locale} messages={messages[locale]}>
+        <p className={styles.text}>
+          <FormattedMessage id="booking" />
+        </p>
         <Link to="/" className={styles.link}>
-        <FormattedMessage id="goHome" />
+          <FormattedMessage id="goHome" />
         </Link>
-      </div>
-    </IntlProvider>
+      </IntlProvider>
+    </div>
   );
 });
 
