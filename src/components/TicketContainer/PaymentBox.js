@@ -187,7 +187,7 @@ const PaymentBox = ({ orderId }) => {
           {user?.type === "CLIENT" && <Discount addBonus={addBonus} isBonus={isBonus} />}
           {getTotalPrice() === 0 ? (
             <Link
-              to={`/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsI}`}
+              to={`/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
               className={styles.bonusBtn}
             >
               <FormattedMessage id="payBonuses" />

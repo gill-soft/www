@@ -8,7 +8,7 @@ import CryptoJS from "crypto-js";
 import { useParams } from "react-router-dom";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
 import AddAdditionalServices from "../components/TicketContainer/AddAdditionalServices";
-import { getTicket } from "../redux/order/orderOperation";
+import { getTicket, getWalletInfo } from "../redux/order/orderOperation";
 
 const TicketPage = () => {
   const dispatch = useDispatch();
@@ -16,6 +16,8 @@ const TicketPage = () => {
     (orderId) => dispatch(getTicket(orderId)),
     [dispatch]
   );
+  const getWallet = useCallback(() => dispatch(getWalletInfo()), [dispatch]);
+
   const ticket = useSelector((state) => state.order.ticket);
 
   const { orderId } = useParams();
@@ -28,6 +30,8 @@ const TicketPage = () => {
 
     // ==== получаем информацию о билете ====
     getTicketInfo(id);
+    getWallet();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

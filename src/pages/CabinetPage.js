@@ -1,29 +1,24 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./CabinenPage.module.css";
 
 import { IntlProvider, FormattedMessage } from "react-intl";
 // import { messages } from "../intl/AgentPageMessage";
 import { getLang } from "../redux/Language/LanguageSelectors";
-import { getWallet } from "../services/api";
 import Wallet from "../components/CabinetContainer/Wallet";
 import SearchBox from "../components/CabinetContainer/SearchBox";
+import { getWalletInfo } from "../redux/order/orderOperation";
 
 const CabinetPage = () => {
   const lang = useSelector(getLang);
   const locale = lang === "UA" ? "UK" : lang;
-  // const [wallet, setWallet] = useState(null);
-  // const getWalletInfo = useCallback(async () => {
-  //   try {
-  //     const { data } = await getWallet();
-  //     setWallet(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   getWalletInfo();
-  // }, [getWalletInfo]);
+  const dispatch = useDispatch();
+  const getWallet = useCallback(() => dispatch(getWalletInfo()), [dispatch]);
+
+  useEffect(() => {
+    getWallet();
+  }, [getWallet]);
+  
   return (
     <div className="container">
       <div className={styles.flex}>
