@@ -5,12 +5,13 @@ import LoginPage from "../components/AgentPageContainer/Login";
 
 const AgentPage = () => {
   const isAgent = JSON.parse(localStorage.getItem("auth"));
-  console.log(isAgent?.type !== "CLIENT");
+
+  if (!isAgent) return <LoginPage />;
+  if (isAgent?.type === "CLIENT") return <LoginPage />;
+
   return (
     <div>
-      {isAgent?.type !== "CLIENT" && <LoginPage />}
-      {!isAgent && <LoginPage />}
-      {isAgent && <Redirect to="/cabinet" />}
+      <Redirect to="/cabinet" /> 
     </div>
   );
 };
