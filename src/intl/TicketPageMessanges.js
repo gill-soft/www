@@ -34,7 +34,8 @@ export const messages = {
     errorError: "Упс..! Щось пішло не так",
     use: "використати ",
     bonuses: " бонусів",
-    payBonuses: "Cплатити бонусами"
+    payBonuses: "Cплатити бонусами",
+    googleError: "Сталась помилка при оплаті"
   },
   RU: {
     trip: "Маршрут:",
@@ -72,7 +73,8 @@ export const messages = {
     errorError: "Упс..! Что-то пошло не так.",
     use: "использовать ",
     bonuses: " бонусов",
-    payBonuses: "Оплатить бонусами"
+    payBonuses: "Оплатить бонусами",
+    googleError: "Произошла ошибка при оплате"
   },
 
   EN: {
@@ -110,7 +112,8 @@ export const messages = {
     errorError: "Oops..! something went wrong",
     use: "use ",
     bonuses: " of bonuses",
-    payBonuses: "Pay bonuses"
+    payBonuses: "Pay bonuses",
+    googleError: "There was an error paying"
   },
 
   PL: {
@@ -148,6 +151,7 @@ export const messages = {
     errorError: "Ups...! coś poszło nie tak",
     use: "wykorzystaj ",
     bonuses: " bonusów",
-    payBonuses: "Płacić bonusów"
+    payBonuses: "Płacić bonusów",
+    googleError: "Wystąpił błąd podczas płatności"
   },
 };
