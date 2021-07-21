@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import CryptoJS from "crypto-js";
+
 import styles from "./AgentOrder.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 import { getCity, getDate, getStop, getTimeDisplay } from "../../services/getInfo";
+import { Link } from "react-router-dom";
 
 const AgentOrder = ({ order, idx }) => {
   const lang = useSelector((state) => state.language);
@@ -11,6 +14,7 @@ const AgentOrder = ({ order, idx }) => {
   const [passangers, setPassangers] = useState([]);
   const [routs, setRouts] = useState([]);
   const bgnd = idx % 2 === 0;
+  const orderId = btoa(CryptoJS.AES.encrypt(order.orderId, "KeyVeze").toString());
   useEffect(() => {
     setPassangers(order.services.filter((el) => el.hasOwnProperty("segment")));
     const arr = [];
@@ -30,8 +34,11 @@ const AgentOrder = ({ order, idx }) => {
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
+      <Link to={`/myTicket/${orderId}/00000`} >
       <div className={`${styles.box} ${bgnd ? styles.gray : null}`}>
-        <h4 className={styles.title}><FormattedMessage id="order"/> {order.orderId}</h4>
+        <h4 className={styles.title}>
+          <FormattedMessage id="order" /> {order.orderId}
+        </h4>
         {routs.length > 0 && (
           <div className={styles.orderBox}>
             <div>
@@ -114,7 +121,7 @@ const AgentOrder = ({ order, idx }) => {
                         <FormattedMessage id="uah" />
                       </small>
                     </p>
-                    <p><FormattedMessage id="status"/> {el.status}</p>
+                    {/* <p><FormattedMessage id="status"/> {el.status}</p> */}
                   </div>
                 </li>
               ))}
@@ -122,6 +129,7 @@ const AgentOrder = ({ order, idx }) => {
           </div>
         )}
       </div>
+      </Link>
     </IntlProvider>
   );
 };

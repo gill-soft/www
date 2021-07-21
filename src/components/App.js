@@ -5,7 +5,6 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { changeLanguage } from "../redux/Language/LanguageAction";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import { getWallet } from "../services/api";
 import { getWalletInfo } from "../redux/order/orderOperation";
 const ErrorPage = lazy(() => import("../pages/ErrorPage"));
 const HomePage = lazy(() => import("../pages/HomePage"));

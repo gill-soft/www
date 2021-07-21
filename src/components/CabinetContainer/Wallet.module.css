@@ -23,7 +23,7 @@
 .bonusTitle {
 	font-size: 16px;
 	font-weight: 500;
-	width: 30%;
+	width: 40%;
 	text-align: center;
 	color: var(--text-color-title);
 }
@@ -31,7 +31,7 @@
 .bonusAmount {
 	font-size: 16px;
 	font-weight: 500;
-	width: 30%;
+	width: 40%;
 	text-align: center;
 	color: var(--text-color-main);
 }

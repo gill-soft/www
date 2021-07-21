@@ -36,12 +36,14 @@ class FormForBuy extends Component {
 
   componentDidMount() {
     // this.props.stopLoader();
+    const isAuth = JSON.parse(localStorage.getItem("auth"));
+    const phoneUser = isAuth ? (isAuth.type === "CLIENT" ? `+${isAuth.phone}` : "") : "";
     const { amountPassangers, requeredFields } = this.props;
     for (let i = 0; i <= amountPassangers - 1; i++) {
       const value = {
         name: "",
         surname: "",
-        phone: "",
+        phone: phoneUser,
         id: `${i}`,
         email: "",
       };

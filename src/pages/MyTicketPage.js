@@ -32,16 +32,15 @@ class MyTicketPage extends Component {
     //  ==== получаем информацию о билете === //
     this.props.getTicket(id);
   }
+
   componentDidUpdate(prevProps) {
     const { id } = this.state;
     const { ticket, match } = this.props;
     if (prevProps.ticket !== ticket) {
       if (!ticket.hasOwnProperty("error")) {
-        if (
-          ticket.services.every((el) => el.status === "NEW") ||
-          ticket.services.every((el) => el.status === "DISCOUNT")
-        ) {
+        if (ticket.services.every((el) => el === "NEW" || el === "DISCOUNT")) {
           this.props.getTicketConfirm(id, match.params.payedId);
+          console.log("object");
         }
         if (ticket.services.every((el) => el.status === "CONFIRM")) {
           this.setState({ status: "CONFIRM" });
@@ -53,9 +52,10 @@ class MyTicketPage extends Component {
             .catch((err) => console.log(err));
         }
         if (
-          ticket.services.some((el) => el.status !== "CONFIRM") &&
-          ticket.services.some((el) => el.status !== "NEW") &&
-          ticket.services.some((el) => el.status !== "DISCOUNT")
+          ticket.services.some(
+            (el) =>
+              el.status !== "CONFIRM" && el.status !== "NEW" && el.status !== "DISCOUNT"
+          )
         ) {
           this.setState({ status: "ERROR" });
         }
@@ -86,6 +86,7 @@ class MyTicketPage extends Component {
     const { status, id, url } = this.state;
     const { ticket, lang, error } = this.props;
     const locale = lang === "UA" ? "UK" : lang;
+
     return (
       <IntlProvider locale={locale} messages={messages[locale]}>
         {ticket && !ticket?.hasOwnProperty("error") && (

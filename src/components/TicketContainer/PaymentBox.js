@@ -280,12 +280,12 @@ const PaymentBox = ({ orderId }) => {
                   <input
                     type="hidden"
                     name="success_url"
-                    value={`https://veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
+                    value={`https://www.veze.club/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
                   />
                   <input
                     type="hidden"
                     name="failure_url"
-                    value={`https://veze.club/ticket/${orderId}`}
+                    value={`https://www.veze.club/ticket/${orderId}`}
                   />
                   <input type="hidden" name="lang" value={locale.toLowerCase()} />
                   <input type="hidden" name="encoding" value="UTF-8" />
@@ -330,10 +330,10 @@ const PaymentBox = ({ orderId }) => {
                 `https://busis.eu/gds-sale/api/v1/transaction/callback/3ds/${ticket.orderId}/${ticket.primaryPaymentParams.paymentParamsId}?` +
                 `successURL=` +
                 encodeURIComponent(
-                  `https://veze.club/myTicket/${orderId}/${ticket.primaryPaymentParams.paymentParamsId}`
+                  `https://www.veze.club/myTicket/${orderId}/${ticket.primaryPaymentParams.paymentParamsId}`
                 ) +
                 `&errorURL=` +
-                encodeURIComponent(`https://veze.club/ticket/${orderId}`)
+                encodeURIComponent(`https://www.veze.club/ticket/${orderId}`)
               }
             />
           </form>

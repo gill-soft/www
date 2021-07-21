@@ -17,7 +17,12 @@ export const messages = {
     send: "Відправити",
     confirm: "Підтвердіть номер",
     sms: "СМС з кодом підтвердження відправлено на номер ",
-    myTickets: "Мої квитки"
+    myTickets: "Мої квитки",
+    myBonus: "Мої бонуси",
+    credited: "Нараховано",
+    expireTime: "Термін дії",
+    total: "Всього: ",
+    uah: " грн"
   },
   RU: {
     login: "Логин",
@@ -38,7 +43,12 @@ export const messages = {
     send: "Отправить",
     confirm: "Подтвердите номер",
     sms: "СМС с кодом подтверждения отправлено на номер",
-    myTickets: "Мои билеты"
+    myTickets: "Мои билеты",
+    myBonus: "Мои бонусы",
+    credited: "Начислено",
+    expireTime: "Срок действия",
+    total: "Всего: ",
+    uah: " грн"
   },
 
   EN: {
@@ -60,7 +70,12 @@ export const messages = {
     send: "Send",
     confirm: "Confirm number",
     sms: "SMS with confirmation code sent to number",
-    myTickets: "My tickets"
+    myTickets: "My tickets",
+    myBonus: "My bonuses",
+    credited: "Credited",
+    expireTime: " Expire Time",
+    total: "Total: ",
+    uah: " UAH"
   },
   PL: {
     login: "Login",
@@ -81,6 +96,11 @@ export const messages = {
     send: "Wysłać",
     confirm: "Potwierdź numer",
     sms: "SMS z kodem potwierdzającym wysłany na numer",
-    myTickets: "Moje bilety"
+    myTickets: "Moje bilety",
+    myBonus: "Moje bonusy",
+    credited: "Zapisane",
+    expireTime: "Ważność",
+    total: "Całkowity: ",
+    uah: " UAH"
   },
 };

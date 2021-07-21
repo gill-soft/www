@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import InputMask from "react-input-mask";
 import { Redirect } from "react-router-dom";
@@ -8,6 +8,16 @@ import { confirmValidation, sendValidation } from "../services/api";
 import styles from "./Authorization.module.css";
 import { getLang } from "../redux/Language/LanguageSelectors";
 
+const InputMasked = React.forwardRef(({ value, changeInputPhone, mask }, ref) => (
+  <InputMask
+    ref={ref}
+    value={value}
+    mask={mask}
+    onChange={changeInputPhone}
+    className={styles.input}
+  />
+));
+
 const Authorization = () => {
   const auth = JSON.parse(localStorage.getItem("auth"));
   const lang = useSelector(getLang);
@@ -16,7 +26,7 @@ const Authorization = () => {
   const [code, setCode] = useState("");
   const [isPhone, setIsPhone] = useState(false);
   const [error, setError] = useState(null);
-
+  const wrapper = useRef("w");
   const changeInputPhone = ({ target }) => {
     setPhone(target.value.replace(/\D+/g, ""));
   };
@@ -46,26 +56,31 @@ const Authorization = () => {
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       {error && <Redirect to={"/error"} />}
-      {auth && <Redirect to={"/"} />}
+      {auth && <Redirect to={"/cabinet"} />}
       <div className={styles.container}>
         {!isPhone ? (
-          <>
+          <div>
             <h2 className={styles.title}>
               <FormattedMessage id="welcome" />
-            </h2 >
+            </h2>
             <p className={styles.text}>
               <FormattedMessage id="start" />
             </p>
-            <InputMask
+            <InputMasked
+              ref={wrapper}
               value={phone}
               mask="380 (99) 999-99-99"
-              onChange={changeInputPhone}
+              changeInputPhone={changeInputPhone}
               className={styles.input}
             />
-            <button className={styles.btn} onClick={sendPhoneNumber} disabled={phone.length !== 12}>
+            <button
+              className={styles.btn}
+              onClick={sendPhoneNumber}
+              disabled={phone.length !== 12}
+            >
               <FormattedMessage id="send" />
             </button>
-          </>
+          </div>
         ) : (
           <>
             <h2 className={styles.title}>

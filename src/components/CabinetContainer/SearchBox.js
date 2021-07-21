@@ -44,7 +44,7 @@ const SearchBox = () => {
   const searchActivOrders = () => {
     setOrdersPeriod([]);
     setOrdersActiv([]);
-    setIsLoader(true);
+    setIsLoader("active");
 
     getActivOrders()
       .then(({ data }) => {
@@ -54,7 +54,7 @@ const SearchBox = () => {
       .catch((err) => setError(err));
   };
   const searchActivOrdersByPeriod = () => {
-    setIsLoader(true);
+    setIsLoader("period");
     setOrdersActiv([]);
     setOrdersPeriod([]);
 
@@ -79,17 +79,26 @@ const SearchBox = () => {
             <FormattedMessage id="searchActiv" />
           </p>
           <button className={styles.search} onClick={searchActivOrders}>
-            <FormattedMessage id="search" />
+            {isLoader === "active" ? (
+              <LoaderFromLibrary
+                type="ThreeDots"
+                color="#00BFFF"
+                height={12}
+                width={16}
+              />
+            ) : (
+              <FormattedMessage id="search" />
+            )}
           </button>
         </div>{" "}
         <div className={styles.box}>
+          <p className={styles.p}>
+            <FormattedMessage id="searchByNumber" />
+          </p>
           <div className={styles.periodBox}>
-            <p className={styles.p}>
-              <FormattedMessage id="searchByNumber" />
-            </p>
             <input className={styles.input} value={value} onChange={handleChange} />
           </div>
-          <button onClick={handleClick} className={styles.search}>
+          <button onClick={handleClick} className={styles.search} disabled={!value}>
             <FormattedMessage id="search" />
           </button>
         </div>
@@ -140,9 +149,18 @@ const SearchBox = () => {
           <button
             className={styles.search}
             onClick={searchActivOrdersByPeriod}
-            disabled={!startDate && !endDate}
+            disabled={!startDate || !endDate}
           >
-            <FormattedMessage id="search" />
+            {isLoader === "period" ? (
+              <LoaderFromLibrary
+                type="ThreeDots"
+                color="#00BFFF"
+                height={12}
+                width={16}
+              />
+            ) : (
+              <FormattedMessage id="search" />
+            )}
           </button>
         </div>
         {ordersActiv.length > 0 &&
@@ -154,11 +172,6 @@ const SearchBox = () => {
             <AgentOrder order={order} key={idx} idx={idx} />
           ))}
       </div>
-      {isLoader && (
-        <div className={styles.loader}>
-          <LoaderFromLibrary type="Oval" color="#00BFFF" height={100} width={100} />
-        </div>
-      )}
     </IntlProvider>
   );
 };

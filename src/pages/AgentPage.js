@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Redirect } from "react-router-dom";
 import LoginPage from "../components/AgentPageContainer/Login";
-import AgentDashboard from "../components/AgentPageContainer/AgentDashboard";
+// import AgentDashboard from "../components/AgentPageContainer/AgentDashboard";
 
 const AgentPage = () => {
-  const [isAgent, setIsAgent] = useState(false);
-
-  useEffect(() => {
-    const agent = JSON.parse(localStorage.getItem("auth"));
-    if (agent) setIsAgent(true);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localStorage.getItem("auth")]);
-
-  return <div>{!isAgent ? <LoginPage /> : <AgentDashboard />}</div>;
+  const isAgent = JSON.parse(localStorage.getItem("auth"));
+  console.log(isAgent?.type !== "CLIENT");
+  return (
+    <div>
+      {isAgent?.type !== "CLIENT" && <LoginPage />}
+      {!isAgent && <LoginPage />}
+      {isAgent && <Redirect to="/cabinet" />}
+    </div>
+  );
 };
 export default AgentPage;
