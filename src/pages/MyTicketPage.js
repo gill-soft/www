@@ -38,9 +38,10 @@ class MyTicketPage extends Component {
     const { ticket, match } = this.props;
     if (prevProps.ticket !== ticket) {
       if (!ticket.hasOwnProperty("error")) {
-        if (ticket.services.every((el) => el === "NEW" || el === "DISCOUNT")) {
+        if (
+          ticket.services.every((el) => el.status === "NEW" || el.status === "DISCOUNT")
+        ) {
           this.props.getTicketConfirm(id, match.params.payedId);
-          console.log("object");
         }
         if (ticket.services.every((el) => el.status === "CONFIRM")) {
           this.setState({ status: "CONFIRM" });
