@@ -165,11 +165,11 @@ const SearchBox = () => {
         </div>
         {ordersActiv.length > 0 &&
           ordersActiv.map((order, idx) => (
-            <AgentOrder order={order} key={idx} idx={idx} />
+            <AgentOrder key={idx} order={order}  idx={idx} />
           ))}
         {ordersPeriod.length > 0 &&
           ordersPeriod.map((order, idx) => (
-            <AgentOrder order={order} key={idx} idx={idx} />
+            <AgentOrder key={idx} order={order}  idx={idx} />
           ))}
       </div>
     </IntlProvider>
