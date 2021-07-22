@@ -39,7 +39,7 @@ const SearchBox = () => {
   const handleClick = () => {
     clearTicket(null);
     const ticketId = btoa(CryptoJS.AES.encrypt(value, "KeyVeze").toString());
-    history.push(`/myTicket/${ticketId}/00000`);
+    history.push(`/viewTicket/${value}`);
   };
   const searchActivOrders = () => {
     setOrdersPeriod([]);

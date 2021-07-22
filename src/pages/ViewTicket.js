@@ -7,7 +7,7 @@ import PassengersData from "../components/TicketContainer/PassengersData";
 import { useParams } from "react-router-dom";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
 
-const AgentTicket = () => {
+const ViewTicket = () => {
   const dispatch = useDispatch();
   const getTickenInfo = useCallback(
     (orderId) => dispatch(getTicket(orderId)),
@@ -22,47 +22,13 @@ const AgentTicket = () => {
     getTickenInfo(orderId);
   }, [dispatch, getTickenInfo, orderId]);
 
-  const getResultNew = () => {
-    const expireTime = ticket.services[0].expire.split(" ").join("T");
-    const msExpireTime = new Date(expireTime).getTime();
-    const msNow = new Date().getTime();
-    if (msExpireTime > msNow) {
-      return "Квиток заброньвано";
-    } else {
-      return "Час бронювання закінчився";
-    }
-  };
-  const getStatus = () => {
-    const status = ticket.services[0].status;
-    let result;
-    switch (status) {
-      case "NEW":
-        result = getResultNew();
-        break;
-      case "CONFIRM":
-        result = "Квиток сплачено";
-        break;
-      case "RETURN":
-        result = "Квиток повернено";
-        break;
-
-      default:
-        result = status;
-        break;
-    }
-    return result;
-  };
   return (
     <div className="bgnd">
-      { ticket && !ticket?.hasOwnProperty('error') ? (
+      {ticket && !ticket?.hasOwnProperty("error") ? (
         <div className="container">
-          <div className={styles.statusBox}>
-            <h3>Статус квитка:</h3>
-            <p className={styles.status}>{getStatus()}</p>
-          </div>
           <div className={styles.data}>
             <TripInfo />
-            <PassengersData />
+            <PassengersData status={true} />
             <AdditionalServicesData />
           </div>
         </div>
@@ -74,4 +40,4 @@ const AgentTicket = () => {
   );
 };
 
-export default AgentTicket;
+export default ViewTicket;

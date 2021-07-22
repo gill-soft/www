@@ -4,28 +4,45 @@ import styles from "./PassengersData.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
 
-const PassengersData = () => {
+const PassengersData = ({ status = false }) => {
   const lang = useSelector((state) => state.language);
   const ticket = useSelector((state) => state.order.ticket);
   const locale = lang === "UA" ? "UK" : lang;
   const [passangers, setPassangers] = useState([]);
 
   useEffect(() => {
-    if (Object.keys(ticket).length > 0) {
-      const arr = [];
-      for (let values of Object.values(ticket.customers)) {
-        arr.push({ values });
-        setPassangers(arr);
-      }
-    }
+    setPassangers(ticket.services.filter((el) => el.hasOwnProperty("segment")));
   }, [ticket]);
 
-  const getTotalPrice = () =>
-    ticket.services
-      .filter((el) => el.hasOwnProperty("segment"))
-      .reduce((acc, el) => {
-        return acc + el.price.amount;
-      }, 0);
+  const getResultNew = () => {
+    const expireTime = ticket.services[0].expire.split(" ").join("T");
+    const msExpireTime = new Date(expireTime).getTime();
+    const msNow = new Date().getTime();
+    if (msExpireTime > msNow) {
+      return "Квиток заброньвано";
+    } else {
+      return "Час бронювання закінчився";
+    }
+  };
+  const getStatus = (status) => {
+    let result;
+    switch (status) {
+      case "NEW":
+        result = getResultNew();
+        break;
+      case "CONFIRM":
+        result = "Квиток сплачено";
+        break;
+      case "RETURN":
+        result = "Квиток повернено";
+        break;
+
+      default:
+        result = status;
+        break;
+    }
+    return result;
+  };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.passangersBox}>
@@ -44,27 +61,37 @@ const PassengersData = () => {
                   <span>
                     <FormattedMessage id="cost" />
                   </span>{" "}
-                  {(getTotalPrice() / passangers.length).toFixed(2)} <small><FormattedMessage id="uah" /></small>
+                  {el.price.amount}{" "}
+                  <small>
+                    <FormattedMessage id="uah" />
+                  </small>
                 </p>
+                {status && <p className={styles.status}>{getStatus(el.status)}</p>}
               </div>
               <div className={styles.passangerData}>
                 <div>
                   <p className={styles.passangerTitle}>
                     <FormattedMessage id="name" />
                   </p>
-                  <p className={styles.passangerName}>{el.values.name}</p>
+                  <p className={styles.passangerName}>
+                    {ticket.customers[el.customer.id].name}
+                  </p>
                 </div>
                 <div>
                   <p className={styles.passangerTitle}>
                     <FormattedMessage id="surname" />
                   </p>
-                  <p className={styles.passangerName}>{el.values.surname}</p>
+                  <p className={styles.passangerName}>
+                    {ticket.customers[el.customer.id].surname}
+                  </p>
                 </div>
                 <div>
                   <p className={styles.passangerTitle}>
                     <FormattedMessage id="phone" />
                   </p>
-                  <p className={styles.passangerName}>{el.values.phone}</p>
+                  <p className={styles.passangerName}>
+                    {ticket.customers[el.customer.id].phone}
+                  </p>
                 </div>
               </div>
             </li>

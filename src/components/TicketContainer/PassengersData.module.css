@@ -39,6 +39,10 @@
 .price span {
     font-weight: 400;
 }
+.status {
+    color: var(--color-secondary);
+    margin: 0 6px;
+}
 
 .passangerData {
     padding-left: 12px;
