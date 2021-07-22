@@ -83,13 +83,17 @@ const PaymentBox = ({ orderId }) => {
 
   // ==== расчитываем сумму коммисии агента ==== //
   const getComissionSumm = () => {
-    return ticket.services
-      .map((el) => el.price.commissions)
-      .flat()
-      .filter((el) => el.code === "AGN_IN_15")
-      .reduce((acc, el) => {
-        return acc + el.value;
-      }, 0);
+    if (user?.type === "USER") {
+      return ticket.services
+        .map((el) => el.price.commissions)
+        .flat()
+        .filter((el) => el.code === "AGN_IN_15")
+        .reduce((acc, el) => {
+          return acc + el.value;
+        }, 0);
+    } else {
+      return 0;
+    }
   };
 
   const handleClick = () => {
@@ -187,7 +191,7 @@ const PaymentBox = ({ orderId }) => {
               </p>
             </div>
           )}
-          {user?.type === "CLIENT" && <Discount addBonus={addBonus} isBonus={isBonus} />}
+          {user && <Discount addBonus={addBonus} isBonus={isBonus} />}
           {getTotalPrice() === 0 ? (
             <Link
               to={`/myTicket/${orderId}/${ticket.secondaryPaymentParams.paymentParamsId}`}
@@ -233,7 +237,9 @@ const PaymentBox = ({ orderId }) => {
                       transactionInfo: {
                         totalPriceStatus: "FINAL",
                         totalPriceLabel: "Total",
-                        totalPrice: `${getTotalPrice().toFixed(2)}`,
+                        totalPrice: `${
+                          getTotalPrice().toFixed(2) - getComissionSumm().toFixed(2)
+                        }`,
                         currencyCode: "UAH",
                         countryCode: "UA",
                       },
@@ -260,7 +266,7 @@ const PaymentBox = ({ orderId }) => {
                   <input
                     type="hidden"
                     name="bill_amount"
-                    value={getTotalPrice().toFixed(2)}
+                    value={getTotalPrice().toFixed(2) - getComissionSumm().toFixed(2)}
                   />
                   <input
                     type="hidden"

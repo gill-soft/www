@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import InputMask from "react-input-mask";
 import { Redirect } from "react-router-dom";
 import { IntlProvider, FormattedMessage } from "react-intl";
+import LoaderFromLibrary from "react-loader-spinner";
+
 import { messages } from "../intl/AgentPageMessage";
 import { confirmValidation, sendValidation } from "../services/api";
 import styles from "./Authorization.module.css";
@@ -26,6 +28,7 @@ const Authorization = () => {
   const [code, setCode] = useState("");
   const [isPhone, setIsPhone] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const wrapper = useRef("w");
   const changeInputPhone = ({ target }) => {
     setPhone(target.value.replace(/\D+/g, ""));
@@ -36,19 +39,25 @@ const Authorization = () => {
   };
   // ==== отправляем номер телефона длля авторизации ==== //
   const sendPhoneNumber = async () => {
+    setIsLoading(true);
+
     try {
       const { status } = await sendValidation(phone);
       if (status === 200) setIsPhone(true);
+      setIsLoading(false);
     } catch (error) {
       setError(error);
     }
   };
   // ==== отправляем код авторизации ==== //
   const sendCodeNumber = async () => {
+    setIsLoading(true);
+
     try {
       const { data } = await confirmValidation(phone, code);
       localStorage.setItem("auth", JSON.stringify({ ...data, password: code }));
       window.location.reload();
+      setIsLoading(false);
     } catch (error) {
       setError(error);
     }
@@ -78,7 +87,16 @@ const Authorization = () => {
               onClick={sendPhoneNumber}
               disabled={phone.length !== 12}
             >
-              <FormattedMessage id="send" />
+              {isLoading ? (
+                <LoaderFromLibrary
+                  type="ThreeDots"
+                  color="var(--color-secondary"
+                  height={12}
+                  width={16}
+                />
+              ) : (
+                <FormattedMessage id="send" />
+              )}
             </button>
           </div>
         ) : (
@@ -91,7 +109,16 @@ const Authorization = () => {
             </p>
             <input className={styles.input} value={code} onChange={changeInputCode} />
             <button className={styles.btn} onClick={sendCodeNumber}>
-              <FormattedMessage id="send" />
+              {isLoading  ? (
+                <LoaderFromLibrary
+                  type="ThreeDots"
+                  color="var(--color-secondary"
+                  height={12}
+                  width={16}
+                />
+              ) : (
+                <FormattedMessage id="send" />
+              )}
             </button>
           </>
         )}

@@ -11,7 +11,6 @@ const Wallet = () => {
   const locale = lang === "UA" ? "UK" : lang;
   const wallet = useSelector(getWalletArray);
   const walletAmount = useSelector(getWalletAmount);
-
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div className={styles.sticky}>
