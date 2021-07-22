@@ -27,7 +27,7 @@ const Wallet = () => {
               <FormattedMessage id="expireTime" />
             </p>
           </div>
-          {wallet.length > 0 &&
+          {wallet && wallet.length > 0 &&
             wallet.map((el, idx) => (
               <div className={styles.flex} key={idx}>
                 <p className={styles.bonusAmount}>

@@ -30,11 +30,15 @@ export const getAdditionalServicesKeys = createSelector(getTicket, (ticket) => {
 export const getWalletArray = (state) => state.order.wallet;
 
 export const getWalletAmount = createSelector(getWalletArray, (wallet) => {
-  const credit = wallet.reduce((summ, el) => {
-    return (summ += el.credit);
-  }, 0);
-  const debit = wallet.reduce((summ, el) => {
-    return (summ += el.debit);
-  }, 0);
-  return credit - debit;
+  if (wallet) {
+    const credit = wallet.reduce((summ, el) => {
+      return (summ += el.credit);
+    }, 0);
+    const debit = wallet.reduce((summ, el) => {
+      return (summ += el.debit);
+    }, 0);
+    return credit - debit;
+  } else {
+    return 0;
+  }
 });

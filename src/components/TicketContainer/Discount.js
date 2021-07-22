@@ -17,6 +17,7 @@ const Discount = ({ addBonus, isBonus }) => {
   const walletAmount = useSelector(getWalletAmount);
   const setTicketInfo = (data) => dispatch(fetchTicket(data));
   const [isLoader, setIsLoader] = useState(false);
+  
   const handleChange = async () => {
     if (!ticket.services.some((el) => el.price.hasOwnProperty("discounts"))) {
       setIsLoader(true);

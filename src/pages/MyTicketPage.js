@@ -40,7 +40,7 @@ class MyTicketPage extends Component {
       if (!ticket.hasOwnProperty("error")) {
         if (
           ticket.services.every((el) => el.status === "NEW" || el.status === "DISCOUNT")
-        ) {
+          ) {
           this.props.getTicketConfirm(id, match.params.payedId);
         }
         if (ticket.services.every((el) => el.status === "CONFIRM")) {
