@@ -55,7 +55,7 @@ const Authorization = () => {
 
     try {
       const { data } = await confirmValidation(phone, code);
-      localStorage.setItem("auth", JSON.stringify({ ...data, password: code }));
+      localStorage.setItem("auth", JSON.stringify( data ));
       window.location.reload();
       setIsLoading(false);
     } catch (error) {
@@ -109,7 +109,7 @@ const Authorization = () => {
             </p>
             <input className={styles.input} value={code} onChange={changeInputCode} />
             <button className={styles.btn} onClick={sendCodeNumber}>
-              {isLoading  ? (
+              {isLoading ? (
                 <LoaderFromLibrary
                   type="ThreeDots"
                   color="var(--color-secondary"

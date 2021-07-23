@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import AdditionalServicesData from "../components/TicketContainer/AdditionalServicesData";
 import AddAdditionalServices from "../components/TicketContainer/AddAdditionalServices";
 import { getTicket, getWalletInfo } from "../redux/order/orderOperation";
+import * as orderSelectors from "../redux/order/orderSelectors";
 
 const TicketPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const TicketPage = () => {
   );
   const getWallet = useCallback(() => dispatch(getWalletInfo()), [dispatch]);
 
-  const ticket = useSelector((state) => state.order.ticket);
+  const ticket = useSelector(orderSelectors.getTicket);
 
   const { orderId } = useParams();
   // ==== получаем информацию о билете ==== //

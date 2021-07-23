@@ -26,6 +26,9 @@ export const getAdditionalServicesKeys = createSelector(getTicket, (ticket) => {
     )
   );
 });
+export const getPassangers = createSelector(getTicket, (ticket) => {
+  return ticket.services.filter((el) => el.hasOwnProperty("segment"));
+});
 
 export const getWalletArray = (state) => state.order.wallet;
 

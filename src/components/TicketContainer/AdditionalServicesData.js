@@ -1,14 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { messages } from "../../intl/TicketPageMessanges";
 import { IntlProvider, FormattedMessage } from "react-intl";
+import { messages } from "../../intl/TicketPageMessanges";
 import styles from "./AdditionalServicesData.module.css";
-import { getAdditionalServicesKeys } from "../../redux/order/orderSelectors";
+import { getAdditionalServicesKeys, getTicket } from "../../redux/order/orderSelectors";
+import { getLang } from "../../redux/Language/LanguageSelectors";
 
 const AdditionalServicesData = () => {
-  const ticket = useSelector((state) => state.order.ticket);
-  const lang = useSelector((state) => state.language);
+  const ticket = useSelector(getTicket);
   const addServ = useSelector(getAdditionalServicesKeys);
+  const lang = useSelector(getLang);
   const locale = lang === "UA" ? "UK" : lang;
 
   const getPrice = (key) => {

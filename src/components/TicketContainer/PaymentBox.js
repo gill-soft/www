@@ -22,6 +22,7 @@ import GoogleError from "./GoogleError";
 const PaymentBox = ({ orderId }) => {
   const lang = useSelector(getLang);
   const ticket = useSelector(getTicket);
+  const routs = useSelector(getRouts);
   const locale = lang === "UA" ? "UK" : lang;
   const [isLoader, setIsLoader] = useState(false);
   const [googleRes, setGoogleRes] = useState(null);
@@ -31,7 +32,6 @@ const PaymentBox = ({ orderId }) => {
   const user = JSON.parse(localStorage.getItem("auth"));
   const history = useHistory();
   const ref = useRef();
-  const routs = useSelector(getRouts);
 
   // ==== обрабатываем ответ после оплаты googlePay ==== //
   useEffect(() => {
@@ -345,7 +345,7 @@ const PaymentBox = ({ orderId }) => {
           </form>
         )}
       </IntlProvider>
-      <Modal open={googleError} onClose={closeGoogleError}>
+      <Modal open={!!googleError} onClose={closeGoogleError}>
         <GoogleError close={closeGoogleError} />
       </Modal>
       {isLoader && <Loader />}

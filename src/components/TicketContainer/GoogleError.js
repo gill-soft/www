@@ -11,7 +11,7 @@ const GoogleError = React.forwardRef(({ close }, ref) => {
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <div className={styles.box} ref={ref}>
+      <div className={styles.box} ref={ref} tabIndex="-1">
         <Close fill="var(--color-main)" onClick={close} className={styles.close} />
         <p className={styles.title}>
           <FormattedMessage id="googleError" />

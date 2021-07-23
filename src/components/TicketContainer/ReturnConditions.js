@@ -9,7 +9,7 @@ const ReturnConditions = React.forwardRef(({ segments, close }, ref) => {
   const lang = useSelector((state) => state.language);
 
   return (
-    <div className={styles.box} ref={ref}>
+    <div className={styles.box} ref={ref} tabIndex="-1">
       <Close fill="var(--color-main)" onClick={close} className={styles.close} />
       {segments.map((el, idx) => (
         <div key={idx}>

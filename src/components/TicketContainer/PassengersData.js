@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import styles from "./PassengersData.module.css";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { messages } from "../../intl/TicketPageMessanges";
+import { getPassangers, getTicket } from "../../redux/order/orderSelectors";
+import { getLang } from "../../redux/Language/LanguageSelectors";
 
 const PassengersData = ({ status = false }) => {
-  const lang = useSelector((state) => state.language);
-  const ticket = useSelector((state) => state.order.ticket);
+  const lang = useSelector(getLang);
+  const ticket = useSelector(getTicket);
+  const passangers = useSelector(getPassangers);
   const locale = lang === "UA" ? "UK" : lang;
-  const [passangers, setPassangers] = useState([]);
-
-  useEffect(() => {
-    setPassangers(ticket.services.filter((el) => el.hasOwnProperty("segment")));
-  }, [ticket]);
 
   const getResultNew = () => {
     const expireTime = ticket.services[0].expire.split(" ").join("T");
